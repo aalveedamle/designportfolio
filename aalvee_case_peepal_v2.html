@@ -1,0 +1,2452 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Peepal — Case Study · Aalvee Damle</title>
+<meta name="description" content="Designing a farm-to-fork sustainability platform for Kenyan agriculture. A service design and strategy case study by Aalvee Damle for World Bank and EY's Sustainability Practice." />
+<style>
+:root {
+  --bg: #000; --bg-alt: #0a0a0a; --bg-card: #161617; --bg-card-hover: #1d1d1f;
+  --ink: #f5f5f7; --ink-2: #d2d2d7; --ink-mute: #86868b;
+  --line: #2a2a2c; --line-soft: #1d1d1f;
+  --accent: #E9F056; --accent-ink: #0a0a0a; --accent-hover: #f1f578;
+  --accent-soft: rgba(233, 240, 86, 0.12);
+  --chip: rgba(255,255,255,0.06); --chip-hover: rgba(255,255,255,0.12);
+  --nav-bg: rgba(0,0,0,0.72); --nav-border: rgba(255,255,255,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.45);
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(0.28,0.16,0.22,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="light"] {
+  --bg: #fff; --bg-alt: #f5f5f7; --bg-card: #f5f5f7; --bg-card-hover: #ececef;
+  --ink: #1d1d1f; --ink-2: #424245; --ink-mute: #6e6e73;
+  --line: #d2d2d7; --line-soft: #e8e8ed;
+  --accent: #ff5c34; --accent-ink: #fff; --accent-hover: #ff7050;
+  --accent-soft: rgba(255, 92, 52, 0.10);
+  --chip: rgba(0,0,0,0.04); --chip-hover: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255,255,255,0.8); --nav-border: rgba(0,0,0,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.05), 0 24px 48px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body { font-family: var(--font-text); font-size: 17px; line-height: 1.5; letter-spacing: -0.022em;
+  color: var(--ink); background: var(--bg);
+  transition: background-color .5s var(--ease), color .5s var(--ease);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--ink); text-decoration: none; transition: color .25s var(--ease), opacity .25s var(--ease); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.wrap-narrow { max-width: 820px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 720px) { .wrap, .wrap-narrow { padding: 0 22px; } }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; height: 64px;
+  background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background-color .3s var(--ease), border-color .3s var(--ease); }
+.nav-inner { max-width: 1200px; margin: 0 auto; height: 100%; padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.nav-brand { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -0.022em;
+  color: var(--ink); display: inline-flex; align-items: center; gap: 8px; }
+.nav-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; }
+.nav-links a:hover { opacity: 1; }
+.nav-links a.active { opacity: 1; color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; background: var(--accent); color: var(--accent-ink) !important;
+  padding: 9px 18px; border-radius: 980px; font-size: 14px; font-weight: 500; letter-spacing: -0.01em;
+  white-space: nowrap; transition: background-color .25s var(--ease), transform .2s var(--ease); }
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.theme-toggle { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; color: var(--ink); transition: background-color .25s var(--ease), transform .4s var(--ease); position: relative; }
+.theme-toggle:hover { background: var(--chip); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-svg { width: 20px; height: 20px; overflow: visible; position: absolute;
+  transition: opacity .4s var(--ease), transform .5s var(--ease-out); }
+.theme-svg.icon-sun { stroke: var(--ink); }
+.theme-svg.icon-moon { fill: var(--ink); stroke: none; }
+[data-theme="light"] .theme-svg.icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+[data-theme="light"] .theme-svg.icon-moon { opacity: 0; transform: rotate(-40deg) scale(0.5); }
+[data-theme="dark"] .theme-svg.icon-sun { opacity: 0; transform: rotate(40deg) scale(0.5); }
+[data-theme="dark"] .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* HERO */
+.hero { padding: clamp(80px, 10vw, 140px) 0 clamp(56px, 7vw, 96px);
+  border-bottom: 1px solid var(--line-soft); background: var(--bg); }
+.breadcrumb { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mute);
+  letter-spacing: -0.005em; margin-bottom: 28px; }
+.breadcrumb a { color: var(--ink-mute); }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb .sep { opacity: 0.5; }
+.hero-eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.04em;
+  text-transform: uppercase; margin-bottom: 18px; }
+.hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 80px); font-weight: 600;
+  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 20px; max-width: 1080px; }
+.hero-title .accent-text { color: var(--accent); font-style: italic; }
+.hero-deck { font-family: var(--font-display); font-size: clamp(20px, 2vw, 26px); line-height: 1.45;
+  color: var(--ink-2); letter-spacing: -0.018em; max-width: 800px; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px;
+  border-top: 1px solid var(--line-soft); padding-top: 36px; max-width: 1080px; }
+@media (min-width: 720px) { .meta-grid { grid-template-columns: repeat(4, 1fr); } }
+.meta-item .label { font-size: 12px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 8px; display: block; }
+.meta-item .value { font-family: var(--font-display); font-size: 17px; font-weight: 500;
+  color: var(--ink); letter-spacing: -0.012em; line-height: 1.35; }
+
+.impact-strip { margin-top: 56px; padding: 28px 32px;
+  background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 22px;
+  display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 600px) { .impact-strip { grid-template-columns: repeat(2, 1fr); gap: 32px; padding: 32px 40px; } }
+@media (min-width: 980px) { .impact-strip { grid-template-columns: repeat(4, 1fr); gap: 28px; padding: 36px 44px; } }
+.impact-stat .num { font-family: var(--font-display); font-size: clamp(32px, 3.5vw, 44px); font-weight: 600;
+  line-height: 1; letter-spacing: -0.03em; color: var(--accent); display: block; margin-bottom: 6px; }
+.impact-stat .label { font-size: 13px; color: var(--ink-2); letter-spacing: -0.005em; line-height: 1.35; }
+
+.section { padding: clamp(72px, 9vw, 120px) 0; }
+.section-alt { background: var(--bg-alt); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.section-head { margin-bottom: 48px; }
+.section-label { font-size: 13px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.02em;
+  margin-bottom: 14px; display: block; }
+.section-title { font-family: var(--font-display); font-size: clamp(32px, 4.5vw, 56px); font-weight: 600;
+  line-height: 1.06; letter-spacing: -0.03em; color: var(--ink); max-width: 920px; }
+.section-title .accent-text { color: var(--accent); font-style: italic; }
+.section-deck { font-family: var(--font-display); font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55;
+  color: var(--ink-mute); letter-spacing: -0.012em; max-width: 760px; margin-top: 18px; }
+
+.prose p { font-family: var(--font-display); font-size: clamp(18px, 1.5vw, 20px); line-height: 1.6;
+  color: var(--ink-2); letter-spacing: -0.014em; margin-bottom: 22px; max-width: 760px; }
+.prose p strong { color: var(--ink); font-weight: 600; }
+.prose p em { color: var(--ink); font-style: italic; }
+.pullquote { font-family: var(--font-display); font-size: clamp(24px, 3vw, 36px); font-weight: 500;
+  line-height: 1.25; letter-spacing: -0.025em; color: var(--ink);
+  border-left: 3px solid var(--accent); padding-left: clamp(20px, 3vw, 36px); margin: 36px 0; max-width: 880px; }
+
+/* FIGURE — with SVG support */
+figure { margin: clamp(40px, 5vw, 64px) 0; }
+figure img { width: 100%; border-radius: 16px;
+  border: 1px solid var(--line-soft); background: var(--bg-card); box-shadow: var(--shadow); }
+figure.figure-bare img { border-radius: 12px; border: none; box-shadow: none; }
+figure.figure-small { max-width: 720px; margin-left: auto; margin-right: auto; }
+figure.figure-medium { max-width: 980px; margin-left: auto; margin-right: auto; }
+
+/* SVG figures — render the inline SVG infographics */
+.svg-figure { width: 100%; padding: clamp(24px, 4vw, 56px); border-radius: 18px;
+  background: var(--bg-card); border: 1px solid var(--line-soft); box-shadow: var(--shadow); }
+.svg-figure svg { width: 100%; height: auto; display: block; }
+
+/* SVG color tokens — referenced by class names inside SVG content */
+.svg-figure .stroke-ink     { stroke: var(--ink); }
+.svg-figure .stroke-mute    { stroke: var(--ink-mute); }
+.svg-figure .stroke-accent  { stroke: var(--accent); }
+.svg-figure .fill-ink       { fill: var(--ink); }
+.svg-figure .fill-mute      { fill: var(--ink-mute); }
+.svg-figure .fill-accent    { fill: var(--accent); }
+.svg-figure .fill-accent-soft { fill: var(--accent-soft); }
+.svg-figure .fill-card-svg  { fill: var(--bg-alt); }
+.svg-figure .fill-ink-svg   { fill: var(--bg-card); }
+.svg-figure .fill-mute-svg  { fill: var(--line); }
+.svg-figure .text-ink       { fill: var(--ink); }
+.svg-figure .text-mute      { fill: var(--ink-mute); }
+.svg-figure .text-accent    { fill: var(--accent); }
+
+figcaption { margin-top: 18px; font-size: 14px; color: var(--ink-mute);
+  line-height: 1.55; letter-spacing: -0.005em; max-width: 820px; }
+
+/* PROBLEM-AREAS — 4-card grid */
+.problem-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 32px; }
+@media (min-width: 760px) { .problem-grid { grid-template-columns: repeat(2, 1fr); } }
+.problem-card { background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 16px;
+  padding: 26px 26px; }
+.problem-card .num { font-family: var(--font-display); font-size: 13px; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.04em; margin-bottom: 6px; display: block; }
+.problem-card h4 { font-family: var(--font-display); font-size: 19px; font-weight: 600;
+  letter-spacing: -0.018em; color: var(--ink); margin-bottom: 10px; line-height: 1.25; }
+.problem-card p { font-size: 14px; line-height: 1.55; color: var(--ink-mute); letter-spacing: -0.005em; }
+
+/* PILLARS — 3-card grid */
+.pillars-three { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 48px; }
+@media (min-width: 760px) { .pillars-three { grid-template-columns: repeat(3, 1fr); } }
+.pillar-card { background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 18px;
+  padding: 32px 28px; display: flex; flex-direction: column; }
+.pillar-card .label { font-family: var(--font-display); font-size: 36px; font-weight: 600; letter-spacing: -0.03em;
+  color: var(--accent); line-height: 1; margin-bottom: 16px; }
+.pillar-card h3 { font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.25;
+  letter-spacing: -0.018em; color: var(--ink); margin-bottom: 10px; }
+.pillar-card p { font-size: 14px; line-height: 1.55; color: var(--ink-mute); letter-spacing: -0.005em; }
+
+/* IMPACT TABLE */
+.impact-table { margin-top: 40px; border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--line-soft); background: var(--bg-card); }
+.impact-row { display: grid; grid-template-columns: 1fr; padding: 22px 28px;
+  border-bottom: 1px solid var(--line-soft); }
+.impact-row:last-child { border-bottom: 0; }
+@media (min-width: 760px) { .impact-row { grid-template-columns: 280px 1fr; gap: 32px; } }
+.impact-row .metric-label { font-family: var(--font-display); font-size: 14px; font-weight: 600;
+  letter-spacing: -0.005em; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+.impact-row .metric-value { font-family: var(--font-display); font-size: 16px; line-height: 1.5;
+  color: var(--ink-2); letter-spacing: -0.005em; margin-top: 4px; }
+@media (min-width: 760px) { .impact-row .metric-value { margin-top: 0; } }
+
+/* REFLECTION */
+.reflect-grid { display: grid; grid-template-columns: 1fr; gap: 48px; margin-top: 48px; }
+@media (min-width: 980px) { .reflect-grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.reflect-col h3 { font-family: var(--font-display); font-size: 22px; font-weight: 600;
+  letter-spacing: -0.022em; color: var(--ink); margin-bottom: 20px; }
+.reflect-col h3 .accent-text { color: var(--accent); font-style: italic; }
+.reflect-col p { font-family: var(--font-display); font-size: 17px; line-height: 1.6;
+  color: var(--ink-2); letter-spacing: -0.01em; margin-bottom: 18px; }
+.reflect-col p em { color: var(--ink); font-style: italic; font-weight: 500; }
+
+/* NEXT-CASE / CONTACT / FOOTER */
+.next-case { background: var(--bg); padding: clamp(72px, 9vw, 120px) 0; border-top: 1px solid var(--line-soft); }
+.next-card { display: flex; flex-direction: column; gap: 16px; padding: clamp(40px, 5vw, 72px);
+  border-radius: 28px; background: var(--bg-card); border: 1px solid var(--line-soft);
+  text-decoration: none; color: inherit;
+  transition: background-color .3s var(--ease), transform .3s var(--ease-out); }
+.next-card:hover { background: var(--bg-card-hover); transform: translateY(-4px); color: inherit; }
+.next-card .label { font-size: 13px; color: var(--ink-mute); letter-spacing: 0.04em; text-transform: uppercase; }
+.next-card .title { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 44px); font-weight: 600;
+  line-height: 1.1; letter-spacing: -0.025em; color: var(--ink); }
+
+.contact { background: var(--bg-alt); border-top: 1px solid var(--line-soft); padding: clamp(72px, 9vw, 120px) 0; }
+.contact .section-title { max-width: 920px; }
+.contact-body { display: grid; grid-template-columns: 1fr; gap: 56px; align-items: end; margin-top: 56px; }
+@media (min-width: 900px) { .contact-body { grid-template-columns: 1.4fr 1fr; gap: 80px; } }
+.contact-text p { font-family: var(--font-display); font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55;
+  color: var(--ink-2); letter-spacing: -0.012em; margin-bottom: 28px; }
+.contact-email { display: inline-block; font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 600; letter-spacing: -0.025em; color: var(--ink);
+  border-bottom: 1px solid var(--line); padding-bottom: 6px;
+  transition: color .25s var(--ease), border-color .25s var(--ease); }
+.contact-email:hover { color: var(--accent); border-color: var(--accent); }
+.contact-mark { font-family: var(--font-display); font-size: clamp(72px, 12vw, 156px); font-weight: 700;
+  line-height: 0.9; letter-spacing: -0.04em; color: var(--ink); text-align: right; }
+.contact-mark .accent-text { color: var(--accent); font-style: italic; }
+
+footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
+  border-top: 1px solid var(--line-soft); font-size: 14px; }
+.foot-inner { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start; }
+@media (min-width: 720px) { .foot-inner { grid-template-columns: 1.4fr 1fr 1fr; } }
+.foot-brand { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--ink);
+  letter-spacing: -0.022em; margin-bottom: 8px; }
+.foot-brand .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); margin-right: 8px; vertical-align: middle; }
+.foot-tag { color: var(--ink-mute); max-width: 320px; line-height: 1.5; }
+.foot-col h4 { font-size: 12px; font-weight: 600; color: var(--ink-mute); letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 16px; }
+.foot-col a { display: block; color: var(--ink-2); margin-bottom: 10px; transition: color .2s var(--ease); }
+.foot-col a:hover { color: var(--accent); }
+.foot-bottom { border-top: 1px solid var(--line-soft); margin-top: 40px; padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink-mute); }
+
+/* Cursor trail */
+.cursor-trail { position: fixed; top: 0; left: 0; width: 24px; height: 24px;
+  border-radius: 50%; background: var(--accent); opacity: 0.7;
+  pointer-events: none; z-index: 90; will-change: transform, opacity;
+  transition: opacity .25s var(--ease); }
+[data-theme="light"] .cursor-trail { opacity: 0.55; }
+body.in-hero .cursor-trail { opacity: 0; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { .cursor-trail { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .cursor-trail { display: none; }
+}
+
+@media (max-width: 720px) {
+  .nav-inner { padding: 0 22px; gap: 12px; }
+  .nav-links { gap: 18px; }
+  .nav-links li:nth-child(-n+3) { display: none; }
+  .svg-figure { padding: 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="aalvee_homepage_v14.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <ul class="nav-links">
+      <li><a href="aalvee_homepage_v14.html#work" class="active">Work</a></li>
+      <li><a href="aalvee_ux_strategies_v1.html">UX Strategies</a></li>
+      <li><a href="aalvee_about_v3.html">About</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+          <svg class="theme-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2" x2="12" y2="4"/>
+            <line x1="12" y1="20" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="4" y2="12"/>
+            <line x1="20" y1="12" x2="22" y2="12"/>
+            <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/>
+            <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+          </svg>
+          <svg class="theme-svg icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+      <li><a class="nav-cta" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Let's Talk</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="aalvee_homepage_v14.html">Work</a>
+      <span class="sep">/</span>
+      <span>Case Study 03</span>
+    </div>
+    <div class="hero-eyebrow">World Bank · EY Sustainability · Agritech Strategy</div>
+    <h1 class="hero-title">
+      9 million farmers. <span class="accent-text">A $1 trillion market closing fast.</span>
+    </h1>
+    <p class="hero-deck">
+      Peepal was a service-design and strategy challenge: defining what to build, for whom, and why — before a single wireframe existed. A digital platform connecting Kenya's smallholder farmers to markets, education, and sustainable practices, designed against the most unforgiving constraint in product work: the last mile.
+    </p>
+    <div class="meta-grid">
+      <div class="meta-item"><span class="label">Client</span><span class="value">World Bank · EY Sustainability</span></div>
+      <div class="meta-item"><span class="label">Role</span><span class="value">UX Designer &amp; Strategy Consultant</span></div>
+      <div class="meta-item"><span class="label">Focus</span><span class="value">Service Design · Systems Thinking</span></div>
+      <div class="meta-item"><span class="label">Year</span><span class="value">2023</span></div>
+    </div>
+    <div class="impact-strip">
+      <div class="impact-stat"><span class="num">8 weeks</span><span class="label">3 stakeholder groups aligned on a shared platform vision</span></div>
+      <div class="impact-stat"><span class="num">6</span><span class="label">Layers of socio-ecological influence mapped</span></div>
+      <div class="impact-stat"><span class="num">3</span><span class="label">Personas covering the full agricultural value chain</span></div>
+      <div class="impact-stat"><span class="num">1.3M</span><span class="label">Households the platform was designed to reach</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">01 — The Problem</span>
+      <h2 class="section-title">9M farmers. <span class="accent-text">Less than 4% of lending.</span></h2>
+    </div>
+    <div class="prose wrap-narrow" style="padding:0;">
+      <p>Kenya's agriculture sector accounts for 33% of GDP and over 60% of exports. The people who power it — approximately 9 million farmers, of whom only 3.4 million are formally employed — operate with almost no digital infrastructure, minimal access to credit, and farming practices that are actively degrading the land they depend on.</p>
+      <p>The numbers tell a story of systemic neglect. Less than 7% of arable land is irrigated. Farmers spend 1.5 to 2.5 times more labor hours than peers elsewhere in Africa, with women performing the majority of the work. Less than 4.1% of the national budget goes to agriculture despite it contributing a third of GDP. Agricultural lending is smaller than any other sector.</p>
+      <p>Meanwhile, 40% of Kenya's population lives in poverty, 25% suffer chronic food insecurity, and 30% of households regularly lack enough money for food. <strong>The African food market is projected to reach $1 trillion — but without intervention, the people who grow the food won't participate in that growth.</strong></p>
+      <p>The World Bank, through EY's Sustainability Practice, needed a strategic design framework and digital platform concept that could address this gap: connecting smallholder farmers to sustainable practices, market access, and financial inclusion — from farm to fork.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kenya agriculture sector statistics — three columns covering small-scale farmers income, agriculture output and value-add, and household resilience">
+  <style>
+    .s3-svg-eyebrow { font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+    .s3-svg-stat    { font: 600 46px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.025em; }
+    .s3-svg-label   { font: 500 16px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s3-svg-body    { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+  <g class="text-accent">
+    <text x="60" y="64" class="s3-svg-eyebrow">Small-scale farmer income</text>
+    <text x="460" y="64" class="s3-svg-eyebrow">Agriculture output &amp; value</text>
+    <text x="860" y="64" class="s3-svg-eyebrow">Household resilience</text>
+  </g>
+  <line x1="60" y1="84" x2="380" y2="84" class="stroke-accent" stroke-width="2"/>
+  <line x1="460" y1="84" x2="780" y2="84" class="stroke-accent" stroke-width="2"/>
+  <line x1="860" y1="84" x2="1140" y2="84" class="stroke-accent" stroke-width="2"/>
+
+  <!-- Column 1 -->
+  <g class="text-ink">
+    <text x="60" y="156" class="s3-svg-stat">9M</text>
+    <text x="60" y="188" class="s3-svg-label text-mute">Farmers across Kenya</text>
+    <text x="60" y="220" class="s3-svg-body text-mute">Only 3.4M formally employed.</text>
+    <text x="60" y="240" class="s3-svg-body text-mute">8.3M work informally.</text>
+  </g>
+  <line x1="60" y1="270" x2="380" y2="270" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+  <g class="text-ink">
+    <text x="60" y="320" class="s3-svg-stat">7%</text>
+    <text x="60" y="352" class="s3-svg-label text-mute">Of arable land is irrigated</text>
+    <text x="60" y="384" class="s3-svg-body text-mute">The rest depends on rainfall —</text>
+    <text x="60" y="404" class="s3-svg-body text-mute">a vulnerability under climate change.</text>
+  </g>
+  <line x1="60" y1="434" x2="380" y2="434" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+  <g class="text-ink">
+    <text x="60" y="480" class="s3-svg-label">1.5–2.5×</text>
+    <text x="60" y="506" class="s3-svg-body text-mute">More labor hours than peers</text>
+    <text x="60" y="524" class="s3-svg-body text-mute">across Africa. Women do most.</text>
+  </g>
+
+  <!-- Column 2 -->
+  <g class="text-ink">
+    <text x="460" y="156" class="s3-svg-stat">33%</text>
+    <text x="460" y="188" class="s3-svg-label text-mute">Of national GDP</text>
+    <text x="460" y="220" class="s3-svg-body text-mute">Plus 60% of Kenya's exports.</text>
+  </g>
+  <line x1="460" y1="270" x2="780" y2="270" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+  <g class="text-ink">
+    <text x="460" y="320" class="s3-svg-stat">4.1%</text>
+    <text x="460" y="352" class="s3-svg-label text-mute">Of national budget allocated</text>
+    <text x="460" y="384" class="s3-svg-body text-mute">Despite contributing a third</text>
+    <text x="460" y="404" class="s3-svg-body text-mute">of GDP.</text>
+  </g>
+  <line x1="460" y1="434" x2="780" y2="434" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+  <g class="text-ink">
+    <text x="460" y="480" class="s3-svg-stat">&lt;4%</text>
+    <text x="460" y="510" class="s3-svg-label text-mute">Of total lending</text>
+    <text x="460" y="530" class="s3-svg-body text-mute">Smaller than any other sector.</text>
+  </g>
+
+  <!-- Column 3 -->
+  <g class="text-ink">
+    <text x="860" y="156" class="s3-svg-stat">40%</text>
+    <text x="860" y="188" class="s3-svg-label text-mute">Of population in poverty</text>
+    <text x="860" y="220" class="s3-svg-body text-mute">25% suffer chronic food insecurity.</text>
+  </g>
+  <line x1="860" y1="270" x2="1140" y2="270" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+  <g class="text-ink">
+    <text x="860" y="320" class="s3-svg-stat">45%</text>
+    <text x="860" y="352" class="s3-svg-label text-mute">Of household expenditure</text>
+    <text x="860" y="384" class="s3-svg-body text-mute">Spent on food alone — making</text>
+    <text x="860" y="404" class="s3-svg-body text-mute">price shocks devastating.</text>
+  </g>
+  <line x1="860" y1="434" x2="1140" y2="434" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+  <g class="text-ink">
+    <text x="860" y="480" class="s3-svg-stat">30%</text>
+    <text x="860" y="510" class="s3-svg-label text-mute">Lack money for food regularly</text>
+    <text x="860" y="530" class="s3-svg-body text-mute">Up to 45% in Western Kenya.</text>
+  </g>
+</svg></div>
+        <figcaption>Secondary research on Kenya's agriculture sector — the data that framed the problem. The gap between agriculture's economic contribution and the investment it receives defined the design challenge.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">02 — Why This Project Matters</span>
+      <h2 class="section-title">Strategy first. <span class="accent-text">Design second.</span></h2>
+    </div>
+    <div class="prose wrap-narrow" style="padding:0;">
+      <p>This case study is fundamentally different from GenIAus and Genie. Those were enterprise product design problems — redesigning interfaces for professional users within an existing platform. <strong>Peepal was a service design and strategy challenge — defining what to build, for whom, and why, before a single wireframe existed.</strong></p>
+      <p>It required me to operate as a consultant first and a designer second: conducting secondary research across a domain I had no prior expertise in, facilitating stakeholder workshops to align competing priorities, mapping complex socio-economic systems, and translating strategic direction into a platform concept that could serve users with vastly different levels of digital literacy, economic power, and trust in technology.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">03 — Understanding the System</span>
+      <h2 class="section-title">Six nested layers. <span class="accent-text">Each one a constraint.</span></h2>
+      <p class="section-deck">I started by mapping the agricultural ecosystem through a socio-ecological framework — understanding the nested layers of influence that shape a Kenyan farmer's reality.</p>
+    </div>
+    <div class="prose wrap-narrow" style="padding:0;">
+      <p>This wasn't an academic exercise. Each layer revealed a design constraint: you can't build a digital platform for farmers who don't trust technology (micro), don't have access to credit (meso), operate under archaic land policies (exo), and are watching their arable land shrink due to climate change (macro).</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1400 740" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Six nested layers of the socio-ecological framework, from Centre at the core to Chrono System at the outer ring">
+  <style>
+    .s4-svg-eyebrow { font: 600 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s4-svg-name    { font: 600 17px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.015em; }
+    .s4-svg-desc    { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+  <!-- Six concentric ellipses, all centered at left side (380, 370) -->
+  <!-- Outer ring max rx=480 → rightmost reach = 380+480 = 860, clear of labels at x=950 -->
+  <g fill="none" stroke-width="1.5">
+    <ellipse cx="380" cy="370" rx="480" ry="290" class="stroke-mute" opacity="0.30"/>
+    <ellipse cx="380" cy="370" rx="400" ry="245" class="stroke-mute" opacity="0.40"/>
+    <ellipse cx="380" cy="370" rx="320" ry="200" class="stroke-mute" opacity="0.55"/>
+    <ellipse cx="380" cy="370" rx="240" ry="155" class="stroke-mute" opacity="0.70"/>
+    <ellipse cx="380" cy="370" rx="160" ry="110" class="stroke-mute" opacity="0.85"/>
+    <ellipse cx="380" cy="370" rx="80"  ry="60"  class="stroke-accent" stroke-width="2"/>
+  </g>
+  <!-- Centre dot -->
+  <circle cx="380" cy="370" r="6" class="fill-accent"/>
+
+  <!-- Connector lines from each ring's right edge to its label group -->
+  <g class="stroke-mute" stroke-width="1" opacity="0.45">
+    <line x1="460" y1="370" x2="940" y2="86"/>
+    <line x1="540" y1="370" x2="940" y2="206"/>
+    <line x1="620" y1="370" x2="940" y2="326"/>
+    <line x1="700" y1="370" x2="940" y2="446"/>
+    <line x1="780" y1="370" x2="940" y2="566"/>
+    <line x1="860" y1="370" x2="940" y2="686"/>
+  </g>
+
+  <!-- Labels stacked at right side, well clear of ovals -->
+  <g>
+    <text x="950" y="74"  class="s4-svg-eyebrow text-accent">L1 · Centre</text>
+    <text x="950" y="98"  class="s4-svg-name text-ink">Common practices</text>
+    <text x="950" y="122" class="s4-svg-desc text-mute">Inherited farming methods, often</text>
+    <text x="950" y="142" class="s4-svg-desc text-mute">unoptimized for sustainability.</text>
+
+    <text x="950" y="194" class="s4-svg-eyebrow text-accent">L2 · Micro</text>
+    <text x="950" y="218" class="s4-svg-name text-ink">Family &amp; community</text>
+    <text x="950" y="242" class="s4-svg-desc text-mute">Local social context — labor,</text>
+    <text x="950" y="262" class="s4-svg-desc text-mute">knowledge, household structure.</text>
+
+    <text x="950" y="314" class="s4-svg-eyebrow text-accent">L3 · Meso</text>
+    <text x="950" y="338" class="s4-svg-name text-ink">Institutional access</text>
+    <text x="950" y="362" class="s4-svg-desc text-mute">Loans, government schemes,</text>
+    <text x="950" y="382" class="s4-svg-desc text-mute">cooperatives, input suppliers.</text>
+
+    <text x="950" y="434" class="s4-svg-eyebrow text-accent">L4 · Exo</text>
+    <text x="950" y="458" class="s4-svg-name text-ink">Policies &amp; regulation</text>
+    <text x="950" y="482" class="s4-svg-desc text-mute">Forces shaping the farmer's</text>
+    <text x="950" y="502" class="s4-svg-desc text-mute">reality without their input.</text>
+
+    <text x="950" y="554" class="s4-svg-eyebrow text-accent">L5 · Macro</text>
+    <text x="950" y="578" class="s4-svg-name text-ink">National &amp; trade dynamics</text>
+    <text x="950" y="602" class="s4-svg-desc text-mute">Country-wide policy and global</text>
+    <text x="950" y="622" class="s4-svg-desc text-mute">trade positioning.</text>
+
+    <text x="950" y="674" class="s4-svg-eyebrow text-accent">L6 · Chrono</text>
+    <text x="950" y="698" class="s4-svg-name text-ink">Time &amp; change</text>
+    <text x="950" y="722" class="s4-svg-desc text-mute">Shifting practices across decades.</text>
+  </g>
+</svg></div>
+        <figcaption>Social ecosystem mapping from the agricultural perspective — six nested systems from individual farming practices to temporal shifts in agriculture. Each layer surfaced constraints that shaped the platform's design requirements.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">04 — Core Problem Areas</span>
+      <h2 class="section-title">Four interconnected problems. <span class="accent-text">No single fix.</span></h2>
+      <p class="section-deck">Through secondary research and stakeholder workshops, I identified four interconnected problem areas that any solution would need to address simultaneously — and a clear scope: smallholder farmers in Kenya on one side, agribusinesses, crop aggregators, and buyers on the other.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four core problem areas on the left, intersecting Venn diagram showing platform scope on the right">
+  <style>
+    .s5-svg-h     { font: 600 19px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s5-svg-eb    { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s5-svg-d     { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s5-svg-tag   { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <!-- LEFT: 4 problem cards in 2x2 grid -->
+  <text x="40" y="40" class="s5-svg-eb text-accent">Core problem areas</text>
+  <line x1="40" y1="56" x2="200" y2="56" class="stroke-accent" stroke-width="2"/>
+
+  <g>
+    <rect x="40" y="80" width="260" height="180" rx="14" class="fill-card-svg"/>
+    <rect x="40" y="80" width="260" height="180" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="60" y="116" class="s5-svg-eb text-mute">01</text>
+    <text x="60" y="148" class="s5-svg-h text-ink">Age gap</text>
+    <text x="60" y="180" class="s5-svg-d text-mute">Farming stigmatized as work</text>
+    <text x="60" y="200" class="s5-svg-d text-mute">for the unskilled. Young people</text>
+    <text x="60" y="220" class="s5-svg-d text-mute">avoid agricultural careers,</text>
+    <text x="60" y="240" class="s5-svg-d text-mute">creating a knowledge gap.</text>
+  </g>
+  <g>
+    <rect x="320" y="80" width="260" height="180" rx="14" class="fill-card-svg"/>
+    <rect x="320" y="80" width="260" height="180" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="340" y="116" class="s5-svg-eb text-mute">02</text>
+    <text x="340" y="148" class="s5-svg-h text-ink">Poor practices</text>
+    <text x="340" y="180" class="s5-svg-d text-mute">Shifting cultivation degrades</text>
+    <text x="340" y="200" class="s5-svg-d text-mute">land. High-potential parcels</text>
+    <text x="340" y="220" class="s5-svg-d text-mute">are shrinking — directly</text>
+    <text x="340" y="240" class="s5-svg-d text-mute">threatening food production.</text>
+  </g>
+  <g>
+    <rect x="40" y="280" width="260" height="180" rx="14" class="fill-card-svg"/>
+    <rect x="40" y="280" width="260" height="180" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="60" y="316" class="s5-svg-eb text-mute">03</text>
+    <text x="60" y="348" class="s5-svg-h text-ink">No business access</text>
+    <text x="60" y="380" class="s5-svg-d text-mute">Farmers can grow but can't</text>
+    <text x="60" y="400" class="s5-svg-d text-mute">reliably sell at fair prices.</text>
+    <text x="60" y="420" class="s5-svg-d text-mute">No transparent connections</text>
+    <text x="60" y="440" class="s5-svg-d text-mute">to credible buyers.</text>
+  </g>
+  <g>
+    <rect x="320" y="280" width="260" height="180" rx="14" class="fill-card-svg"/>
+    <rect x="320" y="280" width="260" height="180" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="340" y="316" class="s5-svg-eb text-mute">04</text>
+    <text x="340" y="348" class="s5-svg-h text-ink">No trusted investors</text>
+    <text x="340" y="380" class="s5-svg-d text-mute">Most digital tools exploit</text>
+    <text x="340" y="400" class="s5-svg-d text-mute">mobile money to formalize</text>
+    <text x="340" y="420" class="s5-svg-d text-mute">value chains — without</text>
+    <text x="340" y="440" class="s5-svg-d text-mute">creating genuine value.</text>
+  </g>
+
+  <!-- RIGHT: 3-circle Venn -->
+  <text x="660" y="40" class="s5-svg-eb text-accent">Project scope</text>
+  <line x1="660" y1="56" x2="800" y2="56" class="stroke-accent" stroke-width="2"/>
+
+  <g>
+    <!-- Three intersecting circles: Kenya (top), Smallholder farmers (BL), Agribusinesses (BR) -->
+    <circle cx="900" cy="180" r="130" class="fill-accent-soft" stroke-width="1.5"/>
+    <circle cx="900" cy="180" r="130" class="stroke-mute" fill="none" stroke-width="1.5"/>
+    <circle cx="800" cy="340" r="130" class="fill-accent-soft" stroke-width="1.5"/>
+    <circle cx="800" cy="340" r="130" class="stroke-mute" fill="none" stroke-width="1.5"/>
+    <circle cx="1000" cy="340" r="130" class="fill-accent-soft" stroke-width="1.5"/>
+    <circle cx="1000" cy="340" r="130" class="stroke-mute" fill="none" stroke-width="1.5"/>
+
+    <!-- Center scope marker (in three-way intersection) -->
+    <circle cx="900" cy="285" r="6" class="fill-accent"/>
+    <text x="900" y="270" text-anchor="middle" class="s5-svg-eb text-accent">Scope</text>
+
+    <!-- LABEL: Kenya — CENTERED in top circle (cx=900, cy=180) -->
+    <text x="900" y="184" text-anchor="middle" class="s5-svg-tag text-ink">Kenya</text>
+
+    <!-- LABEL: Smallholder farmers — CENTERED at exact center of bottom-left circle (cx=800, cy=340) -->
+    <text x="800" y="334" text-anchor="middle" class="s5-svg-tag text-ink">Smallholder</text>
+    <text x="800" y="356" text-anchor="middle" class="s5-svg-tag text-ink">farmers</text>
+
+    <!-- LABEL: Agribusinesses — CENTERED at exact center of bottom-right circle (cx=1000, cy=340) -->
+    <text x="1000" y="334" text-anchor="middle" class="s5-svg-tag text-ink">Agribusinesses</text>
+    <text x="1000" y="356" text-anchor="middle" class="s5-svg-tag text-ink">&amp; buyers</text>
+  </g>
+</svg></div>
+        <figcaption>Core problem areas and project scope — four systemic challenges (age gap, poor practices, no business access, no trusted investment) mapped against the target intersection of smallholder farmers, agribusinesses, and buyers in Kenya.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">05 — Macro Challenges</span>
+      <h2 class="section-title">Five forces shaping <span class="accent-text">what was possible.</span></h2>
+      <p class="section-deck">Beyond the problem areas, I mapped five macro-level challenges that constrained what any digital intervention could realistically achieve. These weren't just research findings; they were design constraints that determined what the platform could and couldn't attempt to solve.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five macro challenges constraining the design space — shifting cultivation, unethical digital payments, agriculture stigma, market opportunity, and archaic policies">
+  <style>
+    .s6-svg-num { font: 600 26px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.02em; }
+    .s6-svg-h   { font: 600 17px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s6-svg-d   { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g>
+    <rect x="20" y="40" width="220" height="280" rx="14" class="fill-card-svg"/>
+    <rect x="20" y="40" width="220" height="280" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="40" y="80" class="s6-svg-num text-accent">01</text>
+    <line x1="40" y1="98" x2="76" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="40" y="138" class="s6-svg-h text-ink">Shifting cultivation</text>
+    <text x="40" y="174" class="s6-svg-d text-mute">Land is temporarily worked</text>
+    <text x="40" y="194" class="s6-svg-d text-mute">until fertility drops, then</text>
+    <text x="40" y="214" class="s6-svg-d text-mute">abandoned. High-potential</text>
+    <text x="40" y="234" class="s6-svg-d text-mute">parcels are shrinking,</text>
+    <text x="40" y="254" class="s6-svg-d text-mute">directly affecting food</text>
+    <text x="40" y="274" class="s6-svg-d text-mute">protection.</text>
+  </g>
+
+  <g>
+    <rect x="262" y="40" width="220" height="280" rx="14" class="fill-card-svg"/>
+    <rect x="262" y="40" width="220" height="280" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="282" y="80" class="s6-svg-num text-accent">02</text>
+    <line x1="282" y1="98" x2="318" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="282" y="138" class="s6-svg-h text-ink">Unethical</text>
+    <text x="282" y="160" class="s6-svg-h text-ink">digitization</text>
+    <text x="282" y="196" class="s6-svg-d text-mute">Existing tools exploit mobile</text>
+    <text x="282" y="216" class="s6-svg-d text-mute">money to formalize value</text>
+    <text x="282" y="236" class="s6-svg-d text-mute">chains — extracting value</text>
+    <text x="282" y="256" class="s6-svg-d text-mute">rather than creating it for</text>
+    <text x="282" y="276" class="s6-svg-d text-mute">smallholder farmers.</text>
+  </g>
+
+  <g>
+    <rect x="504" y="40" width="220" height="280" rx="14" class="fill-card-svg"/>
+    <rect x="504" y="40" width="220" height="280" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="524" y="80" class="s6-svg-num text-accent">03</text>
+    <line x1="524" y1="98" x2="560" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="524" y="138" class="s6-svg-h text-ink">Agriculture</text>
+    <text x="524" y="160" class="s6-svg-h text-ink">stigmatized</text>
+    <text x="524" y="196" class="s6-svg-d text-mute">Young people regard farming</text>
+    <text x="524" y="216" class="s6-svg-d text-mute">as poorly paid work for the</text>
+    <text x="524" y="236" class="s6-svg-d text-mute">unskilled. Career mindset is</text>
+    <text x="524" y="256" class="s6-svg-d text-mute">creating a generational</text>
+    <text x="524" y="276" class="s6-svg-d text-mute">talent gap.</text>
+  </g>
+
+  <g>
+    <rect x="746" y="40" width="220" height="280" rx="14" class="fill-card-svg"/>
+    <rect x="746" y="40" width="220" height="280" rx="14" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="766" y="80" class="s6-svg-num text-accent">04</text>
+    <line x1="766" y1="98" x2="802" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="766" y="138" class="s6-svg-h text-ink">$1T market</text>
+    <text x="766" y="160" class="s6-svg-h text-ink">opportunity</text>
+    <text x="766" y="196" class="s6-svg-d text-mute">African food demand is</text>
+    <text x="766" y="216" class="s6-svg-d text-mute">projected to reach $1 trillion</text>
+    <text x="766" y="236" class="s6-svg-d text-mute">by 2026 — a window for</text>
+    <text x="766" y="256" class="s6-svg-d text-mute">intervention before informal</text>
+    <text x="766" y="276" class="s6-svg-d text-mute">systems calcify.</text>
+  </g>
+
+  <g>
+    <rect x="988" y="40" width="190" height="280" rx="14" class="fill-card-svg"/>
+    <rect x="988" y="40" width="190" height="280" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="1008" y="80" class="s6-svg-num text-accent">05</text>
+    <line x1="1008" y1="98" x2="1044" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="1008" y="138" class="s6-svg-h text-ink">Archaic</text>
+    <text x="1008" y="160" class="s6-svg-h text-ink">policies</text>
+    <text x="1008" y="196" class="s6-svg-d text-mute">Bureaucracy in land</text>
+    <text x="1008" y="216" class="s6-svg-d text-mute">matters and outdated</text>
+    <text x="1008" y="236" class="s6-svg-d text-mute">finance allocation laws</text>
+    <text x="1008" y="256" class="s6-svg-d text-mute">dampen investor and</text>
+    <text x="1008" y="276" class="s6-svg-d text-mute">farmer enthusiasm.</text>
+  </g>
+</svg></div>
+        <figcaption>Five macro challenges constraining the design space — from shifting cultivation practices to a $1T market opportunity closing fast.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">06 — The People We Were Designing For</span>
+      <h2 class="section-title">Producer. Buyer. <span class="accent-text">Enabler.</span></h2>
+      <p class="section-deck">From the research synthesis, I developed three primary personas representing the key stakeholders in the agricultural value chain. Each had fundamentally different digital literacy levels, device access, and trust thresholds — which meant the platform couldn't be one-size-fits-all.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three coequal value-driven priorities for agritech: Sustainability, Value Creation, and Farmer Centric">
+  <style>
+    .s7-svg-h   { font: 600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s7-svg-d   { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s7-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+  </style>
+
+    <!-- Pie geometry: each 120° segment.
+         Centroids of 120° wedges with r=220 sit at distance ~121 from center.
+         Sustainability (TOP wedge, 12→4):  bisector at 1 o'clock → centroid (105, -60)
+         Farmer centric (BOTTOM wedge, 4→8): bisector at 6 o'clock → centroid (0, 121)
+         Value creation (LEFT wedge, 8→12):  bisector at 10 o'clock → centroid (-105, -60)
+         All text placed at centroids with reduced sizes (header 15px, body 11px)
+         to leave generous margin from the wedge boundary radii. -->
+  <g transform="translate(840, 300)">
+    <!-- Top segment: SUSTAINABILITY (filled accent) -->
+    <path d="M 0,0 L 0,-220 A 220,220 0 0,1 190.5,110 Z" class="fill-accent"/>
+    <path d="M 0,0 L 0,-220 A 220,220 0 0,1 190.5,110 Z" class="stroke-ink" fill="none" stroke-width="1.5"/>
+    <!-- Bottom segment: FARMER CENTRIC -->
+    <path d="M 0,0 L 190.5,110 A 220,220 0 0,1 -190.5,110 Z" fill="none" class="stroke-ink" stroke-width="1.5"/>
+    <!-- Left segment: VALUE CREATION -->
+    <path d="M 0,0 L -190.5,110 A 220,220 0 0,1 0,-220 Z" fill="none" class="stroke-ink" stroke-width="1.5"/>
+
+    <!-- TEXT IN TOP SEGMENT (Sustainability) — centered at centroid (105, -60) -->
+    <text x="105" y="-78" text-anchor="middle" font-size="15" font-weight="600" fill="#0a0a0a" letter-spacing="-0.012em">Sustainability</text>
+    <text x="105" y="-58" text-anchor="middle" font-size="11" fill="#0a0a0a" opacity="0.78">Positive</text>
+    <text x="105" y="-44" text-anchor="middle" font-size="11" fill="#0a0a0a" opacity="0.78">environmental</text>
+    <text x="105" y="-30" text-anchor="middle" font-size="11" fill="#0a0a0a" opacity="0.78">impact.</text>
+
+    <!-- TEXT IN BOTTOM SEGMENT (Farmer centric) — centered at centroid (0, 121) -->
+    <text x="0" y="106" text-anchor="middle" font-size="15" font-weight="600" class="text-ink" letter-spacing="-0.012em">Farmer</text>
+    <text x="0" y="124" text-anchor="middle" font-size="15" font-weight="600" class="text-ink" letter-spacing="-0.012em">centric</text>
+    <text x="0" y="144" text-anchor="middle" font-size="11" class="text-mute">Addresses</text>
+    <text x="0" y="158" text-anchor="middle" font-size="11" class="text-mute">producer</text>
+    <text x="0" y="172" text-anchor="middle" font-size="11" class="text-mute">pain points.</text>
+
+    <!-- TEXT IN LEFT SEGMENT (Value creation) — centered at centroid (-105, -60) -->
+    <text x="-105" y="-78" text-anchor="middle" font-size="15" font-weight="600" class="text-ink" letter-spacing="-0.012em">Value</text>
+    <text x="-105" y="-60" text-anchor="middle" font-size="15" font-weight="600" class="text-ink" letter-spacing="-0.012em">creation</text>
+    <text x="-105" y="-40" text-anchor="middle" font-size="11" class="text-mute">Tangible value</text>
+    <text x="-105" y="-26" text-anchor="middle" font-size="11" class="text-mute">for the</text>
+    <text x="-105" y="-12" text-anchor="middle" font-size="11" class="text-mute">action taker.</text>
+  </g>
+
+  <!-- Left side explanatory column -->
+  <g>
+    <text x="60" y="80" class="s7-svg-eb text-accent">Decision filter</text>
+    <line x1="60" y1="98" x2="180" y2="98" class="stroke-accent" stroke-width="2"/>
+
+    <text x="60" y="160" class="s7-svg-h text-ink" font-size="22">Three priorities.</text>
+    <text x="60" y="186" class="s7-svg-h text-ink" font-size="22">One filter.</text>
+
+    <text x="60" y="240" class="s7-svg-d text-mute" font-size="14">Stakeholders create value by channelling</text>
+    <text x="60" y="260" class="s7-svg-d text-mute" font-size="14">core competencies of agricultural practice</text>
+    <text x="60" y="280" class="s7-svg-d text-mute" font-size="14">and agri-tech to focus on actions that</text>
+    <text x="60" y="300" class="s7-svg-d text-mute" font-size="14">benefit business, producers, and the</text>
+    <text x="60" y="320" class="s7-svg-d text-mute" font-size="14">environment in equal measure.</text>
+
+    <text x="60" y="384" class="s7-svg-d text-ink" font-style="italic" font-size="14">If a feature did not satisfy all three,</text>
+    <text x="60" y="404" class="s7-svg-d text-ink" font-style="italic" font-size="14">it did not ship.</text>
+  </g>
+</svg></div>
+        <figcaption>Three user personas — Wanjiku (smallholder farmer), James (crop aggregator), and Faith (extension officer). Each represents a different node in the agricultural value chain with distinct needs, devices, and trust levels.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">07 — The Farmer's Journey</span>
+      <h2 class="section-title">A steady decline — <span class="accent-text">until something interrupts it.</span></h2>
+      <p class="section-deck">I mapped Wanjiku's complete seasonal journey — from planning what to plant through selling the harvest — to identify where Peepal could create the most value at each stage.</p>
+    </div>
+    <div class="prose wrap-narrow" style="padding:0;">
+      <p>The journey revealed a consistent pattern: at every stage, Wanjiku was making critical decisions with insufficient information and no bargaining power. She plants based on last year's experience, not market demand data. She buys seeds from the nearest agro-dealer without comparing prices. She manages pests based on guesswork because the extension officer hasn't visited. She loses 20–30% of her harvest to poor storage. And she sells at the farm gate to the first buyer who shows up, accepting whatever price is offered.</p>
+      <p>The emotional arc was uniformly negative — uncertain at planning, anxious at sourcing, stressed during growing, defeated at harvest, and powerless at selling. <strong>This wasn't a journey with peaks and valleys; it was a steady decline.</strong> Peepal's interventions needed to create upward inflection points at every stage.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sustainability innovation cycle — four phases connected as a clockwise loop: Reframe Strategy, Govern and Operate, Accelerate Transition, Build Trust">
+  <style>
+    .s8-svg-num { font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.06em; }
+    .s8-svg-h   { font: 600 19px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s8-svg-d   { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <!-- TOP: Phase 01 — Reframe Strategy (430,40) → (770,200), center (600,120) -->
+  <g>
+    <rect x="430" y="40" width="340" height="160" rx="16" class="fill-card-svg"/>
+    <rect x="430" y="40" width="340" height="160" rx="16" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="450" y="76" class="s8-svg-num text-accent">PHASE 01</text>
+    <text x="450" y="106" class="s8-svg-h text-ink">Reframe strategy</text>
+    <text x="450" y="138" class="s8-svg-d text-mute">• Sustainable strategy</text>
+    <text x="450" y="158" class="s8-svg-d text-mute">• Sustainable transaction execution</text>
+    <text x="450" y="178" class="s8-svg-d text-mute">• Impact valuation &amp; risk modelling</text>
+  </g>
+
+  <!-- RIGHT: Phase 02 — Govern & operate (was Phase 03) (800,300) → (1140,460), center (970,380) -->
+  <g>
+    <rect x="800" y="300" width="340" height="160" rx="16" class="fill-card-svg"/>
+    <rect x="800" y="300" width="340" height="160" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="820" y="336" class="s8-svg-num text-accent">PHASE 02</text>
+    <text x="820" y="366" class="s8-svg-h text-ink">Govern &amp; operate</text>
+    <text x="820" y="398" class="s8-svg-d text-mute">• Sustainable financing &amp; incentives</text>
+    <text x="820" y="418" class="s8-svg-d text-mute">• ESG regulatory compliance</text>
+    <text x="820" y="438" class="s8-svg-d text-mute">• Governance, risk &amp; compliance</text>
+  </g>
+
+  <!-- BOTTOM: Phase 03 — Accelerate transition (was Phase 02) (430,560) → (770,720), center (600,640) -->
+  <g>
+    <rect x="430" y="560" width="340" height="160" rx="16" class="fill-card-svg"/>
+    <rect x="430" y="560" width="340" height="160" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="450" y="596" class="s8-svg-num text-accent">PHASE 03</text>
+    <text x="450" y="626" class="s8-svg-h text-ink">Accelerate transition</text>
+    <text x="450" y="658" class="s8-svg-d text-mute">• Sustainable workforce, decarbonization</text>
+    <text x="450" y="678" class="s8-svg-d text-mute">• Sustainable product &amp; service innovation</text>
+    <text x="450" y="698" class="s8-svg-d text-mute">• Sustainable supply chain &amp; circular economy</text>
+  </g>
+
+  <!-- LEFT: Phase 04 — Build trust (60,300) → (400,460), center (230,380) -->
+  <g>
+    <rect x="60" y="300" width="340" height="160" rx="16" class="fill-card-svg"/>
+    <rect x="60" y="300" width="340" height="160" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="80" y="336" class="s8-svg-num text-accent">PHASE 04</text>
+    <text x="80" y="366" class="s8-svg-h text-ink">Build trust</text>
+    <text x="80" y="398" class="s8-svg-d text-mute">• ESG data &amp; reporting</text>
+    <text x="80" y="418" class="s8-svg-d text-mute">• Transparency loops</text>
+    <text x="80" y="438" class="s8-svg-d text-mute">• Accountability mechanisms</text>
+  </g>
+
+  <!-- ALL ARROWS GO OUTWARDS FROM EACH BOX, in clockwise direction.
+       Each arrow exits the side of its source box and points to the next box's edge.
+       Arrow heads sit at the receiving box's edge (not inside).
+  -->
+  <defs>
+    <marker id="arrowOut" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,5 L 0,10 z" class="fill-accent"/>
+    </marker>
+  </defs>
+
+  <g class="stroke-accent" stroke-width="1.8" fill="none">
+    <!-- Phase 01 (top) → Phase 02 (right): exits right side of top box, enters top of right box.
+         Source: right edge of top box ~(770, 120). Destination: top of right box ~(970, 300).
+         Arrow goes right and down. -->
+    <path d="M 770 120 C 880 120, 970 200, 970 295" marker-end="url(#arrowOut)"/>
+
+    <!-- Phase 02 (right) → Phase 03 (bottom): exits bottom of right box, enters right of bottom box.
+         Source: bottom of right box ~(970, 460). Destination: right edge of bottom box ~(770, 640).
+         Arrow goes down and left. -->
+    <path d="M 970 460 C 970 540, 880 640, 775 640" marker-end="url(#arrowOut)"/>
+
+    <!-- Phase 03 (bottom) → Phase 04 (left): exits left side of bottom box, enters bottom of left box.
+         Source: left edge of bottom box ~(430, 640). Destination: bottom of left box ~(230, 460).
+         Arrow goes left and up. -->
+    <path d="M 430 640 C 320 640, 230 540, 230 465" marker-end="url(#arrowOut)"/>
+
+    <!-- Phase 04 (left) → Phase 01 (top): exits top of left box, enters left of top box.
+         Source: top of left box ~(230, 300). Destination: left edge of top box ~(430, 120).
+         Arrow goes up and right. -->
+    <path d="M 230 300 C 230 220, 320 120, 425 120" marker-end="url(#arrowOut)"/>
+  </g>
+
+  <!-- Center label -->
+  <g transform="translate(600, 410)">
+    <circle cx="0" cy="0" r="86" class="fill-accent-soft" opacity="0.6"/>
+    <text x="0" y="-6" text-anchor="middle" class="s8-svg-num text-accent">CONTINUOUS LOOP</text>
+    <text x="0" y="20" text-anchor="middle" class="s8-svg-d text-mute">Each phase informs</text>
+    <text x="0" y="38" text-anchor="middle" class="s8-svg-d text-mute">the next.</text>
+  </g>
+</svg></div>
+        <figcaption>Wanjiku's seasonal journey map — five stages from planning to selling, each with actions, emotional state, and specific Peepal interventions. The current journey is uniformly negative; every platform feature is designed to create an upward inflection point.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">08 — Strategic Framework</span>
+      <h2 class="section-title">Three coequal priorities. <span class="accent-text">One filter.</span></h2>
+      <p class="section-deck">Before designing anything, I established the strategic framework that would guide every product decision. The platform needed to satisfy three simultaneous value propositions — value creation, sustainability, and farmer-centricity.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Innovation strategy — Transform to Disrupt as outer circle, Transform to Defend Sustainability as inner accent core">
+  <style>
+    .s9-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s9-svg-h   { font: 600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s9-svg-d   { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s9-svg-tag { font: 600 15px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.012em; }
+  </style>
+
+  <!-- Concentric circles centered at 600, 270 -->
+  <circle cx="600" cy="270" r="200" fill="none" class="stroke-mute" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="600" cy="270" r="100" class="fill-accent"/>
+  <circle cx="600" cy="270" r="100" class="stroke-ink" fill="none" stroke-width="1.5"/>
+
+  <!-- Center labels (on accent circle) — 12px per request, tighter line spacing -->
+  <text x="600" y="262" text-anchor="middle" class="s9-svg-tag" fill="#0a0a0a" font-size="12">Transform to</text>
+  <text x="600" y="278" text-anchor="middle" class="s9-svg-tag" fill="#0a0a0a" font-size="12">defend</text>
+  <text x="600" y="294" text-anchor="middle" class="s9-svg-tag" fill="#0a0a0a" font-size="12">sustainability</text>
+
+  <!-- Outer label (on outer ring, top) — 12px per request -->
+  <text x="600" y="120" text-anchor="middle" class="s9-svg-h text-ink" font-size="12">Transform to disrupt</text>
+
+  <!-- LEFT explanation -->
+  <g>
+    <text x="60" y="120" class="s9-svg-eb text-accent">Long-term · Disrupt</text>
+    <line x1="60" y1="138" x2="200" y2="138" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="180" class="s9-svg-h text-ink">How do we innovate</text>
+    <text x="60" y="202" class="s9-svg-h text-ink">for sustainable growth?</text>
+    <text x="60" y="244" class="s9-svg-d text-mute">Become future-proof by</text>
+    <text x="60" y="264" class="s9-svg-d text-mute">identifying new sustainable</text>
+    <text x="60" y="284" class="s9-svg-d text-mute">products, services, and</text>
+    <text x="60" y="304" class="s9-svg-d text-mute">business models — including</text>
+    <text x="60" y="324" class="s9-svg-d text-mute">building the right tools and</text>
+    <text x="60" y="344" class="s9-svg-d text-mute">skills to support innovation.</text>
+  </g>
+
+  <!-- RIGHT explanation -->
+  <g>
+    <text x="900" y="120" class="s9-svg-eb text-accent">Short-term · Defend</text>
+    <line x1="900" y1="138" x2="1040" y2="138" class="stroke-accent" stroke-width="2"/>
+    <text x="900" y="180" class="s9-svg-h text-ink">How do we simplify</text>
+    <text x="900" y="202" class="s9-svg-h text-ink">and optimize today?</text>
+    <text x="900" y="244" class="s9-svg-d text-mute">Integrate sustainability metrics</text>
+    <text x="900" y="264" class="s9-svg-d text-mute">and product-development</text>
+    <text x="900" y="284" class="s9-svg-d text-mute">processes while maintaining</text>
+    <text x="900" y="304" class="s9-svg-d text-mute">sales and margin in the</text>
+    <text x="900" y="324" class="s9-svg-d text-mute">existing portfolio.</text>
+  </g>
+
+  <text x="600" y="500" text-anchor="middle" class="s9-svg-d text-ink" font-style="italic">Both timeframes run in parallel — short-term defense funds long-term disruption.</text>
+</svg></div>
+        <figcaption>Value-driven focus for agritech — three interlocking priorities that served as the decision filter for every product feature. If a feature didn't serve all three, it didn't ship.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">09 — The Sustainability Innovation Cycle</span>
+      <h2 class="section-title">Strategy → action → governance → trust.</h2>
+      <p class="section-deck">I mapped how product and service innovation in agritech connects to the broader sustainability journey — a four-phase cycle that informed Peepal's phased roadmap.</p>
+    </div>
+    <div class="prose wrap-narrow" style="padding:0;">
+      <p>Phase 1 of the platform would focus on education and market connection (Reframe + Accelerate), Phase 2 on financing and compliance tools (Govern), and Phase 3 on reporting and ecosystem intelligence (Trust). The cycle isn't linear — each phase informs the next, and trust loops back to strategy.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-phase research flow — Research, Data Analysis and Solutions, Prototype and Launch">
+  <style>
+    .s10-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s10-svg-h   { font: 600 21px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.022em; }
+    .s10-svg-sub { font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s10-svg-d   { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g>
+    <rect x="40" y="40" width="340" height="460" rx="16" class="fill-card-svg"/>
+    <rect x="40" y="40" width="340" height="460" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="64" y="80" class="s10-svg-eb text-accent">Phase 01</text>
+    <line x1="64" y1="98" x2="120" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="64" y="142" class="s10-svg-h text-ink">Research</text>
+
+    <text x="64" y="186" class="s10-svg-sub text-accent">Goal</text>
+    <text x="64" y="212" class="s10-svg-d text-mute">Identify the target audience,</text>
+    <text x="64" y="232" class="s10-svg-d text-mute">their real problems and needs.</text>
+    <text x="64" y="252" class="s10-svg-d text-mute">Gather evidence and</text>
+    <text x="64" y="272" class="s10-svg-d text-mute">establish initial direction.</text>
+
+    <line x1="64" y1="304" x2="356" y2="304" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+    <text x="64" y="340" class="s10-svg-sub text-accent">Methodologies</text>
+    <text x="64" y="366" class="s10-svg-d text-mute">• Field studies</text>
+    <text x="64" y="386" class="s10-svg-d text-mute">• Ethnographic studies</text>
+    <text x="64" y="406" class="s10-svg-d text-mute">• User interviews &amp; surveys</text>
+    <text x="64" y="426" class="s10-svg-d text-mute">• Participatory design</text>
+    <text x="64" y="446" class="s10-svg-d text-mute">• Concept testing</text>
+    <text x="64" y="466" class="s10-svg-d text-mute">• Desk research</text>
+  </g>
+
+  <g class="stroke-accent" stroke-width="2" fill="none">
+    <line x1="395" y1="270" x2="425" y2="270" marker-end="url(#a8)"/>
+  </g>
+
+  <g>
+    <rect x="430" y="40" width="340" height="460" rx="16" class="fill-card-svg"/>
+    <rect x="430" y="40" width="340" height="460" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="454" y="80" class="s10-svg-eb text-accent">Phase 02</text>
+    <line x1="454" y1="98" x2="510" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="454" y="142" class="s10-svg-h text-ink">Data analysis</text>
+    <text x="454" y="170" class="s10-svg-h text-ink">&amp; solutions</text>
+
+    <text x="454" y="212" class="s10-svg-sub text-accent">Goal</text>
+    <text x="454" y="238" class="s10-svg-d text-mute">Analyse raw data using</text>
+    <text x="454" y="258" class="s10-svg-d text-mute">appropriate statistical or</text>
+    <text x="454" y="278" class="s10-svg-d text-mute">logical techniques. Propose</text>
+    <text x="454" y="298" class="s10-svg-d text-mute">solutions relevant to the</text>
+    <text x="454" y="318" class="s10-svg-d text-mute">current situation.</text>
+
+    <line x1="454" y1="346" x2="746" y2="346" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+    <text x="454" y="380" class="s10-svg-sub text-accent">Methodologies</text>
+    <text x="454" y="406" class="s10-svg-d text-mute">• Card sorting</text>
+    <text x="454" y="426" class="s10-svg-d text-mute">• Tree testing</text>
+    <text x="454" y="446" class="s10-svg-d text-mute">• Usability testing</text>
+    <text x="454" y="466" class="s10-svg-d text-mute">• Remote testing</text>
+    <text x="454" y="486" class="s10-svg-d text-mute">  (moderated &amp; unmoderated)</text>
+  </g>
+
+  <g class="stroke-accent" stroke-width="2" fill="none">
+    <line x1="785" y1="270" x2="815" y2="270" marker-end="url(#a8)"/>
+  </g>
+
+  <g>
+    <rect x="820" y="40" width="340" height="460" rx="16" class="fill-card-svg"/>
+    <rect x="820" y="40" width="340" height="460" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="844" y="80" class="s10-svg-eb text-accent">Phase 03</text>
+    <line x1="844" y1="98" x2="900" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="844" y="142" class="s10-svg-h text-ink">Prototype</text>
+    <text x="844" y="170" class="s10-svg-h text-ink">&amp; launch</text>
+
+    <text x="844" y="212" class="s10-svg-sub text-accent">Activity</text>
+    <text x="844" y="238" class="s10-svg-d text-mute">Measure product performance</text>
+    <text x="844" y="258" class="s10-svg-d text-mute">against itself or competition.</text>
+    <text x="844" y="278" class="s10-svg-d text-mute">Implement chatbots, third-party</text>
+    <text x="844" y="298" class="s10-svg-d text-mute">integrations, blockchain for</text>
+    <text x="844" y="318" class="s10-svg-d text-mute">supply-chain management.</text>
+
+    <line x1="844" y1="346" x2="1136" y2="346" class="stroke-mute" stroke-width="1" opacity="0.4"/>
+    <text x="844" y="380" class="s10-svg-sub text-accent">Methodologies</text>
+    <text x="844" y="406" class="s10-svg-d text-mute">• Usability benchmarking</text>
+    <text x="844" y="426" class="s10-svg-d text-mute">• Unmoderated UX testing</text>
+    <text x="844" y="446" class="s10-svg-d text-mute">• A/B testing</text>
+    <text x="844" y="466" class="s10-svg-d text-mute">• Clickstream / analytics</text>
+    <text x="844" y="486" class="s10-svg-d text-mute">• Surveys</text>
+  </g>
+
+  <defs>
+    <marker id="a8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" class="fill-accent"/>
+    </marker>
+  </defs>
+</svg></div>
+        <figcaption>Sustainability and innovation cycle in agritech — four phases from strategy reframing to trust building, directly mapping to the platform's phased roadmap.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">10 — Innovation Strategy</span>
+      <h2 class="section-title">Disrupt long-term. <span class="accent-text">Defend short-term.</span></h2>
+      <p class="section-deck">The platform needed to serve two strategic timeframes simultaneously — innovating new sustainable products and business models for future growth, while integrating sustainability metrics into existing agricultural practices today.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four-step human-centric discovery method — extract, find patterns, create insights, organize into framework">
+  <style>
+    .s11-svg-num { font: 600 32px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.025em; }
+    .s11-svg-h   { font: 600 17px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s11-svg-d   { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <!-- Step 1 — all text center-aligned under circle at cx=120 -->
+  <g>
+    <circle cx="120" cy="100" r="44" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="120" y="112" text-anchor="middle" class="s11-svg-num text-accent">01</text>
+    <text x="120" y="190" text-anchor="middle" class="s11-svg-h text-ink">Extract &amp;</text>
+    <text x="120" y="212" text-anchor="middle" class="s11-svg-h text-ink">summarize data</text>
+    <text x="120" y="248" text-anchor="middle" class="s11-svg-d text-mute">Write key information from</text>
+    <text x="120" y="268" text-anchor="middle" class="s11-svg-d text-mute">notes, transcripts, and field</text>
+    <text x="120" y="288" text-anchor="middle" class="s11-svg-d text-mute">artifacts onto sticky notes.</text>
+    <text x="120" y="308" text-anchor="middle" class="s11-svg-d text-mute">The size of a sticky forces</text>
+    <text x="120" y="328" text-anchor="middle" class="s11-svg-d text-mute">summarisation into key</text>
+    <text x="120" y="348" text-anchor="middle" class="s11-svg-d text-mute">takeaways. One per note.</text>
+  </g>
+
+  <line x1="190" y1="100" x2="350" y2="100" class="stroke-mute" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- Step 2 — all text center-aligned under circle at cx=420 -->
+  <g>
+    <circle cx="420" cy="100" r="44" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="420" y="112" text-anchor="middle" class="s11-svg-num text-accent">02</text>
+    <text x="420" y="190" text-anchor="middle" class="s11-svg-h text-ink">Find patterns</text>
+    <text x="420" y="212" text-anchor="middle" class="s11-svg-h text-ink">across participants</text>
+    <text x="420" y="248" text-anchor="middle" class="s11-svg-d text-mute">Cluster sticky notes into</text>
+    <text x="420" y="268" text-anchor="middle" class="s11-svg-d text-mute">themes. Build customer</text>
+    <text x="420" y="288" text-anchor="middle" class="s11-svg-d text-mute">journey maps and ecosystem</text>
+    <text x="420" y="308" text-anchor="middle" class="s11-svg-d text-mute">maps. Label themes by</text>
+    <text x="420" y="328" text-anchor="middle" class="s11-svg-d text-mute">demographic, pain point,</text>
+    <text x="420" y="348" text-anchor="middle" class="s11-svg-d text-mute">and behavior.</text>
+  </g>
+
+  <line x1="490" y1="100" x2="650" y2="100" class="stroke-mute" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- Step 3 — all text center-aligned under circle at cx=720 -->
+  <g>
+    <circle cx="720" cy="100" r="44" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="720" y="112" text-anchor="middle" class="s11-svg-num text-accent">03</text>
+    <text x="720" y="190" text-anchor="middle" class="s11-svg-h text-ink">Creative insights</text>
+    <text x="720" y="212" text-anchor="middle" class="s11-svg-h text-ink">&amp; service blueprints</text>
+    <text x="720" y="248" text-anchor="middle" class="s11-svg-d text-mute">Ask how data points relate.</text>
+    <text x="720" y="268" text-anchor="middle" class="s11-svg-d text-mute">What's the underlying reason</text>
+    <text x="720" y="288" text-anchor="middle" class="s11-svg-d text-mute">for different behaviors? Write</text>
+    <text x="720" y="308" text-anchor="middle" class="s11-svg-d text-mute">user-need statements:</text>
+    <text x="720" y="328" text-anchor="middle" class="s11-svg-d text-mute" font-style="italic">"A user needs (need) in order</text>
+    <text x="720" y="348" text-anchor="middle" class="s11-svg-d text-mute" font-style="italic">to accomplish (goal)."</text>
+  </g>
+
+  <line x1="790" y1="100" x2="950" y2="100" class="stroke-mute" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- Step 4 — all text center-aligned under circle at cx=1020 -->
+  <g>
+    <circle cx="1020" cy="100" r="44" class="fill-accent"/>
+    <text x="1020" y="112" text-anchor="middle" class="s11-svg-num" fill="#0a0a0a">04</text>
+    <text x="1020" y="190" text-anchor="middle" class="s11-svg-h text-ink">Organize into</text>
+    <text x="1020" y="212" text-anchor="middle" class="s11-svg-h text-ink">CX framework</text>
+    <text x="1020" y="248" text-anchor="middle" class="s11-svg-d text-mute">Translate insights into</text>
+    <text x="1020" y="268" text-anchor="middle" class="s11-svg-d text-mute">digestible artifacts —</text>
+    <text x="1020" y="288" text-anchor="middle" class="s11-svg-d text-mute">user persona, journey map,</text>
+    <text x="1020" y="308" text-anchor="middle" class="s11-svg-d text-mute">service blueprint, empathy</text>
+    <text x="1020" y="328" text-anchor="middle" class="s11-svg-d text-mute">map. Present as a unified</text>
+    <text x="1020" y="348" text-anchor="middle" class="s11-svg-d text-mute">CX framework.</text>
+  </g>
+</svg></div>
+        <figcaption>Dual innovation strategy — Transform to Disrupt (long-term, new models) and Transform to Defend (short-term, optimize existing). The platform architecture needed to serve both simultaneously.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">11 — Research Methodology</span>
+      <h2 class="section-title">Three phases. <span class="accent-text">Field-first.</span></h2>
+      <p class="section-deck">I designed a three-phase research and development approach tailored to the agritech context — from ethnographic field research to data analysis to prototype and launch.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five hypotheses shaping the future of agri-business — nutrition transformation, doing more with less, technology efficiency, data-driven decisions, transparent supply chains">
+  <style>
+    .s12-svg-num { font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.06em; }
+    .s12-svg-h   { font: 600 17px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s12-svg-d   { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g>
+    <line x1="40" y1="40" x2="220" y2="40" class="stroke-accent" stroke-width="2"/>
+    <text x="40" y="68" class="s12-svg-num text-accent">H 01</text>
+    <text x="40" y="120" class="s12-svg-h text-ink">Nutrition will</text>
+    <text x="40" y="142" class="s12-svg-h text-ink">fundamentally</text>
+    <text x="40" y="164" class="s12-svg-h text-ink">change</text>
+    <text x="40" y="208" class="s12-svg-d text-mute">Players will adapt to</text>
+    <text x="40" y="228" class="s12-svg-d text-mute">changing regulations</text>
+    <text x="40" y="248" class="s12-svg-d text-mute">and consumer prefs by</text>
+    <text x="40" y="268" class="s12-svg-d text-mute">investing in nutrient-</text>
+    <text x="40" y="288" class="s12-svg-d text-mute">enhanced crops and</text>
+    <text x="40" y="308" class="s12-svg-d text-mute">personalised solutions.</text>
+    <text x="40" y="328" class="s12-svg-d text-mute">Transparency and</text>
+    <text x="40" y="348" class="s12-svg-d text-mute">traceability become</text>
+    <text x="40" y="368" class="s12-svg-d text-mute">crucial.</text>
+  </g>
+
+  <g>
+    <line x1="260" y1="40" x2="440" y2="40" class="stroke-accent" stroke-width="2"/>
+    <text x="260" y="68" class="s12-svg-num text-accent">H 02</text>
+    <text x="260" y="120" class="s12-svg-h text-ink">Companies will</text>
+    <text x="260" y="142" class="s12-svg-h text-ink">do more with</text>
+    <text x="260" y="164" class="s12-svg-h text-ink">less</text>
+    <text x="260" y="208" class="s12-svg-d text-mute">Urbanisation and climate</text>
+    <text x="260" y="228" class="s12-svg-d text-mute">change will reduce arable</text>
+    <text x="260" y="248" class="s12-svg-d text-mute">land. Every process will</text>
+    <text x="260" y="268" class="s12-svg-d text-mute">be optimised for maximum</text>
+    <text x="260" y="288" class="s12-svg-d text-mute">yield on a sustainable</text>
+    <text x="260" y="308" class="s12-svg-d text-mute">basis. Vertical farming</text>
+    <text x="260" y="328" class="s12-svg-d text-mute">and alternative proteins</text>
+    <text x="260" y="348" class="s12-svg-d text-mute">will reduce land use.</text>
+  </g>
+
+  <g>
+    <line x1="480" y1="40" x2="660" y2="40" class="stroke-accent" stroke-width="2"/>
+    <text x="480" y="68" class="s12-svg-num text-accent">H 03</text>
+    <text x="480" y="120" class="s12-svg-h text-ink">Technology will</text>
+    <text x="480" y="142" class="s12-svg-h text-ink">make processes</text>
+    <text x="480" y="164" class="s12-svg-h text-ink">more efficient</text>
+    <text x="480" y="208" class="s12-svg-d text-mute">Automation, robotics,</text>
+    <text x="480" y="228" class="s12-svg-d text-mute">AI-driven crop disease</text>
+    <text x="480" y="248" class="s12-svg-d text-mute">prediction, and genetic</text>
+    <text x="480" y="268" class="s12-svg-d text-mute">sequencing for customised</text>
+    <text x="480" y="288" class="s12-svg-d text-mute">seed solutions become</text>
+    <text x="480" y="308" class="s12-svg-d text-mute">table stakes across the</text>
+    <text x="480" y="328" class="s12-svg-d text-mute">agricultural value chain.</text>
+  </g>
+
+  <g>
+    <line x1="700" y1="40" x2="880" y2="40" class="stroke-accent" stroke-width="2"/>
+    <text x="700" y="68" class="s12-svg-num text-accent">H 04</text>
+    <text x="700" y="120" class="s12-svg-h text-ink">Data will take</text>
+    <text x="700" y="142" class="s12-svg-h text-ink">center stage</text>
+    <text x="700" y="208" class="s12-svg-d text-mute">On-field sensors, drones,</text>
+    <text x="700" y="228" class="s12-svg-d text-mute">and satellites provide</text>
+    <text x="700" y="248" class="s12-svg-d text-mute">real-time insights on</text>
+    <text x="700" y="268" class="s12-svg-d text-mute">pests, disease outbreaks,</text>
+    <text x="700" y="288" class="s12-svg-d text-mute">nutrient requirements,</text>
+    <text x="700" y="308" class="s12-svg-d text-mute">and seed selection —</text>
+    <text x="700" y="328" class="s12-svg-d text-mute">transforming farming</text>
+    <text x="700" y="348" class="s12-svg-d text-mute">from intuition-based to</text>
+    <text x="700" y="368" class="s12-svg-d text-mute">data-driven.</text>
+  </g>
+
+  <g>
+    <line x1="920" y1="40" x2="1140" y2="40" class="stroke-accent" stroke-width="2"/>
+    <text x="920" y="68" class="s12-svg-num text-accent">H 05</text>
+    <text x="920" y="120" class="s12-svg-h text-ink">Supply chains</text>
+    <text x="920" y="142" class="s12-svg-h text-ink">will become</text>
+    <text x="920" y="164" class="s12-svg-h text-ink">transparent</text>
+    <text x="920" y="208" class="s12-svg-d text-mute">Cloud-based platforms,</text>
+    <text x="920" y="228" class="s12-svg-d text-mute">IoT devices, and blockchain</text>
+    <text x="920" y="248" class="s12-svg-d text-mute">enable end-to-end</text>
+    <text x="920" y="268" class="s12-svg-d text-mute">traceability. Crop protection</text>
+    <text x="920" y="288" class="s12-svg-d text-mute">companies shift to direct</text>
+    <text x="920" y="308" class="s12-svg-d text-mute">customer engagement</text>
+    <text x="920" y="328" class="s12-svg-d text-mute">and become customer-</text>
+    <text x="920" y="348" class="s12-svg-d text-mute">centric.</text>
+  </g>
+
+  <g>
+    <line x1="40" y1="430" x2="1140" y2="430" class="stroke-mute" stroke-width="1" opacity="0.3"/>
+    <text x="40" y="466" class="s12-svg-d text-ink" font-style="italic">Hypotheses became platform requirements — each shaped a specific architectural choice in the Peepal MVP.</text>
+  </g>
+</svg></div>
+        <figcaption>Three-phase design and development approach — from ethnographic field research to data analysis to prototype and launch. Each phase has distinct methodologies calibrated to the agritech context.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">12 — Human-Centric Discovery</span>
+      <h2 class="section-title">From sticky notes to <span class="accent-text">CX framework.</span></h2>
+      <p class="section-deck">For the discovery phase, I used a structured human-centric methodology — extract and summarise data, find patterns across participants, create insights and service blueprints, and organise insights into a digestible CX framework for stakeholder alignment.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kenya's Agriculture Transformation strategy — three priorities supported by three enablers">
+  <style>
+    .s13-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s13-svg-h   { font: 600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s13-svg-d   { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g>
+    <rect x="40" y="40" width="340" height="200" rx="14" class="fill-card-svg"/>
+    <rect x="40" y="40" width="340" height="200" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="64" y="78" class="s13-svg-eb text-accent">Priority 01</text>
+    <line x1="64" y1="96" x2="120" y2="96" class="stroke-accent" stroke-width="2"/>
+    <text x="64" y="138" class="s13-svg-h text-ink">Increase incomes</text>
+    <text x="64" y="172" class="s13-svg-d text-mute">Target small-scale farmers,</text>
+    <text x="64" y="192" class="s13-svg-d text-mute">pastoralists, fisherfolk.</text>
+    <text x="64" y="212" class="s13-svg-d text-mute">Implement subsidiary programs</text>
+    <text x="64" y="232" class="s13-svg-d text-mute">to empower producers.</text>
+  </g>
+
+  <g>
+    <rect x="430" y="40" width="340" height="200" rx="14" class="fill-card-svg"/>
+    <rect x="430" y="40" width="340" height="200" rx="14" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="454" y="78" class="s13-svg-eb text-accent">Priority 02</text>
+    <line x1="454" y1="96" x2="510" y2="96" class="stroke-accent" stroke-width="2"/>
+    <text x="454" y="138" class="s13-svg-h text-ink">Boost food resilience</text>
+    <text x="454" y="172" class="s13-svg-d text-mute">Restructure governance to serve</text>
+    <text x="454" y="192" class="s13-svg-d text-mute">4M vulnerable Kenyans. Boost</text>
+    <text x="454" y="212" class="s13-svg-d text-mute">food resilience of 1.3M households</text>
+    <text x="454" y="232" class="s13-svg-d text-mute">via community-driven design.</text>
+  </g>
+
+  <g>
+    <rect x="820" y="40" width="340" height="200" rx="14" class="fill-card-svg"/>
+    <rect x="820" y="40" width="340" height="200" rx="14" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="844" y="78" class="s13-svg-eb text-accent">Priority 03</text>
+    <line x1="844" y1="96" x2="900" y2="96" class="stroke-accent" stroke-width="2"/>
+    <text x="844" y="138" class="s13-svg-h text-ink">Increase output</text>
+    <text x="844" y="172" class="s13-svg-d text-mute">Establish large-scale agro-food</text>
+    <text x="844" y="192" class="s13-svg-d text-mute">processing hubs. Implement</text>
+    <text x="844" y="212" class="s13-svg-d text-mute">subsidiary programs to add</text>
+    <text x="844" y="232" class="s13-svg-d text-mute">value across the supply chain.</text>
+  </g>
+
+  <g class="stroke-mute" stroke-width="1" opacity="0.4" stroke-dasharray="4 6">
+    <line x1="210" y1="240" x2="210" y2="340"/>
+    <line x1="600" y1="240" x2="600" y2="340"/>
+    <line x1="990" y1="240" x2="990" y2="340"/>
+  </g>
+  <g class="stroke-mute" stroke-width="1" opacity="0.4">
+    <line x1="210" y1="340" x2="990" y2="340"/>
+  </g>
+
+  <g>
+    <rect x="40" y="360" width="1120" height="160" rx="14" class="fill-accent-soft" opacity="0.5"/>
+    <text x="64" y="398" class="s13-svg-eb text-accent">Foundation · Enablers</text>
+    <line x1="64" y1="416" x2="220" y2="416" class="stroke-accent" stroke-width="2"/>
+
+    <text x="64" y="460" class="s13-svg-d text-ink">• Launch three knowledge &amp; skills programs</text>
+    <text x="440" y="460" class="s13-svg-d text-ink">• Strengthen research &amp; innovation</text>
+    <text x="800" y="460" class="s13-svg-d text-ink">• Actively monitor the food system</text>
+
+    <text x="64" y="494" class="s13-svg-d text-mute" font-style="italic">Enablers run beneath all three priorities — without them, no priority lands.</text>
+  </g>
+</svg></div>
+        <figcaption>Human-centric discovery methods — a four-step synthesis process from raw field data to actionable CX frameworks. The constraint of working with sticky notes forces concise, focused insights.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">13 — Hypotheses That Shaped the Platform</span>
+      <h2 class="section-title">Five hypotheses. <span class="accent-text">Five platform requirements.</span></h2>
+      <p class="section-deck">From the research, I developed five guiding hypotheses about the future of the agri-business sector. These weren't just strategic input — they became the functional requirements for the platform's architecture.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MVP pyramid — four levels from Functional triangle peak at the top to Exceptional foundation at the base, with arrows showing scaling user value over scaling features">
+  <style>
+    .s14-svg-eb   { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s14-svg-h    { font: 600 17px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s14-svg-d    { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s14-svg-axis { font: 600 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.04em; }
+  </style>
+
+  <!-- Pyramid centered around x=600. Apex at (600, 100). Base from x=330 to x=870 at y=540.
+       Layer divisions at y=200, y=320, y=440.
+       Width at each y:
+         y=100  → x=600 (apex point)
+         y=200  → 200 wide  (x=500 to x=700)
+         y=320  → 320 wide  (x=440 to x=760)
+         y=440  → 440 wide  (x=380 to x=820)
+         y=540  → 540 wide  (x=330 to x=870)  -->
+
+  <!-- LAYER 1 (TOP): FUNCTIONAL — TRUE TRIANGLE (apex at top) -->
+  <g>
+    <polygon points="600,100 700,200 500,200" fill="none" class="stroke-mute" stroke-width="1.5" opacity="0.55"/>
+    <text x="600" y="178" text-anchor="middle" class="s14-svg-h text-ink" font-size="15">Functional</text>
+  </g>
+
+  <!-- LAYER 2: USABLE -->
+  <g>
+    <polygon points="500,200 700,200 760,320 440,320" fill="none" class="stroke-mute" stroke-width="1.5" opacity="0.7"/>
+    <text x="600" y="270" text-anchor="middle" class="s14-svg-h text-ink">Usable</text>
+  </g>
+
+  <!-- LAYER 3: DELIGHTFUL -->
+  <g>
+    <polygon points="440,320 760,320 820,440 380,440" fill="none" class="stroke-accent" stroke-width="1.5"/>
+    <text x="600" y="388" text-anchor="middle" class="s14-svg-h text-accent">Delightful</text>
+  </g>
+
+  <!-- LAYER 4 (BASE): EXCEPTIONAL -->
+  <g>
+    <polygon points="380,440 820,440 870,540 330,540" class="fill-accent" opacity="0.85"/>
+    <polygon points="380,440 820,440 870,540 330,540" fill="none" class="stroke-ink" stroke-width="1.5"/>
+    <text x="600" y="498" text-anchor="middle" class="s14-svg-h" fill="#0a0a0a">Exceptional</text>
+  </g>
+
+  <!-- Axes -->
+  <defs>
+    <marker id="axEnd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0,0 L 10,5 L 0,10 z" class="fill-accent"/>
+    </marker>
+  </defs>
+  <g>
+    <text x="600" y="62" text-anchor="middle" class="s14-svg-axis text-accent">SCALING USER VALUE →</text>
+    <line x1="200" y1="78" x2="1000" y2="78" class="stroke-accent" stroke-width="1.5" marker-end="url(#axEnd)"/>
+  </g>
+
+  <!-- Annotations LEFT -->
+  <g>
+    <text x="60" y="180" class="s14-svg-eb text-mute">Most agritech</text>
+    <text x="60" y="200" class="s14-svg-eb text-mute">launches stop here</text>
+    <line x1="60" y1="220" x2="500" y2="220" class="stroke-mute" stroke-width="1" stroke-dasharray="4 6" opacity="0.5"/>
+
+    <text x="60" y="500" class="s14-svg-eb text-accent">Peepal target</text>
+    <text x="60" y="524" class="s14-svg-d text-mute">Launch usable, evolve to</text>
+    <text x="60" y="544" class="s14-svg-d text-mute">delightful — not feature-rich</text>
+    <text x="60" y="564" class="s14-svg-d text-mute">but confusing.</text>
+    <line x1="60" y1="488" x2="380" y2="488" class="stroke-accent" stroke-width="1" stroke-dasharray="4 6" opacity="0.6"/>
+  </g>
+
+  <!-- Annotations RIGHT -->
+  <g>
+    <text x="900" y="180" class="s14-svg-eb text-mute">Functional</text>
+    <text x="900" y="204" class="s14-svg-d text-mute">Works, but doesn't keep</text>
+    <text x="900" y="224" class="s14-svg-d text-mute">users coming back.</text>
+
+    <text x="900" y="500" class="s14-svg-eb text-accent">Exceptional</text>
+    <text x="900" y="524" class="s14-svg-d text-mute">The end goal — a tool</text>
+    <text x="900" y="544" class="s14-svg-d text-mute">farmers actively trust</text>
+    <text x="900" y="564" class="s14-svg-d text-mute">and recommend.</text>
+  </g>
+</svg></div>
+        <figcaption>Five hypotheses shaping the agri-business sector — from nutrition transformation to supply chain transparency. Each hypothesis maps to specific platform capabilities that Peepal needed to support.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">14 — Policy Alignment</span>
+      <h2 class="section-title">Aligning with <span class="accent-text">Kenya's national strategy.</span></h2>
+      <p class="section-deck">I mapped the platform's goals against Kenya's national Agriculture Transformation &amp; Growth Strategy. This alignment ensured the platform could plug into existing government infrastructure and made the investment case stronger for World Bank stakeholders.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four-phase experience design approach — Discover, Define, Design, Develop">
+  <style>
+    .s15-svg-num { font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.06em; }
+    .s15-svg-h   { font: 600 23px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.025em; }
+    .s15-svg-sub { font: 600 14px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s15-svg-d   { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <line x1="100" y1="100" x2="1100" y2="100" class="stroke-mute" stroke-width="1" stroke-dasharray="2 8" opacity="0.5"/>
+
+  <g>
+    <circle cx="160" cy="100" r="10" class="fill-accent"/>
+    <circle cx="160" cy="100" r="10" class="stroke-ink" fill="none" stroke-width="1.5"/>
+    <text x="40" y="76" class="s15-svg-num text-accent">PHASE 01</text>
+    <text x="40" y="160" class="s15-svg-h text-ink">Discover</text>
+    <text x="40" y="200" class="s15-svg-sub text-accent">Research the problem</text>
+    <text x="40" y="234" class="s15-svg-d text-mute">Identify the target audience,</text>
+    <text x="40" y="254" class="s15-svg-d text-mute">their problems and needs.</text>
+    <text x="40" y="280" class="s15-svg-d text-mute">Gather evidence and</text>
+    <text x="40" y="300" class="s15-svg-d text-mute">establish initial direction</text>
+    <text x="40" y="320" class="s15-svg-d text-mute">for what the real needs are.</text>
+  </g>
+
+  <g>
+    <circle cx="430" cy="100" r="10" class="fill-accent"/>
+    <circle cx="430" cy="100" r="10" class="stroke-ink" fill="none" stroke-width="1.5"/>
+    <text x="310" y="76" class="s15-svg-num text-accent">PHASE 02</text>
+    <text x="310" y="160" class="s15-svg-h text-ink">Define</text>
+    <text x="310" y="200" class="s15-svg-sub text-accent">Workshops &amp; research</text>
+    <text x="310" y="234" class="s15-svg-d text-mute">In facilitated workshops with</text>
+    <text x="310" y="254" class="s15-svg-d text-mute">stakeholders, capture</text>
+    <text x="310" y="274" class="s15-svg-d text-mute">requirements on Mural / Miro.</text>
+    <text x="310" y="300" class="s15-svg-d text-mute">Finalize design directions</text>
+    <text x="310" y="320" class="s15-svg-d text-mute">like information architecture</text>
+    <text x="310" y="340" class="s15-svg-d text-mute">and user flows.</text>
+  </g>
+
+  <g>
+    <circle cx="700" cy="100" r="10" class="fill-accent"/>
+    <circle cx="700" cy="100" r="10" class="stroke-ink" fill="none" stroke-width="1.5"/>
+    <text x="580" y="76" class="s15-svg-num text-accent">PHASE 03</text>
+    <text x="580" y="160" class="s15-svg-h text-ink">Design</text>
+    <text x="580" y="200" class="s15-svg-sub text-accent">CX framework + lo-fi</text>
+    <text x="580" y="234" class="s15-svg-d text-mute">Conceptual design ideas</text>
+    <text x="580" y="254" class="s15-svg-d text-mute">shared as low-fidelity</text>
+    <text x="580" y="274" class="s15-svg-d text-mute">greyscale wireframes for</text>
+    <text x="580" y="300" class="s15-svg-d text-mute">stakeholder show-backs and</text>
+    <text x="580" y="320" class="s15-svg-d text-mute">early input on expectations.</text>
+  </g>
+
+  <g>
+    <circle cx="970" cy="100" r="10" class="fill-accent"/>
+    <circle cx="970" cy="100" r="10" class="stroke-ink" fill="none" stroke-width="1.5"/>
+    <text x="850" y="76" class="s15-svg-num text-accent">PHASE 04</text>
+    <text x="850" y="160" class="s15-svg-h text-ink">Develop</text>
+    <text x="850" y="200" class="s15-svg-sub text-accent">Hi-fi + usability testing</text>
+    <text x="850" y="234" class="s15-svg-d text-mute">High-fidelity clickable</text>
+    <text x="850" y="254" class="s15-svg-d text-mute">prototypes adhering to</text>
+    <text x="850" y="274" class="s15-svg-d text-mute">brand guidelines that show</text>
+    <text x="850" y="300" class="s15-svg-d text-mute">a near-true representation</text>
+    <text x="850" y="320" class="s15-svg-d text-mute">of the final UI.</text>
+  </g>
+
+  <g>
+    <line x1="40" y1="420" x2="1140" y2="420" class="stroke-mute" stroke-width="1" opacity="0.3"/>
+    <text x="40" y="460" class="s15-svg-d text-ink" font-style="italic">Each phase produced an artifact stakeholders could review, debate, and sign off — the alignment mechanism that kept stakeholders moving in sync.</text>
+  </g>
+</svg></div>
+        <figcaption>Kenya's Agriculture Transformation &amp; Growth Strategy — three national priorities with enablers, mapped to ensure Peepal aligned with government infrastructure and investment priorities.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">15 — The Platform Concept</span>
+      <h2 class="section-title">Educate. Connect. <span class="accent-text">Empower.</span></h2>
+      <p class="section-deck">From the research, strategy, and hypothesis work, I defined Peepal's core value proposition through three pillars and an Input → Throughput → Output system architecture.</p>
+    </div>
+
+    <div class="pillars-three">
+      <div class="pillar-card">
+        <div class="label">01</div>
+        <h3>Educate</h3>
+        <p>Enable the transition to sustainable agriculture through education. A repository of sustainable practices including videos and blogs, combined with forecasting tools for demand and food production.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="label">02</div>
+        <h3>Connect</h3>
+        <p>Instil confidence in farmers with support and access to demand. A marketplace connecting farmers to companies and buyers, with transparent pricing and reliable business connections.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="label">03</div>
+        <h3>Empower</h3>
+        <p>Monitor and decentralise food production to address global food shortage. A phone app, in-person workshops, and community kiosks accessible to all farmers regardless of digital literacy.</p>
+      </div>
+    </div>
+
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triple bottom line evaluation framework — People, Profit, and Planet as three coequal design filters">
+  <style>
+    .s16-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s16-svg-tag { font: 600 40px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.028em; }
+    .s16-svg-sub { font: 500 15px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s16-svg-d   { font: 400 15px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <text x="60" y="56" class="s16-svg-eb text-accent">Decision rubric</text>
+  <line x1="60" y1="74" x2="200" y2="74" class="stroke-accent" stroke-width="2"/>
+
+  <!-- BAR 1 — PEOPLE  (y=110 → 226, vertical center y=168) -->
+  <g>
+    <rect x="60" y="110" width="1080" height="116" rx="14" class="fill-accent-soft"/>
+    <rect x="60" y="110" width="1080" height="116" rx="14" class="stroke-accent" fill="none" stroke-width="1"/>
+    <!-- Dot at vertical center y=168, with title baseline aligned to dot -->
+    <circle cx="100" cy="168" r="8" class="fill-accent"/>
+    <text x="130" y="178" class="s16-svg-tag text-ink">People</text>
+    <text x="130" y="208" class="s16-svg-sub text-mute">Ensuring a fair society</text>
+    <text x="540" y="170" class="s16-svg-d text-ink">Does this feature improve the farmer's economic position,</text>
+    <text x="540" y="194" class="s16-svg-d text-ink">social standing, or access to opportunity?</text>
+  </g>
+
+  <!-- BAR 2 — PROFIT (y=246 → 362, vertical center y=304) -->
+  <g>
+    <rect x="60" y="246" width="1080" height="116" rx="14" class="fill-accent-soft"/>
+    <rect x="60" y="246" width="1080" height="116" rx="14" class="stroke-accent" fill="none" stroke-width="1"/>
+    <circle cx="100" cy="304" r="8" class="fill-accent"/>
+    <text x="130" y="314" class="s16-svg-tag text-ink">Profit</text>
+    <text x="130" y="344" class="s16-svg-sub text-mute">Achieving economic stability</text>
+    <text x="540" y="306" class="s16-svg-d text-ink">Does this create sustainable revenue for the platform,</text>
+    <text x="540" y="330" class="s16-svg-d text-ink">aggregators, and farmers — not one at the expense of others?</text>
+  </g>
+
+  <!-- BAR 3 — PLANET (y=382 → 498, vertical center y=440) -->
+  <g>
+    <rect x="60" y="382" width="1080" height="116" rx="14" class="fill-accent-soft"/>
+    <rect x="60" y="382" width="1080" height="116" rx="14" class="stroke-accent" fill="none" stroke-width="1"/>
+    <circle cx="100" cy="440" r="8" class="fill-accent"/>
+    <text x="130" y="450" class="s16-svg-tag text-ink">Planet</text>
+    <text x="130" y="480" class="s16-svg-sub text-mute">Living within environmental limits</text>
+    <text x="540" y="442" class="s16-svg-d text-ink">Does this encourage practices that preserve the land,</text>
+    <text x="540" y="466" class="s16-svg-d text-ink">reduce emissions, and support long-term ecological health?</text>
+  </g>
+</svg></div>
+        <figcaption>System architecture — sustainable practice repositories and market connections (inputs) flow through the app, workshops, and kiosks (throughput) to produce sustainable agriculture, decentralised production, and reduced emissions (outputs).</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">16 — The Triple Bottom Line</span>
+      <h2 class="section-title">A rubric, <span class="accent-text">not a slogan.</span></h2>
+      <p class="section-deck">Every design decision was measured against the triple bottom line framework — not as a strategic statement, but as a literal evaluation rubric applied to every feature decision.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Peepal system architecture — Inputs flow through Throughput channels to produce sustainable Outputs">
+  <style>
+    .s17-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s17-svg-h   { font: 600 23px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.025em; }
+    .s17-svg-li  { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g>
+    <text x="200" y="56" text-anchor="middle" class="s17-svg-eb text-accent">Pillar 01 · Educate</text>
+    <text x="600" y="56" text-anchor="middle" class="s17-svg-eb text-accent">Pillar 02 · Connect</text>
+    <text x="1000" y="56" text-anchor="middle" class="s17-svg-eb text-accent">Pillar 03 · Empower</text>
+    <line x1="80"  y1="74" x2="320" y2="74" class="stroke-accent" stroke-width="2"/>
+    <line x1="480" y1="74" x2="720" y2="74" class="stroke-accent" stroke-width="2"/>
+    <line x1="880" y1="74" x2="1120" y2="74" class="stroke-accent" stroke-width="2"/>
+  </g>
+
+  <g>
+    <rect x="40" y="120" width="320" height="380" rx="16" class="fill-card-svg"/>
+    <rect x="40" y="120" width="320" height="380" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="64" y="160" class="s17-svg-eb text-accent">Inputs</text>
+    <line x1="64" y1="178" x2="120" y2="178" class="stroke-accent" stroke-width="2"/>
+    <text x="64" y="220" class="s17-svg-h text-ink">What we feed in</text>
+
+    <text x="64" y="270" class="s17-svg-li text-mute">• Repository of sustainable</text>
+    <text x="64" y="290" class="s17-svg-li text-mute">  practices — videos and blogs</text>
+    <text x="64" y="310" class="s17-svg-li text-mute">  to educate farmers.</text>
+
+    <text x="64" y="350" class="s17-svg-li text-mute">• List of companies and buyer</text>
+    <text x="64" y="370" class="s17-svg-li text-mute">  connections to sell products.</text>
+
+    <text x="64" y="410" class="s17-svg-li text-mute">• Demand and food production</text>
+    <text x="64" y="430" class="s17-svg-li text-mute">  forecasting models.</text>
+  </g>
+
+  <g class="stroke-accent" stroke-width="2" fill="none">
+    <line x1="370" y1="310" x2="430" y2="310" marker-end="url(#a15)"/>
+  </g>
+
+  <g>
+    <rect x="440" y="120" width="320" height="380" rx="16" class="fill-card-svg"/>
+    <rect x="440" y="120" width="320" height="380" rx="16" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="464" y="160" class="s17-svg-eb text-accent">Throughput</text>
+    <line x1="464" y1="178" x2="560" y2="178" class="stroke-accent" stroke-width="2"/>
+    <text x="464" y="220" class="s17-svg-h text-ink">How it reaches users</text>
+
+    <text x="464" y="270" class="s17-svg-li text-mute">• A phone app — super-personal</text>
+    <text x="464" y="290" class="s17-svg-li text-mute">  for farmers, buyers, and</text>
+    <text x="464" y="310" class="s17-svg-li text-mute">  service providers.</text>
+
+    <text x="464" y="350" class="s17-svg-li text-mute">• In-person workshops led by</text>
+    <text x="464" y="370" class="s17-svg-li text-mute">  extension officers.</text>
+
+    <text x="464" y="410" class="s17-svg-li text-mute">• Community kiosks — physical</text>
+    <text x="464" y="430" class="s17-svg-li text-mute">  access points with offline</text>
+    <text x="464" y="450" class="s17-svg-li text-mute">  content for farmers without</text>
+    <text x="464" y="470" class="s17-svg-li text-mute">  smartphones.</text>
+  </g>
+
+  <g class="stroke-accent" stroke-width="2" fill="none">
+    <line x1="770" y1="310" x2="830" y2="310" marker-end="url(#a15)"/>
+  </g>
+
+  <g>
+    <rect x="840" y="120" width="320" height="380" rx="16" class="fill-card-svg"/>
+    <rect x="840" y="120" width="320" height="380" rx="16" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="864" y="160" class="s17-svg-eb text-accent">Outputs</text>
+    <line x1="864" y1="178" x2="930" y2="178" class="stroke-accent" stroke-width="2"/>
+    <text x="864" y="220" class="s17-svg-h text-ink">What it produces</text>
+
+    <text x="864" y="270" class="s17-svg-li text-mute">• Sustainable agriculture</text>
+    <text x="864" y="290" class="s17-svg-li text-mute">  practices, adopted at scale.</text>
+
+    <text x="864" y="330" class="s17-svg-li text-mute">• Broadened sources of food</text>
+    <text x="864" y="350" class="s17-svg-li text-mute">  inputs for production.</text>
+
+    <text x="864" y="390" class="s17-svg-li text-mute">• Decentralised, reliable</text>
+    <text x="864" y="410" class="s17-svg-li text-mute">  food production.</text>
+
+    <text x="864" y="450" class="s17-svg-li text-mute">• Reduced carbon emissions</text>
+    <text x="864" y="470" class="s17-svg-li text-mute">  across the value chain.</text>
+  </g>
+
+  <g>
+    <text x="600" y="555" text-anchor="middle" class="s17-svg-eb text-accent">We educate. We connect. We empower.</text>
+    <text x="600" y="582" text-anchor="middle" class="s17-svg-li text-ink" font-style="italic">A platform aimed at solving the current challenges across People, Planet, and Profit.</text>
+  </g>
+
+  <defs>
+    <marker id="a15" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" class="fill-accent"/>
+    </marker>
+  </defs>
+</svg></div>
+        <figcaption>The triple bottom line — People, Profit, Planet. Not just a strategic framework but a design evaluation rubric applied to every feature decision.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">17 — The MVP Approach</span>
+      <h2 class="section-title">Scale value. <span class="accent-text">Not features.</span></h2>
+      <p class="section-deck">I advocated for a specific approach to MVP development in the agritech context — one that prioritised user value over feature count.</p>
+    </div>
+    <div class="prose wrap-narrow" style="padding:0;">
+      <p>Most agritech platforms launch as functional tools and never progress beyond that. Peepal needed to launch as <em>usable</em>, if not delightful, experience — because the target users (smallholder farmers) would abandon anything that felt extractive or confusing. <strong>Maintaining competitiveness means increasing user value, not feature count.</strong></p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three user personas — Wanjiku the smallholder farmer, James the crop aggregator, Faith the extension officer">
+  <style>
+    .s18-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s18-svg-name { font: 600 23px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.022em; }
+    .s18-svg-role { font: 500 15px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s18-svg-meta { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: 0.005em; }
+    .s18-svg-sub { font: 600 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.04em; text-transform: uppercase; }
+    .s18-svg-d   { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <!-- Persona 1: Wanjiku (FARMER) -->
+  <g>
+    <rect x="20" y="40" width="380" height="540" rx="18" class="fill-card-svg"/>
+    <rect x="20" y="40" width="380" height="540" rx="18" class="stroke-accent" fill="none" stroke-width="1.5"/>
+
+    <circle cx="80" cy="100" r="32" class="fill-accent-soft"/>
+    <circle cx="80" cy="100" r="32" class="stroke-accent" fill="none" stroke-width="1.5"/>
+    <text x="80" y="108" text-anchor="middle" class="s18-svg-name text-ink">W</text>
+
+    <text x="130" y="92" class="s18-svg-name text-ink">Wanjiku Amara</text>
+    <text x="130" y="116" class="s18-svg-role text-mute">42 · Smallholder Farmer</text>
+
+    <text x="40" y="170" class="s18-svg-eb text-accent">Persona 01 · Producer</text>
+    <line x1="40" y1="186" x2="200" y2="186" class="stroke-accent" stroke-width="2"/>
+
+    <text x="40" y="222" class="s18-svg-meta text-mute">Location · Nakuru County</text>
+    <text x="40" y="244" class="s18-svg-meta text-mute">Farms · 2 acres maize &amp; beans</text>
+    <text x="40" y="266" class="s18-svg-meta text-mute">Device · Basic feature phone</text>
+    <text x="40" y="288" class="s18-svg-meta text-mute">Info source · Radio, word-of-mouth</text>
+
+    <text x="40" y="332" class="s18-svg-sub text-accent">Goals</text>
+    <text x="40" y="358" class="s18-svg-d text-mute">• Get fair prices for harvest</text>
+    <text x="40" y="378" class="s18-svg-d text-mute">• Learn sustainable practices</text>
+    <text x="40" y="398" class="s18-svg-d text-mute">  without leaving the farm</text>
+    <text x="40" y="418" class="s18-svg-d text-mute">• Access credit for better seeds</text>
+
+    <text x="40" y="462" class="s18-svg-sub text-accent">Frustrations</text>
+    <text x="40" y="488" class="s18-svg-d text-mute">• No way to know market prices</text>
+    <text x="40" y="508" class="s18-svg-d text-mute">  before harvest</text>
+    <text x="40" y="528" class="s18-svg-d text-mute">• Digital payment apps that</text>
+    <text x="40" y="548" class="s18-svg-d text-mute">  feel exploitative</text>
+    <text x="40" y="568" class="s18-svg-d text-mute">• Extension officers visit rarely</text>
+  </g>
+
+  <!-- Persona 2: James (AGGREGATOR) -->
+  <g>
+    <rect x="410" y="40" width="380" height="540" rx="18" class="fill-card-svg"/>
+    <rect x="410" y="40" width="380" height="540" rx="18" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+
+    <circle cx="470" cy="100" r="32" class="fill-accent-soft"/>
+    <circle cx="470" cy="100" r="32" class="stroke-mute" fill="none" stroke-width="1.5" opacity="0.6"/>
+    <text x="470" y="108" text-anchor="middle" class="s18-svg-name text-ink">J</text>
+
+    <text x="520" y="92" class="s18-svg-name text-ink">James Kariuki</text>
+    <text x="520" y="116" class="s18-svg-role text-mute">35 · Crop Aggregator</text>
+
+    <text x="430" y="170" class="s18-svg-eb text-accent">Persona 02 · Buyer</text>
+    <line x1="430" y1="186" x2="560" y2="186" class="stroke-accent" stroke-width="2"/>
+
+    <text x="430" y="222" class="s18-svg-meta text-mute">Location · Rift Valley</text>
+    <text x="430" y="244" class="s18-svg-meta text-mute">Buys from · 200+ smallholders</text>
+    <text x="430" y="266" class="s18-svg-meta text-mute">Device · Smartphone</text>
+    <text x="430" y="288" class="s18-svg-meta text-mute">Tools · WhatsApp groups for logistics</text>
+
+    <text x="430" y="332" class="s18-svg-sub text-accent">Goals</text>
+    <text x="430" y="358" class="s18-svg-d text-mute">• Reliable supply forecasting</text>
+    <text x="430" y="378" class="s18-svg-d text-mute">• Verified quality before purchase</text>
+    <text x="430" y="398" class="s18-svg-d text-mute">• Streamlined payments that</text>
+    <text x="430" y="418" class="s18-svg-d text-mute">  build farmer loyalty</text>
+
+    <text x="430" y="462" class="s18-svg-sub text-accent">Frustrations</text>
+    <text x="430" y="488" class="s18-svg-d text-mute">• No visibility into crop readiness</text>
+    <text x="430" y="508" class="s18-svg-d text-mute">• High post-harvest losses</text>
+    <text x="430" y="528" class="s18-svg-d text-mute">• Farmers selling to competitors</text>
+    <text x="430" y="548" class="s18-svg-d text-mute">  when prices spike</text>
+  </g>
+
+  <!-- Persona 3: Faith (EXTENSION OFFICER) -->
+  <g>
+    <rect x="800" y="40" width="380" height="540" rx="18" class="fill-card-svg"/>
+    <rect x="800" y="40" width="380" height="540" rx="18" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+
+    <circle cx="860" cy="100" r="32" class="fill-accent-soft"/>
+    <circle cx="860" cy="100" r="32" class="stroke-mute" fill="none" stroke-width="1.5" opacity="0.6"/>
+    <text x="860" y="108" text-anchor="middle" class="s18-svg-name text-ink">F</text>
+
+    <text x="910" y="92" class="s18-svg-name text-ink">Faith Odhiambo</text>
+    <text x="910" y="116" class="s18-svg-role text-mute">29 · Extension Officer</text>
+
+    <text x="820" y="170" class="s18-svg-eb text-accent">Persona 03 · Enabler</text>
+    <line x1="820" y1="186" x2="990" y2="186" class="stroke-accent" stroke-width="2"/>
+
+    <text x="820" y="222" class="s18-svg-meta text-mute">Coverage · 3 sub-counties</text>
+    <text x="820" y="244" class="s18-svg-meta text-mute">Visits · 15–20 farms / week</text>
+    <text x="820" y="266" class="s18-svg-meta text-mute">Device · Smartphone + tablet</text>
+    <text x="820" y="288" class="s18-svg-meta text-mute">Reports to · County government</text>
+
+    <text x="820" y="332" class="s18-svg-sub text-accent">Goals</text>
+    <text x="820" y="358" class="s18-svg-d text-mute">• Scale impact beyond visits</text>
+    <text x="820" y="378" class="s18-svg-d text-mute">• Track adoption of sustainable</text>
+    <text x="820" y="398" class="s18-svg-d text-mute">  practices over time</text>
+    <text x="820" y="418" class="s18-svg-d text-mute">• Report outcomes to government</text>
+
+    <text x="820" y="462" class="s18-svg-sub text-accent">Frustrations</text>
+    <text x="820" y="488" class="s18-svg-d text-mute">• Coverage area too large for</text>
+    <text x="820" y="508" class="s18-svg-d text-mute">  in-person visits</text>
+    <text x="820" y="528" class="s18-svg-d text-mute">• No feedback loop on training</text>
+    <text x="820" y="548" class="s18-svg-d text-mute">• Paper-based reporting</text>
+  </g>
+</svg></div>
+        <figcaption>The MVP value pyramid — scale user value, not features. In agritech, where trust is low and abandonment risk is high, launching usable beats launching feature-rich but confusing.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">18 — Experience Design Process</span>
+      <h2 class="section-title">Discover · Define · Design · Develop.</h2>
+      <p class="section-deck">I followed a four-phase experience design approach. Each phase produced an artifact stakeholders could review, debate, and sign off — the alignment mechanism that kept World Bank, EY, and local partners moving in sync.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Wanjiku's seasonal farming journey across five stages — planning, sourcing, growing, harvesting, selling — showing actions, emotional state, and Peepal interventions">
+  <style>
+    .s19-svg-eb  { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s19-svg-stage { font: 600 17px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s19-svg-axis { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s19-svg-d   { font: 400 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s19-svg-emo { font: 500 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g>
+    <text x="160" y="60" text-anchor="middle" class="s19-svg-eb text-accent">Stage 01</text>
+    <text x="160" y="86" text-anchor="middle" class="s19-svg-stage text-ink">Planning</text>
+
+    <text x="360" y="60" text-anchor="middle" class="s19-svg-eb text-accent">Stage 02</text>
+    <text x="360" y="86" text-anchor="middle" class="s19-svg-stage text-ink">Sourcing</text>
+
+    <text x="560" y="60" text-anchor="middle" class="s19-svg-eb text-accent">Stage 03</text>
+    <text x="560" y="86" text-anchor="middle" class="s19-svg-stage text-ink">Growing</text>
+
+    <text x="760" y="60" text-anchor="middle" class="s19-svg-eb text-accent">Stage 04</text>
+    <text x="760" y="86" text-anchor="middle" class="s19-svg-stage text-ink">Harvesting</text>
+
+    <text x="960" y="60" text-anchor="middle" class="s19-svg-eb text-accent">Stage 05</text>
+    <text x="960" y="86" text-anchor="middle" class="s19-svg-stage text-ink">Selling</text>
+  </g>
+
+  <!-- ROW 1: ACTIONS -->
+  <g>
+    <text x="40" y="140" class="s19-svg-axis text-mute">Actions</text>
+    <line x1="40" y1="156" x2="1140" y2="156" class="stroke-mute" stroke-width="1" opacity="0.3"/>
+
+    <rect x="80" y="170" width="160" height="80" rx="10" class="fill-card-svg"/>
+    <rect x="80" y="170" width="160" height="80" rx="10" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="100" y="200" class="s19-svg-d text-ink">Plants based on</text>
+    <text x="100" y="220" class="s19-svg-d text-ink">last year's experience,</text>
+    <text x="100" y="240" class="s19-svg-d text-mute">not market data.</text>
+
+    <rect x="280" y="170" width="160" height="80" rx="10" class="fill-card-svg"/>
+    <rect x="280" y="170" width="160" height="80" rx="10" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="300" y="200" class="s19-svg-d text-ink">Buys seeds from</text>
+    <text x="300" y="220" class="s19-svg-d text-ink">nearest agro-dealer</text>
+    <text x="300" y="240" class="s19-svg-d text-mute">without comparing.</text>
+
+    <rect x="480" y="170" width="160" height="80" rx="10" class="fill-card-svg"/>
+    <rect x="480" y="170" width="160" height="80" rx="10" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="500" y="200" class="s19-svg-d text-ink">Manages pests by</text>
+    <text x="500" y="220" class="s19-svg-d text-ink">guesswork. No officer</text>
+    <text x="500" y="240" class="s19-svg-d text-mute">visit this season.</text>
+
+    <rect x="680" y="170" width="160" height="80" rx="10" class="fill-card-svg"/>
+    <rect x="680" y="170" width="160" height="80" rx="10" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="700" y="200" class="s19-svg-d text-ink">Loses 20–30% of</text>
+    <text x="700" y="220" class="s19-svg-d text-ink">harvest to poor</text>
+    <text x="700" y="240" class="s19-svg-d text-mute">storage and pests.</text>
+
+    <rect x="880" y="170" width="160" height="80" rx="10" class="fill-card-svg"/>
+    <rect x="880" y="170" width="160" height="80" rx="10" class="stroke-mute" fill="none" stroke-width="1" opacity="0.5"/>
+    <text x="900" y="200" class="s19-svg-d text-ink">Sells at farm gate</text>
+    <text x="900" y="220" class="s19-svg-d text-ink">to first buyer</text>
+    <text x="900" y="240" class="s19-svg-d text-mute">at any offered price.</text>
+  </g>
+
+  <!-- ROW 2: EMOTIONAL ARC -->
+  <g>
+    <text x="40" y="290" class="s19-svg-axis text-mute">Emotional state</text>
+    <line x1="40" y1="306" x2="1140" y2="306" class="stroke-mute" stroke-width="1" opacity="0.3"/>
+
+    <polyline points="160,340 360,360 560,395 760,420 960,440"
+              fill="none" class="stroke-mute" stroke-width="2" opacity="0.6" stroke-dasharray="6 4"/>
+    <circle cx="160" cy="340" r="6" class="fill-accent" opacity="0.85"/>
+    <circle cx="360" cy="360" r="6" class="fill-accent" opacity="0.7"/>
+    <circle cx="560" cy="395" r="6" class="fill-accent" opacity="0.5"/>
+    <circle cx="760" cy="420" r="6" class="fill-accent" opacity="0.35"/>
+    <circle cx="960" cy="440" r="6" class="fill-accent" opacity="0.25"/>
+
+    <text x="160" y="468" text-anchor="middle" class="s19-svg-emo text-ink">Uncertain</text>
+    <text x="360" y="468" text-anchor="middle" class="s19-svg-emo text-ink">Anxious</text>
+    <text x="560" y="468" text-anchor="middle" class="s19-svg-emo text-ink">Stressed</text>
+    <text x="760" y="468" text-anchor="middle" class="s19-svg-emo text-ink">Defeated</text>
+    <text x="960" y="468" text-anchor="middle" class="s19-svg-emo text-ink">Powerless</text>
+  </g>
+
+  <!-- ROW 3: PEEPAL INTERVENTIONS -->
+  <g>
+    <text x="40" y="510" class="s19-svg-axis text-accent">Peepal intervention</text>
+    <line x1="40" y1="526" x2="1140" y2="526" class="stroke-accent" stroke-width="1" opacity="0.5"/>
+
+    <rect x="80" y="544" width="160" height="80" rx="10" class="fill-accent-soft"/>
+    <rect x="80" y="544" width="160" height="80" rx="10" class="stroke-accent" fill="none" stroke-width="1"/>
+    <text x="100" y="574" class="s19-svg-d text-ink">Demand forecasting</text>
+    <text x="100" y="594" class="s19-svg-d text-ink">+ contextual planning</text>
+    <text x="100" y="614" class="s19-svg-d text-mute">guidance.</text>
+
+    <rect x="280" y="544" width="160" height="80" rx="10" class="fill-accent-soft"/>
+    <rect x="280" y="544" width="160" height="80" rx="10" class="stroke-accent" fill="none" stroke-width="1"/>
+    <text x="300" y="574" class="s19-svg-d text-ink">Price comparison</text>
+    <text x="300" y="594" class="s19-svg-d text-ink">across local dealers</text>
+    <text x="300" y="614" class="s19-svg-d text-mute">+ buyer reviews.</text>
+
+    <rect x="480" y="544" width="160" height="80" rx="10" class="fill-accent-soft"/>
+    <rect x="480" y="544" width="160" height="80" rx="10" class="stroke-accent" fill="none" stroke-width="1"/>
+    <text x="500" y="574" class="s19-svg-d text-ink">Pest-management</text>
+    <text x="500" y="594" class="s19-svg-d text-ink">guides + crop-stage</text>
+    <text x="500" y="614" class="s19-svg-d text-mute">video learning.</text>
+
+    <rect x="680" y="544" width="160" height="80" rx="10" class="fill-accent-soft"/>
+    <rect x="680" y="544" width="160" height="80" rx="10" class="stroke-accent" fill="none" stroke-width="1"/>
+    <text x="700" y="574" class="s19-svg-d text-ink">Storage techniques</text>
+    <text x="700" y="594" class="s19-svg-d text-ink">+ post-harvest loss</text>
+    <text x="700" y="614" class="s19-svg-d text-mute">prevention.</text>
+
+    <rect x="880" y="544" width="160" height="80" rx="10" class="fill-accent-soft"/>
+    <rect x="880" y="544" width="160" height="80" rx="10" class="stroke-accent" fill="none" stroke-width="1"/>
+    <text x="900" y="574" class="s19-svg-d text-ink">Transparent</text>
+    <text x="900" y="594" class="s19-svg-d text-ink">marketplace with</text>
+    <text x="900" y="614" class="s19-svg-d text-mute">verified buyers.</text>
+  </g>
+</svg></div>
+        <figcaption>Experience design approach — Discover, Define, Design, Develop. Each phase has specific deliverables and stakeholder touchpoints, designed to maintain alignment with World Bank and EY stakeholders throughout.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">19 — From Strategy to Screens</span>
+      <h2 class="section-title">Three core flows. <span class="accent-text">One filter for every pixel.</span></h2>
+      <p class="section-deck">With the strategic framework, research insights, and system architecture defined, I moved into high-fidelity concept design for the Peepal mobile app — the primary throughput channel for reaching smallholder farmers. Every screen was designed against two filters: the triple bottom line, and the three user personas.</p>
+    </div>
+
+    <div class="prose wrap-narrow" style="padding:0; margin-top: 32px;">
+      <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: -0.022em; color: var(--ink); margin-bottom: 16px;">Farmer home dashboard</h3>
+      <p>The home screen needed to answer the farmer's most urgent questions within seconds: What's the weather doing? How are my crops? What are today's prices?</p>
+      <p>I designed it around four information layers, prioritised by immediacy. At the top, weather and season context — because farming decisions are weather decisions. Below, crop health cards showing each planted crop's stage and progress, with status badges that surface actionable alerts without requiring the farmer to interpret data. The market prices section shows real-time local prices in Kenyan shillings with weekly trend indicators. At the bottom, contextual recommendations — the app proactively suggests relevant learning content based on the farmer's current crop stage.</p>
+      <p><strong>The design deliberately avoids complexity.</strong> No charts, no dashboards, no data visualizations. The target user may have limited digital literacy — every piece of information is presented as plain language with clear visual hierarchy.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Peepal mobile app — farmer home dashboard with weather, crop health, market prices, and recommendations (EY brand styled)">
+  <style>
+    .s20-ey-eb    { font: 600 11px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s20-ey-h     { font: 600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s20-ey-d     { font: 400 12px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s20-ey-tag   { font: 500 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s20-ey-stat  { font: 600 20px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s20-ey-mono  { font: 500 12px ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace; }
+    /* Annotation styles use portfolio theme tokens */
+    .s20-ann-eb   { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s20-ann-d    { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <!-- Phone frame: 320×680 centered -->
+  <g transform="translate(440, 30)">
+    <!-- Outer device shell: EY dark gray -->
+    <rect x="0" y="0" width="320" height="680" rx="38" fill="#2E2E38"/>
+    <rect x="0" y="0" width="320" height="680" rx="38" fill="none" stroke="#1A1A24" stroke-width="1.5"/>
+
+    <!-- Inner screen: WHITE -->
+    <rect x="10" y="10" width="300" height="660" rx="30" fill="#FFFFFF"/>
+
+    <!-- Status bar -->
+    <text x="32" y="38" class="s20-ey-mono" fill="#747480">9:41</text>
+    <g transform="translate(258, 28)">
+      <rect x="0" y="0" width="22" height="11" rx="2" fill="none" stroke="#747480" stroke-width="1"/>
+      <rect x="2" y="2" width="14" height="7" rx="1" fill="#2E2E38"/>
+    </g>
+
+    <!-- EY brand strip at top of screen: small yellow accent line -->
+    <rect x="20" y="56" width="60" height="4" rx="0" fill="#f6e41b"/>
+
+    <!-- Greeting block -->
+    <text x="20" y="92" class="s20-ey-eb" fill="#747480">Habari ya asubuhi</text>
+    <text x="20" y="120" class="s20-ey-h" fill="#2E2E38" font-size="22">Wanjiku</text>
+
+    <!-- Weather card: yellow zone -->
+    <rect x="20" y="142" width="280" height="76" rx="6" fill="#FFFAD3"/>
+    <rect x="20" y="142" width="280" height="76" rx="6" fill="none" stroke="#f6e41b" stroke-width="1"/>
+    <text x="40" y="178" class="s20-ey-stat" fill="#2E2E38" font-size="32">24°</text>
+    <text x="100" y="170" class="s20-ey-tag" fill="#2E2E38">Partly cloudy</text>
+    <text x="100" y="190" class="s20-ey-d" fill="#747480">Long-rains season</text>
+    <text x="100" y="208" class="s20-ey-d" fill="#747480">Light showers Thursday PM</text>
+
+    <!-- Section: My crops -->
+    <text x="20" y="252" class="s20-ey-eb" fill="#747480">My crops</text>
+    <line x1="20" y1="266" x2="80" y2="266" stroke="#f6e41b" stroke-width="2"/>
+
+    <!-- Crop card 1: Maize -->
+    <rect x="20" y="282" width="280" height="68" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="40" y="310" class="s20-ey-tag" fill="#2E2E38">Maize · 1.2 acres</text>
+    <text x="40" y="330" class="s20-ey-d" fill="#747480">Tasselling stage · Day 68</text>
+    <rect x="218" y="304" width="68" height="22" rx="3" fill="#FFFAD3"/>
+    <rect x="218" y="304" width="68" height="22" rx="3" fill="none" stroke="#f6e41b" stroke-width="1"/>
+    <text x="252" y="319" text-anchor="middle" class="s20-ey-d" fill="#2E2E38">On track</text>
+
+    <!-- Crop card 2: Beans (NEEDS CARE — accent emphasis) -->
+    <rect x="20" y="362" width="280" height="68" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="40" y="390" class="s20-ey-tag" fill="#2E2E38">Beans · 0.8 acres</text>
+    <text x="40" y="410" class="s20-ey-d" fill="#747480">Pod-fill stage · Day 54</text>
+    <rect x="218" y="384" width="68" height="22" rx="3" fill="#f6e41b"/>
+    <text x="252" y="399" text-anchor="middle" class="s20-ey-d" fill="#2E2E38" font-weight="600">Needs care</text>
+
+    <!-- Section: Market today -->
+    <text x="20" y="466" class="s20-ey-eb" fill="#747480">Market today</text>
+    <line x1="20" y1="480" x2="120" y2="480" stroke="#f6e41b" stroke-width="2"/>
+
+    <rect x="20" y="496" width="135" height="74" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="38" y="522" class="s20-ey-d" fill="#747480">Maize / 90kg bag</text>
+    <text x="38" y="546" class="s20-ey-stat" fill="#2E2E38">KSh 4,200</text>
+    <text x="38" y="562" class="s20-ey-d" fill="#2E2E38" font-size="11">↑ 8% this week</text>
+
+    <rect x="165" y="496" width="135" height="74" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="183" y="522" class="s20-ey-d" fill="#747480">Beans / 50kg bag</text>
+    <text x="183" y="546" class="s20-ey-stat" fill="#2E2E38">KSh 6,800</text>
+    <text x="183" y="562" class="s20-ey-d" fill="#747480" font-size="11">— stable</text>
+
+    <!-- Recommendation card -->
+    <rect x="20" y="586" width="280" height="74" rx="6" fill="#FFFAD3"/>
+    <text x="38" y="612" class="s20-ey-eb" fill="#2E2E38">Recommended for you</text>
+    <text x="38" y="634" class="s20-ey-tag" fill="#2E2E38">Aphid prevention in beans</text>
+    <text x="38" y="652" class="s20-ey-d" fill="#747480">4-min video · Swahili</text>
+
+    <!-- Bottom nav -->
+    <line x1="10" y1="630" x2="310" y2="630" stroke="#E1E1E6" stroke-width="1"/>
+  </g>
+
+  <!-- ANNOTATIONS (use portfolio theme tokens, theme-aware) -->
+  <g>
+    <text x="60" y="80" class="s20-ann-eb text-accent">Layer 01 · Weather context</text>
+    <line x1="60" y1="98" x2="240" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="132" class="s20-ann-d text-mute">Farming decisions are weather</text>
+    <text x="60" y="152" class="s20-ann-d text-mute">decisions. Surfaced first.</text>
+
+    <text x="60" y="240" class="s20-ann-eb text-accent">Layer 02 · Crop health</text>
+    <line x1="60" y1="258" x2="220" y2="258" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="292" class="s20-ann-d text-mute">Status badges replace charts —</text>
+    <text x="60" y="312" class="s20-ann-d text-mute">readable without literacy in</text>
+    <text x="60" y="332" class="s20-ann-d text-mute">data interpretation.</text>
+
+    <text x="800" y="240" class="s20-ann-eb text-accent">Layer 03 · Market prices</text>
+    <line x1="800" y1="258" x2="980" y2="258" class="stroke-accent" stroke-width="2"/>
+    <text x="800" y="292" class="s20-ann-d text-mute">Real-time KSh prices with</text>
+    <text x="800" y="312" class="s20-ann-d text-mute">trend signals — visibility</text>
+    <text x="800" y="332" class="s20-ann-d text-mute">before commitment.</text>
+
+    <text x="800" y="440" class="s20-ann-eb text-accent">Layer 04 · Contextual learn</text>
+    <line x1="800" y1="458" x2="1000" y2="458" class="stroke-accent" stroke-width="2"/>
+    <text x="800" y="492" class="s20-ann-d text-mute">Recommendation tied directly</text>
+    <text x="800" y="512" class="s20-ann-d text-mute">to crop stage and active alerts</text>
+    <text x="800" y="532" class="s20-ann-d text-mute">— not a generic carousel.</text>
+
+    <text x="60" y="660" class="s20-ann-eb text-accent">EY brand system</text>
+    <line x1="60" y1="678" x2="200" y2="678" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="712" class="s20-ann-d text-mute">Yellow #f6e41b for active</text>
+    <text x="60" y="732" class="s20-ann-d text-mute">CTAs and alerts; gray for</text>
+    <text x="60" y="752" class="s20-ann-d text-mute">structure.</text>
+  </g>
+</svg></div>
+        <figcaption>Farmer home dashboard — weather context, crop health tracking, live market prices in KSh, and contextual recommendations. Designed for farmers with limited digital literacy: no charts, no jargon, every insight in plain language.</figcaption>
+      </figure>
+
+    <div class="prose wrap-narrow" style="padding:0; margin-top: 56px;">
+      <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: -0.022em; color: var(--ink); margin-bottom: 16px;">Marketplace — transparent buyer connections</h3>
+      <p>The marketplace screen directly addresses the core problem of farmer powerlessness in price negotiation. Instead of the traditional model — a middleman arrives at the farm gate and names a price — <strong>Peepal inverts the dynamic: buyers post requests with transparent pricing, and farmers choose which offers to accept.</strong></p>
+      <p>Each listing shows crop and grade required, offering price per bag, quantity needed, pickup distance, and payment method. Verified buyer badges address the trust deficit identified in our research. Tags like "Collection provided" vs. "Farmer delivers" surface logistics implications upfront, preventing surprises that erode trust.</p>
+      <p>The "Accept offer" interaction is deliberately simple — one tap, not a negotiation flow. For Phase 1, reducing friction matters more than maximising price optimisation.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Peepal mobile app — marketplace screen showing buyer offers with transparent pricing, distance, and verification badges (EY brand styled)">
+  <style>
+    .s21-ey-eb    { font: 600 11px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s21-ey-h     { font: 600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s21-ey-d     { font: 400 12px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s21-ey-tag   { font: 500 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s21-ey-stat  { font: 600 20px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.018em; }
+    .s21-ey-mono  { font: 500 12px ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace; }
+    .s21-ey-cta   { font: 600 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s21-ann-eb   { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s21-ann-d    { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g transform="translate(440, 30)">
+    <rect x="0" y="0" width="320" height="680" rx="38" fill="#2E2E38"/>
+    <rect x="0" y="0" width="320" height="680" rx="38" fill="none" stroke="#1A1A24" stroke-width="1.5"/>
+    <rect x="10" y="10" width="300" height="660" rx="30" fill="#FFFFFF"/>
+
+    <text x="32" y="38" class="s21-ey-mono" fill="#747480">9:41</text>
+
+    <!-- EY brand strip -->
+    <rect x="20" y="56" width="60" height="4" rx="0" fill="#f6e41b"/>
+
+    <text x="20" y="92" class="s21-ey-eb" fill="#747480">Marketplace</text>
+    <text x="20" y="124" class="s21-ey-h" fill="#2E2E38" font-size="22">Today's offers</text>
+
+    <!-- Filter chips -->
+    <rect x="20" y="146" width="60" height="28" rx="3" fill="#f6e41b"/>
+    <text x="50" y="164" text-anchor="middle" class="s21-ey-d" fill="#2E2E38" font-weight="600">All</text>
+    <rect x="86" y="146" width="68" height="28" rx="3" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="120" y="164" text-anchor="middle" class="s21-ey-d" fill="#747480">Maize</text>
+    <rect x="160" y="146" width="68" height="28" rx="3" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="194" y="164" text-anchor="middle" class="s21-ey-d" fill="#747480">Beans</text>
+
+    <!-- Offer 1: featured -->
+    <rect x="20" y="194" width="280" height="170" rx="6" fill="#FFFAD3"/>
+    <rect x="20" y="194" width="280" height="170" rx="6" fill="none" stroke="#f6e41b" stroke-width="1.5"/>
+    <text x="40" y="222" class="s21-ey-tag" fill="#2E2E38">Nakuru Mills Ltd.</text>
+    <!-- Verified badge -->
+    <rect x="155" y="208" width="68" height="18" rx="2" fill="#2E2E38"/>
+    <text x="189" y="221" text-anchor="middle" class="s21-ey-d" fill="#f6e41b" font-size="10" font-weight="600">✓ VERIFIED</text>
+    <text x="40" y="244" class="s21-ey-d" fill="#747480">Maize · Grade A · 50 bags</text>
+    <line x1="40" y1="258" x2="280" y2="258" stroke="#f6e41b" stroke-width="1" opacity="0.5"/>
+    <text x="40" y="286" class="s21-ey-stat" fill="#2E2E38" font-size="22">KSh 4,350</text>
+    <text x="40" y="306" class="s21-ey-d" fill="#747480">per 90kg bag · 18km away</text>
+    <text x="40" y="324" class="s21-ey-d" fill="#747480">M-Pesa · Collection provided</text>
+    <!-- Accept button -->
+    <rect x="180" y="328" width="106" height="30" rx="3" fill="#2E2E38"/>
+    <text x="233" y="348" text-anchor="middle" class="s21-ey-cta" fill="#f6e41b">Accept offer</text>
+
+    <!-- Offer 2: standard -->
+    <rect x="20" y="376" width="280" height="148" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="40" y="404" class="s21-ey-tag" fill="#2E2E38">Rift Valley Co-op</text>
+    <rect x="148" y="390" width="68" height="18" rx="2" fill="#2E2E38"/>
+    <text x="182" y="403" text-anchor="middle" class="s21-ey-d" fill="#f6e41b" font-size="10" font-weight="600">✓ VERIFIED</text>
+    <text x="40" y="424" class="s21-ey-d" fill="#747480">Maize · Grade B · 30 bags</text>
+    <line x1="40" y1="438" x2="280" y2="438" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="40" y="466" class="s21-ey-stat" fill="#2E2E38" font-size="22">KSh 4,100</text>
+    <text x="40" y="486" class="s21-ey-d" fill="#747480">per 90kg bag · 32km away</text>
+    <text x="40" y="504" class="s21-ey-d" fill="#747480">Bank transfer · Farmer delivers</text>
+
+    <!-- List harvest CTA -->
+    <rect x="20" y="536" width="280" height="74" rx="6" fill="#FFFFFF" stroke="#f6e41b" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="160" y="566" text-anchor="middle" class="s21-ey-tag" fill="#2E2E38" font-weight="600">+ List my upcoming harvest</text>
+    <text x="160" y="586" text-anchor="middle" class="s21-ey-d" fill="#747480">Beans expected in 18 days</text>
+    <text x="160" y="602" text-anchor="middle" class="s21-ey-d" fill="#747480">Attract pre-harvest offers</text>
+  </g>
+
+  <g>
+    <text x="60" y="80" class="s21-ann-eb text-accent">Verified buyer badges</text>
+    <line x1="60" y1="98" x2="240" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="132" class="s21-ann-d text-mute">Trust deficit identified in</text>
+    <text x="60" y="152" class="s21-ann-d text-mute">research surfaced as the</text>
+    <text x="60" y="172" class="s21-ann-d text-mute">primary visual signal.</text>
+
+    <text x="60" y="260" class="s21-ann-eb text-accent">Transparent pricing</text>
+    <line x1="60" y1="278" x2="220" y2="278" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="312" class="s21-ann-d text-mute">Price per bag, quantity, and</text>
+    <text x="60" y="332" class="s21-ann-d text-mute">payment method shown</text>
+    <text x="60" y="352" class="s21-ann-d text-mute">upfront — not negotiated.</text>
+
+    <text x="800" y="260" class="s21-ann-eb text-accent">One-tap acceptance</text>
+    <line x1="800" y1="278" x2="980" y2="278" class="stroke-accent" stroke-width="2"/>
+    <text x="800" y="312" class="s21-ann-d text-mute">Phase 1 reduces friction</text>
+    <text x="800" y="332" class="s21-ann-d text-mute">over price optimization.</text>
+    <text x="800" y="352" class="s21-ann-d text-mute">Adoption first, polish later.</text>
+
+    <text x="800" y="440" class="s21-ann-eb text-accent">Pre-harvest listing</text>
+    <line x1="800" y1="458" x2="980" y2="458" class="stroke-accent" stroke-width="2"/>
+    <text x="800" y="492" class="s21-ann-d text-mute">Forward visibility for</text>
+    <text x="800" y="512" class="s21-ann-d text-mute">both sides — buyers can</text>
+    <text x="800" y="532" class="s21-ann-d text-mute">commit, farmers can plan.</text>
+  </g>
+</svg></div>
+        <figcaption>Marketplace — buyers post transparent offers with pricing, quantity, distance, and payment terms. Verified badges and logistics tags address the trust gap. The farmer chooses; the middleman doesn't dictate.</figcaption>
+      </figure>
+
+    <div class="prose wrap-narrow" style="padding:0; margin-top: 56px;">
+      <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: -0.022em; color: var(--ink); margin-bottom: 16px;">Learning hub — sustainable practices at every stage</h3>
+      <p>The learning screen embodies the "Educate" pillar. Rather than a generic content library, it's contextually intelligent — the top recommendation is personalised to the farmer's current crop stage and active alerts.</p>
+      <p>When Wanjiku's beans are in pod-fill stage and showing signs of pest stress, the first thing she sees is a 4-minute video on aphid prevention in Swahili. <strong>This isn't a content recommendation algorithm — it's a direct mapping between crop data and relevant educational content.</strong></p>
+      <p>The kiosk finder at the bottom is a critical inclusion. Not every farmer has a smartphone or reliable data connection. Community kiosks — physical access points with offline content — ensure that the platform's educational value reaches farmers regardless of their digital access level. This design decision came directly from the socio-ecological mapping: the micro-system determines access as much as the individual's technology ownership.</p>
+    </div>
+    <figure class="figure-bare">
+        <div class="svg-figure"><svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Peepal mobile app — learning hub with contextual recommendations, ongoing tracks, browse grid, and kiosk finder for offline access (EY brand styled)">
+  <style>
+    .s22-ey-eb    { font: 600 11px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s22-ey-h     { font: 600 18px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.014em; }
+    .s22-ey-d     { font: 400 12px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+    .s22-ey-tag   { font: 500 13px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: -0.005em; }
+    .s22-ey-mono  { font: 500 12px ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace; }
+    .s22-ann-eb   { font: 600 12px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .s22-ann-d    { font: 400 14px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; letter-spacing: -0.005em; }
+  </style>
+
+  <g transform="translate(440, 30)">
+    <rect x="0" y="0" width="320" height="680" rx="38" fill="#2E2E38"/>
+    <rect x="0" y="0" width="320" height="680" rx="38" fill="none" stroke="#1A1A24" stroke-width="1.5"/>
+    <rect x="10" y="10" width="300" height="660" rx="30" fill="#FFFFFF"/>
+
+    <text x="32" y="38" class="s22-ey-mono" fill="#747480">9:41</text>
+
+    <!-- EY brand strip -->
+    <rect x="20" y="56" width="60" height="4" rx="0" fill="#f6e41b"/>
+
+    <text x="20" y="92" class="s22-ey-eb" fill="#747480">Learn</text>
+    <text x="20" y="124" class="s22-ey-h" fill="#2E2E38" font-size="22">Sustainable practices</text>
+
+    <!-- TOP RECOMMENDATION — featured yellow card -->
+    <rect x="20" y="146" width="280" height="106" rx="6" fill="#f6e41b"/>
+    <text x="40" y="174" class="s22-ey-eb" fill="#2E2E38">For your beans · pod-fill stage</text>
+    <text x="40" y="200" class="s22-ey-h" fill="#2E2E38" font-size="20">Aphid prevention</text>
+    <text x="40" y="222" class="s22-ey-d" fill="#2E2E38" opacity="0.85">4-min video · Swahili · Offline</text>
+    <!-- Play button -->
+    <circle cx="265" cy="200" r="20" fill="#2E2E38"/>
+    <polygon points="260,191 277,200 260,209" fill="#f6e41b"/>
+
+    <!-- Ongoing tracks -->
+    <text x="20" y="284" class="s22-ey-eb" fill="#747480">Ongoing tracks</text>
+    <line x1="20" y1="298" x2="120" y2="298" stroke="#f6e41b" stroke-width="2"/>
+
+    <rect x="20" y="314" width="280" height="58" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="40" y="338" class="s22-ey-tag" fill="#2E2E38">Soil health basics</text>
+    <text x="40" y="356" class="s22-ey-d" fill="#747480">3 of 5 lessons complete</text>
+    <rect x="200" y="346" width="80" height="6" rx="3" fill="#E1E1E6"/>
+    <rect x="200" y="346" width="48" height="6" rx="3" fill="#f6e41b"/>
+
+    <rect x="20" y="382" width="280" height="58" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="40" y="406" class="s22-ey-tag" fill="#2E2E38">Pest management</text>
+    <text x="40" y="424" class="s22-ey-d" fill="#747480">1 of 4 lessons complete</text>
+    <rect x="200" y="414" width="80" height="6" rx="3" fill="#E1E1E6"/>
+    <rect x="200" y="414" width="20" height="6" rx="3" fill="#f6e41b"/>
+
+    <!-- Browse grid -->
+    <text x="20" y="472" class="s22-ey-eb" fill="#747480">Browse topics</text>
+    <line x1="20" y1="486" x2="120" y2="486" stroke="#f6e41b" stroke-width="2"/>
+
+    <rect x="20" y="502" width="135" height="50" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="88" y="530" text-anchor="middle" class="s22-ey-tag" fill="#2E2E38">Water</text>
+    <rect x="165" y="502" width="135" height="50" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="233" y="530" text-anchor="middle" class="s22-ey-tag" fill="#2E2E38">Pest control</text>
+
+    <rect x="20" y="562" width="135" height="50" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="88" y="590" text-anchor="middle" class="s22-ey-tag" fill="#2E2E38">Markets</text>
+    <rect x="165" y="562" width="135" height="50" rx="6" fill="#FFFFFF" stroke="#E1E1E6" stroke-width="1"/>
+    <text x="233" y="590" text-anchor="middle" class="s22-ey-tag" fill="#2E2E38">Govt schemes</text>
+
+    <!-- Kiosk finder -->
+    <rect x="20" y="624" width="280" height="40" rx="6" fill="#FFFAD3"/>
+    <rect x="20" y="624" width="280" height="40" rx="6" fill="none" stroke="#f6e41b" stroke-width="1"/>
+    <circle cx="40" cy="644" r="4" fill="#2E2E38"/>
+    <text x="56" y="649" class="s22-ey-tag" fill="#2E2E38" font-weight="600">Find a kiosk near me</text>
+    <text x="280" y="649" text-anchor="end" class="s22-ey-tag" fill="#2E2E38">→</text>
+  </g>
+
+  <g>
+    <text x="60" y="80" class="s22-ann-eb text-accent">Contextual recommendation</text>
+    <line x1="60" y1="98" x2="280" y2="98" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="132" class="s22-ann-d text-mute">Direct mapping between crop</text>
+    <text x="60" y="152" class="s22-ann-d text-mute">data and educational content —</text>
+    <text x="60" y="172" class="s22-ann-d text-mute">not a recommendation algorithm.</text>
+
+    <text x="60" y="260" class="s22-ann-eb text-accent">Progress tracking</text>
+    <line x1="60" y1="278" x2="220" y2="278" class="stroke-accent" stroke-width="2"/>
+    <text x="60" y="312" class="s22-ann-d text-mute">Visible investment creates</text>
+    <text x="60" y="332" class="s22-ann-d text-mute">return-rate momentum.</text>
+
+    <text x="800" y="260" class="s22-ann-eb text-accent">Topic-based browse</text>
+    <line x1="800" y1="278" x2="980" y2="278" class="stroke-accent" stroke-width="2"/>
+    <text x="800" y="312" class="s22-ann-d text-mute">Organised by practical need,</text>
+    <text x="800" y="332" class="s22-ann-d text-mute">not academic taxonomy.</text>
+    <text x="800" y="352" class="s22-ann-d text-mute">Matches how farmers think.</text>
+
+    <text x="800" y="440" class="s22-ann-eb text-accent">Kiosk finder</text>
+    <line x1="800" y1="458" x2="940" y2="458" class="stroke-accent" stroke-width="2"/>
+    <text x="800" y="492" class="s22-ann-d text-mute">Last-mile access for farmers</text>
+    <text x="800" y="512" class="s22-ann-d text-mute">without smartphones — the</text>
+    <text x="800" y="532" class="s22-ann-d text-mute">design decision that mattered</text>
+    <text x="800" y="552" class="s22-ann-d text-mute">most.</text>
+  </g>
+</svg></div>
+        <figcaption>Learning hub — contextual recommendations based on crop stage, progress tracking, topic browsing, and kiosk finder for offline access. Content in Swahili. Every feature maps to a research finding about farmer access barriers.</figcaption>
+      </figure>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">20 — Impact</span>
+      <h2 class="section-title">Strategy artifacts that <span class="accent-text">moved the project forward.</span></h2>
+    </div>
+
+    <div class="impact-table">
+      <div class="impact-row">
+        <span class="metric-label">Stakeholder alignment</span>
+        <span class="metric-value">Unified 3 stakeholder groups (World Bank, EY, local partners) around a shared platform vision in 8 weeks.</span>
+      </div>
+      <div class="impact-row">
+        <span class="metric-label">Research scope</span>
+        <span class="metric-value">Mapped 6 layers of socio-ecological influence across Kenya's agricultural sector.</span>
+      </div>
+      <div class="impact-row">
+        <span class="metric-label">Problem definition</span>
+        <span class="metric-value">Identified 4 core problem areas and 5 macro challenges, directly informing feature prioritisation.</span>
+      </div>
+      <div class="impact-row">
+        <span class="metric-label">Strategy artifacts delivered</span>
+        <span class="metric-value">Platform concept, system architecture, MVP roadmap, and CX framework — ready for development handoff.</span>
+      </div>
+      <div class="impact-row">
+        <span class="metric-label">Target reach</span>
+        <span class="metric-value">Platform designed to serve 1.3M vulnerable households through community-driven interventions.</span>
+      </div>
+      <div class="impact-row">
+        <span class="metric-label">Triple bottom line</span>
+        <span class="metric-value">Every feature evaluated against People, Profit, and Planet criteria — no feature shipped without satisfying all three.</span>
+      </div>
+    </div>
+
+    <div class="prose wrap-narrow" style="padding:0; margin-top: 56px;">
+      <p>Beyond the deliverables: this project demonstrated that design strategy and consulting methodology can tackle problems far larger than interface design. <strong>The framework I built for Peepal — socio-ecological mapping, value-driven prioritisation, triple bottom line evaluation — became a reusable approach I've carried into every strategic project since.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">21 — Reflection</span>
+      <h2 class="section-title">What I learned. What I'd do differently.</h2>
+    </div>
+    <div class="reflect-grid">
+      <div class="reflect-col">
+        <h3>What I <span class="accent-text">learned</span></h3>
+        <p><em>Design for the last mile, not the first screen.</em> The most impactful decisions in this project weren't about wireframes — they were about delivery channels. Adding kiosks alongside the app wasn't a UX decision; it was an access decision that determined whether the platform would reach farmers with no smartphones.</p>
+        <p><em>Strategy without systems thinking is just opinions.</em> The socio-ecological framework wasn't decorative — it revealed constraints (archaic land policies, shifting cultivation, gendered labor distribution) that would have blindsided us if we'd jumped straight to feature definition.</p>
+        <p><em>Consulting-grade alignment is a design skill.</em> Unifying World Bank priorities, EY's sustainability practice goals, and local partner capabilities required the same kind of synthesis that design demands — holding competing constraints and finding the solution that respects all of them.</p>
+      </div>
+      <div class="reflect-col">
+        <h3>What I'd do <span class="accent-text">differently</span></h3>
+        <p><em>More direct farmer engagement.</em> The secondary research was thorough, but I would have pushed harder for primary ethnographic fieldwork — even remote interviews with farmers through local partners. The socio-ecological mapping would have been sharper with first-person data.</p>
+        <p><em>Prototype the kiosk experience.</em> The app design got the most attention, but the kiosk channel was arguably more important for reaching the most underserved farmers. A dedicated kiosk prototype would have strengthened the concept and given local partners something concrete to validate against.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="next-case">
+  <div class="wrap">
+    <a href="aalvee_homepage_v14.html#work" class="next-card">
+      <span class="label">Back to Work</span>
+      <span class="title">Explore other case studies and UX strategies →</span>
+    </a>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-label">Let's Connect</span>
+      <h2 class="section-title">Have a project in mind?</h2>
+    </div>
+    <div class="contact-body">
+      <div class="contact-text">
+        <p>I'm open to senior product design roles, advisory work, and selective collaborations. Whether you have a defined brief or a fuzzy problem space, let's talk it through.</p>
+        <a class="contact-email" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">damleaalvee@gmail.com</a>
+      </div>
+      <div class="contact-mark">
+        Let's<br/><span class="accent-text">create.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand"><span class="nav-brand"><span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle"></span>Aalvee Damle</span></div>
+        <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <a href="aalvee_homepage_v14.html#work">Work</a>
+        <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
+        <a href="aalvee_about_v3.html">About</a>
+        <a href="aalvee_homepage_v14.html#contact">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:damleaalvee@gmail.com">Email</a>
+        <a href="tel:+15408788790">+1 540 878 8790</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Aalvee Damle. All rights reserved.</span>
+      <span>Washington DC · Fredericksburg, VA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Theme toggle */
+(function () {
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  if (!btn) return;
+  try {
+    var saved = window.localStorage && localStorage.getItem('aalvee-theme');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { window.localStorage && localStorage.setItem('aalvee-theme', next); } catch (e) {}
+  });
+})();
+
+/* Cursor trail */
+(function () {
+  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+  if (coarse) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var TOTAL = 15, dots = [], mouse = { x: window.innerWidth/2, y: window.innerHeight/2 }, halfDot = 12;
+  for (var i = 0; i < TOTAL; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-trail';
+    document.body.appendChild(d);
+    dots.push({ el: d, x: mouse.x, y: mouse.y });
+  }
+  document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    hero.addEventListener('mouseenter', function () { document.body.classList.add('in-hero'); });
+    hero.addEventListener('mouseleave', function () { document.body.classList.remove('in-hero'); });
+  }
+  function loop() {
+    var x = mouse.x, y = mouse.y;
+    for (var i = 0; i < dots.length; i++) {
+      var dot = dots[i];
+      dot.x += (x - dot.x) * 0.3;
+      dot.y += (y - dot.y) * 0.3;
+      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
+      x = dot.x; y = dot.y;
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+
+</body>
+</html>

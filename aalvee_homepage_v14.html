@@ -1,0 +1,1402 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Aalvee Damle — Senior Product Designer</title>
+<meta name="description" content="Senior Product Designer shaping evidence-driven experiences across AI, banking, risk, and innovation." />
+<style>
+/* ============================================================
+   AALVEE DAMLE · PORTFOLIO HOMEPAGE  v2
+   Layout: srishtibhalla.com structure
+   Design system: Apple (refined editorial minimal)
+   Default: Dark mode · Accent: #E9F056 (lime)
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* DARK is default — Apple-accurate surface hierarchy */
+  --bg: #000000;              /* page: true black, like apple.com dark */
+  --bg-alt: #0a0a0a;          /* alt section, subtle lift from page */
+  --bg-card: #161617;         /* elevated surface (Apple cards) */
+  --bg-card-hover: #1d1d1f;   /* card hover, Apple line-soft equivalent */
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --ink-mute: #86868b;
+  --line: #2a2a2c;
+  --line-soft: #1d1d1f;
+  --accent: #E9F056;          /* lime — primary brand */
+  --accent-ink: #0a0a0a;      /* text on accent */
+  --accent-hover: #f1f578;
+  --chip: rgba(255,255,255,0.06);
+  --chip-hover: rgba(255,255,255,0.12);
+  --nav-bg: rgba(0,0,0,0.72);
+  --nav-border: rgba(255,255,255,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.45);
+
+  /* Type — Apple system stack */
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Motion */
+  --ease: cubic-bezier(0.28,0.16,0.22,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+
+[data-theme="light"] {
+  /* LIGHT — Apple-accurate surface hierarchy
+     Page #fff → alt section #f5f5f7 → cards #f5f5f7 on white / #fff on alt */
+  --bg: #ffffff;
+  --bg-alt: #f5f5f7;          /* Apple's signature section grey */
+  --bg-card: #f5f5f7;         /* card on white (Apple highlight tile) */
+  --bg-card-hover: #ececef;
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --ink-mute: #6e6e73;
+  --line: #d2d2d7;
+  --line-soft: #e8e8ed;
+  --accent: #ff5c34;          /* coral — light mode primary brand */
+  --accent-ink: #ffffff;
+  --accent-hover: #ff7050;
+  --chip: rgba(0,0,0,0.04);
+  --chip-hover: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255,255,255,0.8);
+  --nav-border: rgba(0,0,0,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.05), 0 24px 48px rgba(0,0,0,0.08);
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  background: var(--bg);
+  transition: background-color .5s var(--ease), color .5s var(--ease);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--ink); text-decoration: none; transition: color .25s var(--ease), opacity .25s var(--ease); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ---------- Layout ---------- */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.wrap-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 720px) { .wrap, .wrap-narrow { padding: 0 22px; } }
+
+/* ============================================================
+   NAV — single bar, Apple-style translucent
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 64px;
+  background: var(--nav-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background-color .3s var(--ease), border-color .3s var(--ease);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  height: 100%;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-brand .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--ink); opacity: .82;
+  font-size: 15px; font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.nav-links a:hover { opacity: 1; }
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--accent); color: var(--accent-ink) !important;
+  padding: 9px 18px; border-radius: 980px;
+  font-size: 14px; font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
+}
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+/* ---- Theme toggle: crisp sun (with rays) ↔ crescent moon ---- */
+.theme-toggle {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  color: var(--ink);
+  transition: background-color .25s var(--ease), transform .4s var(--ease);
+  position: relative;
+}
+.theme-toggle:hover { background: var(--chip); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-svg {
+  width: 20px; height: 20px;
+  overflow: visible;
+  position: absolute;
+  transition: opacity .4s var(--ease), transform .5s var(--ease-out);
+}
+.theme-svg.icon-sun  { stroke: var(--ink); }
+.theme-svg.icon-moon { fill: var(--ink); stroke: none; }
+
+/* Light mode → show sun (current state = day) */
+[data-theme="light"] .theme-svg.icon-sun  { opacity: 1; transform: rotate(0deg)   scale(1);   }
+[data-theme="light"] .theme-svg.icon-moon { opacity: 0; transform: rotate(-40deg) scale(0.5); }
+
+/* Dark mode → show crescent moon (current state = night) */
+[data-theme="dark"]  .theme-svg.icon-sun  { opacity: 0; transform: rotate(40deg)  scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg)   scale(1);   }
+
+/* ============================================================
+   HERO — Srishti structure
+   "Available · greeting · big headline · paragraph · CTAs · stats"
+   ============================================================ */
+.hero {
+  position: relative;
+  padding: clamp(72px, 12vw, 140px) 0 clamp(140px, 16vw, 220px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* "Available for new opportunities" pill */
+.availability {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 980px;
+  font-size: 13px; color: var(--ink-2);
+  letter-spacing: -0.005em;
+  margin-bottom: 32px;
+}
+.availability .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+}
+.availability .pulse::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-ring 2s ease-out infinite;
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: .7; }
+  80%  { transform: scale(2.6); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+.greeting {
+  font-family: var(--font-display);
+  font-size: 21px; color: var(--ink-mute);
+  letter-spacing: -0.015em;
+  margin-bottom: 18px;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6.4vw, 88px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  max-width: 1040px;
+  margin-bottom: 32px;
+}
+.hero-title .accent-text {
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 600;
+}
+.hero-lede {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.5vw, 19px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  letter-spacing: -0.012em;
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+.hero-actions {
+  display: inline-flex; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px;
+  border-radius: 980px;
+  font-size: 15px; font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: background-color .25s var(--ease), color .25s var(--ease), transform .2s var(--ease), border-color .25s var(--ease);
+}
+.btn-primary {
+  background: var(--accent); color: var(--accent-ink);
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); color: var(--accent-ink); }
+.btn-secondary {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: transparent;
+}
+.btn-secondary:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-1px); }
+.btn-primary::after, .btn-secondary::after {
+  content: "→"; font-size: 16px; line-height: 1;
+  transition: transform .25s var(--ease);
+}
+.btn-primary:hover::after, .btn-secondary:hover::after { transform: translateX(3px); }
+
+/* Stats row — extra top margin gives breathing room from CTAs above */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 720px;
+  margin-top: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--line-soft);
+  padding-top: 40px;
+}
+@media (max-width: 600px) {
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .hero-stats .stat:last-child { grid-column: 1 / -1; }
+}
+.stat .num {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: block;
+}
+.stat .num .accent-text { color: var(--accent); }
+.stat .lbl {
+  font-size: 14px;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+
+/* Make hero content sit above any decorative layers */
+.hero .wrap { position: relative; z-index: 3; }
+.hero-mouse-cue { z-index: 3; }
+
+/* ============================================================
+   SPHERE MOUSE CUE — visible scroll indicator at bottom of hero
+   3D sphere depth + scrolling dot inside (lime accent)
+   ============================================================ */
+.hero-mouse-cue {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: cue-bob 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes cue-bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, -6px); }
+}
+
+.sphere-mouse {
+  position: relative;
+  width: 32px;
+  height: 52px;
+  border-radius: 32px;
+  border: 1.5px solid var(--ink-2);
+  background:
+    /* base shading top→bottom for spherical depth */
+    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 55% at 35% 22%, rgba(255,255,255,0.20) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), transparent 50%);
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color .35s var(--ease), box-shadow .35s var(--ease);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -8px 12px rgba(0,0,0,0.35),
+    0 6px 18px rgba(0,0,0,0.35);
+}
+[data-theme="light"] .sphere-mouse {
+  border-color: var(--ink-2);
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(0,0,0,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 55% at 35% 22%, rgba(255,255,255,0.95) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(0,0,0,0.02), transparent 50%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -6px 10px rgba(0,0,0,0.06),
+    0 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Glossy specular highlight (the wet-sphere glint) */
+.sphere-mouse::before {
+  content: "";
+  position: absolute;
+  top: 6px; left: 8px;
+  width: 9px; height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.55) 0%, transparent 70%);
+  filter: blur(0.5px);
+  z-index: 2;
+  pointer-events: none;
+}
+[data-theme="light"] .sphere-mouse::before {
+  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.95) 0%, transparent 70%);
+}
+
+/* Bottom rim shadow that completes the sphere illusion */
+.sphere-mouse::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 70%; height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,0,0,0.45), transparent 70%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Scrolling dot (lime accent) */
+.sphere-dot {
+  position: absolute;
+  left: 50%;
+  top: 9px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(233,240,86,0.65);
+  transform: translateX(-50%);
+  animation: sphere-dot-scroll 2.2s var(--ease-out) infinite;
+  z-index: 1;
+}
+@keyframes sphere-dot-scroll {
+  0%   { top: 8px;  opacity: 0; transform: translate(-50%, 0) scale(0.6); }
+  18%  { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  78%  { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { top: 34px; opacity: 0; transform: translate(-50%, 0) scale(0.6); }
+}
+
+.cue-label {
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Hide the static cue on small screens — too cramped */
+@media (max-width: 600px) {
+  .hero-mouse-cue { display: none; }
+}
+
+/* ============================================================
+   SECTION HEADERS (Srishti pattern)
+   small label · big title
+   ============================================================ */
+.section { padding: clamp(80px, 10vw, 140px) 0; }
+.section-head { margin-bottom: 56px; }
+.section-label {
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+  display: block;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  max-width: 920px;
+}
+
+/* ============================================================
+   FEATURED CASE STUDIES
+   ============================================================ */
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 900px) {
+  .cs-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.cs-card {
+  position: relative;
+  border-radius: 24px;
+  background: var(--bg-card);
+  padding: 40px 40px 0;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  min-height: 520px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color .35s var(--ease), transform .35s var(--ease-out);
+  border: 1px solid var(--line-soft);
+}
+.cs-card:hover {
+  background: var(--bg-card-hover);
+  color: inherit;
+  transform: translateY(-4px);
+}
+.cs-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+}
+.cs-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.4vw, 30px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.cs-blurb {
+  font-size: 15px; line-height: 1.5;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  margin-bottom: 22px;
+  max-width: 460px;
+}
+.cs-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px;
+}
+.cs-tag {
+  display: inline-block;
+  padding: 5px 12px;
+  background: var(--chip);
+  border-radius: 980px;
+  font-size: 12px;
+  color: var(--ink-2);
+  letter-spacing: -0.005em;
+  font-weight: 500;
+}
+
+/* Visual region — abstract preview, no "weird color cards" */
+.cs-visual {
+  margin: 0 -40px;
+  margin-top: auto;
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.cs-visual::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, var(--accent) 0%, transparent 60%);
+  opacity: 0.06;
+  transition: opacity .4s var(--ease);
+}
+.cs-card:hover .cs-visual::before { opacity: 0.14; }
+
+/* Each preview is a stylized device/UI mock */
+.preview {
+  position: relative;
+  width: 78%;
+  max-width: 380px;
+  aspect-ratio: 16 / 10;
+  background: var(--bg);
+  border-radius: 12px 12px 0 0;
+  border: 1px solid var(--line);
+  border-bottom: none;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.25);
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform .5s var(--ease-out);
+}
+.cs-card:hover .preview { transform: translateY(-8px); }
+
+.preview-bar {
+  height: 24px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line-soft);
+  display: flex; align-items: center; gap: 5px;
+  padding: 0 10px;
+}
+.preview-bar .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--line);
+}
+.preview-body {
+  padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+/* Geniaus preview — AI conversation panel */
+.pv-geniaus .preview-body {
+  background: var(--bg);
+}
+.pv-geniaus .ai-line {
+  display: flex; gap: 8px; align-items: center;
+}
+.pv-geniaus .ai-bubble {
+  height: 8px; border-radius: 4px;
+  background: var(--line);
+}
+.pv-geniaus .ai-bubble.short { width: 40%; }
+.pv-geniaus .ai-bubble.med   { width: 65%; }
+.pv-geniaus .ai-bubble.long  { width: 80%; }
+.pv-geniaus .ai-avatar {
+  width: 14px; height: 14px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.pv-geniaus .ai-avatar.me { background: var(--accent); }
+.pv-geniaus .ai-avatar.bot { background: var(--ink-2); }
+
+/* Genie preview — wealth dashboard */
+.pv-genie .preview-body {
+  flex-direction: row; gap: 10px;
+  height: 100%;
+}
+.pv-genie .panel {
+  flex: 1;
+  background: var(--bg-alt);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.pv-genie .panel .hdr {
+  height: 6px; width: 50%; background: var(--line); border-radius: 3px;
+}
+.pv-genie .chart {
+  flex: 1; display: flex; align-items: flex-end; gap: 3px;
+}
+.pv-genie .chart .bar {
+  flex: 1; background: var(--line); border-radius: 2px 2px 0 0;
+}
+.pv-genie .chart .bar:nth-child(1) { height: 30%; }
+.pv-genie .chart .bar:nth-child(2) { height: 55%; }
+.pv-genie .chart .bar:nth-child(3) { height: 40%; }
+.pv-genie .chart .bar:nth-child(4) { height: 75%; background: var(--accent); }
+.pv-genie .chart .bar:nth-child(5) { height: 60%; }
+
+/* Peepal preview — mobile farming app */
+.pv-peepal .preview-body {
+  align-items: center; padding: 18px 0 0;
+}
+.pv-peepal .phone {
+  width: 36%;
+  aspect-ratio: 9/16;
+  background: var(--bg-alt);
+  border-radius: 14px 14px 0 0;
+  border: 1px solid var(--line);
+  border-bottom: none;
+  padding: 10px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.pv-peepal .phone .row {
+  height: 5px; background: var(--line); border-radius: 3px;
+}
+.pv-peepal .phone .row.full   { width: 100%; }
+.pv-peepal .phone .row.three { width: 70%; }
+.pv-peepal .phone .row.half  { width: 50%; }
+.pv-peepal .phone .leaf-icon {
+  width: 24px; height: 24px;
+  background: var(--accent);
+  border-radius: 50% 4px 50% 50%;
+  align-self: center;
+  margin: 4px 0;
+}
+
+/* ============================================================
+   TESTIMONIALS — vertical stack like Srishti
+   ============================================================ */
+.tm-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 900px) {
+  .tm-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.tm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex; flex-direction: column;
+  transition: border-color .25s var(--ease), background-color .25s var(--ease);
+}
+.tm-card:hover { border-color: var(--line); }
+
+.tm-quote {
+  font-family: var(--font-display);
+  font-size: 17px; line-height: 1.55;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+  margin-bottom: 28px;
+  flex: 1;
+}
+.tm-quote::before {
+  content: "“";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 0.8;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.tm-author {
+  display: flex; align-items: center; gap: 14px;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 20px;
+}
+.tm-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink); font-weight: 600; font-size: 14px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.tm-name {
+  font-size: 15px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  display: block;
+}
+.tm-role {
+  font-size: 13px; color: var(--ink-mute);
+  display: block;
+  margin-top: 2px;
+}
+
+.tm-more {
+  margin-top: 32px;
+  text-align: center;
+}
+.tm-more a {
+  color: var(--ink-mute);
+  font-size: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  letter-spacing: -0.005em;
+}
+.tm-more a:hover { color: var(--accent); }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact {
+  background: var(--bg);
+  border-top: 1px solid var(--line-soft);
+}
+.contact-head .section-title { max-width: 920px; }
+.contact-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+  align-items: end;
+  margin-top: 56px;
+}
+@media (min-width: 900px) {
+  .contact-body { grid-template-columns: 1.4fr 1fr; gap: 80px; }
+}
+.contact-text p {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.6vw, 21px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  letter-spacing: -0.012em;
+  margin-bottom: 28px;
+}
+.contact-email {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+  transition: color .25s var(--ease), border-color .25s var(--ease);
+}
+.contact-email:hover { color: var(--accent); border-color: var(--accent); }
+
+.contact-mark {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 12vw, 156px);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  text-align: right;
+}
+.contact-mark .accent-text { color: var(--accent); font-style: italic; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--bg);
+  color: var(--ink-mute);
+  padding: 48px 0 32px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 14px;
+}
+.foot-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+@media (min-width: 720px) {
+  .foot-inner { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+.foot-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.022em;
+  margin-bottom: 8px;
+}
+.foot-tag { color: var(--ink-mute); max-width: 320px; line-height: 1.5; }
+.foot-col h4 {
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.foot-col a {
+  display: block;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  transition: color .2s var(--ease);
+}
+.foot-col a:hover { color: var(--accent); }
+.foot-bottom {
+  border-top: 1px solid var(--line-soft);
+  margin-top: 40px; padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+/* ============================================================
+   ANIMATIONS / Reveals
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .availability .pulse::after { display: none; }
+  .cursor-trail { display: none; }
+  .hero-dots { display: none; }
+}
+
+/* ============================================================
+   CURSOR TRAIL — 15 lerped dots in brand color, behind the cursor
+   Behavior ported from user's reference HTML
+   ============================================================ */
+.cursor-trail {
+  position: fixed;
+  top: 0; left: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);   /* lime in dark, coral in light */
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 90;                 /* below nav (100), above content */
+  will-change: transform, opacity;
+  transition: opacity .25s var(--ease);
+}
+[data-theme="light"] .cursor-trail {
+  opacity: 0.55;               /* coral is more saturated, so dim it a touch */
+}
+/* Hide the trail when the cursor is inside the hero — keep cursor behavior clean there */
+body.in-hero .cursor-trail { opacity: 0; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  .cursor-trail { display: none; }
+}
+
+/* ============================================================
+   HERO DOT FIELD — 160 SVG dots with glow + parallax
+   Sage (#AEB8A0) in dark · Lime (#E9F056) in light
+   Behavior ported from user's reference HTML (GSAP-driven)
+   ============================================================ */
+.hero { position: relative; }
+.hero-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-dots svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;     /* let glow extend past viewBox edges, no clipping */
+}
+.hero-dots circle {
+  fill: #AEB8A0;          /* sage */
+  opacity: 0.8;
+  transform-origin: center;
+  will-change: transform;
+  filter: url(#hero-glow);
+}
+[data-theme="light"] .hero-dots circle {
+  fill: #E9F056;          /* lime — pops against the white hero in light mode */
+  opacity: 0.8;
+}
+/* Hero content + cue must sit above the dot field */
+.hero .wrap        { position: relative; z-index: 3; }
+.hero-mouse-cue    { z-index: 3; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+  .nav-inner { padding: 0 22px; gap: 12px; }
+  .nav-links { gap: 18px; }
+  .nav-links li:nth-child(-n+3) { display: none; }
+  .cs-card { padding: 32px 28px 0; }
+  .cs-visual { margin: 0 -28px; height: 200px; }
+}
+</style>
+<!-- GSAP for hero dot field animation -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+</head>
+
+<body>
+
+<!-- ============================================================
+     SINGLE NAVIGATION
+     ============================================================ -->
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="aalvee_ux_strategies_v1.html">UX Strategies</a></li>
+      <li><a href="aalvee_about_v3.html">About</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+          <!-- Sun (shown in light mode) -->
+          <svg class="theme-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2"     x2="12" y2="4"/>
+            <line x1="12" y1="20"    x2="12" y2="22"/>
+            <line x1="2"  y1="12"    x2="4"  y2="12"/>
+            <line x1="20" y1="12"    x2="22" y2="12"/>
+            <line x1="4.93"  y1="4.93"  x2="6.34"  y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="4.93"  y1="19.07" x2="6.34"  y2="17.66"/>
+            <line x1="17.66" y1="6.34"  x2="19.07" y2="4.93"/>
+          </svg>
+          <!-- Crescent moon (shown in dark mode) -->
+          <svg class="theme-svg icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+      <li><a class="nav-cta" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Let's Talk</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <!-- Animated dot field background (GSAP-driven) -->
+  <div class="hero-dots" aria-hidden="true">
+    <svg id="heroDotsCanvas" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <filter id="hero-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <div class="availability">
+      <span class="pulse"></span>
+      <span>Available for new opportunities</span>
+    </div>
+
+    <p class="greeting">Hi, I am Aalvee.</p>
+
+    <h1 class="hero-title">
+      I design <span class="accent-text">evidence-driven</span> systems that turn ambiguous problem spaces into scalable products.
+    </h1>
+
+    <p class="hero-lede">
+      Senior Product Designer with 4+ years across AI, banking, risk, and innovation. At EY, I led research and design for GenAI-integrated risk tools, wealth platforms for a leading U.S. bank, and future-state strategy for global enterprises — partnering closely with PMs, engineers, and risk teams.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">View my work</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="num">4<span class="accent-text">+</span></span>
+        <span class="lbl">Years experience</span>
+      </div>
+      <div class="stat">
+        <span class="num">15<span class="accent-text">+</span></span>
+        <span class="lbl">Enterprise products shipped</span>
+      </div>
+      <div class="stat">
+        <span class="num">4</span>
+        <span class="lbl">Industries · AI, Risk, Banking, AgriTech</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sphere-style scroll/mouse cue at bottom of hero -->
+  <div class="hero-mouse-cue" aria-hidden="true">
+    <div class="sphere-mouse">
+      <div class="sphere-dot"></div>
+    </div>
+    <span class="cue-label">Scroll</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURED CASE STUDIES
+     ============================================================ -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-label">Selected Work</span>
+      <h2 class="section-title">Featured Case Studies</h2>
+    </div>
+
+    <div class="cs-grid">
+
+      <!-- Geniaus — links to the published case study page -->
+      <a href="aalvee_case_geniaus_v2.html" class="cs-card reveal">
+        <div class="cs-eyebrow">Case Study 01</div>
+        <h3 class="cs-title">An AI Co-pilot Auditors Actually Trust</h3>
+        <p class="cs-blurb">Reframing a black-box GenAI tool inside a Big Four risk platform — designing for transparency, recoverability, and the auditor's mental model of evidence.</p>
+        <div class="cs-tags">
+          <span class="cs-tag">GenAI · Risk</span>
+          <span class="cs-tag">Trust &amp; Transparency</span>
+        </div>
+        <div class="cs-visual">
+          <div class="preview pv-geniaus">
+            <div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="preview-body">
+              <div class="ai-line"><div class="ai-avatar me"></div><div class="ai-bubble med"></div></div>
+              <div class="ai-line"><div class="ai-avatar bot"></div><div class="ai-bubble long"></div></div>
+              <div class="ai-line"><div class="ai-avatar bot"></div><div class="ai-bubble short"></div></div>
+              <div class="ai-line"><div class="ai-avatar me"></div><div class="ai-bubble long"></div></div>
+              <div class="ai-line"><div class="ai-avatar bot"></div><div class="ai-bubble med"></div></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Genie -->
+      <a href="aalvee_case_genie_v1.html" class="cs-card reveal">
+        <div class="cs-eyebrow">Case Study 02</div>
+        <h3 class="cs-title">Scaling a Wealth Platform Without Breaking Trust</h3>
+        <p class="cs-blurb">Wireframes, prototypes, and high-fidelity flows for a leading U.S. bank — aligned with strict brand and regulatory guidelines while modernizing the wealth experience.</p>
+        <div class="cs-tags">
+          <span class="cs-tag">Banking · Wealth</span>
+          <span class="cs-tag">Regulated UX</span>
+        </div>
+        <div class="cs-visual">
+          <div class="preview pv-genie">
+            <div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="preview-body">
+              <div class="panel">
+                <div class="hdr"></div>
+                <div class="chart">
+                  <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="hdr"></div>
+                <div class="hdr" style="width:80%"></div>
+                <div class="hdr" style="width:60%"></div>
+                <div class="hdr" style="width:40%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Peepal -->
+      <a href="aalvee_case_peepal_v2.html" class="cs-card reveal">
+        <div class="cs-eyebrow">Case Study 03</div>
+        <h3 class="cs-title">Empowering Farmers Through Sustainable Practice</h3>
+        <p class="cs-blurb">A research-led AgriTech tool for the World Bank that became EY's first engagement considered for patent application — translating field research into a mobile-first system.</p>
+        <div class="cs-tags">
+          <span class="cs-tag">World Bank · AgriTech</span>
+          <span class="cs-tag">Patent-pending</span>
+        </div>
+        <div class="cs-visual">
+          <div class="preview pv-peepal">
+            <div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="preview-body">
+              <div class="phone">
+                <div class="leaf-icon"></div>
+                <div class="row full"></div>
+                <div class="row three"></div>
+                <div class="row half"></div>
+                <div class="row three"></div>
+                <div class="row full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section class="section" id="testimonials">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-label">Hear from the people I've worked with</span>
+      <h2 class="section-title">Kind words from colleagues.</h2>
+    </div>
+
+    <div class="tm-grid">
+      <article class="tm-card reveal">
+        <p class="tm-quote">She brings fresh, thoughtful ideas to the table and always backs them up with solid research. She doesn't just design; she solves problems with design. Her attention to detail is exceptional.</p>
+        <div class="tm-author">
+          <div class="tm-avatar">RT</div>
+          <div>
+            <span class="tm-name">Radha Tupil</span>
+            <span class="tm-role">Director of Design, EY</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tm-card reveal">
+        <p class="tm-quote">Highly proactive and dependable. Her ability to quickly grasp new concepts and adapt to dynamic client requirements through continuous upskilling reflects her strong commitment to excellence.</p>
+        <div class="tm-author">
+          <div class="tm-avatar">KA</div>
+          <div>
+            <span class="tm-name">Karthick Anoor</span>
+            <span class="tm-role">Manager UX Architect, EY</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tm-card reveal">
+        <p class="tm-quote">A very in-depth thinker. Her inputs as a designer made an agri-tech application the first tool to be considered for applying for a patent. Her Figma skills and visual aesthetics are next level.</p>
+        <div class="tm-author">
+          <div class="tm-avatar">SR</div>
+          <div>
+            <span class="tm-name">Sukanto Roy</span>
+            <span class="tm-role">Sr. Manager, Research &amp; Insights, EY</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tm-card reveal">
+        <p class="tm-quote">Her mindset of solving a problem for the user's benefit rather than just designing a solution is her biggest strength. A valuable asset to any team.</p>
+        <div class="tm-author">
+          <div class="tm-avatar">SG</div>
+          <div>
+            <span class="tm-name">Saurav Gupta</span>
+            <span class="tm-role">Agentic Experience Design Manager, EY</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tm-card reveal">
+        <p class="tm-quote">She doesn't just contribute; she drives. Whether navigating complex requirements or orchestrating team efforts, Aalvee consistently demonstrates strong project management and a commitment to delivering excellence.</p>
+        <div class="tm-author">
+          <div class="tm-avatar">RD</div>
+          <div>
+            <span class="tm-name">Ritesh Danawar</span>
+            <span class="tm-role">Experience Design &amp; Storytelling Manager, EY</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tm-card reveal">
+        <p class="tm-quote">Perhaps the most humane, empathetic and compassionate listener I have ever met. She is an in-depth thinker who expresses herself clearly through both her work and conversations.</p>
+        <div class="tm-author">
+          <div class="tm-avatar">SR</div>
+          <div>
+            <span class="tm-name">Sukanto Roy</span>
+            <span class="tm-role">Sr. Manager, Research &amp; Insights, EY</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="tm-more">
+      <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">More on LinkedIn →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="section-head contact-head reveal">
+      <span class="section-label">Let's Connect</span>
+      <h2 class="section-title">Have a project in mind?</h2>
+    </div>
+
+    <div class="contact-body">
+      <div class="contact-text reveal">
+        <p>
+          I'm always open to discussing senior product design roles, advisory work, or interesting collaborations. Whether you have a defined brief or a fuzzy problem space, let's talk it through.
+        </p>
+        <a class="contact-email" href="mailto:damleaalvee@gmail.com">damleaalvee@gmail.com</a>
+      </div>
+
+      <div class="contact-mark reveal">
+        Let's<br/><span class="accent-text">create.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand"><span class="nav-brand"><span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle"></span>Aalvee Damle</span></div>
+        <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
+      </div>
+
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <a href="#work">Work</a>
+        <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
+        <a href="aalvee_about_v3.html">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:damleaalvee@gmail.com">Email</a>
+        <a href="tel:+15408788790">+1 540 878 8790</a>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 Aalvee Damle. All rights reserved.</span>
+      <span>Washington DC · Fredericksburg, VA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Theme toggle — DARK is default, persists in localStorage
+   (Framer-safe: localStorage works in Embed and on published sites)
+   ============================================================ */
+/* ============================================================
+   Theme toggle — DARK is default, persists in localStorage
+   (Framer-safe: localStorage works in Embed and on published sites)
+   ============================================================ */
+(function () {
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  if (!btn) return;
+
+  // Restore preference if available
+  try {
+    var saved = window.localStorage && localStorage.getItem('aalvee-theme');
+    if (saved === 'light' || saved === 'dark') {
+      root.setAttribute('data-theme', saved);
+    }
+  } catch (e) { /* localStorage blocked — silently ignore */ }
+
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { window.localStorage && localStorage.setItem('aalvee-theme', next); } catch (e) {}
+  });
+})();
+
+/* ============================================================
+   Reveal-on-scroll
+   ============================================================ */
+(function () {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+})();
+
+/* ============================================================
+   Cursor trail — 15 dots lerping behind the cursor (0.3 ratio)
+   Behavior ported from user's reference HTML
+   ============================================================ */
+(function () {
+  // Skip on touch / coarse-pointer devices
+  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+  if (coarse) return;
+  // Respect reduced-motion preference
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var TOTAL = 15;
+  var dots = [];
+  var mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  var halfDot = 12; // 24px / 2, to center on cursor
+
+  for (var i = 0; i < TOTAL; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-trail';
+    document.body.appendChild(d);
+    dots.push({ el: d, x: mouse.x, y: mouse.y });
+  }
+
+  document.addEventListener('mousemove', function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
+
+  // Fade out the trail while cursor is inside the hero (keeps cursor "normal" there)
+  var hero = document.querySelector('.hero');
+  if (hero) {
+    hero.addEventListener('mouseenter', function () { document.body.classList.add('in-hero'); });
+    hero.addEventListener('mouseleave', function () { document.body.classList.remove('in-hero'); });
+  }
+
+  function loop() {
+    var x = mouse.x, y = mouse.y;
+    for (var i = 0; i < dots.length; i++) {
+      var dot = dots[i];
+      dot.x += (x - dot.x) * 0.3;
+      dot.y += (y - dot.y) * 0.3;
+      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
+      x = dot.x;
+      y = dot.y;
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ============================================================
+   Hero dot field — 160 GSAP-animated SVG dots with parallax
+   Behavior ported from user's reference HTML
+   ============================================================ */
+(function () {
+  if (typeof gsap === 'undefined') return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var svg = document.getElementById('heroDotsCanvas');
+  if (!svg) return;
+
+  var DOT_COUNT = 160;
+  var dots = [];
+  var ns = 'http://www.w3.org/2000/svg';
+
+  for (var i = 0; i < DOT_COUNT; i++) {
+    var dot = document.createElementNS(ns, 'circle');
+    var cx = Math.random() * 800;
+    var cy = Math.random() * 600;
+    var depth = Math.random();
+    var r = 0.5 + depth * 3;
+
+    dot.setAttribute('cx', cx);
+    dot.setAttribute('cy', cy);
+    dot.setAttribute('r', r);
+    svg.appendChild(dot);
+
+    dots.push({ el: dot, depth: depth });
+
+    // Fade-in stagger
+    gsap.from(dot, {
+      opacity: 0,
+      duration: 1,
+      delay: i * 0.005,
+      ease: 'power2.out'
+    });
+
+    // Gentle drifting yoyo float
+    gsap.to(dot, {
+      x: '+=' + (Math.random() * 60 - 30),
+      y: '+=' + (Math.random() * 60 - 30),
+      duration: 2 + Math.random() * 3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      delay: Math.random() * 2
+    });
+  }
+
+  // Parallax response to cursor (depth-weighted)
+  window.addEventListener('mousemove', function (e) {
+    var x = (e.clientX / window.innerWidth - 0.5) * 100;
+    var y = (e.clientY / window.innerHeight - 0.5) * 100;
+    dots.forEach(function (item) {
+      gsap.to(item.el, {
+        x: x * item.depth,
+        y: y * item.depth,
+        duration: 0.8,
+        ease: 'power2.out'
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

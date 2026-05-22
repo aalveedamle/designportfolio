@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>UX Strategies — Aalvee Damle</title>
+<meta name="description" content="UX strategy frameworks by Aalvee Damle — domain-agnostic, repeatable, and connected to business outcomes. Coming soon." />
+<style>
+/* ============================================================
+   AALVEE DAMLE · UX STRATEGIES INDEX
+   Coming-soon page. Mirrors the homepage / case study design system.
+   Dark default · #E9F056 lime accent · #ff5c34 coral in light
+   ============================================================ */
+
+:root {
+  --bg: #000000;
+  --bg-alt: #0a0a0a;
+  --bg-card: #161617;
+  --bg-card-hover: #1d1d1f;
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --ink-mute: #86868b;
+  --line: #2a2a2c;
+  --line-soft: #1d1d1f;
+  --accent: #E9F056;
+  --accent-ink: #0a0a0a;
+  --accent-hover: #f1f578;
+  --chip: rgba(255,255,255,0.06);
+  --chip-hover: rgba(255,255,255,0.12);
+  --nav-bg: rgba(0,0,0,0.72);
+  --nav-border: rgba(255,255,255,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.45);
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(0.28,0.16,0.22,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f7;
+  --bg-card: #f5f5f7;
+  --bg-card-hover: #ececef;
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --ink-mute: #6e6e73;
+  --line: #d2d2d7;
+  --line-soft: #e8e8ed;
+  --accent: #ff5c34;
+  --accent-ink: #ffffff;
+  --accent-hover: #ff7050;
+  --chip: rgba(0,0,0,0.04);
+  --chip-hover: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255,255,255,0.8);
+  --nav-border: rgba(0,0,0,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.05), 0 24px 48px rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-text);
+  font-size: 17px; line-height: 1.47; letter-spacing: -0.022em;
+  color: var(--ink); background: var(--bg);
+  transition: background-color .5s var(--ease), color .5s var(--ease);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--ink); text-decoration: none; transition: color .25s var(--ease), opacity .25s var(--ease); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.wrap-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 720px) { .wrap, .wrap-narrow { padding: 0 22px; } }
+
+/* ============================================================
+   NAV — identical to homepage
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100; height: 64px;
+  background: var(--nav-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background-color .3s var(--ease), border-color .3s var(--ease);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; height: 100%; padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600; letter-spacing: -0.022em;
+  color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a {
+  color: var(--ink); opacity: .82;
+  font-size: 15px; font-weight: 400; letter-spacing: -0.01em;
+}
+.nav-links a:hover { opacity: 1; }
+.nav-links a.active { opacity: 1; color: var(--accent); }
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--accent); color: var(--accent-ink) !important;
+  padding: 9px 18px; border-radius: 980px;
+  font-size: 14px; font-weight: 500; letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
+}
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+.theme-toggle {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  color: var(--ink);
+  transition: background-color .25s var(--ease), transform .4s var(--ease);
+  position: relative;
+}
+.theme-toggle:hover { background: var(--chip); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-svg {
+  width: 20px; height: 20px; overflow: visible; position: absolute;
+  transition: opacity .4s var(--ease), transform .5s var(--ease-out);
+}
+.theme-svg.icon-sun  { stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.theme-svg.icon-moon { fill: var(--ink); stroke: none; }
+[data-theme="light"] .theme-svg.icon-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+[data-theme="light"] .theme-svg.icon-moon { opacity: 0; transform: rotate(-40deg) scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-sun  { opacity: 0; transform: rotate(40deg) scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* ============================================================
+   HERO — editorial coming-soon
+   ============================================================ */
+.hero {
+  padding: clamp(96px, 12vw, 168px) 0 clamp(56px, 7vw, 96px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+  overflow: hidden;
+}
+/* Decorative grain layer — subtle texture rather than the usual glow */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; right: -10%;
+  width: 70%; height: 100%;
+  background:
+    repeating-linear-gradient(135deg,
+      transparent 0,
+      transparent 38px,
+      rgba(245,245,247,0.018) 38px,
+      rgba(245,245,247,0.018) 39px);
+  pointer-events: none;
+}
+[data-theme="light"] .hero::before {
+  background: repeating-linear-gradient(135deg,
+      transparent 0,
+      transparent 38px,
+      rgba(29,29,31,0.022) 38px,
+      rgba(29,29,31,0.022) 39px);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -240px; left: -160px;
+  width: 560px; height: 560px;
+  background: radial-gradient(closest-side, var(--accent) 0%, transparent 70%);
+  opacity: 0.05;
+  pointer-events: none;
+}
+[data-theme="light"] .hero::after { opacity: 0.08; }
+.hero .wrap { position: relative; z-index: 1; }
+
+.hero-status {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--chip);
+  border: 1px solid var(--line-soft);
+  padding: 8px 16px;
+  border-radius: 980px;
+  font-size: 13px;
+  color: var(--ink-2);
+  letter-spacing: -0.005em;
+  margin-bottom: 28px;
+}
+.hero-status .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+}
+.hero-status .pulse::after {
+  content: "";
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.35;
+  animation: pulse 2s var(--ease-out) infinite;
+}
+@keyframes pulse {
+  0%   { transform: scale(0.9); opacity: 0.4; }
+  70%  { transform: scale(1.8); opacity: 0; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 112px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  max-width: 1080px;
+  margin-bottom: 32px;
+}
+.hero-title .accent-text {
+  color: var(--accent);
+  font-style: italic;
+}
+.hero-deck {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.7vw, 22px);
+  line-height: 1.55;
+  letter-spacing: -0.014em;
+  color: var(--ink-mute);
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+/* Subscribe form */
+.subscribe {
+  display: flex; flex-wrap: wrap;
+  gap: 12px;
+  max-width: 520px;
+  margin-top: 8px;
+}
+.subscribe-input {
+  flex: 1;
+  min-width: 240px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 980px;
+  padding: 14px 22px;
+  font-family: var(--font-text);
+  font-size: 15px; letter-spacing: -0.01em;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .25s var(--ease), background-color .25s var(--ease);
+}
+.subscribe-input::placeholder { color: var(--ink-mute); }
+.subscribe-input:focus {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+.subscribe-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: var(--accent-ink);
+  padding: 14px 26px;
+  border-radius: 980px;
+  font-family: var(--font-text);
+  font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
+}
+.subscribe-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.subscribe-btn .arrow { display: inline-block; transition: transform .2s var(--ease-out); }
+.subscribe-btn:hover .arrow { transform: translateX(3px); }
+.subscribe-note {
+  margin-top: 12px;
+  font-size: 13px; color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   PREVIEW SECTION — frameworks coming soon
+   ============================================================ */
+.section { padding: clamp(72px, 9vw, 120px) 0; }
+.section-head {
+  margin-bottom: 56px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+}
+.section-label {
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+  display: block;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  color: var(--ink);
+  max-width: 720px;
+}
+.section-deck {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  color: var(--ink-mute);
+  max-width: 640px;
+  margin-top: 14px;
+}
+
+/* ============================================================
+   FRAMEWORK CARDS — coming-soon placeholders
+   ============================================================ */
+.strat-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 760px)  { .strat-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1080px) { .strat-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+.strat-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 22px;
+  padding: 32px 28px;
+  display: flex; flex-direction: column;
+  min-height: 280px;
+  overflow: hidden;
+  transition: border-color .35s var(--ease), background-color .35s var(--ease), transform .35s var(--ease-out);
+}
+.strat-card:hover {
+  border-color: var(--line);
+  background: var(--bg-card-hover);
+  transform: translateY(-4px);
+}
+/* Decorative glyph bottom-right */
+.strat-card .glyph {
+  position: absolute;
+  right: -20px; bottom: -20px;
+  width: 120px; height: 120px;
+  opacity: 0.06;
+  pointer-events: none;
+  transition: opacity .35s var(--ease), transform .5s var(--ease-out);
+}
+.strat-card:hover .glyph { opacity: 0.14; transform: rotate(8deg); }
+
+.strat-num {
+  font-size: 12px; font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.strat-num .pill {
+  display: inline-flex; align-items: center;
+  background: var(--chip);
+  color: var(--ink-2);
+  padding: 3px 9px;
+  border-radius: 980px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.strat-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
+}
+.strat-desc {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  position: relative; z-index: 1;
+  flex: 1;
+  margin-bottom: 18px;
+}
+.strat-meta {
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+  position: relative; z-index: 1;
+}
+.strat-meta .dash {
+  width: 16px; height: 1px;
+  background: var(--line);
+  display: inline-block;
+}
+
+/* Loading bar at the bottom of each card — visual ‘in progress’ cue */
+.strat-progress {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--line-soft);
+  overflow: hidden;
+}
+.strat-progress::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--accent);
+  opacity: 0.6;
+  animation: progress 2.8s var(--ease) infinite;
+}
+@keyframes progress {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+.strat-card:nth-child(2) .strat-progress::after { animation-delay: -0.6s; }
+.strat-card:nth-child(3) .strat-progress::after { animation-delay: -1.2s; }
+.strat-card:nth-child(4) .strat-progress::after { animation-delay: -1.8s; }
+.strat-card:nth-child(5) .strat-progress::after { animation-delay: -2.4s; }
+.strat-card:nth-child(6) .strat-progress::after { animation-delay: -3.0s; }
+
+/* ============================================================
+   "What to expect" section — three principles
+   ============================================================ */
+.section-alt {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+.principles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 56px;
+}
+@media (min-width: 800px) { .principles { grid-template-columns: repeat(3, 1fr); } }
+
+.principle {
+  position: relative;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.principle-num {
+  position: absolute;
+  top: -1px; left: 0;
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: var(--bg-alt);
+  padding-right: 14px;
+  transform: translateY(-50%);
+}
+.principle-title {
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.principle-desc {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   CTA strip
+   ============================================================ */
+.cta { background: var(--bg); border-top: 1px solid var(--line-soft); }
+.cta-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: end;
+}
+@media (min-width: 880px) {
+  .cta-inner { grid-template-columns: 1.4fr 1fr; gap: 64px; }
+}
+.cta-headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 600; line-height: 1.06;
+  letter-spacing: -0.03em; color: var(--ink);
+}
+.cta-headline .accent-text { color: var(--accent); font-style: italic; }
+.cta-right { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+@media (min-width: 880px) { .cta-right { align-items: flex-end; text-align: right; } }
+.cta-blurb { font-size: 16px; color: var(--ink-mute); letter-spacing: -0.005em; max-width: 360px; line-height: 1.5; }
+.cta-email {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: -0.012em;
+  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.cta-email:hover { color: var(--accent-hover); }
+.cta-email .arrow { display: inline-block; transition: transform .25s var(--ease-out); }
+.cta-email:hover .arrow { transform: translateX(4px); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding: 56px 0 32px; }
+.foot-inner {
+  display: grid; grid-template-columns: 1fr; gap: 36px;
+  padding-bottom: 36px; border-bottom: 1px solid var(--line-soft);
+}
+@media (min-width: 760px) { .foot-inner { grid-template-columns: 2fr 1fr 1fr; gap: 48px; } }
+.foot-brand { margin-bottom: 12px; }
+.foot-tag { color: var(--ink-mute); font-size: 14px; letter-spacing: -0.005em; line-height: 1.5; max-width: 320px; }
+.foot-col h4 {
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.02em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.foot-col a {
+  display: block; color: var(--ink-mute);
+  font-size: 14px; margin-bottom: 8px;
+  letter-spacing: -0.005em;
+}
+.foot-col a:hover { color: var(--ink); }
+.foot-bottom {
+  margin-top: 28px;
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  color: var(--ink-mute); font-size: 13px; letter-spacing: -0.005em;
+}
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  .strat-progress::after { animation: none; }
+  .hero-status .pulse::after { animation: none; }
+}
+
+@media (max-width: 720px) {
+  .nav-inner { padding: 0 22px; gap: 12px; }
+  .nav-links { gap: 18px; }
+  .nav-links li:nth-child(-n+2) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="aalvee_homepage_v14.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <ul class="nav-links">
+      <li><a href="aalvee_homepage_v14.html#work">Work</a></li>
+      <li><a href="#" class="active">UX Strategies</a></li>
+      <li><a href="aalvee_about_v3.html">About</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+          <svg class="theme-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2"     x2="12" y2="4"/>
+            <line x1="12" y1="20"    x2="12" y2="22"/>
+            <line x1="2"  y1="12"    x2="4"  y2="12"/>
+            <line x1="20" y1="12"    x2="22" y2="12"/>
+            <line x1="4.93"  y1="4.93"  x2="6.34"  y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="4.93"  y1="19.07" x2="6.34"  y2="17.66"/>
+            <line x1="17.66" y1="6.34"  x2="19.07" y2="4.93"/>
+          </svg>
+          <svg class="theme-svg icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+      <li><a class="nav-cta" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Let's Talk</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO — coming soon
+     ============================================================ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-status">
+      <span class="pulse"></span>
+      <span>In progress · Publishing 2026</span>
+    </div>
+
+    <h1 class="hero-title">
+      The systems behind <span class="accent-text">the work.</span>
+    </h1>
+
+    <p class="hero-deck">
+      A working set of frameworks I've developed and run inside enterprise teams — domain-agnostic, repeatable, and connected to business outcomes. Currently being written up. Drop your email if you want a heads-up when each one lands.
+    </p>
+
+    <form class="subscribe" action="mailto:damleaalvee@gmail.com" method="post" enctype="text/plain" id="subscribeForm">
+      <input
+        type="email"
+        class="subscribe-input"
+        name="email"
+        placeholder="you@yourcompany.com"
+        aria-label="Email address"
+        required
+      />
+      <button type="submit" class="subscribe-btn">
+        Notify me <span class="arrow">→</span>
+      </button>
+    </form>
+    <p class="subscribe-note">No newsletter. One email per framework. Unsubscribe whenever.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     FRAMEWORK CARDS — coming soon
+     ============================================================ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="section-label">In the works</span>
+        <h2 class="section-title">Six frameworks. One reusable spine.</h2>
+        <p class="section-deck">Each framework is being assembled from real enterprise engagements — receipts, artifacts, decisions, what worked, what didn't.</p>
+      </div>
+    </div>
+
+    <div class="strat-grid">
+
+      <article class="strat-card reveal">
+        <div class="strat-num">
+          <span>01 — Strategy</span>
+          <span class="pill">Drafting</span>
+        </div>
+        <h3 class="strat-title">Mobile-First as Business Strategy</h3>
+        <p class="strat-desc">Treating the mobile constraint as a forcing function for clarity, prioritization, and brand trust in regulated financial services.</p>
+        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 12 min read</span></div>
+        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="32" y="14" width="36" height="72" rx="5"/>
+          <line x1="42" y1="22" x2="58" y2="22"/>
+          <circle cx="50" cy="78" r="2.5" fill="currentColor"/>
+        </svg>
+        <div class="strat-progress" aria-hidden="true"></div>
+      </article>
+
+      <article class="strat-card reveal">
+        <div class="strat-num">
+          <span>02 — Process</span>
+          <span class="pill">Drafting</span>
+        </div>
+        <h3 class="strat-title">Design Sprint as a Growth Engine</h3>
+        <p class="strat-desc">A rolling-sprint cadence that compounds research equity over time — turning one-off sprints into a continuous learning loop tied to business KPIs.</p>
+        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 14 min read</span></div>
+        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="50" cy="50" r="32"/>
+          <path d="M50 18 L50 32 M74 32 L62 38 M82 56 L68 56 M70 78 L60 70 M40 78 L46 66 M22 60 L34 56"/>
+          <circle cx="50" cy="50" r="4" fill="currentColor"/>
+        </svg>
+        <div class="strat-progress" aria-hidden="true"></div>
+      </article>
+
+      <article class="strat-card reveal">
+        <div class="strat-num">
+          <span>03 — Research</span>
+          <span class="pill">Outlining</span>
+        </div>
+        <h3 class="strat-title">Socio-Ecological Mapping</h3>
+        <p class="strat-desc">Mapping product opportunity through layers of influence — individual, micro, meso, macro — to find leverage points the brief never asked about.</p>
+        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 16 min read</span></div>
+        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="50" cy="50" r="34"/>
+          <circle cx="50" cy="50" r="24"/>
+          <circle cx="50" cy="50" r="14"/>
+          <circle cx="50" cy="50" r="5" fill="currentColor"/>
+        </svg>
+        <div class="strat-progress" aria-hidden="true"></div>
+      </article>
+
+      <article class="strat-card reveal">
+        <div class="strat-num">
+          <span>04 — AI &amp; Trust</span>
+          <span class="pill">Outlining</span>
+        </div>
+        <h3 class="strat-title">Designing for AI Recoverability</h3>
+        <p class="strat-desc">When AI fails, where does the user land? A framework for designing transparency, undo, and the auditor's mental model of evidence into GenAI tooling.</p>
+        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 18 min read</span></div>
+        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M50 18 L78 30 L78 56 C78 70 66 80 50 86 C34 80 22 70 22 56 L22 30 Z"/>
+          <path d="M38 52 L46 60 L62 44" stroke-width="2"/>
+        </svg>
+        <div class="strat-progress" aria-hidden="true"></div>
+      </article>
+
+      <article class="strat-card reveal">
+        <div class="strat-num">
+          <span>05 — Decision-Making</span>
+          <span class="pill">Outlining</span>
+        </div>
+        <h3 class="strat-title">Triple Bottom Line Prioritisation</h3>
+        <p class="strat-desc">A practical rubric that scores features against People, Profit, and Planet — adapted from the Peepal engagement and reusable across enterprise contexts.</p>
+        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 10 min read</span></div>
+        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="38" cy="42" r="20"/>
+          <circle cx="62" cy="42" r="20"/>
+          <circle cx="50" cy="64" r="20"/>
+        </svg>
+        <div class="strat-progress" aria-hidden="true"></div>
+      </article>
+
+      <article class="strat-card reveal">
+        <div class="strat-num">
+          <span>06 — Storytelling</span>
+          <span class="pill">Backlog</span>
+        </div>
+        <h3 class="strat-title">Selling the Insight, Not the Slide</h3>
+        <p class="strat-desc">How to package research into artifacts that survive the executive review — narrative structure, visual hierarchy, and what to cut.</p>
+        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 12 min read</span></div>
+        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="18" y="26" width="64" height="48" rx="4"/>
+          <line x1="28" y1="40" x2="56" y2="40"/>
+          <line x1="28" y1="50" x2="72" y2="50"/>
+          <line x1="28" y1="60" x2="50" y2="60"/>
+        </svg>
+        <div class="strat-progress" aria-hidden="true"></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHAT TO EXPECT — three principles
+     ============================================================ -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="section-label">What to expect</span>
+        <h2 class="section-title">Receipts, not recipes.</h2>
+        <p class="section-deck">Every framework is grounded in a real engagement, with the messy bits left in. No "best practices." No checklists. No fluff.</p>
+      </div>
+    </div>
+
+    <div class="principles">
+      <div class="principle reveal">
+        <span class="principle-num">01</span>
+        <h3 class="principle-title">Tied to outcomes.</h3>
+        <p class="principle-desc">Every framework connects design decisions to business KPIs — adoption, trust, retention, regulatory risk. If a strategy can't move a number, it doesn't ship here.</p>
+      </div>
+      <div class="principle reveal">
+        <span class="principle-num">02</span>
+        <h3 class="principle-title">Domain-agnostic.</h3>
+        <p class="principle-desc">Built across AI, banking, risk, and AgriTech — and structured so the spine carries over. Each piece names what's portable and what isn't.</p>
+      </div>
+      <div class="principle reveal">
+        <span class="principle-num">03</span>
+        <h3 class="principle-title">Honest about failure.</h3>
+        <p class="principle-desc">What didn't work, where the framework breaks down, and the political reality of running it inside an enterprise. Same rigor as the case studies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA STRIP
+     ============================================================ -->
+<section class="cta section">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2 class="cta-headline">
+        Want a framework <span class="accent-text">applied</span><br/>to your team?
+      </h2>
+      <div class="cta-right">
+        <p class="cta-blurb">I run strategy workshops and embedded engagements for product and design teams working through regulated, AI-adjacent problem spaces.</p>
+        <a class="cta-email" href="mailto:damleaalvee@gmail.com?subject=Strategy%20engagement%20inquiry">
+          damleaalvee@gmail.com <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand">
+          <span class="nav-brand">
+            <span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle"></span>
+            Aalvee Damle
+          </span>
+        </div>
+        <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
+      </div>
+
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <a href="aalvee_homepage_v14.html#work">Work</a>
+        <a href="#">UX Strategies</a>
+        <a href="aalvee_about_v3.html">About</a>
+        <a href="aalvee_homepage_v14.html#contact">Contact</a>
+      </div>
+
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:damleaalvee@gmail.com">Email</a>
+        <a href="tel:+15408788790">+1 540 878 8790</a>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 Aalvee Damle. All rights reserved.</span>
+      <span>Washington DC · Fredericksburg, VA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Theme toggle — DARK is default, persists in localStorage
+   ============================================================ */
+(function () {
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  if (!btn) return;
+
+  try {
+    var saved = window.localStorage && localStorage.getItem('aalvee-theme');
+    if (saved === 'light' || saved === 'dark') {
+      root.setAttribute('data-theme', saved);
+    }
+  } catch (e) { /* localStorage blocked — silently ignore */ }
+
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('aalvee-theme', next); } catch (e) {}
+  });
+})();
+
+/* ============================================================
+   Reveal on scroll
+   ============================================================ */
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+
+  items.forEach(function (el) { io.observe(el); });
+})();
+
+/* ============================================================
+   Subscribe form — graceful mailto fallback
+   Opens user's mail client with prefilled subject + body so
+   the address is captured even without a backend.
+   ============================================================ */
+(function () {
+  var form = document.getElementById('subscribeForm');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = form.querySelector('input[name="email"]');
+    var email = (input && input.value || '').trim();
+    if (!email) { input && input.focus(); return; }
+    var subject = encodeURIComponent('Notify me — UX Strategies');
+    var body = encodeURIComponent(
+      'Hey Aalvee,\n\nPlease add me to the list for your UX Strategies frameworks.\n\nEmail: ' + email + '\n'
+    );
+    window.location.href = 'mailto:damleaalvee@gmail.com?subject=' + subject + '&body=' + body;
+  });
+})();
+</script>
+
+</body>
+</html>
