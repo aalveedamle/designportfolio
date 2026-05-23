@@ -320,8 +320,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   grid-template-columns: 1fr;
   gap: 20px;
 }
-@media (min-width: 760px)  { .strat-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1080px) { .strat-grid { grid-template-columns: 1fr 1fr 1fr; } }
+@media (min-width: 760px) { .strat-grid { grid-template-columns: 1fr 1fr; } }
 
 .strat-card {
   position: relative;
@@ -401,6 +400,63 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: var(--line);
   display: inline-block;
 }
+
+/* Linked card — entire surface is clickable */
+a.strat-card { display: flex; text-decoration: none; }
+a.strat-card .strat-progress { display: none; }
+
+/* Live pill */
+.strat-num .pill--live {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Category tags row */
+.strat-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+.strat-tag {
+  display: inline-flex;
+  background: var(--chip);
+  color: var(--ink-mute);
+  padding: 4px 10px;
+  border-radius: 980px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Key insight pull-quote */
+.strat-insight {
+  margin: 4px 0 0;
+  padding: 14px 16px;
+  border-left: 2px solid var(--accent);
+  background: var(--chip);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  letter-spacing: -0.005em;
+  font-style: italic;
+  position: relative; z-index: 1;
+  flex: 1;
+}
+
+/* CTA row for live cards */
+.strat-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  padding-top: 20px;
+  position: relative; z-index: 1;
+  transition: gap .2s var(--ease-out);
+}
+a.strat-card:hover .strat-cta { gap: 14px; }
 
 /* Loading bar at the bottom of each card — visual ‘in progress’ cue */
 .strat-progress {
@@ -637,18 +693,19 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
   <div class="wrap">
     <div class="section-head reveal">
       <div>
-        <span class="section-label">In the works</span>
-        <h2 class="section-title">Six frameworks. One reusable spine.</h2>
-        <p class="section-deck">Each framework is being assembled from real enterprise engagements — receipts, artifacts, decisions, what worked, what didn't.</p>
+        <span class="section-label">Frameworks</span>
+        <h2 class="section-title">Three live. One in the works.</h2>
+        <p class="section-deck">Each framework is assembled from a real enterprise engagement — receipts, artifacts, decisions, what worked, what didn't.</p>
       </div>
     </div>
 
     <div class="strat-grid">
 
+      <!-- 01 — Coming soon placeholder -->
       <article class="strat-card reveal">
         <div class="strat-num">
           <span>01 — Strategy</span>
-          <span class="pill">Drafting</span>
+          <span class="pill">Coming soon</span>
         </div>
         <h3 class="strat-title">Mobile-First as Business Strategy</h3>
         <p class="strat-desc">Treating the mobile constraint as a forcing function for clarity, prioritization, and brand trust in regulated financial services.</p>
@@ -661,86 +718,68 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
         <div class="strat-progress" aria-hidden="true"></div>
       </article>
 
-      <article class="strat-card reveal">
+      <!-- 02 — Design Sprint -->
+      <a href="aalvee_strategy_02_design_sprint_v1.html" class="strat-card reveal">
         <div class="strat-num">
           <span>02 — Process</span>
-          <span class="pill">Drafting</span>
+          <span class="pill pill--live">Live</span>
         </div>
-        <h3 class="strat-title">Design Sprint as a Growth Engine</h3>
-        <p class="strat-desc">A rolling-sprint cadence that compounds research equity over time — turning one-off sprints into a continuous learning loop tied to business KPIs.</p>
-        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 14 min read</span></div>
+        <div class="strat-tags">
+          <span class="strat-tag">Design Sprint</span>
+          <span class="strat-tag">Agile UX</span>
+          <span class="strat-tag">Enterprise</span>
+        </div>
+        <h3 class="strat-title">Design runs one sprint ahead.</h3>
+        <div class="strat-insight">"Design quality compounds across sprints when you stop treating each sprint as a fresh start."</div>
+        <div class="strat-cta">Read framework <span class="arrow">→</span></div>
         <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <circle cx="50" cy="50" r="32"/>
           <path d="M50 18 L50 32 M74 32 L62 38 M82 56 L68 56 M70 78 L60 70 M40 78 L46 66 M22 60 L34 56"/>
           <circle cx="50" cy="50" r="4" fill="currentColor"/>
         </svg>
-        <div class="strat-progress" aria-hidden="true"></div>
-      </article>
+      </a>
 
-      <article class="strat-card reveal">
+      <!-- 03 — Decision Intelligence -->
+      <a href="aalvee_strategy_03_integrated_dashboard_v1.html" class="strat-card reveal">
         <div class="strat-num">
-          <span>03 — Research</span>
-          <span class="pill">Outlining</span>
+          <span>03 — Intelligence</span>
+          <span class="pill pill--live">Live</span>
         </div>
-        <h3 class="strat-title">Socio-Ecological Mapping</h3>
-        <p class="strat-desc">Mapping product opportunity through layers of influence — individual, micro, meso, macro — to find leverage points the brief never asked about.</p>
-        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 16 min read</span></div>
+        <div class="strat-tags">
+          <span class="strat-tag">BI Dashboards</span>
+          <span class="strat-tag">Decision Design</span>
+          <span class="strat-tag">Enterprise Platform</span>
+        </div>
+        <h3 class="strat-title">Designing for decision intelligence — not just data display.</h3>
+        <div class="strat-insight">"Dashboards fail not because of bad data engineering, but because they're designed as data displays rather than decision tools."</div>
+        <div class="strat-cta">Read framework <span class="arrow">→</span></div>
         <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <circle cx="50" cy="50" r="34"/>
           <circle cx="50" cy="50" r="24"/>
           <circle cx="50" cy="50" r="14"/>
           <circle cx="50" cy="50" r="5" fill="currentColor"/>
         </svg>
-        <div class="strat-progress" aria-hidden="true"></div>
-      </article>
+      </a>
 
-      <article class="strat-card reveal">
+      <!-- 04 — WAM GTM -->
+      <a href="aalvee_strategy_04_wam_gtm_v1.html" class="strat-card reveal">
         <div class="strat-num">
-          <span>04 — AI &amp; Trust</span>
-          <span class="pill">Outlining</span>
+          <span>04 — Finance &amp; GTM</span>
+          <span class="pill pill--live">Live</span>
         </div>
-        <h3 class="strat-title">Designing for AI Recoverability</h3>
-        <p class="strat-desc">When AI fails, where does the user land? A framework for designing transparency, undo, and the auditor's mental model of evidence into GenAI tooling.</p>
-        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 18 min read</span></div>
+        <div class="strat-tags">
+          <span class="strat-tag">Wealth Management</span>
+          <span class="strat-tag">Financial Services</span>
+          <span class="strat-tag">GTM Strategy</span>
+        </div>
+        <h3 class="strat-title">Designing for trust under uncertainty.</h3>
+        <div class="strat-insight">"Launch the product at the worst possible moment for the user."</div>
+        <div class="strat-cta">Read framework <span class="arrow">→</span></div>
         <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M50 18 L78 30 L78 56 C78 70 66 80 50 86 C34 80 22 70 22 56 L22 30 Z"/>
           <path d="M38 52 L46 60 L62 44" stroke-width="2"/>
         </svg>
-        <div class="strat-progress" aria-hidden="true"></div>
-      </article>
-
-      <article class="strat-card reveal">
-        <div class="strat-num">
-          <span>05 — Decision-Making</span>
-          <span class="pill">Outlining</span>
-        </div>
-        <h3 class="strat-title">Triple Bottom Line Prioritisation</h3>
-        <p class="strat-desc">A practical rubric that scores features against People, Profit, and Planet — adapted from the Peepal engagement and reusable across enterprise contexts.</p>
-        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 10 min read</span></div>
-        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <circle cx="38" cy="42" r="20"/>
-          <circle cx="62" cy="42" r="20"/>
-          <circle cx="50" cy="64" r="20"/>
-        </svg>
-        <div class="strat-progress" aria-hidden="true"></div>
-      </article>
-
-      <article class="strat-card reveal">
-        <div class="strat-num">
-          <span>06 — Storytelling</span>
-          <span class="pill">Backlog</span>
-        </div>
-        <h3 class="strat-title">Selling the Insight, Not the Slide</h3>
-        <p class="strat-desc">How to package research into artifacts that survive the executive review — narrative structure, visual hierarchy, and what to cut.</p>
-        <div class="strat-meta"><span>Coming soon</span><span class="dash"></span><span>~ 12 min read</span></div>
-        <svg class="glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <rect x="18" y="26" width="64" height="48" rx="4"/>
-          <line x1="28" y1="40" x2="56" y2="40"/>
-          <line x1="28" y1="50" x2="72" y2="50"/>
-          <line x1="28" y1="60" x2="50" y2="60"/>
-        </svg>
-        <div class="strat-progress" aria-hidden="true"></div>
-      </article>
+      </a>
 
     </div>
   </div>
