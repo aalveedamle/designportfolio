@@ -1,0 +1,2370 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Risk Analytics Principles (RAP) — Case Study 05 · Aalvee Damle</title>
+<meta name="description" content="A dashboard shows what happened. A digital twin shows what could. RAP — EY's AI-assisted digital twin canvas for risk analytics. A case study by Aalvee Damle." />
+<style>
+/* ============================================================
+   AALVEE DAMLE · CASE STUDY 05 — RISK ANALYTICS PRINCIPLES (RAP)
+   Mirrors the case-study design system 1:1.
+   Dark default · Accent #E9F056 (lime) / #ff5c34 (coral on light).
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #000000;
+  --bg-alt: #0a0a0a;
+  --bg-card: #161617;
+  --bg-card-hover: #1d1d1f;
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --ink-mute: #86868b;
+  --line: #2a2a2c;
+  --line-soft: #1d1d1f;
+  --accent: #E9F056;
+  --accent-ink: #0a0a0a;
+  --accent-hover: #f1f578;
+  --danger: #ff5c5c;
+  --chip: rgba(255,255,255,0.06);
+  --chip-hover: rgba(255,255,255,0.12);
+  --nav-bg: rgba(0,0,0,0.72);
+  --nav-border: rgba(255,255,255,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.45);
+
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+  --ease: cubic-bezier(0.28,0.16,0.22,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f7;
+  --bg-card: #f5f5f7;
+  --bg-card-hover: #ececef;
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --ink-mute: #6e6e73;
+  --line: #d2d2d7;
+  --line-soft: #e8e8ed;
+  --accent: #ff5c34;
+  --accent-ink: #ffffff;
+  --accent-hover: #ff7050;
+  --danger: #d8341d;
+  --chip: rgba(0,0,0,0.04);
+  --chip-hover: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255,255,255,0.8);
+  --nav-border: rgba(0,0,0,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.05), 0 24px 48px rgba(0,0,0,0.08);
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-text);
+  font-size: 17px; line-height: 1.47;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  background: var(--bg);
+  transition: background-color .5s var(--ease), color .5s var(--ease);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--ink); text-decoration: none; transition: color .25s var(--ease), opacity .25s var(--ease); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+.container { max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+/* ============================================================
+   NAV — sticky, translucent
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 64px;
+  background: var(--nav-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background-color .4s var(--ease), border-color .4s var(--ease);
+}
+.nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+.brand { font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -0.018em; }
+.brand .dot { color: var(--accent); }
+.nav-links { display: flex; gap: clamp(18px, 3vw, 36px); align-items: center; }
+.nav-links a {
+  font-size: 13px;
+  color: var(--ink-2);
+  letter-spacing: -0.01em;
+  position: relative;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--ink); }
+.nav-links a.active::after {
+  content: ""; position: absolute; bottom: -22px; left: 0; right: 0;
+  height: 2px; background: var(--accent); border-radius: 2px;
+}
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--chip);
+  transition: background-color .25s var(--ease), transform .25s var(--ease);
+}
+.theme-toggle:hover { background: var(--chip-hover); transform: rotate(15deg); }
+.theme-toggle svg { width: 16px; height: 16px; stroke: var(--ink); fill: none; }
+[data-theme="dark"]  .theme-toggle .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle .icon-sun  { display: none; }
+
+/* ---------- Hamburger button ---------- */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color .25s var(--ease);
+}
+.nav-toggle:hover { background: var(--chip); }
+.nav-toggle span {
+  display: block;
+  width: 18px; height: 1.5px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform .3s var(--ease), opacity .2s var(--ease);
+}
+.nav-toggle span + span { margin-top: 5px; }
+.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+@media (max-width: 720px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: flex;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 64px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--nav-bg);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--nav-border);
+    padding: 8px 0 20px;
+    transition: max-height .35s var(--ease-out), opacity .2s var(--ease);
+  }
+  .nav-open .nav-links { max-height: 500px; opacity: 1; pointer-events: auto; }
+  .nav-links a { display: block; padding: 12px clamp(20px, 4vw, 48px); font-size: 16px; color: var(--ink-2); }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  .nav-links a.active::after { display: none; }
+  .nav-links .theme-toggle { margin: 8px clamp(20px, 4vw, 48px) 4px; }
+}
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+.breadcrumb {
+  padding: 28px 0 0;
+  font-size: 13px;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+.breadcrumb a { color: var(--ink-mute); }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero { padding: clamp(48px, 8vw, 96px) 0 clamp(64px, 9vw, 120px); }
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  background: var(--chip);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 7vw, 84px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  max-width: 1100px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+.hero-title .accent-text { color: var(--accent); font-style: italic; }
+.hero-deck {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.8vw, 24px);
+  line-height: 1.5;
+  letter-spacing: -0.018em;
+  color: var(--ink-2);
+  max-width: 880px;
+  margin-bottom: clamp(36px, 4vw, 52px);
+}
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: clamp(40px, 5vw, 60px);
+}
+.hero-tags .tag {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--ink-2);
+}
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+  padding-top: clamp(28px, 3vw, 40px);
+  border-top: 1px solid var(--line-soft);
+}
+.meta-num {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.meta-num .meta-accent { color: var(--accent); }
+.meta-label {
+  font-size: 13px;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+}
+@media (max-width: 720px) {
+  .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section {
+  padding: clamp(56px, 7vw, 104px) 0;
+  border-top: 1px solid var(--line-soft);
+}
+.section-label {
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.02em;
+  margin-bottom: 14px; display: block;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  max-width: 920px;
+}
+.section-title .accent-text { color: var(--accent); font-style: italic; }
+.section-deck {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.6vw, 21px);
+  line-height: 1.55; letter-spacing: -0.012em;
+  color: var(--ink-mute);
+  max-width: 760px;
+  margin-top: 18px;
+}
+
+/* prose */
+.prose { margin-top: clamp(36px, 4vw, 52px); }
+.prose p {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.5vw, 20px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  letter-spacing: -0.014em;
+  margin-bottom: 22px;
+  max-width: 820px;
+}
+.prose p strong { color: var(--ink); font-weight: 600; }
+.prose p em { color: var(--ink); font-style: italic; }
+.prose ul, .prose ol {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.4vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  letter-spacing: -0.012em;
+  margin: 0 0 26px 22px;
+  max-width: 820px;
+}
+.prose li { margin-bottom: 10px; }
+.prose li strong { color: var(--ink); font-weight: 600; }
+.prose li em { color: var(--ink); font-style: italic; }
+
+.pullquote {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: clamp(20px, 3vw, 36px);
+  margin: clamp(36px, 4.5vw, 52px) 0;
+  max-width: 980px;
+}
+
+/* sub headings within sections */
+.sub-h {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: clamp(32px, 4vw, 44px) 0 12px;
+  max-width: 820px;
+}
+.sub-h .accent-text { color: var(--accent); font-style: italic; }
+.sub-h .num {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-right: 12px;
+  padding: 4px 8px;
+  background: var(--chip);
+  border-radius: 6px;
+}
+
+/* design move / problem cards */
+.move-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  padding: clamp(24px, 3vw, 36px);
+  margin-bottom: 18px;
+  transition: background-color .25s var(--ease), border-color .25s var(--ease);
+}
+.move-card:hover { background: var(--bg-card-hover); border-color: var(--line); }
+.move-card .move-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+}
+.move-card h3 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.1vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.move-card h3 em { color: var(--accent); font-style: italic; }
+.move-card .move-meta {
+  font-size: 13px;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.move-card .move-meta strong { color: var(--ink-2); font-style: normal; font-weight: 600; }
+.move-card p {
+  font-family: var(--font-display);
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  letter-spacing: -0.012em;
+}
+.move-card p strong { color: var(--ink); font-weight: 600; }
+.move-card p em { color: var(--ink); font-style: italic; }
+
+/* takeaway cards (Reflection) */
+.takeaway-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  margin-top: clamp(28px, 3vw, 40px);
+}
+@media (max-width: 820px) { .takeaway-grid { grid-template-columns: 1fr; } }
+.takeaway {
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 20px;
+  padding: clamp(24px, 3vw, 32px);
+  transition: background-color .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease);
+}
+.takeaway:hover { background: var(--bg-card-hover); border-color: var(--line); transform: translateY(-2px); }
+.takeaway .t-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 10px;
+}
+.takeaway h4 {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.7vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+.takeaway p {
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  letter-spacing: -0.01em;
+}
+.takeaway p strong { color: var(--ink); font-weight: 600; }
+.takeaway p em { color: var(--ink); font-style: italic; }
+
+/* ============================================================
+   FIGURE — images + inline SVGs
+   ============================================================ */
+figure { margin: clamp(40px, 5vw, 64px) 0; }
+figcaption {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  line-height: 1.55;
+  max-width: 920px;
+}
+figcaption .figcap-num {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+.img-figure {
+  width: 100%;
+  border-radius: 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.img-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: var(--bg-alt);
+}
+
+/* placeholder when image src is missing or fails */
+.img-figure.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  font-size: 13px;
+  color: var(--ink-mute);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 32px;
+  line-height: 1.5;
+}
+
+.svg-figure {
+  width: 100%;
+  padding: clamp(24px, 4vw, 56px);
+  border-radius: 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow);
+}
+.svg-figure svg { width: 100%; height: auto; display: block; }
+
+/* SVG color tokens — read theme variables */
+.svg-figure .stroke-ink     { stroke: var(--ink); }
+.svg-figure .stroke-ink2    { stroke: var(--ink-2); }
+.svg-figure .stroke-mute    { stroke: var(--ink-mute); }
+.svg-figure .stroke-accent  { stroke: var(--accent); }
+.svg-figure .stroke-soft    { stroke: var(--line); }
+.svg-figure .stroke-danger  { stroke: var(--danger); }
+.svg-figure .fill-ink       { fill: var(--ink); }
+.svg-figure .fill-ink2      { fill: var(--ink-2); }
+.svg-figure .fill-mute      { fill: var(--ink-mute); }
+.svg-figure .fill-accent    { fill: var(--accent); }
+.svg-figure .fill-accent-ink{ fill: var(--accent-ink); }
+.svg-figure .fill-card      { fill: var(--bg-card); }
+.svg-figure .fill-card-alt  { fill: var(--bg-alt); }
+.svg-figure .fill-bg        { fill: var(--bg); }
+.svg-figure .fill-danger    { fill: var(--danger); }
+.svg-figure .fill-none      { fill: none; }
+.svg-figure .stroke-none    { stroke: none; }
+.svg-figure text { font-family: var(--font-display); }
+
+/* image grid (when multiple JPGs sit side by side) */
+.img-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  margin: clamp(40px, 5vw, 64px) 0;
+}
+.img-grid-2 figure { margin: 0; }
+@media (max-width: 720px) { .img-grid-2 { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   NEXT PROJECT STRIP
+   ============================================================ */
+.next-strip {
+  margin-top: clamp(56px, 7vw, 96px);
+  padding: clamp(48px, 6vw, 80px) 0;
+  border-top: 1px solid var(--line-soft);
+  text-align: center;
+}
+.next-strip .np-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+.next-strip a.np-link {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.5vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  transition: color .25s var(--ease), transform .25s var(--ease);
+}
+.next-strip a.np-link:hover { color: var(--accent); transform: translateX(6px); }
+.next-strip a.np-link span.arrow { display: inline-block; transition: transform .25s var(--ease); }
+.next-strip a.np-link:hover span.arrow { transform: translateX(6px); }
+
+/* ============================================================
+   METADATA STRIP
+   ============================================================ */
+.meta-block {
+  padding: clamp(40px, 5vw, 64px) 0 clamp(56px, 7vw, 88px);
+  border-top: 1px solid var(--line-soft);
+}
+.meta-block h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.meta-list {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 16px 32px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.meta-list dt {
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+.meta-list dd {
+  color: var(--ink-2);
+  letter-spacing: -0.012em;
+}
+.meta-list dd strong { color: var(--ink); font-weight: 600; }
+@media (max-width: 720px) {
+  .meta-list { grid-template-columns: 1fr; gap: 4px 0; }
+  .meta-list dd { margin-bottom: 14px; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  padding: clamp(48px, 6vw, 80px) 0 clamp(32px, 4vw, 48px);
+  border-top: 1px solid var(--line-soft);
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.footer .f-brand {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+}
+.footer .f-brand .dot { color: var(--accent); }
+.footer p {
+  font-size: 13px;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+}
+.footer .f-links { display: flex; gap: 24px; }
+.footer .f-links a { font-size: 13px; color: var(--ink-mute); }
+.footer .f-links a:hover { color: var(--ink); }
+
+/* ============================================================
+   REVEAL ON SCROLL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="HOME_URL_HERE" class="brand">Aalvee Damle<span class="dot">.</span></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links">
+      <a href="CASE_STUDIES_URL_HERE" class="active">Work</a>
+      <a href="UX_STRATEGIES_URL_HERE">UX Strategies</a>
+      <a href="ABOUT_URL_HERE">About</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun"  viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- breadcrumb -->
+<div class="container">
+  <div class="breadcrumb">
+    <a href="CASE_STUDIES_URL_HERE">Work</a>
+    <span class="sep">/</span>
+    <span>Case Study 05 — RAP</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-eyebrow reveal">Case Study 05 · EY · GenAI · Digital Twin · Risk Analytics</span>
+    <h1 class="hero-title reveal">A dashboard shows what happened. <span class="accent-text">A digital twin shows what could.</span></h1>
+    <p class="hero-deck reveal">EY's analytics managers were working across VIA, IRL, Symphony, Nexus, and a dozen other risk tools — manually compiling data, switching contexts, losing the thread. RAP was scoped to fix that. It started as a <em>canvas</em> that could hold multiple tools in one place. It ended as something more: an AI-assisted <em>digital twin</em> of the enterprise — a simulation that four very different roles (CRO, Internal Auditor, Risk Consultant, Controls Manager) could steer through a single conversation. The design problem wasn't the chrome. It was the shift from <em>holding tools together</em> to <em>holding a model together</em>.</p>
+    <div class="hero-tags reveal">
+      <span class="tag">EY</span>
+      <span class="tag">Risk Analytics</span>
+      <span class="tag">Digital Twin</span>
+      <span class="tag">Multi-Tool Canvas</span>
+      <span class="tag">Conversational AI</span>
+      <span class="tag">Simulation UX</span>
+      <span class="tag">Uncertainty Visualisation</span>
+      <span class="tag">Enterprise GenAI</span>
+    </div>
+    <div class="hero-meta reveal">
+      <div>
+        <div class="meta-num"><span class="meta-accent">6+</span></div>
+        <div class="meta-label">EY risk tools hosted by the canvas (VIA, IRL, Symphony, Nexus, Cyber, Supply Chain)</div>
+      </div>
+      <div>
+        <div class="meta-num"><span class="meta-accent">4</span></div>
+        <div class="meta-label">Personas served (CRO · Internal Auditor · Risk Consultant · Controls Manager)</div>
+      </div>
+      <div>
+        <div class="meta-num"><span class="meta-accent">4</span></div>
+        <div class="meta-label">Simulation surfaces (Digital Twin · Data Topology · Process Mapping · Dashboard)</div>
+      </div>
+      <div>
+        <div class="meta-num"><span class="meta-accent">1</span></div>
+        <div class="meta-label">Conversational steering interface across all of it</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     01 — THE STRATEGIC INSIGHT
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">01 — The framing</span>
+    <h2 class="section-title reveal">The product began as a container. <span class="accent-text">It became a model.</span></h2>
+    <div class="prose reveal">
+      <p>The first version of RAP wasn't a digital twin. It was supposed to be one place where an analytics manager could open VIA, IRL, Symphony, Nexus, Cyber, and Supply Chain — all the EY risk tools they were already using — without re-authenticating, re-orienting, and re-scoping every five minutes. The brief was straightforward: <strong>stop the toolchain bleed.</strong></p>
+      <p>But containers for tools have a property nobody quite planned for. <em>Once you put VIA's output next to IRL's output next to a process map in the same canvas, you stop looking at "tools" — you start looking at an assembled view of the enterprise.</em> Exception data from one tool. Control library from another. Process imprint from a third. Held together by a shared scope ("SOX Audit 1245") and a shared timeframe. The canvas, almost accidentally, was a <strong>digital twin.</strong></p>
+      <p>That's the pivot that defines this case study. RAP was scoped as a UI integration project. It became a model-building project. <strong>Solving the fragmentation problem and building the digital twin turned out to be the same problem.</strong></p>
+      <p>Once that pivot was visible, the design vocabulary changed. We weren't designing a dashboard anymore — we were designing the surface of a probabilistic engine. The interface had to carry <em>uncertainty,</em> support <em>what-if exploration,</em> and earn the user's trust in outputs the user did not personally generate. That's a different design discipline, and it's what this case study is really about.</p>
+    </div>
+    <p class="pullquote reveal">A dashboard shows what happened. A digital twin shows what could. The pivot from one to the other started with a much smaller question — <em>"can we open multiple tools in one place?"</em> — and ended somewhere much bigger.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     02 — WHY RAP WAS NEEDED
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">02 — The pain</span>
+    <h2 class="section-title reveal">The day of an analytics manager — <span class="accent-text">and why nothing in it was working.</span></h2>
+    <div class="prose reveal">
+      <p>A risk analyst at the start of a SOX audit has the following on their desk: a SAP transaction extract in one window, EY VIA in a second, the Integrated Risk Library (IRL) in a third, a process map in a fourth, and a spreadsheet pulling it all together in a fifth. Two monitors. Sometimes three. The work isn't analysis — the work is <strong>keeping the cross-references aligned across five windows.</strong></p>
+      <p>This was the day the project started from. The original brief named the pain precisely:</p>
+      <ul>
+        <li><strong>Background.</strong> Analytics managers in risk practices were navigating a fragmented toolchain — VIA for analytics, IRL for the risk library, Symphony for orchestration, plus client-side systems like SAP and Oracle, plus document repositories, plus internal exception trackers. Each tool was good at its job. <em>Together they were a coordination problem.</em> The cognitive load wasn't computation — it was <strong>context-switching.</strong></li>
+        <li><strong>Problem.</strong> No centralised interface that could integrate the disparate analytics tools, automate repetitive tasks, and let users move between scope-setting, analysis, and reporting without losing context. Manual compilation across disparate sources was the norm — increasing cognitive load, raising the likelihood of oversight, and slowing decisions in environments where decision-velocity was the whole point.</li>
+        <li><strong>Needs.</strong> A unified interface that could <em>hold</em> the tools simultaneously rather than chain them. AI to automate cross-referencing across them. Seamless switching between tools and functionalities. Multi-pane and multi-monitor continuity (risk analysts genuinely work across more than one screen — the product had to respect that). Advanced AI-driven features for predictive analytics and scenario modelling.</li>
+        <li><strong>Goal.</strong> Build an AI-powered tool that lets analytics managers perform every activity needed for risk assessment within a single, cohesive interface — leveraging AI to automate processes and provide intelligent insights.</li>
+        <li><strong>Impact.</strong> Less time per assessment. More accurate evaluations. Managers freed to focus on <em>strategic decision-making</em> rather than tool wrangling.</li>
+      </ul>
+      <p><strong>The reframe that changed everything:</strong> the integration target wasn't "a unified dashboard." It was a unified <em>model.</em> And the canvas that held multiple tools at once was the substrate that made the model possible.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03 — WHERE AUDITORS ACTUALLY START
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">03 — Research</span>
+    <h2 class="section-title reveal">Auditors don't query data. <span class="accent-text">They look for what shouldn't be there.</span></h2>
+    <div class="prose reveal">
+      <p>The first useful piece of research was a framing exercise with the audit and risk team. The questions that surfaced were not about features — they were about <em>epistemology</em>:</p>
+      <ul>
+        <li><em>Where is the starting point for analytics going to be in the future?</em> — i.e., the workflow doesn't start with a dataset, it starts with a hypothesis.</li>
+        <li><em>How do auditors actually operate?</em> — They scan for exceptions. Reports either become internal findings (which trigger inquiry) or escalate into formal audits, because auditors look for opportunities to flag exceptions that need to be managed or assured against.</li>
+        <li><em>What's the data lifecycle?</em> — Ingested → quality-checked → identified for risk → processed → consumed.</li>
+      </ul>
+      <p>The synthesis was that risk analytics has <em>three primary entry points</em> — three different epistemic stances — and the product had to support all three from one interface:</p>
+      <ol>
+        <li><strong>Source-level exceptions.</strong> <em>"I want to analyse risk exceptions at source — by location, process, IT system, document, event/news, finding/evidence."</em></li>
+        <li><strong>Process-level mapping.</strong> <em>"I want to visualise the sequence of events that make up a process and find absence or mis-configuration of transactions inside it — diagnose gaps, unlinked events, broken transaction chains."</em></li>
+        <li><strong>Document-level evidence analysis.</strong> <em>"I want to conduct evidence analysis from financial documents and flag exceptions"</em> — custom analytics over unstructured data.</li>
+      </ol>
+      <p>These are three different ways of asking the same model the same kind of question — <em>what shouldn't be here?</em> The canvas had to support all three; the digital twin had to be queryable along all three axes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04 — FOUR PERSONAS, ONE ENGINE
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">04 — The users</span>
+    <h2 class="section-title reveal">Same model. <span class="accent-text">Four different decision surfaces.</span></h2>
+    <div class="prose reveal">
+      <p>The product had to serve four distinct personas:</p>
+      <ul>
+        <li><strong>CRO (Chief Risk Officer)</strong> — strategic exposure, board-level reporting, what-if scenarios for capital and concentration risk.</li>
+        <li><strong>Internal Auditor</strong> — exception-hunting at the transactional level, working from a defined audit scope (e.g., "SOX Audit 1245").</li>
+        <li><strong>Risk Consultant</strong> — designing the analytics, configuring the model, mapping process flows.</li>
+        <li><strong>Controls Manager</strong> — monitoring control effectiveness, managing the inventory of controls and their statuses.</li>
+      </ul>
+      <p>The temptation in enterprise software is to give each persona their own application. The strategic move with RAP was the opposite: <strong>one digital twin, one canvas, one conversational steering interface, persona-specific decision surfaces sitting on top.</strong></p>
+      <p>The conversational layer absorbed the difference. A CRO asks <em>"What's our concentration risk in the UKI portfolio if regulatory capital tightens?"</em> An Internal Auditor asks <em>"On SOX Audit 1245, flag transactions in the AZ entity that breach materiality."</em> A Controls Manager asks <em>"Which preventive controls have had failed test attempts in the last quarter?"</em> Same engine. Same data topology. Same digital twin. <strong>Different questions into it.</strong></p>
+      <p>The data topology was deliberately polyglot: SAP/Oracle, generic ERP, documents, images, CSV/Excel — because each persona's evidence sat in a different format and the model had to ingest all of it.</p>
+    </div>
+
+    <!-- DIAGRAM 01 — Four personas, one engine -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 01: Four personas, one engine">
+          <!-- Central engine -->
+          <circle cx="550" cy="350" r="92" class="fill-card-alt stroke-accent" stroke-width="2"/>
+          <circle cx="550" cy="350" r="62" class="fill-none stroke-accent" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55"/>
+          <text x="550" y="338" text-anchor="middle" class="fill-accent" font-size="13" font-weight="600" letter-spacing="0.1em">DIGITAL TWIN</text>
+          <text x="550" y="358" text-anchor="middle" class="fill-ink" font-size="22" font-weight="600" letter-spacing="-0.02em">One engine</text>
+          <text x="550" y="378" text-anchor="middle" class="fill-mute" font-size="12">shared scope · shared data topology</text>
+
+          <!-- Connector lines -->
+          <line x1="465" y1="295" x2="280" y2="160" class="stroke-soft" stroke-width="1.2"/>
+          <line x1="635" y1="295" x2="820" y2="160" class="stroke-soft" stroke-width="1.2"/>
+          <line x1="465" y1="405" x2="280" y2="540" class="stroke-soft" stroke-width="1.2"/>
+          <line x1="635" y1="405" x2="820" y2="540" class="stroke-soft" stroke-width="1.2"/>
+
+          <!-- CRO — top left -->
+          <rect x="50" y="60" width="460" height="200" rx="14" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="92" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CRO</text>
+          <text x="76" y="118" class="fill-ink" font-size="20" font-weight="600" letter-spacing="-0.02em">Chief Risk Officer</text>
+          <text x="76" y="148" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">QUESTION</text>
+          <text x="76" y="168" class="fill-ink2" font-size="13" font-style="italic">"Concentration risk in UKI if capital</text>
+          <text x="76" y="184" class="fill-ink2" font-size="13" font-style="italic">tightens?"</text>
+          <text x="76" y="210" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">DECISION SURFACE</text>
+          <text x="76" y="230" class="fill-ink2" font-size="13">Board-level heat map · what-if</text>
+          <text x="76" y="246" class="fill-ink2" font-size="13">portfolio scenarios</text>
+
+          <!-- Internal Auditor — top right -->
+          <rect x="590" y="60" width="460" height="200" rx="14" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="616" y="92" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">INTERNAL AUDITOR</text>
+          <text x="616" y="118" class="fill-ink" font-size="20" font-weight="600" letter-spacing="-0.02em">SOX scope holder</text>
+          <text x="616" y="148" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">QUESTION</text>
+          <text x="616" y="168" class="fill-ink2" font-size="13" font-style="italic">"On SOX Audit 1245, flag AZ entity</text>
+          <text x="616" y="184" class="fill-ink2" font-size="13" font-style="italic">transactions breaching materiality."</text>
+          <text x="616" y="210" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">DECISION SURFACE</text>
+          <text x="616" y="230" class="fill-ink2" font-size="13">Exception list · transaction drill ·</text>
+          <text x="616" y="246" class="fill-ink2" font-size="13">finding write-up</text>
+
+          <!-- Risk Consultant — bottom left -->
+          <rect x="50" y="440" width="460" height="200" rx="14" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="472" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">RISK CONSULTANT</text>
+          <text x="76" y="498" class="fill-ink" font-size="20" font-weight="600" letter-spacing="-0.02em">Model configurer</text>
+          <text x="76" y="528" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">QUESTION</text>
+          <text x="76" y="548" class="fill-ink2" font-size="13" font-style="italic">"Map this process — where do</text>
+          <text x="76" y="564" class="fill-ink2" font-size="13" font-style="italic">controls cluster vs gap?"</text>
+          <text x="76" y="590" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">DECISION SURFACE</text>
+          <text x="76" y="610" class="fill-ink2" font-size="13">Process map · risk relations ·</text>
+          <text x="76" y="626" class="fill-ink2" font-size="13">analytics designer</text>
+
+          <!-- Controls Manager — bottom right -->
+          <rect x="590" y="440" width="460" height="200" rx="14" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="616" y="472" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CONTROLS MANAGER</text>
+          <text x="616" y="498" class="fill-ink" font-size="20" font-weight="600" letter-spacing="-0.02em">Inventory steward</text>
+          <text x="616" y="528" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">QUESTION</text>
+          <text x="616" y="548" class="fill-ink2" font-size="13" font-style="italic">"Preventive controls with failed</text>
+          <text x="616" y="564" class="fill-ink2" font-size="13" font-style="italic">tests in the last quarter?"</text>
+          <text x="616" y="590" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.05em">DECISION SURFACE</text>
+          <text x="616" y="610" class="fill-ink2" font-size="13">Control library · test summaries ·</text>
+          <text x="616" y="626" class="fill-ink2" font-size="13">effectiveness trends</text>
+
+          <!-- Caption -->
+          <text x="550" y="685" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Different questions. Same digital twin. The conversational layer routes each persona to the right combination of panels.</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 01</span>Four personas, one engine — four different questions into the same digital twin. The conversational interface absorbs the difference between roles.</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     05 — INSIDE THE USER'S HEAD
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">05 — Inside the user's head</span>
+    <h2 class="section-title reveal">Read carefully, the Risk Manager wasn't asking for a tool. <span class="accent-text">They were asking for a cockpit.</span></h2>
+    <div class="prose reveal">
+      <p>Before designing screens, we mapped what the central persona — the Risk Manager — needed the product to <em>be</em>:</p>
+      <ul>
+        <li><em>An interface to connect to client data sources</em> — with a local data location where the user can place files and the system checks and updates them automatically.</li>
+        <li><em>A repository of rules that will be utilised for making data consumable</em> — the model's logic, exposed and editable.</li>
+        <li><em>A way to present me information that I need to act on</em> — surface-up, not pull-down.</li>
+        <li><em>A way to enable me to execute the activities needed to assess risks</em> — the simulation can be driven from the interface itself.</li>
+        <li><em>A common interface for accessing different services aligned to business-admin and system-admin needs</em> — i.e., the interface respects roles and entitlements.</li>
+      </ul>
+      <p>Read together, this is a brief for a digital-twin <em>cockpit</em> — not a reporting tool. <strong>Connect to my sources, hold the rules, surface what matters, let me act on it, and respect who I am.</strong></p>
+    </div>
+
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg" aria-label="Risk Manager mental model">
+          <!-- Central node: Risk Manager -->
+          <rect x="450" y="60" width="200" height="120" rx="10" class="fill-accent stroke-none"/>
+          <text x="550" y="106" text-anchor="middle" class="fill-accent-ink" font-size="14" font-weight="600" letter-spacing="0.1em">PERSONA</text>
+          <text x="550" y="138" text-anchor="middle" class="fill-accent-ink" font-size="26" font-weight="700" letter-spacing="-0.02em">Risk</text>
+          <text x="550" y="164" text-anchor="middle" class="fill-accent-ink" font-size="26" font-weight="700" letter-spacing="-0.02em">Manager</text>
+
+          <!-- ASK 01: Interface to client data sources -->
+          <rect x="380" y="240" width="280" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="398" y="266" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 01</text>
+          <text x="398" y="290" class="fill-ink" font-size="14" font-weight="600">An interface to connect to</text>
+          <text x="398" y="308" class="fill-ink" font-size="14" font-weight="600">client's data sources</text>
+          <text x="398" y="328" class="fill-mute" font-size="12" font-style="italic">— surface what's out there</text>
+
+          <!-- ASK 02: Local data location (linked bidirectionally to ASK 01) -->
+          <rect x="720" y="240" width="320" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="738" y="266" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 02</text>
+          <text x="738" y="290" class="fill-ink" font-size="14" font-weight="600">A local data location where</text>
+          <text x="738" y="308" class="fill-ink" font-size="14" font-weight="600">files can be placed — and the system</text>
+          <text x="738" y="326" class="fill-ink" font-size="14" font-weight="600">checks &amp; updates automatically</text>
+
+          <!-- bidirectional arrow between ASK 01 and ASK 02 -->
+          <line x1="664" y1="289" x2="716" y2="289" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="716,285 724,289 716,293" class="fill-accent stroke-none"/>
+          <polygon points="664,285 656,289 664,293" class="fill-accent stroke-none"/>
+
+          <!-- ASK 03: Repository of rules -->
+          <rect x="780" y="380" width="280" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="798" y="406" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 03</text>
+          <text x="798" y="430" class="fill-ink" font-size="14" font-weight="600">A repository of rules that will</text>
+          <text x="798" y="448" class="fill-ink" font-size="14" font-weight="600">be utilised for making</text>
+          <text x="798" y="466" class="fill-ink" font-size="14" font-weight="600">data consumable</text>
+
+          <!-- arrow from ASK 01 up to ASK 03 (data flowing into rules) -->
+          <path d="M540 338 Q 540 380 780 410" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="776,406 786,410 776,414" class="fill-accent stroke-none"/>
+
+          <!-- ASK 04: Present me information -->
+          <rect x="380" y="380" width="280" height="98" rx="10" class="fill-card stroke-accent" stroke-width="1.4"/>
+          <text x="398" y="406" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 04 · CORE</text>
+          <text x="398" y="430" class="fill-ink" font-size="14" font-weight="600">Present me information</text>
+          <text x="398" y="448" class="fill-ink" font-size="14" font-weight="600">that I need to act on</text>
+          <text x="398" y="468" class="fill-mute" font-size="12" font-style="italic">— surface-up, not pull-down</text>
+
+          <!-- ASK 05: Enable me execute -->
+          <rect x="380" y="520" width="280" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="398" y="546" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 05</text>
+          <text x="398" y="570" class="fill-ink" font-size="14" font-weight="600">Enable me to execute</text>
+          <text x="398" y="588" class="fill-ink" font-size="14" font-weight="600">activities needed to</text>
+          <text x="398" y="606" class="fill-ink" font-size="14" font-weight="600">assess risks</text>
+
+          <!-- ASK 06: Common interface for admin needs -->
+          <rect x="40" y="380" width="280" height="178" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="58" y="406" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 06</text>
+          <text x="58" y="430" class="fill-ink" font-size="14" font-weight="600">A common interface for</text>
+          <text x="58" y="448" class="fill-ink" font-size="14" font-weight="600">accessing different services</text>
+          <text x="58" y="468" class="fill-ink" font-size="14" font-weight="600">aligned to business-admin</text>
+          <text x="58" y="486" class="fill-ink" font-size="14" font-weight="600">&amp; system-admin needs</text>
+          <text x="58" y="516" class="fill-mute" font-size="12" font-style="italic">— the interface respects</text>
+          <text x="58" y="534" class="fill-mute" font-size="12" font-style="italic">  roles and entitlements</text>
+
+          <!-- Connector arrows from Risk Manager to surrounding nodes -->
+          <line x1="500" y1="180" x2="440" y2="234" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
+          <line x1="600" y1="180" x2="660" y2="234" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
+          <line x1="550" y1="180" x2="550" y2="374" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
+
+          <!-- Arrow from ASK 04 back to ASK 06 (left arrow) -->
+          <line x1="380" y1="425" x2="324" y2="425" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="324,421 316,425 324,429" class="fill-accent stroke-none"/>
+
+          <!-- Arrow wrapping from ASK 05 back to ASK 06 -->
+          <path d="M380 569 Q 340 569 340 510 Q 340 480 324 480" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="324,476 316,480 324,484" class="fill-accent stroke-none"/>
+
+          <!-- Caption -->
+          <text x="550" y="668" text-anchor="middle" class="fill-mute" font-size="13" font-style="italic">Six asks. Together they describe a cockpit, not a tool — connect, hold the rules, surface what matters, let me act, respect who I am.</text>
+          <text x="550" y="690" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">THE RISK MANAGER'S MENTAL MODEL</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Fig 01</span>The Risk Manager's mental model — six asks that, taken together, describe a digital-twin cockpit rather than a reporting tool.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================
+     06 — PLATFORM ARCHITECTURE
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">06 — System position</span>
+    <h2 class="section-title reveal">RAP sits between the data, the tools, <span class="accent-text">and the downstream apps.</span> It's a triple bridge.</h2>
+    <div class="prose reveal">
+      <p>Synthesising the working architecture, RAP occupies a position no single EY product had occupied before:</p>
+      <ul>
+        <li><strong>Below RAP:</strong> the client's heterogeneous data topology — SAP, Oracle, generic ERPs, custom systems, documents, CSVs, images.</li>
+        <li><strong>Around RAP:</strong> the EY risk tool ecosystem — <strong>VIA</strong> (analytics), <strong>IRL</strong> (Integrated Risk Library), <strong>Symphony</strong> (orchestration), <strong>Nexus</strong>, <strong>Cyber</strong>, <strong>Supply Chain</strong>, and others. Each of these is a sophisticated tool in its own right. RAP isn't replacing them — it's <em>hosting</em> them.</li>
+        <li><strong>Inside RAP:</strong> the digital twin itself — structured data ingestion, unstructured data consumption, a PRC (Process / Risk / Control) taxonomy hierarchy, a control-test and KRI analytics library, self-service workflow, continuous monitoring and dashboards, integrated data services. Wrapped in machine learning, natural language processing, neural networks, and voice-and-document understanding.</li>
+        <li><strong>Above RAP:</strong> the downstream risk applications that consume the model — Risk and Control Monitor, ICM, Issue Tracker, Reporting/Control Tower — and third-party GRC tools (AuditBoard, Workiva, TeamMate).</li>
+      </ul>
+      <p><strong>The crucial insight:</strong> RAP isn't an app. It isn't a dashboard either. <em>It's a host environment.</em> Other tools live inside it. The client's data flows up into it. The downstream apps consume from it. And in the middle of all that — assembled out of the tool outputs that the canvas holds together — sits the digital twin.</p>
+    </div>
+
+    <!-- DIAGRAM 02 — The Risk Simulation Stack -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 780" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 02: The Risk Simulation Stack">
+          <!-- Top: Decision Surfaces -->
+          <rect x="80" y="40" width="940" height="92" rx="12" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="100" y="68" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER 5 — DECISION SURFACES</text>
+          <text x="100" y="92" class="fill-ink" font-size="18" font-weight="600" letter-spacing="-0.018em">Heat maps · Risk relations · Dashboards · Exception lists · Board reports</text>
+          <text x="100" y="116" class="fill-mute" font-size="13">What each persona consumes — the persona-specific view of the model.</text>
+
+          <!-- AI Co-pilot layer -->
+          <rect x="80" y="158" width="940" height="80" rx="12" class="fill-card stroke-accent" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="100" y="186" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER 4 — AI CO-PILOT</text>
+          <text x="100" y="210" class="fill-ink" font-size="18" font-weight="600" letter-spacing="-0.018em">Conversational steering · NLP · uncertainty estimation · scenario perturbation</text>
+          <text x="100" y="232" class="fill-mute" font-size="13">The layer that interprets intent, conditions the simulation, and explains the output.</text>
+
+          <!-- Digital Twin -->
+          <rect x="80" y="264" width="940" height="106" rx="12" class="fill-card-alt stroke-accent" stroke-width="2"/>
+          <text x="100" y="292" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER 3 — DIGITAL TWIN (emergent)</text>
+          <text x="100" y="316" class="fill-ink" font-size="18" font-weight="600" letter-spacing="-0.018em">PRC taxonomy · KRI library · control-test logic · continuous monitoring</text>
+          <text x="100" y="338" class="fill-mute" font-size="13">Assembled out of the tool panels below — not built as a separate artefact.</text>
+          <text x="100" y="358" class="fill-mute" font-size="13" font-style="italic">Wrapped in ML, NLP, neural networks, voice &amp; document understanding.</text>
+
+          <!-- RAP Canvas hosting tools -->
+          <rect x="80" y="396" width="940" height="170" rx="12" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="100" y="424" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER 2 — RAP CANVAS (the host environment)</text>
+          <text x="100" y="448" class="fill-ink" font-size="18" font-weight="600" letter-spacing="-0.018em">Multi-pane workspace hosting EY tool panels with shared scope</text>
+          <!-- 6 tool chips -->
+          <g>
+            <rect x="100"  y="468" width="138" height="76" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+            <text x="169" y="496" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">EY</text>
+            <text x="169" y="516" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">VIA</text>
+            <text x="169" y="533" text-anchor="middle" class="fill-mute" font-size="11">Analytics</text>
+          </g>
+          <g>
+            <rect x="252"  y="468" width="138" height="76" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+            <text x="321" y="496" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">EY</text>
+            <text x="321" y="516" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">IRL</text>
+            <text x="321" y="533" text-anchor="middle" class="fill-mute" font-size="11">Risk Library</text>
+          </g>
+          <g>
+            <rect x="404"  y="468" width="138" height="76" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+            <text x="473" y="496" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">EY</text>
+            <text x="473" y="516" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Symphony</text>
+            <text x="473" y="533" text-anchor="middle" class="fill-mute" font-size="11">Orchestration</text>
+          </g>
+          <g>
+            <rect x="556"  y="468" width="138" height="76" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+            <text x="625" y="496" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">EY</text>
+            <text x="625" y="516" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Nexus</text>
+            <text x="625" y="533" text-anchor="middle" class="fill-mute" font-size="11">Risk Ops</text>
+          </g>
+          <g>
+            <rect x="708"  y="468" width="138" height="76" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+            <text x="777" y="496" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">EY</text>
+            <text x="777" y="516" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Cyber</text>
+            <text x="777" y="533" text-anchor="middle" class="fill-mute" font-size="11">Threat surface</text>
+          </g>
+          <g>
+            <rect x="860"  y="468" width="138" height="76" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+            <text x="929" y="496" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">EY</text>
+            <text x="929" y="516" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Supply Chain</text>
+            <text x="929" y="533" text-anchor="middle" class="fill-mute" font-size="11">Vendor risk</text>
+          </g>
+
+          <!-- Data sources base -->
+          <rect x="80" y="592" width="940" height="92" rx="12" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="100" y="620" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER 1 — CLIENT DATA TOPOLOGY</text>
+          <text x="100" y="644" class="fill-ink" font-size="18" font-weight="600" letter-spacing="-0.018em">SAP · Oracle · generic ERPs · custom systems · documents · images · CSV</text>
+          <text x="100" y="666" class="fill-mute" font-size="13">Polyglot ingest — structured and unstructured, with quality checks and lineage tracking.</text>
+
+          <!-- Downstream apps strip -->
+          <text x="80" y="712" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">CONSUMED BY (downstream)</text>
+          <text x="80" y="732" class="fill-ink2" font-size="13">Risk &amp; Control Monitor · ICM · Issue Tracker · Reporting / Control Tower</text>
+          <text x="80" y="750" class="fill-ink2" font-size="13" font-style="italic">+ third-party GRC: AuditBoard · Workiva · TeamMate</text>
+
+          <!-- Upward flow arrows -->
+          <line x1="60" y1="640" x2="60" y2="80" class="stroke-accent" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <polygon points="56,80 60,68 64,80" class="fill-accent stroke-none"/>
+          <text x="40" y="370" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.1em" transform="rotate(-90 40 370)">DATA FLOWS UP</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 02</span>The Risk Simulation Stack — five layers, with the digital twin emerging out of the tool panels the canvas holds together.</figcaption>
+    </figure>
+
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1200 820" xmlns="http://www.w3.org/2000/svg" aria-label="RAP platform architecture">
+          <!-- Top: IRL banner -->
+          <rect x="40" y="20" width="1120" height="36" rx="6" class="fill-accent stroke-none"/>
+          <text x="600" y="44" text-anchor="middle" class="fill-accent-ink" font-size="14" font-weight="700" letter-spacing="0.15em">IRL · INTEGRATED RISK LIBRARY</text>
+
+          <!-- Top right: EY One Risk Apps -->
+          <rect x="860" y="78" width="300" height="170" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="876" y="104" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">EY ONE RISK APPS</text>
+          <rect x="876" y="118" width="130" height="42" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="941" y="143" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">TPRM</text>
+          <rect x="1016" y="118" width="130" height="42" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="1081" y="143" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">RCM</text>
+          <rect x="876" y="168" width="130" height="42" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="941" y="193" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">ICM</text>
+          <rect x="1016" y="168" width="130" height="42" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="1081" y="193" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Others</text>
+          <rect x="966" y="216" width="130" height="24" rx="6" class="fill-accent stroke-none"/>
+          <text x="1031" y="232" text-anchor="middle" class="fill-accent-ink" font-size="12" font-weight="700">VIA</text>
+
+          <!-- Top center: Long term placeholder -->
+          <rect x="380" y="78" width="440" height="78" rx="10" class="fill-none stroke-mute" stroke-width="1.2" stroke-dasharray="4 4"/>
+          <text x="600" y="110" text-anchor="middle" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">VISION</text>
+          <text x="600" y="134" text-anchor="middle" class="fill-ink" font-size="18" font-weight="600" letter-spacing="-0.02em">Long term</text>
+
+          <!-- Left: EY tools stack -->
+          <text x="50" y="195" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">EY TOOLS</text>
+          <rect x="50" y="208" width="170" height="32" rx="6" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="135" y="228" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Symphony</text>
+          <rect x="50" y="246" width="170" height="32" rx="6" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="135" y="266" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Crowd source</text>
+          <rect x="50" y="284" width="170" height="32" rx="6" class="fill-accent stroke-none"/>
+          <text x="135" y="304" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">EY VIA analytics</text>
+          <rect x="50" y="322" width="170" height="32" rx="6" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="135" y="342" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Nexus</text>
+          <rect x="50" y="360" width="170" height="32" rx="6" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="135" y="380" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Cyber</text>
+          <rect x="50" y="398" width="170" height="32" rx="6" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="135" y="418" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Supply chain</text>
+          <rect x="50" y="436" width="170" height="32" rx="6" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="135" y="456" text-anchor="middle" class="fill-ink2" font-size="13">Others</text>
+
+          <!-- Center-left: Analytics HUB as a platform -->
+          <rect x="250" y="178" width="300" height="298" rx="10" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <rect x="250" y="178" width="300" height="48" rx="10" class="fill-ink stroke-none"/>
+          <text x="400" y="200" text-anchor="middle" class="fill-bg" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER · PLATFORM</text>
+          <text x="400" y="218" text-anchor="middle" class="fill-bg" font-size="14" font-weight="700">Analytics HUB</text>
+          <text x="266" y="252" class="fill-ink2" font-size="12">• Collect, transform &amp; shape</text>
+          <text x="266" y="270" class="fill-ink2" font-size="12">  sources to EY RAP</text>
+          <text x="266" y="290" class="fill-ink2" font-size="12">• Test repository</text>
+          <text x="266" y="310" class="fill-ink2" font-size="12">• Automated connection to</text>
+          <text x="266" y="328" class="fill-ink2" font-size="12">  other EY systems</text>
+          <text x="266" y="348" class="fill-ink2" font-size="12">• AI / ML capability</text>
+          <text x="266" y="368" class="fill-ink2" font-size="12">• Unstructured data ingestion</text>
+          <text x="266" y="388" class="fill-ink2" font-size="12">• LLM / GenAI capability</text>
+          <rect x="266" y="402" width="170" height="24" rx="4" class="fill-accent stroke-none"/>
+          <text x="351" y="418" text-anchor="middle" class="fill-accent-ink" font-size="11" font-weight="700" letter-spacing="0.06em">DATA INGESTION</text>
+
+          <!-- Center-right: EY RAP as an app -->
+          <rect x="572" y="178" width="300" height="298" rx="10" class="fill-card stroke-accent" stroke-width="1.8"/>
+          <rect x="572" y="178" width="300" height="48" rx="10" class="fill-accent stroke-none"/>
+          <text x="722" y="200" text-anchor="middle" class="fill-accent-ink" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER · APP</text>
+          <text x="722" y="218" text-anchor="middle" class="fill-accent-ink" font-size="14" font-weight="700">EY RAP (carve out VIA RM)</text>
+          <text x="588" y="252" class="fill-ink2" font-size="12">• System agnostic</text>
+          <text x="588" y="270" class="fill-ink2" font-size="12">• KRI cockpit</text>
+          <text x="588" y="290" class="fill-ink2" font-size="12">• Test evaluation &amp; interpretation</text>
+          <text x="588" y="310" class="fill-ink2" font-size="12">• Feedback system (writeback)</text>
+          <text x="588" y="330" class="fill-ink2" font-size="12">• Notification system</text>
+          <text x="588" y="350" class="fill-ink2" font-size="12">• Sampling engine</text>
+          <text x="588" y="370" class="fill-ink2" font-size="12">• Workflow over results</text>
+          <text x="588" y="390" class="fill-ink2" font-size="12">• Workpapers</text>
+
+          <!-- Arrows from EY tools stack into Analytics HUB -->
+          <line x1="220" y1="300" x2="250" y2="300" class="stroke-mute" stroke-width="1.1"/>
+          <polygon points="250,296 258,300 250,304" class="fill-mute stroke-none"/>
+
+          <!-- Arrows from RAP to user -->
+          <path d="M872 280 Q 950 290 980 310" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="976,306 986,310 978,317" class="fill-accent stroke-none"/>
+          <path d="M872 380 Q 950 380 980 360" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="976,364 986,360 978,353" class="fill-accent stroke-none"/>
+
+          <!-- User glyph -->
+          <g transform="translate(990,310)">
+            <circle cx="20" cy="14" r="8" class="fill-accent stroke-none"/>
+            <path d="M5 36 Q 20 22 35 36" class="fill-accent stroke-none"/>
+            <circle cx="36" cy="20" r="6" class="fill-accent stroke-none" opacity="0.7"/>
+            <path d="M26 38 Q 36 28 46 38" class="fill-accent stroke-none" opacity="0.7"/>
+          </g>
+          <text x="1020" y="395" text-anchor="middle" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.06em">USERS</text>
+
+          <!-- Workbench tier -->
+          <rect x="250" y="500" width="190" height="50" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="345" y="520" text-anchor="middle" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">CONNECTOR</text>
+          <text x="345" y="538" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Client workbench · staging</text>
+
+          <rect x="455" y="500" width="190" height="50" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="550" y="520" text-anchor="middle" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">CONNECTOR</text>
+          <text x="550" y="538" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Client workbench · staging</text>
+
+          <rect x="660" y="500" width="212" height="50" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="766" y="520" text-anchor="middle" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">CONNECTOR</text>
+          <text x="766" y="538" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Direct connector (Alteryx)</text>
+
+          <!-- Bottom: Client data sources -->
+          <text x="250" y="582" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CLIENT DATA TOPOLOGY</text>
+          <rect x="250" y="595" width="190" height="64" rx="8" class="fill-card-alt stroke-accent" stroke-width="1"/>
+          <text x="345" y="620" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Client SAP, Oracle</text>
+          <text x="345" y="640" text-anchor="middle" class="fill-mute" font-size="11">structured ERP</text>
+
+          <rect x="455" y="595" width="190" height="64" rx="8" class="fill-card-alt stroke-accent" stroke-width="1"/>
+          <text x="550" y="620" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Client ERP (generic)</text>
+          <text x="550" y="640" text-anchor="middle" class="fill-mute" font-size="11">structured ERP</text>
+
+          <rect x="660" y="595" width="212" height="64" rx="8" class="fill-card-alt stroke-accent" stroke-width="1"/>
+          <text x="766" y="620" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Client Custom Systems</text>
+          <text x="766" y="640" text-anchor="middle" class="fill-mute" font-size="11">custom / on-prem</text>
+
+          <!-- Vertical lines from data sources up into workbench then platform -->
+          <line x1="345" y1="595" x2="345" y2="550" class="stroke-mute" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="550" y1="595" x2="550" y2="550" class="stroke-mute" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="766" y1="595" x2="766" y2="550" class="stroke-mute" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="345" y1="500" x2="345" y2="478" class="stroke-mute" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="550" y1="500" x2="550" y2="478" class="stroke-mute" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="766" y1="500" x2="766" y2="478" class="stroke-mute" stroke-width="1" stroke-dasharray="3 3"/>
+
+          <!-- 3rd party tools -->
+          <rect x="930" y="500" width="230" height="220" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="946" y="526" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">3rd PARTY TOOLS · GRC</text>
+          <rect x="946" y="540" width="98" height="38" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="995" y="563" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">AuditBoard</text>
+          <rect x="1054" y="540" width="92" height="38" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="1100" y="563" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Workiva</text>
+          <rect x="946" y="586" width="98" height="38" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="995" y="609" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">TeamMate</text>
+          <rect x="1054" y="586" width="92" height="38" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="1100" y="609" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">GRC / CCM</text>
+          <rect x="946" y="632" width="200" height="38" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="1046" y="655" text-anchor="middle" class="fill-ink2" font-size="12">Others</text>
+
+          <!-- Arrows from RAP to 3rd party tools (via user) -->
+          <path d="M1040 360 L 1040 500" class="stroke-accent fill-none" stroke-width="1.4" stroke-dasharray="4 3"/>
+          <polygon points="1036,496 1040,508 1044,496" class="fill-accent stroke-none"/>
+
+          <!-- Caption block at bottom -->
+          <text x="600" y="752" text-anchor="middle" class="fill-mute" font-size="13" font-style="italic">RAP is a host environment — data flows up from the client topology, tool panels live inside RAP, the model emerges, downstream apps consume.</text>
+          <text x="600" y="776" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">PLATFORM POSITIONING · TRIPLE BRIDGE</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Fig 02</span>RAP's platform architecture — Analytics HUB platform and EY RAP app side by side, sitting between the client data topology below, the EY tool ecosystem to the left, the EY One Risk Apps above, and third-party GRC tools to the right.</figcaption>
+    </figure>
+
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" aria-label="Ever-evolving solution cube">
+          <!-- Title -->
+          <text x="40" y="40" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.12em">AN EVER-EVOLVING SOLUTION</text>
+          <text x="40" y="74" class="fill-ink" font-size="24" font-weight="600" letter-spacing="-0.02em">The model has layers. The AI wraps every face of it.</text>
+
+          <!-- Left column: descriptive text -->
+          <rect x="40" y="106" width="320" height="436" rx="14" class="fill-card-alt stroke-soft" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="60" y="138" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">WHAT IT IS</text>
+          <text x="60" y="162" class="fill-ink" font-size="13" font-weight="600">EY's self-service testing platform</text>
+          <text x="60" y="182" class="fill-ink2" font-size="12">for standardised analytics-driven</text>
+          <text x="60" y="200" class="fill-ink2" font-size="12">testing and risk analysis across</text>
+          <text x="60" y="218" class="fill-ink2" font-size="12">core business process audits.</text>
+
+          <text x="60" y="258" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">WHY IT MATTERS</text>
+          <text x="60" y="282" class="fill-ink2" font-size="12">Full population coverage —</text>
+          <text x="60" y="300" class="fill-ink2" font-size="12">during <tspan font-style="italic">and</tspan> outside the audit</text>
+          <text x="60" y="318" class="fill-ink2" font-size="12">lifecycle — to uncover systemic</text>
+          <text x="60" y="336" class="fill-ink2" font-size="12">control or process inefficacy.</text>
+
+          <text x="60" y="376" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">HOW IT SCALES</text>
+          <text x="60" y="400" class="fill-ink2" font-size="12">Service-enabled cloud architecture</text>
+          <text x="60" y="418" class="fill-ink2" font-size="12">— rapid scaling with integrated</text>
+          <text x="60" y="436" class="fill-ink2" font-size="12">testing capability that saves</text>
+          <text x="60" y="454" class="fill-ink2" font-size="12">time and manual effort while</text>
+          <text x="60" y="472" class="fill-ink2" font-size="12">improving coverage and discovery</text>
+          <text x="60" y="490" class="fill-ink2" font-size="12">of potential issues.</text>
+
+          <!-- Center: Isometric layered cube -->
+          <!-- Cube top face (parallelogram) -->
+          <g>
+            <!-- Top arrows pointing down into cube -->
+            <line x1="540" y1="142" x2="540" y2="182" class="stroke-accent" stroke-width="1.4"/>
+            <polygon points="536,178 540,188 544,178" class="fill-accent stroke-none"/>
+            <text x="540" y="134" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Unstructured data consumption</text>
+
+            <line x1="720" y1="142" x2="720" y2="182" class="stroke-accent" stroke-width="1.4"/>
+            <polygon points="716,178 720,188 724,178" class="fill-accent stroke-none"/>
+            <text x="720" y="134" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Structured data ingestion</text>
+
+            <!-- Cube top (skewed parallelogram for isometric feel) -->
+            <polygon points="430,190 770,190 820,220 480,220" class="fill-accent" opacity="0.20" stroke="var(--accent)" stroke-width="1"/>
+
+            <!-- Cube layers stacked (from top to bottom) -->
+            <g>
+              <!-- Layer 1: PRC taxonomy -->
+              <rect x="430" y="220" width="340" height="48" class="fill-accent" opacity="0.92"/>
+              <polygon points="770,220 820,250 820,298 770,268" class="fill-accent" opacity="0.65"/>
+              <polygon points="770,268 820,298" class="stroke-accent" stroke-width="0.5"/>
+              <text x="600" y="250" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">PRC taxonomy hierarchy</text>
+
+              <!-- Layer 2 -->
+              <rect x="430" y="268" width="340" height="48" class="fill-accent" opacity="0.78"/>
+              <polygon points="770,268 820,298 820,346 770,316" class="fill-accent" opacity="0.55"/>
+              <text x="600" y="298" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">Control test, KRI &amp; analytics library</text>
+
+              <!-- Layer 3 -->
+              <rect x="430" y="316" width="340" height="48" class="fill-accent" opacity="0.64"/>
+              <polygon points="770,316 820,346 820,394 770,364" class="fill-accent" opacity="0.45"/>
+              <text x="600" y="346" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">Self-service workflow &amp; functionality</text>
+
+              <!-- Layer 4 -->
+              <rect x="430" y="364" width="340" height="48" class="fill-accent" opacity="0.50"/>
+              <polygon points="770,364 820,394 820,442 770,412" class="fill-accent" opacity="0.35"/>
+              <text x="600" y="394" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">Continuous monitoring &amp; dashboards</text>
+
+              <!-- Layer 5 -->
+              <rect x="430" y="412" width="340" height="48" class="fill-accent" opacity="0.36"/>
+              <polygon points="770,412 820,442 820,490 770,460" class="fill-accent" opacity="0.26"/>
+              <text x="600" y="442" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">Integrated data services &amp; model</text>
+
+              <!-- Left face (subtle shading) -->
+              <polygon points="430,220 430,460 480,490 480,250" class="fill-bg" opacity="0.15"/>
+            </g>
+
+            <!-- Right side AI wrap labels (diagonal) -->
+            <g transform="translate(826,260) rotate(-90)">
+              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Machine learning</text>
+            </g>
+            <g transform="translate(844,275) rotate(-90)">
+              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Artificial intelligence</text>
+            </g>
+            <g transform="translate(862,300) rotate(-90)">
+              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Natural language processing</text>
+            </g>
+            <g transform="translate(880,290) rotate(-90)">
+              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Neural networks</text>
+            </g>
+            <g transform="translate(898,300) rotate(-90)">
+              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Voice &amp; document</text>
+            </g>
+
+            <text x="600" y="510" text-anchor="middle" class="fill-mute" font-size="11" font-style="italic">AI wraps every face of the cube</text>
+          </g>
+
+          <!-- Right column: 4 category cards -->
+          <rect x="940" y="106" width="220" height="100" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="956" y="130" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">TEST SCENARIO LIBRARY</text>
+          <text x="956" y="146" class="fill-ink" font-size="13" font-weight="700">1000+ routines</text>
+          <text x="956" y="168" class="fill-ink2" font-size="11">▸ inventory across</text>
+          <text x="956" y="184" class="fill-ink2" font-size="11">   process value chain</text>
+          <text x="956" y="200" class="fill-ink2" font-size="11">▸ increased coverage</text>
+
+          <rect x="940" y="216" width="220" height="100" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="956" y="240" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">DATA INGESTION</text>
+          <text x="956" y="256" class="fill-ink" font-size="13" font-weight="700">Multi-source</text>
+          <text x="956" y="278" class="fill-ink2" font-size="11">▸ traditional tabular</text>
+          <text x="956" y="294" class="fill-ink2" font-size="11">▸ featureless</text>
+          <text x="956" y="310" class="fill-ink2" font-size="11">   unstructured</text>
+
+          <rect x="940" y="326" width="220" height="100" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="956" y="350" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">INTEGRATED SERVICES</text>
+          <text x="956" y="366" class="fill-ink" font-size="13" font-weight="700">PRC ingestion</text>
+          <text x="956" y="388" class="fill-ink2" font-size="11">▸ client EDW / data</text>
+          <text x="956" y="404" class="fill-ink2" font-size="11">   lake / upstream</text>
+          <text x="956" y="420" class="fill-ink2" font-size="11">▸ GRC linkage</text>
+
+          <rect x="940" y="436" width="220" height="106" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="956" y="460" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">SELF-SERVICE WORKFLOW</text>
+          <text x="956" y="476" class="fill-ink" font-size="13" font-weight="700">Familiar PRC structure</text>
+          <text x="956" y="498" class="fill-ink2" font-size="11">▸ configured scripts</text>
+          <text x="956" y="514" class="fill-ink2" font-size="11">▸ ad-hoc / scheduled</text>
+          <text x="956" y="530" class="fill-ink2" font-size="11">▸ exception dashboards</text>
+
+          <!-- Bottom pill badges -->
+          <rect x="40" y="586" width="270" height="44" rx="22" class="fill-card stroke-accent" stroke-width="1.2"/>
+          <circle cx="68" cy="608" r="9" class="fill-accent stroke-none"/>
+          <text x="86" y="613" class="fill-ink" font-size="12" font-weight="600">Full population coverage</text>
+
+          <rect x="324" y="586" width="270" height="44" rx="22" class="fill-card stroke-accent" stroke-width="1.2"/>
+          <circle cx="352" cy="608" r="9" class="fill-accent stroke-none"/>
+          <text x="370" y="613" class="fill-ink" font-size="12" font-weight="600">Increased assurance</text>
+
+          <rect x="608" y="586" width="270" height="44" rx="22" class="fill-card stroke-accent" stroke-width="1.2"/>
+          <circle cx="636" cy="608" r="9" class="fill-accent stroke-none"/>
+          <text x="654" y="613" class="fill-ink" font-size="12" font-weight="600">Efficiency improvement</text>
+
+          <rect x="892" y="586" width="268" height="44" rx="22" class="fill-card stroke-accent" stroke-width="1.2"/>
+          <circle cx="920" cy="608" r="9" class="fill-accent stroke-none"/>
+          <text x="938" y="613" class="fill-ink" font-size="12" font-weight="600">Data ingestion flexibility</text>
+
+          <!-- Caption -->
+          <text x="600" y="688" text-anchor="middle" class="fill-mute" font-size="13" font-style="italic">Five model layers from PRC taxonomy down to the integrated data services that hold them together — wrapped in ML, AI, NLP, neural networks and document understanding.</text>
+          <text x="600" y="712" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">THE EVER-EVOLVING SOLUTION</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Fig 03</span>The ever-evolving solution cube — five model layers wrapped in ML, NLP, neural networks, and document understanding; surrounded by what the cube delivers (1000+ test scenarios, multi-source ingestion, integrated services, self-service workflow).</figcaption>
+    </figure>
+
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" aria-label="Three ways of accessing data — tomorrow">
+          <!-- Title -->
+          <text x="40" y="40" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.12em">THE THREE WAYS OF ACCESSING DATA — TOMORROW</text>
+          <text x="40" y="74" class="fill-ink" font-size="24" font-weight="600" letter-spacing="-0.02em">Three paths in. One transformation hub. One consumption fabric.</text>
+
+          <!-- Swim lane headers -->
+          <rect x="40" y="106" width="350" height="34" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="215" y="128" text-anchor="middle" class="fill-ink" font-size="12" font-weight="700" letter-spacing="0.1em">CLIENT ENVIRONMENT</text>
+
+          <rect x="402" y="106" width="350" height="34" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="577" y="128" text-anchor="middle" class="fill-ink" font-size="12" font-weight="700" letter-spacing="0.1em">TRANSFORMATION</text>
+
+          <rect x="764" y="106" width="396" height="34" rx="6" class="fill-card-alt stroke-soft" stroke-width="1"/>
+          <text x="962" y="128" text-anchor="middle" class="fill-ink" font-size="12" font-weight="700" letter-spacing="0.1em">CONSUMPTION</text>
+
+          <!-- ============================================================
+               PATH 1 (TOP): SAP/ORACLE → Extraction utility
+               ============================================================ -->
+          <text x="40" y="172" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">PATH 01 · STRUCTURED ERP</text>
+          <rect x="40" y="186" width="140" height="50" rx="8" class="fill-card stroke-accent" stroke-width="1.4"/>
+          <text x="110" y="216" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">SAP / Oracle</text>
+
+          <line x1="180" y1="211" x2="206" y2="211" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="206,207 214,211 206,215" class="fill-accent stroke-none"/>
+
+          <rect x="216" y="186" width="174" height="50" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="303" y="206" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Extraction utility</text>
+          <text x="303" y="224" text-anchor="middle" class="fill-mute" font-size="10" font-style="italic">Smart Exporter · Helix</text>
+
+          <line x1="390" y1="211" x2="412" y2="211" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="412,207 420,211 412,215" class="fill-accent stroke-none"/>
+
+          <!-- ============================================================
+               PATH 2 (MIDDLE): Client systems → Client workbench
+               ============================================================ -->
+          <text x="40" y="276" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">PATH 02 · CLIENT WORKBENCH</text>
+          <rect x="40" y="290" width="140" height="50" rx="8" class="fill-card stroke-accent" stroke-width="1.4"/>
+          <text x="110" y="320" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Client systems</text>
+
+          <line x1="180" y1="315" x2="206" y2="315" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="206,311 214,315 206,319" class="fill-accent stroke-none"/>
+
+          <rect x="216" y="290" width="174" height="50" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="303" y="310" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Client workbench</text>
+          <text x="303" y="328" text-anchor="middle" class="fill-mute" font-size="10" font-style="italic">AH on-prem</text>
+
+          <line x1="390" y1="315" x2="412" y2="315" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="412,311 420,315 412,319" class="fill-accent stroke-none"/>
+
+          <!-- ============================================================
+               PATH 3 (BOTTOM): Client system → EY Analytics query in-place
+               ============================================================ -->
+          <text x="40" y="380" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">PATH 03 · IN-PLACE QUERY</text>
+          <rect x="40" y="394" width="140" height="50" rx="8" class="fill-card stroke-accent" stroke-width="1.4"/>
+          <text x="110" y="424" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600">Client system</text>
+
+          <line x1="180" y1="419" x2="206" y2="419" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="206,415 214,419 206,423" class="fill-accent stroke-none"/>
+
+          <rect x="216" y="384" width="174" height="70" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="303" y="404" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">EY Analytics query</text>
+          <text x="303" y="420" text-anchor="middle" class="fill-mute" font-size="10" font-style="italic">executed directly</text>
+          <text x="303" y="436" text-anchor="middle" class="fill-mute" font-size="10" font-style="italic">in client environment</text>
+
+          <line x1="390" y1="419" x2="412" y2="419" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="412,415 420,419 412,423" class="fill-accent stroke-none"/>
+
+          <!-- ============================================================
+               ANALYTICS HUB (transformation column)
+               ============================================================ -->
+          <rect x="420" y="170" width="200" height="290" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <rect x="420" y="170" width="200" height="34" rx="10" class="fill-accent stroke-none"/>
+          <text x="520" y="192" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">Analytics Hub</text>
+
+          <rect x="436" y="218" width="168" height="32" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="520" y="238" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">VIA Generic data mapper</text>
+
+          <rect x="436" y="258" width="168" height="32" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="520" y="278" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">VIA Canned execution</text>
+
+          <rect x="436" y="298" width="168" height="32" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="520" y="318" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Analytics transformation</text>
+
+          <rect x="436" y="338" width="168" height="32" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="520" y="358" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Symphony</text>
+
+          <rect x="436" y="378" width="168" height="68" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8" stroke-dasharray="3 2"/>
+          <text x="520" y="400" text-anchor="middle" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">DATA MGMT</text>
+          <text x="520" y="418" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">RM data management</text>
+          <text x="520" y="436" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">+ writeback</text>
+
+          <!-- Arrow from Hub to IRL -->
+          <line x1="620" y1="220" x2="660" y2="220" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="660,216 668,220 660,224" class="fill-accent stroke-none"/>
+
+          <!-- IRL block -->
+          <rect x="668" y="196" width="92" height="48" rx="8" class="fill-accent stroke-none"/>
+          <text x="714" y="217" text-anchor="middle" class="fill-accent-ink" font-size="11" font-weight="700" letter-spacing="0.1em">IRL</text>
+          <text x="714" y="233" text-anchor="middle" class="fill-accent-ink" font-size="10" font-weight="600">Risk library</text>
+
+          <!-- IRL ↔ Risk and Control Monitor (vertical) -->
+          <line x1="714" y1="244" x2="714" y2="288" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="710,288 714,296 718,288" class="fill-accent stroke-none"/>
+          <polygon points="710,252 714,244 718,252" class="fill-accent stroke-none"/>
+
+          <!-- Risk and Control Monitor -->
+          <rect x="660" y="296" width="108" height="64" rx="8" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="714" y="318" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.06em">CONTROL</text>
+          <text x="714" y="334" text-anchor="middle" class="fill-ink" font-size="11" font-weight="700">Risk &amp; Control</text>
+          <text x="714" y="350" text-anchor="middle" class="fill-ink" font-size="11" font-weight="700">Monitor</text>
+
+          <!-- below RCM: stack of KPI / Writeback / CCM -->
+          <rect x="660" y="376" width="108" height="28" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="714" y="394" text-anchor="middle" class="fill-ink" font-size="10" font-weight="600">Self-service KPI</text>
+
+          <rect x="660" y="408" width="108" height="28" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="714" y="426" text-anchor="middle" class="fill-ink" font-size="10" font-weight="600">Writeback</text>
+
+          <rect x="660" y="440" width="108" height="28" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="714" y="458" text-anchor="middle" class="fill-ink" font-size="10" font-weight="600">CCM metrics</text>
+
+          <!-- ============================================================
+               CONSUMPTION column — split fan out
+               ============================================================ -->
+          <line x1="768" y1="220" x2="800" y2="220" class="stroke-mute" stroke-width="1.1"/>
+
+          <rect x="800" y="170" width="170" height="42" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="885" y="195" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Manual testing</text>
+
+          <rect x="990" y="170" width="170" height="42" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="1075" y="195" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Inquiries</text>
+
+          <rect x="800" y="222" width="170" height="42" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="885" y="247" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Integrated Risk Library</text>
+
+          <rect x="990" y="222" width="170" height="42" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="1075" y="247" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">ICM</text>
+
+          <rect x="800" y="274" width="170" height="42" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="885" y="299" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Issue tracker</text>
+
+          <rect x="990" y="274" width="170" height="42" rx="8" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="1075" y="299" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Others</text>
+
+          <rect x="800" y="326" width="360" height="42" rx="8" class="fill-card stroke-accent" stroke-width="1.4"/>
+          <text x="980" y="351" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Reporting / Control Tower</text>
+
+          <!-- Fan out lines from RCM area to consumption -->
+          <path d="M768 326 Q 780 280 800 240" class="stroke-mute fill-none" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M768 326 Q 780 290 800 256" class="stroke-mute fill-none" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M768 340 L 800 295" class="stroke-mute fill-none" stroke-width="1" stroke-dasharray="3 3"/>
+          <path d="M768 360 L 800 347" class="stroke-mute fill-none" stroke-width="1" stroke-dasharray="3 3"/>
+
+          <!-- Annotation -->
+          <text x="600" y="500" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">THE PRINCIPLE</text>
+          <text x="600" y="528" text-anchor="middle" class="fill-ink" font-size="16" font-weight="600" letter-spacing="-0.018em">Three paths in. One transformation hub. One consumption fabric.</text>
+          <text x="600" y="552" text-anchor="middle" class="fill-mute" font-size="12">The client never has to pick "which way" — RAP handles all three and presents the same model to the consumer.</text>
+
+          <!-- Three principle cards -->
+          <rect x="40" y="586" width="360" height="86" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="58" y="610" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">PATH 01</text>
+          <text x="58" y="632" class="fill-ink" font-size="13" font-weight="600">Structured ERP extraction</text>
+          <text x="58" y="652" class="fill-ink2" font-size="11">For SAP / Oracle clients with mature</text>
+          <text x="58" y="666" class="fill-ink2" font-size="11">extraction tooling already in place.</text>
+
+          <rect x="420" y="586" width="360" height="86" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="438" y="610" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">PATH 02</text>
+          <text x="438" y="632" class="fill-ink" font-size="13" font-weight="600">On-prem client workbench</text>
+          <text x="438" y="652" class="fill-ink2" font-size="11">For clients who keep transformation</text>
+          <text x="438" y="666" class="fill-ink2" font-size="11">inside their perimeter.</text>
+
+          <rect x="800" y="586" width="360" height="86" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="818" y="610" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">PATH 03</text>
+          <text x="818" y="632" class="fill-ink" font-size="13" font-weight="600">In-place query</text>
+          <text x="818" y="652" class="fill-ink2" font-size="11">For data that can't leave the client</text>
+          <text x="818" y="666" class="fill-ink2" font-size="11">environment at all — query runs there.</text>
+
+          <!-- Caption -->
+          <text x="600" y="704" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">FUTURE-STATE DATA ACCESS MODEL</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Fig 04</span>The three ways of accessing data — tomorrow. Structured ERP extraction, on-prem client workbench, and in-place query all funnel through Analytics Hub into IRL and Risk &amp; Control Monitor, then fan out into the consumption fabric.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================
+     07 — THE CANVAS (foundational move)
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">07 — The foundational move</span>
+    <h2 class="section-title reveal">Multiple tools, one canvas, two monitors. <span class="accent-text">The infrastructure that made the simulation possible.</span></h2>
+    <p class="section-deck reveal">This is the design move that everything else stands on. Before the conversation. Before the heat map. Before the uncertainty visualisation. There had to be a canvas that could hold the analyst's actual workflow.</p>
+
+    <div class="prose reveal">
+      <p>Three principles defined it.</p>
+    </div>
+
+    <h3 class="sub-h reveal"><span class="num">P1</span>Multi-pane in one window.</h3>
+    <div class="prose reveal">
+      <p>The right side of RAP isn't a single tile — it's a tileable workspace that can hold multiple tool surfaces at once. The hi-fi shows two panels rendered side by side (Inherent Risk Map + Risk Relations), but the architecture is generalised: <strong>any tool surface that respects the RAP integration protocol can appear here.</strong> A VIA exception view. An IRL risk-library lookup. A process map overlay. A document evidence panel. Each one can be summoned by the conversation, pinned, resized, and arranged. The four feature tiles on the home screen (Digital Twin, Data Topology, Process Mapping, Dashboard) aren't four features. They're four <em>entry points to the canvas.</em></p>
+    </div>
+
+    <h3 class="sub-h reveal"><span class="num">P2</span>Shared scope across panels.</h3>
+    <div class="prose reveal">
+      <p>When the user pins "SOX Audit 1245" as a scope chip, every tool surface in the canvas inherits that scope. The VIA panel queries against that audit. The IRL panel filters its risk library to risks relevant to that audit. The process map highlights the in-scope process. <strong>The user scopes once; the canvas scopes everywhere.</strong> This is the move that turns "tools side by side" into "a coherent view of the enterprise." Without shared scope, multiple panels are just multiple windows in a different shape. With shared scope, the panels stop being separate tools and start behaving like organs of a single body.</p>
+    </div>
+
+    <h3 class="sub-h reveal"><span class="num">P3</span>Cross-monitor continuity.</h3>
+    <div class="prose reveal">
+      <p>Risk analysts work on more than one screen — that's empirically how they operate. The canvas had to follow them. The design allows panels to be popped out of the main RAP window, dragged to a second monitor, and continue receiving scope and conversation updates from the primary session. <strong>The analyst's two-monitor setup becomes one logical canvas.</strong> A heat map pinned to the secondary monitor stays in sync with a conversation happening on the primary. State doesn't fragment when the workspace physically does.</p>
+      <p><strong>Why this is the foundation, not a feature:</strong> without the canvas, the digital twin has nowhere to live. The "twin" isn't a single visualisation that gets rendered into a tile — <em>it's whatever combination of panels the user has arranged to answer their current question,</em> assembled out of multiple tools, held together by shared scope, and following the user across screens. The canvas is the <strong>body</strong> of the twin.</p>
+    </div>
+
+    <!-- DIAGRAM 03 — The canvas -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 640" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 03: The canvas">
+          <!-- Primary monitor outline -->
+          <rect x="40" y="60" width="760" height="440" rx="14" class="fill-card-alt stroke-soft" stroke-width="1.4"/>
+          <text x="50" y="50" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">PRIMARY MONITOR</text>
+
+          <!-- Chat panel (left) -->
+          <rect x="60" y="80" width="220" height="400" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="106" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">CONVERSATION</text>
+          <!-- chat messages -->
+          <rect x="76" y="120" width="180" height="40" rx="6" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="86" y="138" class="fill-ink2" font-size="10">"Flag exceptions in AZ entity,</text>
+          <text x="86" y="152" class="fill-ink2" font-size="10">posted in SAP processes..."</text>
+          <rect x="76" y="172" width="180" height="28" rx="6" class="fill-accent stroke-none"/>
+          <text x="86" y="190" class="fill-accent-ink" font-size="10" font-weight="600">"Which audit?"</text>
+          <!-- Scope chip -->
+          <rect x="76" y="212" width="120" height="22" rx="11" class="fill-accent stroke-none"/>
+          <text x="136" y="227" text-anchor="middle" class="fill-accent-ink" font-size="10" font-weight="600">SOX Audit 1245</text>
+          <text x="200" y="227" class="fill-mute" font-size="10">← scope</text>
+          <!-- Loading -->
+          <text x="76" y="266" class="fill-mute" font-size="10" font-style="italic">Setting up inherent heat map...</text>
+
+          <!-- Workspace (right of chat) - tileable -->
+          <rect x="296" y="80" width="488" height="400" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="312" y="106" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">TILEABLE WORKSPACE</text>
+
+          <!-- Panel A: Inherent Risk Map -->
+          <rect x="312" y="120" width="220" height="170" rx="8" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="320" y="138" class="fill-ink" font-size="11" font-weight="600">Inherent Risk Map</text>
+          <!-- 4x4 grid -->
+          <g transform="translate(322,148)">
+            <rect x="0"  y="0"  width="36" height="28" class="fill-accent" opacity="0.18"/>
+            <rect x="38" y="0"  width="36" height="28" class="fill-accent" opacity="0.30"/>
+            <rect x="76" y="0"  width="36" height="28" class="fill-accent" opacity="0.50"/>
+            <rect x="114" y="0" width="36" height="28" class="fill-accent" opacity="0.85"/>
+            <rect x="0"  y="30" width="36" height="28" class="fill-accent" opacity="0.12"/>
+            <rect x="38" y="30" width="36" height="28" class="fill-accent" opacity="0.24"/>
+            <rect x="76" y="30" width="36" height="28" class="fill-accent" opacity="0.45"/>
+            <rect x="114" y="30" width="36" height="28" class="fill-accent" opacity="0.70"/>
+            <rect x="0"  y="60" width="36" height="28" class="fill-accent" opacity="0.08"/>
+            <rect x="38" y="60" width="36" height="28" class="fill-accent" opacity="0.18"/>
+            <rect x="76" y="60" width="36" height="28" class="fill-accent" opacity="0.32"/>
+            <rect x="114" y="60" width="36" height="28" class="fill-accent" opacity="0.50"/>
+            <rect x="0"  y="90" width="36" height="28" class="fill-accent" opacity="0.05"/>
+            <rect x="38" y="90" width="36" height="28" class="fill-accent" opacity="0.10"/>
+            <rect x="76" y="90" width="36" height="28" class="fill-accent" opacity="0.22"/>
+            <rect x="114" y="90" width="36" height="28" class="fill-accent" opacity="0.35"/>
+          </g>
+          <!-- Scope chip in panel -->
+          <rect x="468" y="262" width="58" height="16" rx="8" class="fill-accent stroke-none" opacity="0.85"/>
+          <text x="497" y="273" text-anchor="middle" class="fill-accent-ink" font-size="8" font-weight="600">1245</text>
+
+          <!-- Panel B: Risk Relations -->
+          <rect x="544" y="120" width="232" height="170" rx="8" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="552" y="138" class="fill-ink" font-size="11" font-weight="600">Risk Relations</text>
+          <!-- network nodes -->
+          <g transform="translate(560,148)">
+            <circle cx="50"  cy="50"  r="12" class="fill-accent stroke-none" opacity="0.85"/>
+            <circle cx="120" cy="30"  r="9"  class="fill-accent stroke-none" opacity="0.55"/>
+            <circle cx="170" cy="80"  r="11" class="fill-accent stroke-none" opacity="0.70"/>
+            <circle cx="80"  cy="100" r="8"  class="fill-accent stroke-none" opacity="0.45"/>
+            <circle cx="150" cy="130" r="10" class="fill-accent stroke-none" opacity="0.60"/>
+            <circle cx="30"  cy="120" r="7"  class="fill-accent stroke-none" opacity="0.35"/>
+            <line x1="50"  y1="50"  x2="120" y2="30"  class="stroke-mute" stroke-width="0.7"/>
+            <line x1="50"  y1="50"  x2="80"  y2="100" class="stroke-mute" stroke-width="0.7"/>
+            <line x1="120" y1="30"  x2="170" y2="80"  class="stroke-mute" stroke-width="0.7"/>
+            <line x1="80"  y1="100" x2="150" y2="130" class="stroke-mute" stroke-width="0.7"/>
+            <line x1="80"  y1="100" x2="30"  y2="120" class="stroke-mute" stroke-width="0.7"/>
+            <line x1="170" y1="80"  x2="150" y2="130" class="stroke-mute" stroke-width="0.7"/>
+          </g>
+          <rect x="712" y="262" width="58" height="16" rx="8" class="fill-accent stroke-none" opacity="0.85"/>
+          <text x="741" y="273" text-anchor="middle" class="fill-accent-ink" font-size="8" font-weight="600">1245</text>
+
+          <!-- Panel C: Process Map (lower) -->
+          <rect x="312" y="306" width="464" height="158" rx="8" class="fill-card-alt stroke-soft" stroke-width="0.8"/>
+          <text x="320" y="324" class="fill-ink" font-size="11" font-weight="600">Process Map · evidence</text>
+          <!-- process nodes -->
+          <g transform="translate(330,344)">
+            <rect x="0"   y="20" width="60" height="22" rx="4" class="fill-card stroke-soft" stroke-width="0.8"/>
+            <rect x="84"  y="20" width="60" height="22" rx="4" class="fill-card stroke-soft" stroke-width="0.8"/>
+            <rect x="168" y="20" width="60" height="22" rx="4" class="fill-accent" opacity="0.45"/>
+            <rect x="252" y="20" width="60" height="22" rx="4" class="fill-card stroke-soft" stroke-width="0.8"/>
+            <rect x="336" y="20" width="60" height="22" rx="4" class="fill-card stroke-soft" stroke-width="0.8"/>
+            <line x1="60"  y1="31" x2="84"  y2="31" class="stroke-mute" stroke-width="0.8"/>
+            <line x1="144" y1="31" x2="168" y2="31" class="stroke-mute" stroke-width="0.8"/>
+            <line x1="228" y1="31" x2="252" y2="31" class="stroke-mute" stroke-width="0.8"/>
+            <line x1="312" y1="31" x2="336" y2="31" class="stroke-mute" stroke-width="0.8"/>
+            <text x="30"  y="34" text-anchor="middle" class="fill-ink2" font-size="9">Init</text>
+            <text x="114" y="34" text-anchor="middle" class="fill-ink2" font-size="9">Approve</text>
+            <text x="198" y="34" text-anchor="middle" class="fill-accent-ink" font-size="9" font-weight="600">Post</text>
+            <text x="282" y="34" text-anchor="middle" class="fill-ink2" font-size="9">Reconcile</text>
+            <text x="366" y="34" text-anchor="middle" class="fill-ink2" font-size="9">Close</text>
+            <text x="198" y="64" text-anchor="middle" class="fill-danger" font-size="9" font-weight="600">↑ exception</text>
+          </g>
+          <rect x="712" y="436" width="58" height="16" rx="8" class="fill-accent stroke-none" opacity="0.85"/>
+          <text x="741" y="447" text-anchor="middle" class="fill-accent-ink" font-size="8" font-weight="600">1245</text>
+
+          <!-- Scope propagation arrows -->
+          <path d="M196 234 Q 200 280 320 280" class="stroke-accent fill-none" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.65"/>
+          <path d="M196 234 Q 220 280 540 280" class="stroke-accent fill-none" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.65"/>
+          <path d="M196 234 Q 200 380 320 444" class="stroke-accent fill-none" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.65"/>
+          <text x="396" y="500" text-anchor="middle" class="fill-accent" font-size="10" font-style="italic">scope propagates to all panels</text>
+
+          <!-- Secondary monitor (dotted) -->
+          <rect x="830" y="60" width="240" height="280" rx="14" class="fill-none stroke-mute" stroke-width="1.4" stroke-dasharray="6 5"/>
+          <text x="840" y="50" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">SECONDARY MONITOR</text>
+          <rect x="846" y="80" width="208" height="180" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="858" y="106" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">POPPED PANEL</text>
+          <text x="858" y="124" class="fill-ink" font-size="11" font-weight="600">Inherent Risk Map</text>
+          <!-- replicated mini heatmap -->
+          <g transform="translate(862,138)">
+            <rect x="0"  y="0"  width="40" height="28" class="fill-accent" opacity="0.18"/>
+            <rect x="42" y="0"  width="40" height="28" class="fill-accent" opacity="0.30"/>
+            <rect x="84" y="0"  width="40" height="28" class="fill-accent" opacity="0.50"/>
+            <rect x="126" y="0" width="40" height="28" class="fill-accent" opacity="0.85"/>
+            <rect x="168" y="0" width="20" height="28" class="fill-accent" opacity="0.92"/>
+            <rect x="0"  y="30" width="40" height="28" class="fill-accent" opacity="0.10"/>
+            <rect x="42" y="30" width="40" height="28" class="fill-accent" opacity="0.22"/>
+            <rect x="84" y="30" width="40" height="28" class="fill-accent" opacity="0.40"/>
+            <rect x="126" y="30" width="40" height="28" class="fill-accent" opacity="0.65"/>
+            <rect x="168" y="30" width="20" height="28" class="fill-accent" opacity="0.72"/>
+            <rect x="0"  y="60" width="40" height="28" class="fill-accent" opacity="0.06"/>
+            <rect x="42" y="60" width="40" height="28" class="fill-accent" opacity="0.14"/>
+            <rect x="84" y="60" width="40" height="28" class="fill-accent" opacity="0.28"/>
+            <rect x="126" y="60" width="40" height="28" class="fill-accent" opacity="0.45"/>
+            <rect x="168" y="60" width="20" height="28" class="fill-accent" opacity="0.50"/>
+          </g>
+          <rect x="990" y="236" width="58" height="16" rx="8" class="fill-accent stroke-none" opacity="0.85"/>
+          <text x="1019" y="247" text-anchor="middle" class="fill-accent-ink" font-size="8" font-weight="600">1245</text>
+
+          <!-- Pop-out arrow -->
+          <path d="M776 200 Q 810 200 846 170" class="stroke-accent fill-none" stroke-width="1.4" stroke-dasharray="5 4"/>
+          <polygon points="842,165 850,170 842,175" class="fill-accent stroke-none"/>
+          <text x="780" y="380" class="fill-mute" font-size="10" font-style="italic" text-anchor="start">pop out · stays in sync</text>
+
+          <!-- Captions below -->
+          <text x="540" y="552" text-anchor="middle" class="fill-mute" font-size="12">Chat-on-left · tileable workspace-on-right · scope chip propagates across every panel · panels can pop to a second monitor and continue receiving scope</text>
+          <text x="540" y="576" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600" font-style="italic">The canvas is the body of the twin.</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 03</span>The canvas — chat-on-left + tileable workspace-on-right hosting multiple tool panels, with scope propagation across all panels and a popped-out panel surviving on a second monitor.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================
+     08 — INFORMATION ARCHITECTURE & FLOW
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">08 — Structure</span>
+    <h2 class="section-title reveal">In a normal SaaS app, onboarding is signup. <span class="accent-text">In RAP, onboarding is model-build.</span></h2>
+    <div class="prose reveal">
+      <p>The user flow is unusual because <em>the onboarding step is the model-build step.</em> You can't start using RAP without first telling it what to simulate — because the canvas needs to know which tools to load, against which entities, with which data sources mapped.</p>
+      <p>The flow:</p>
+      <ol>
+        <li><strong>Start</strong> — sign in.</li>
+        <li><strong>Onboarding client</strong> — integrating with the GIS parent-tree structure (the organisational hierarchy of the client).</li>
+        <li><strong>Three parallel admin workspaces</strong> must be set up before the canvas can populate:
+          <ul>
+            <li><em>Set up BU / Digital Twin workspace</em> — define the business unit being modelled.</li>
+            <li><em>Set up Data Topology Mapping workspace</em> — declare what data sources feed the twin.</li>
+            <li><em>Set up Process Mapping / Process Imprinting workspace</em> — define the process flows and their risk/control overlays.</li>
+          </ul>
+        </li>
+        <li><strong>Home Page</strong> — the <em>Risk Analytics Intelligent Service Responder</em> (LLM-led). Conversational. Users can ask questions and upload documents to extend the model in flight.</li>
+        <li><strong>Two readiness gates</strong> before the canvas can render simulation outputs:
+          <ul>
+            <li><em>Does the system know the events involved in the process risks and controls map?</em></li>
+            <li><em>Did the user map the sources / data topology?</em></li>
+          </ul>
+        </li>
+        <li><strong>If YES</strong> → the Digital / Heat / Inherent Map renders in the canvas, visualising risk in a structured format based on input criteria from the IRL and the digital twin.</li>
+        <li><strong>If NO</strong> → the system asks for the missing inputs before computing.</li>
+      </ol>
+      <p>This looks like an ordinary flow diagram, but it isn't. In a normal app, "missing inputs" is a form-validation problem. <strong>In RAP, missing inputs mean the model isn't ready to simulate yet.</strong> The decision diamonds aren't UI gates — they're simulation-readiness gates. The interface refuses to lie by computing on insufficient inputs.</p>
+    </div>
+
+    <!-- DIAGRAM 04 — The simulation flow -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 800" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 04: The simulation flow">
+          <!-- Step 1: Start -->
+          <rect x="450" y="30" width="200" height="56" rx="28" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="550" y="64" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">Sign in</text>
+
+          <line x1="550" y1="86" x2="550" y2="116" class="stroke-mute" stroke-width="1.2"/>
+          <polygon points="546,116 550,126 554,116" class="fill-mute stroke-none"/>
+
+          <!-- Step 2: Onboarding -->
+          <rect x="400" y="130" width="300" height="56" rx="10" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="550" y="156" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">Onboard client</text>
+          <text x="550" y="174" text-anchor="middle" class="fill-mute" font-size="11">GIS parent-tree integration</text>
+
+          <line x1="550" y1="186" x2="550" y2="216" class="stroke-mute" stroke-width="1.2"/>
+          <polygon points="546,216 550,226 554,216" class="fill-mute stroke-none"/>
+
+          <!-- Step 3: 3 parallel workspaces -->
+          <text x="550" y="250" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">3 ADMIN WORKSPACES (PARALLEL)</text>
+          <rect x="80" y="266" width="280" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="220" y="294" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">BU / Digital Twin</text>
+          <text x="220" y="314" text-anchor="middle" class="fill-mute" font-size="11">define the business unit</text>
+          <text x="220" y="330" text-anchor="middle" class="fill-mute" font-size="11">being modelled</text>
+
+          <rect x="410" y="266" width="280" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="550" y="294" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">Data Topology</text>
+          <text x="550" y="314" text-anchor="middle" class="fill-mute" font-size="11">declare what data sources</text>
+          <text x="550" y="330" text-anchor="middle" class="fill-mute" font-size="11">feed the twin</text>
+
+          <rect x="740" y="266" width="280" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="880" y="294" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">Process Mapping</text>
+          <text x="880" y="314" text-anchor="middle" class="fill-mute" font-size="11">define process flows +</text>
+          <text x="880" y="330" text-anchor="middle" class="fill-mute" font-size="11">risk/control overlays</text>
+
+          <!-- Converge to home -->
+          <line x1="220" y1="346" x2="550" y2="386" class="stroke-mute" stroke-width="1.2"/>
+          <line x1="550" y1="346" x2="550" y2="386" class="stroke-mute" stroke-width="1.2"/>
+          <line x1="880" y1="346" x2="550" y2="386" class="stroke-mute" stroke-width="1.2"/>
+          <polygon points="546,386 550,396 554,386" class="fill-mute stroke-none"/>
+
+          <!-- Home -->
+          <rect x="350" y="400" width="400" height="64" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="550" y="426" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">HOME PAGE</text>
+          <text x="550" y="448" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">Risk Analytics Intelligent Service Responder</text>
+
+          <line x1="550" y1="464" x2="550" y2="494" class="stroke-mute" stroke-width="1.2"/>
+          <polygon points="546,494 550,504 554,494" class="fill-mute stroke-none"/>
+
+          <!-- Readiness diamond 1 -->
+          <text x="550" y="528" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">MODEL-READINESS GATES (NOT UI GATES)</text>
+          <polygon points="550,548 660,610 550,672 440,610" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="550" y="600" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Process risks &amp;</text>
+          <text x="550" y="617" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">controls known?</text>
+
+          <!-- arrow yes (right) -->
+          <line x1="660" y1="610" x2="800" y2="610" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="800,606 810,610 800,614" class="fill-accent stroke-none"/>
+          <text x="730" y="600" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600">YES</text>
+
+          <!-- arrow no (left) -->
+          <line x1="440" y1="610" x2="300" y2="610" class="stroke-mute" stroke-width="1.4"/>
+          <polygon points="300,606 290,610 300,614" class="fill-mute stroke-none"/>
+          <text x="370" y="600" text-anchor="middle" class="fill-mute" font-size="11" font-weight="600">NO</text>
+
+          <!-- NO path -->
+          <rect x="80" y="586" width="220" height="48" rx="10" class="fill-card stroke-mute" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="190" y="610" text-anchor="middle" class="fill-ink2" font-size="12" font-weight="600">Ask for missing inputs</text>
+          <text x="190" y="626" text-anchor="middle" class="fill-mute" font-size="10" font-style="italic">refuse to simulate on insufficient data</text>
+
+          <!-- YES path → second diamond -->
+          <polygon points="920,548 1030,610 920,672 810,610" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="920" y="600" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">Data topology</text>
+          <text x="920" y="617" text-anchor="middle" class="fill-ink" font-size="12" font-weight="600">mapped?</text>
+
+          <!-- Final output -->
+          <line x1="920" y1="672" x2="920" y2="708" class="stroke-accent" stroke-width="1.4"/>
+          <polygon points="916,708 920,718 924,708" class="fill-accent stroke-none"/>
+          <rect x="780" y="722" width="280" height="58" rx="10" class="fill-accent stroke-none"/>
+          <text x="920" y="746" text-anchor="middle" class="fill-accent-ink" font-size="11" font-weight="600" letter-spacing="0.1em">SIMULATION READY</text>
+          <text x="920" y="766" text-anchor="middle" class="fill-accent-ink" font-size="14" font-weight="600">Heat map renders in canvas</text>
+
+          <!-- annotation -->
+          <text x="50" y="730" class="fill-mute" font-size="11" font-style="italic">Decision diamonds = model gates.</text>
+          <text x="50" y="748" class="fill-mute" font-size="11" font-style="italic">The interface refuses to lie by</text>
+          <text x="50" y="766" class="fill-mute" font-size="11" font-style="italic">computing on insufficient inputs.</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 04</span>The simulation flow — onboarding is model-build, and the readiness diamonds are <em>model gates</em>, not UI gates. The interface refuses to simulate on insufficient inputs.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================
+     09 — THE DESIGN MOVES
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">09 — Design decisions</span>
+    <h2 class="section-title reveal">Four moves on top of the canvas. <span class="accent-text">Each one is a response to a property of the underlying model.</span></h2>
+    <p class="section-deck reveal">The canvas is the foundation. What sits on top of it are four further design moves. Each maps to a specific property of the simulation underneath.</p>
+
+    <div class="prose reveal" style="margin-top: clamp(40px, 5vw, 60px);">
+      <div class="move-card">
+        <span class="move-num">MOVE 01</span>
+        <h3>Conversation as the <em>steering wheel.</em></h3>
+        <p class="move-meta"><strong>Designed against:</strong> the cognitive cost of operating multiple tools manually.</p>
+        <p>The home page leads with a chat ("Hey there! What would you like to do today?") rather than a navigation tree. A risk consultant types a multi-clause intent — <em>"Identify and monitor high-impact risks to flag exceptions within transactions posted in SAP processes configured for the UKI business entities of AZ"</em> — and the system clarifies in turn (<em>"On which audit would you like to flag exceptions?"</em>). The user narrows (<em>"SOX Audit 1245"</em>), and the model begins computing (<em>"Sure, setting up the inherent heat map for you"</em>). <strong>The conversation is not a chatbot wrapper. It's the way the user instructs the canvas about what to load, what to compute, and what to show.</strong></p>
+      </div>
+
+      <div class="move-card">
+        <span class="move-num">MOVE 02</span>
+        <h3>Side-by-side workspace: conversation on the left, <em>simulation output on the right.</em></h3>
+        <p class="move-meta"><strong>Designed against:</strong> the trust gap.</p>
+        <p>When the heat map renders, it appears <em>next to</em> the conversation that produced it — not on a new screen. The user can read their own request, the system's clarifying turn, the scope token, and the resulting Inherent Risk Map and Risk Relations side by side. <strong>The visualisation is anchored to the conversation that conditioned it.</strong> This is a deliberate move against the failure mode of dashboards: a chart with no provenance.</p>
+      </div>
+
+      <div class="move-card">
+        <span class="move-num">MOVE 03</span>
+        <h3>Persistent <em>scope tokens.</em></h3>
+        <p class="move-meta"><strong>Designed against:</strong> context loss across multiple panels.</p>
+        <p>"SOX Audit 1245" doesn't just appear in the chat — it <em>pins</em> as a scope chip and propagates across every panel in the canvas. Multiple chats can run in parallel ("Chat One", "New Chat") and each carries its own scope. <strong>The model always knows which slice of the twin it's reasoning over, in which panel, for which conversation.</strong></p>
+      </div>
+
+      <div class="move-card">
+        <span class="move-num">MOVE 04</span>
+        <h3>Action verbs at the foot of the chat, <em>not the head of the page.</em></h3>
+        <p class="move-meta"><strong>Designed against:</strong> the opacity of AI outputs.</p>
+        <p>The bottom navigation exposes four meta-operations on analytics: <em>Customise · Discover · Register · Execute.</em> These are deliberately verbs of <em>user agency over the model</em> — not nouns of <em>content to be consumed.</em> The user is not browsing reports. The user is participating in the model's lifecycle: tuning it, discovering what's inside it, registering new analytics into it, executing runs against it.</p>
+      </div>
+    </div>
+
+    <!-- DIAGRAM 05 — Conversation-simulation pairing -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 05: Conversation-simulation pairing">
+          <!-- Headers -->
+          <text x="270" y="36" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CONVERSATION (LEFT)</text>
+          <text x="800" y="36" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CANVAS STATE (RIGHT)</text>
+
+          <!-- Turn 1 -->
+          <rect x="60" y="56" width="420" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="80" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">TURN 1 · USER</text>
+          <text x="76" y="100" class="fill-ink" font-size="13" font-style="italic">"Flag exceptions in transactions posted in</text>
+          <text x="76" y="116" class="fill-ink" font-size="13" font-style="italic">SAP processes for UKI entities of AZ"</text>
+
+          <rect x="620" y="56" width="420" height="80" rx="10" class="fill-card-alt stroke-soft" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="636" y="80" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">CANVAS · EMPTY</text>
+          <text x="636" y="104" class="fill-mute" font-size="13">No panels yet — model is parsing intent.</text>
+
+          <!-- arrow -->
+          <line x1="490" y1="96" x2="610" y2="96" class="stroke-accent" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <polygon points="610,92 620,96 610,100" class="fill-accent stroke-none"/>
+
+          <!-- Turn 2 -->
+          <rect x="60" y="156" width="420" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="180" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">TURN 2 · SYSTEM CLARIFIES</text>
+          <text x="76" y="200" class="fill-ink" font-size="13" font-style="italic">"On which audit would you like to flag</text>
+          <text x="76" y="216" class="fill-ink" font-size="13" font-style="italic">exceptions?"</text>
+
+          <rect x="620" y="156" width="420" height="80" rx="10" class="fill-card-alt stroke-soft" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="636" y="180" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">CANVAS · WAITING</text>
+          <text x="636" y="204" class="fill-mute" font-size="13">Scope unresolved — refusing to simulate.</text>
+
+          <line x1="490" y1="196" x2="610" y2="196" class="stroke-accent" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <polygon points="610,192 620,196 610,200" class="fill-accent stroke-none"/>
+
+          <!-- Turn 3 - SCOPE PIN -->
+          <rect x="60" y="256" width="420" height="80" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="76" y="280" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">TURN 3 · USER</text>
+          <text x="76" y="302" class="fill-ink" font-size="13" font-style="italic">"SOX Audit 1245"</text>
+          <rect x="76" y="312" width="120" height="18" rx="9" class="fill-accent stroke-none"/>
+          <text x="136" y="325" text-anchor="middle" class="fill-accent-ink" font-size="10" font-weight="600">SOX Audit 1245</text>
+          <text x="208" y="325" class="fill-accent" font-size="10" font-weight="600">← pinned as scope</text>
+
+          <rect x="620" y="256" width="420" height="80" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="636" y="280" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">CANVAS · SCOPE BOUND</text>
+          <text x="636" y="300" class="fill-ink" font-size="13">Every panel will inherit scope 1245.</text>
+          <rect x="636" y="310" width="58" height="18" rx="9" class="fill-accent stroke-none"/>
+          <text x="665" y="323" text-anchor="middle" class="fill-accent-ink" font-size="10" font-weight="600">1245</text>
+          <rect x="700" y="310" width="58" height="18" rx="9" class="fill-accent stroke-none"/>
+          <text x="729" y="323" text-anchor="middle" class="fill-accent-ink" font-size="10" font-weight="600">1245</text>
+          <rect x="764" y="310" width="58" height="18" rx="9" class="fill-accent stroke-none"/>
+          <text x="793" y="323" text-anchor="middle" class="fill-accent-ink" font-size="10" font-weight="600">1245</text>
+
+          <line x1="490" y1="296" x2="610" y2="296" class="stroke-accent" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <polygon points="610,292 620,296 610,300" class="fill-accent stroke-none"/>
+
+          <!-- Turn 4 -->
+          <rect x="60" y="356" width="420" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="380" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">TURN 4 · SYSTEM</text>
+          <text x="76" y="400" class="fill-ink" font-size="13" font-style="italic">"Setting up the inherent heat map</text>
+          <text x="76" y="416" class="fill-ink" font-size="13" font-style="italic">for you..."</text>
+
+          <rect x="620" y="356" width="420" height="80" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="636" y="380" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">CANVAS · PANEL OPENING</text>
+          <text x="636" y="404" class="fill-ink" font-size="13">Inherent Risk Map panel renders with scope 1245.</text>
+
+          <line x1="490" y1="396" x2="610" y2="396" class="stroke-accent" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <polygon points="610,392 620,396 610,400" class="fill-accent stroke-none"/>
+
+          <!-- Turn 5 - second panel summoned -->
+          <rect x="60" y="456" width="420" height="80" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="76" y="480" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.08em">TURN 5 · USER</text>
+          <text x="76" y="500" class="fill-ink" font-size="13" font-style="italic">"Show me the risk relations for the top-</text>
+          <text x="76" y="516" class="fill-ink" font-size="13" font-style="italic">right cluster"</text>
+
+          <rect x="620" y="456" width="420" height="80" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="636" y="480" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.08em">CANVAS · 2 PANELS</text>
+          <text x="636" y="500" class="fill-ink" font-size="13">Risk Relations panel pinned alongside —</text>
+          <text x="636" y="516" class="fill-ink" font-size="13">scope 1245 propagated automatically.</text>
+
+          <line x1="490" y1="496" x2="610" y2="496" class="stroke-accent" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <polygon points="610,492 620,496 610,500" class="fill-accent stroke-none"/>
+
+          <!-- Caption -->
+          <text x="550" y="580" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Each turn on the left maps to a state on the right. Scope tokens persist across turns and across every panel.</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 05</span>The conversation–simulation pairing — each turn maps to a canvas state; scope tokens persist across both.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================
+     10 — THE HARD UX PROBLEMS
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">10 — The unprecedented part</span>
+    <h2 class="section-title reveal">Three UX problems that <span class="accent-text">don't exist</span> in a dashboard world.</h2>
+    <p class="section-deck reveal">Because RAP is a simulation rather than a report, three UX problems arose that have no clean prior art. These are the most important sections of this case study.</p>
+
+    <!-- Problem 01 — Visualising uncertainty -->
+    <h3 class="sub-h reveal"><span class="num">P01</span>Visualising uncertainty.</h3>
+    <div class="prose reveal">
+      <p>A heat map in RAP is not a chart. <strong>It's a probability distribution.</strong> Every cell encodes <em>severity × likelihood</em>, and the likelihood is computed by the model with confidence bounds. The design question is unforgiving: do you expose the confidence bounds (rigorous, but visually noisy), or collapse them into a single colour (clean, but lies by omission)?</p>
+      <p><strong>The move:</strong> a <em>two-layer</em> visual encoding.</p>
+      <ul>
+        <li>The dominant colour expresses the <em>expected severity-likelihood product.</em></li>
+        <li>A secondary visual treatment — a stroke weight or an opacity differential — encodes the <em>model's confidence</em> in that estimate.</li>
+      </ul>
+      <p>High-confidence cells read as crisp. Low-confidence cells read as softer-edged. The user learns to scan crispness as a proxy for trustworthiness without having to read confidence intervals. <strong>The picture carries the uncertainty.</strong></p>
+    </div>
+
+    <!-- DIAGRAM 06 — Uncertainty heat map -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 06: Uncertainty visualisation framework">
+          <!-- Axis labels -->
+          <text x="30" y="40" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">SEVERITY ↑</text>
+          <text x="40" y="540" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">LIKELIHOOD →</text>
+
+          <!-- 4x4 grid with varying confidence (stroke width + opacity) -->
+          <!-- Row 1 (top, highest severity) -->
+          <g transform="translate(80,70)">
+            <!-- High severity row: high-impact cells -->
+            <rect x="0"   y="0"   width="90" height="90" rx="6" class="fill-accent" opacity="0.18" stroke="var(--accent)" stroke-width="0.6"/>
+            <rect x="100" y="0"   width="90" height="90" rx="6" class="fill-accent" opacity="0.40" stroke="var(--accent)" stroke-width="1.6"/>
+            <rect x="200" y="0"   width="90" height="90" rx="6" class="fill-accent" opacity="0.70" stroke="var(--accent)" stroke-width="2.6"/>
+            <rect x="300" y="0"   width="90" height="90" rx="6" class="fill-accent" opacity="0.92" stroke="var(--accent)" stroke-width="3.4"/>
+            <text x="45"  y="50" text-anchor="middle" class="fill-ink2" font-size="11">low impact</text>
+            <text x="145" y="50" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">↑</text>
+            <text x="245" y="50" text-anchor="middle" class="fill-accent-ink" font-size="11" font-weight="600">↑↑</text>
+            <text x="345" y="50" text-anchor="middle" class="fill-accent-ink" font-size="13" font-weight="700">↑↑↑</text>
+
+            <!-- Row 2 -->
+            <rect x="0"   y="100" width="90" height="90" rx="6" class="fill-accent" opacity="0.10" stroke="var(--accent)" stroke-width="0.6"/>
+            <rect x="100" y="100" width="90" height="90" rx="6" class="fill-accent" opacity="0.28" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="2 2"/>
+            <rect x="200" y="100" width="90" height="90" rx="6" class="fill-accent" opacity="0.52" stroke="var(--accent)" stroke-width="2.2"/>
+            <rect x="300" y="100" width="90" height="90" rx="6" class="fill-accent" opacity="0.78" stroke="var(--accent)" stroke-width="2.8"/>
+
+            <!-- Row 3 -->
+            <rect x="0"   y="200" width="90" height="90" rx="6" class="fill-accent" opacity="0.06" stroke="var(--accent)" stroke-width="0.4" stroke-dasharray="2 3"/>
+            <rect x="100" y="200" width="90" height="90" rx="6" class="fill-accent" opacity="0.18" stroke="var(--accent)" stroke-width="1.2"/>
+            <rect x="200" y="200" width="90" height="90" rx="6" class="fill-accent" opacity="0.36" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="2 2"/>
+            <rect x="300" y="200" width="90" height="90" rx="6" class="fill-accent" opacity="0.55" stroke="var(--accent)" stroke-width="2.4"/>
+
+            <!-- Row 4 (bottom, lowest severity) -->
+            <rect x="0"   y="300" width="90" height="90" rx="6" class="fill-accent" opacity="0.04" stroke="var(--accent)" stroke-width="0.4" stroke-dasharray="2 3"/>
+            <rect x="100" y="300" width="90" height="90" rx="6" class="fill-accent" opacity="0.12" stroke="var(--accent)" stroke-width="0.8"/>
+            <rect x="200" y="300" width="90" height="90" rx="6" class="fill-accent" opacity="0.24" stroke="var(--accent)" stroke-width="1.4"/>
+            <rect x="300" y="300" width="90" height="90" rx="6" class="fill-accent" opacity="0.38" stroke="var(--accent)" stroke-width="1.8"/>
+          </g>
+
+          <!-- Annotation pointer at top-right cell -->
+          <line x1="475" y1="115" x2="600" y2="80" class="stroke-accent" stroke-width="1.2"/>
+          <circle cx="475" cy="115" r="5" class="fill-none stroke-accent" stroke-width="2"/>
+
+          <!-- Annotation card -->
+          <rect x="600" y="60" width="430" height="240" rx="12" class="fill-card stroke-accent" stroke-width="1.4"/>
+          <text x="618" y="86" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ANNOTATED CELL</text>
+          <text x="618" y="108" class="fill-ink" font-size="16" font-weight="600">Severity × Likelihood: 0.92</text>
+          <text x="618" y="130" class="fill-ink" font-size="16" font-weight="600">Model confidence: 0.91 (crisp)</text>
+          <line x1="618" y1="148" x2="1012" y2="148" class="stroke-soft" stroke-width="0.8"/>
+          <text x="618" y="172" class="fill-mute" font-size="12" font-weight="600" letter-spacing="0.06em">VISUAL DECODING</text>
+          <text x="618" y="192" class="fill-ink2" font-size="13">• Fill opacity → expected severity × likelihood</text>
+          <text x="618" y="212" class="fill-ink2" font-size="13">• Stroke weight → model confidence</text>
+          <text x="618" y="232" class="fill-ink2" font-size="13">• Solid border → high confidence</text>
+          <text x="618" y="252" class="fill-ink2" font-size="13">• Dashed border → low confidence</text>
+          <text x="618" y="282" class="fill-ink" font-size="12" font-style="italic">The picture carries the uncertainty.</text>
+
+          <!-- Legend on right side -->
+          <text x="600" y="340" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">CONFIDENCE LEGEND</text>
+          <rect x="600" y="356" width="40" height="32" rx="4" class="fill-accent" opacity="0.55" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="2 2"/>
+          <text x="650" y="376" class="fill-ink2" font-size="12">low confidence (softer edge)</text>
+          <rect x="600" y="396" width="40" height="32" rx="4" class="fill-accent" opacity="0.55" stroke="var(--accent)" stroke-width="1.4"/>
+          <text x="650" y="416" class="fill-ink2" font-size="12">medium confidence</text>
+          <rect x="600" y="436" width="40" height="32" rx="4" class="fill-accent" opacity="0.55" stroke="var(--accent)" stroke-width="2.8"/>
+          <text x="650" y="456" class="fill-ink2" font-size="12">high confidence (crisp)</text>
+
+          <!-- Caption -->
+          <text x="40" y="510" class="fill-mute" font-size="12" font-style="italic">Two encodings, one cell: colour = expected risk · stroke = confidence. The user learns to scan crispness as trustworthiness.</text>
+          <text x="40" y="528" class="fill-accent" font-size="12" font-weight="600">The model knows its confidence. The dashboard refuses to. RAP doesn't.</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 06</span>Uncertainty visualisation framework — two-layer encoding where colour expresses expected risk and stroke weight expresses model confidence.</figcaption>
+    </figure>
+
+    <!-- Problem 02 — What-if -->
+    <h3 class="sub-h reveal"><span class="num">P02</span>Showing what-if scenarios.</h3>
+    <div class="prose reveal">
+      <p>A what-if scenario is fundamentally a <em>comparison</em>: "If I change <em>X,</em> the heat map shifts <em>like this.</em>" The temptation is to redraw the heat map every time the user perturbs an input. The better move is to render the <strong>delta</strong> — a diff layer over the baseline — so the user can see exactly which cells moved, and by how much.</p>
+      <p><strong>The flow:</strong></p>
+      <ol>
+        <li>User pins a baseline scenario.</li>
+        <li>User perturbs an input (a control is removed; a regulation tightens; a transaction routing changes; a region scales).</li>
+        <li>The system re-runs the simulation against the baseline.</li>
+        <li>The interface overlays the new state with an animated transition.</li>
+        <li>The user can toggle baseline / new-state / diff at any moment.</li>
+      </ol>
+      <p><strong>The user sees the <em>change,</em> not just the result.</strong> A heat map that just refreshed silently is a lie of omission. A heat map that animates the delta is an honest answer. And because the canvas can hold multiple panels at once, the baseline and the perturbed state can sit side by side — the user can run two simulations in parallel and read the diff visually rather than computationally.</p>
+    </div>
+
+    <!-- DIAGRAM 07 — What-if loop -->
+    <figure class="reveal">
+      <div class="svg-figure">
+        <svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 07: The what-if loop">
+          <!-- Center -->
+          <circle cx="550" cy="310" r="86" class="fill-card-alt stroke-accent" stroke-width="2"/>
+          <text x="550" y="298" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">THE LOOP</text>
+          <text x="550" y="320" text-anchor="middle" class="fill-ink" font-size="20" font-weight="600" letter-spacing="-0.02em">What-if</text>
+          <text x="550" y="342" text-anchor="middle" class="fill-mute" font-size="12">scenario perturbation</text>
+
+          <!-- 5 nodes around the circle -->
+          <!-- Top - Baseline -->
+          <rect x="450" y="50" width="200" height="80" rx="14" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="550" y="78" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">01 · BASELINE</text>
+          <text x="550" y="100" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Pin a baseline</text>
+          <text x="550" y="118" text-anchor="middle" class="fill-mute" font-size="11">snapshot of current state</text>
+
+          <!-- Right - Perturb -->
+          <rect x="830" y="180" width="240" height="80" rx="14" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="950" y="208" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">02 · PERTURB</text>
+          <text x="950" y="230" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Change one input</text>
+          <text x="950" y="248" text-anchor="middle" class="fill-mute" font-size="11">control removed · regulation tightens</text>
+
+          <!-- Bottom right - Re-simulate -->
+          <rect x="780" y="430" width="240" height="80" rx="14" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="900" y="458" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">03 · RE-SIMULATE</text>
+          <text x="900" y="480" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Engine re-runs</text>
+          <text x="900" y="498" text-anchor="middle" class="fill-mute" font-size="11">delta computed against baseline</text>
+
+          <!-- Bottom left - Overlay diff -->
+          <rect x="80" y="430" width="240" height="80" rx="14" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="200" y="458" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">04 · OVERLAY DIFF</text>
+          <text x="200" y="480" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Animated transition</text>
+          <text x="200" y="498" text-anchor="middle" class="fill-mute" font-size="11">user sees the <tspan font-style="italic">change</tspan>, not just the result</text>
+
+          <!-- Left - Adjust -->
+          <rect x="30" y="180" width="240" height="80" rx="14" class="fill-card stroke-soft" stroke-width="1.2"/>
+          <text x="150" y="208" text-anchor="middle" class="fill-accent" font-size="10" font-weight="600" letter-spacing="0.1em">05 · USER ADJUSTS</text>
+          <text x="150" y="230" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Toggle / refine</text>
+          <text x="150" y="248" text-anchor="middle" class="fill-mute" font-size="11">baseline · new-state · diff</text>
+
+          <!-- Arrows around -->
+          <path d="M650 110 Q 780 130 850 180" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="846,176 855,182 849,189" class="fill-accent stroke-none"/>
+
+          <path d="M950 260 Q 990 350 925 430" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="922,425 928,432 919,435" class="fill-accent stroke-none"/>
+
+          <path d="M780 480 Q 530 540 320 480" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="322,484 312,478 322,476" class="fill-accent stroke-none"/>
+
+          <path d="M170 430 Q 110 350 150 260" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="154,263 148,256 142,263" class="fill-accent stroke-none"/>
+
+          <path d="M270 200 Q 400 130 450 110" class="stroke-accent fill-none" stroke-width="1.4"/>
+          <polygon points="448,114 458,110 450,103" class="fill-accent stroke-none"/>
+
+          <!-- Caption -->
+          <text x="550" y="580" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Baseline and perturbed state can sit side by side in the canvas — the diff is visual, not computational.</text>
+        </svg>
+      </div>
+      <figcaption><span class="figcap-num">Diagram 07</span>The what-if loop — perturb, re-simulate, overlay the diff, adjust. The user sees <em>change</em>, not just result.</figcaption>
+    </figure>
+
+    <!-- Problem 03 -->
+    <h3 class="sub-h reveal"><span class="num">P03</span>Helping users make decisions from a model.</h3>
+    <div class="prose reveal">
+      <p>A model output is <em>not</em> a decision. A cell that reads "high severity, high likelihood, low confidence" doesn't tell a CRO what to do. The interface has to <em>bridge</em> from model output to recommended action.</p>
+      <p><strong>The move:</strong> every elevated risk cell exposes three follow-up actions in a side panel:</p>
+      <ul>
+        <li><strong>Investigate</strong> — drill into the underlying transactions and evidence (opens a VIA panel in the canvas).</li>
+        <li><strong>Escalate</strong> — route to the appropriate downstream app (Audit, ICM, Issue Tracker — opens that app's panel in the canvas).</li>
+        <li><strong>What-if</strong> — open a scenario sandbox against this specific cell (pins a new panel for the perturbation).</li>
+      </ul>
+      <p><strong>Each follow-up action expands the canvas with another tool surface</strong> — which is why the canvas had to come first. Without it, the bridge from prediction to action has nowhere to land.</p>
+    </div>
+
+    <p class="pullquote reveal">A model that returns a probability is doing half its job. The interface has to do the other half — <em>turn the probability into a decision someone can defend.</em></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     11 — REFLECTION
+============================================================ -->
+<section class="section">
+  <div class="container">
+    <span class="section-label reveal">11 — What this project taught me</span>
+    <h2 class="section-title reveal">Designing for AI-assisted digital twins is <span class="accent-text">a new design discipline.</span> Six takeaways.</h2>
+
+    <div class="takeaway-grid">
+      <div class="takeaway reveal">
+        <span class="t-num">TAKEAWAY 01</span>
+        <h4>The container is the model.</h4>
+        <p>The most important lesson is that the fragmentation problem and the model-building problem turned out to be <strong>the same problem.</strong> Solving for "multiple tools in one canvas with shared scope and cross-screen continuity" is what produced the substrate for the digital twin. <em>The container isn't a precursor to the model — it is the model's body.</em></p>
+      </div>
+
+      <div class="takeaway reveal">
+        <span class="t-num">TAKEAWAY 02</span>
+        <h4>The interface <em>is</em> the simulation.</h4>
+        <p>The conversation is <em>how the user conditions the simulation</em>; the heat map is <em>what the simulation returns under that conditioning</em>; the canvas is <em>the workspace in which the conditioning and the return co-exist.</em> These three components are one interaction surface — not a window onto something separate.</p>
+      </div>
+
+      <div class="takeaway reveal">
+        <span class="t-num">TAKEAWAY 03</span>
+        <h4>Uncertainty is a design problem.</h4>
+        <p>The model knows its confidence. The dashboard refuses to. Bridging that gap — finding visual encodings that carry confidence alongside expected value — is <strong>squarely a designer's responsibility.</strong> It cannot be deferred to the data science team.</p>
+      </div>
+
+      <div class="takeaway reveal">
+        <span class="t-num">TAKEAWAY 04</span>
+        <h4>Conversation is steering, not chatbotting.</h4>
+        <p>The chat in RAP isn't FAQ retrieval. It's the user articulating <em>scope, constraints, and assumptions</em> to a model that then computes — and to a canvas that then assembles panels around the answer. Multi-clause intent, structured clarification, persistent scope tokens, deliberate handoff from "describing" to "looking at."</p>
+      </div>
+
+      <div class="takeaway reveal">
+        <span class="t-num">TAKEAWAY 05</span>
+        <h4>Persona-specific surfaces. Persona-agnostic engine.</h4>
+        <p>Four roles. Each with a different decision surface (CRO needs concentration; Auditor needs flags; Controls Manager needs effectiveness). But they all query the same twin through the same canvas. <strong>Keep the engine unified; let the conversation route persona to panel combination.</strong></p>
+      </div>
+
+      <div class="takeaway reveal">
+        <span class="t-num">TAKEAWAY 06</span>
+        <h4>The hardest UX work in AI is the <em>bridge</em>.</h4>
+        <p>A probability is not a decision. A heat cell is not an action. Designing the bridge — Investigate / Escalate / What-if, each opening another panel into the canvas — is the difference between an AI product that's <em>interesting</em> and an AI product that's <em>useful.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEXT PROJECT
+============================================================ -->
+<div class="container">
+  <div class="next-strip">
+    <span class="np-label">Next project</span>
+    <a href="CASE_STUDIES_URL_HERE" class="np-link">Continue to the next case study <span class="arrow">→</span></a>
+  </div>
+</div>
+
+<!-- ============================================================
+     METADATA (hidden — preserved in source for reference)
+============================================================ -->
+<!--
+PROJECT METADATA
+
+- Project type: Enterprise GenAI risk-tooling case study at EY.
+- Domain: Risk Analytics, Audit, Continuous Monitoring, Governance / Risk / Compliance (GRC).
+- Personas served: CRO, Internal Auditor, Risk Consultant, Controls Manager.
+- Architecture position: RAP is a host environment positioned between (a) the
+  client's heterogeneous data topology (SAP, Oracle, generic ERPs, custom systems,
+  documents, images, CSVs), (b) the EY risk tool ecosystem (VIA, IRL, Symphony,
+  Nexus, Cyber, Supply chain), and (c) downstream risk applications (Risk and
+  Control Monitor, ICM, Issue Tracker, Reporting / Control Tower) plus third-party
+  GRC tooling (AuditBoard, Workiva, TeamMate).
+- Methods used: Stakeholder framing, persona definition, mental-model mapping,
+  source/data-topology design, multi-pane canvas design, cross-monitor continuity
+  design, conversational IA, simulation-readiness flow design, uncertainty-
+  visualisation framework, what-if scenario loop design, hand-drawn wireframing
+  through to high-fidelity flows.
+- Confidentiality note: This case study has been written for portfolio use and
+  abstracts proprietary architecture details. Specific client engagements,
+  internal data schemas, and downstream-app behaviours are not exposed.
+-->
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <a href="HOME_URL_HERE" class="f-brand">Aalvee Damle<span class="dot">.</span></a>
+    <p>© 2026 · Designed and built by Aalvee Damle.</p>
+    <div class="f-links">
+      <a href="CASE_STUDIES_URL_HERE">Work</a>
+      <a href="UX_STRATEGIES_URL_HERE">UX Strategies</a>
+      <a href="ABOUT_URL_HERE">About</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Theme toggle — persisted via localStorage
+   ============================================================ */
+(function () {
+  var root = document.documentElement;
+  try {
+    var saved = localStorage.getItem('aalvee-theme');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    var next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('aalvee-theme', next); } catch (e) {}
+  });
+})();
+
+/* ============================================================
+   Reveal on scroll — IntersectionObserver
+   ============================================================ */
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+
+  items.forEach(function (el) { io.observe(el); });
+})();
+
+/* ---- Hamburger nav toggle ---- */
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  if (!toggle) return;
+  toggle.addEventListener('click', function () {
+    var isOpen = document.body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+      toggle.focus();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
