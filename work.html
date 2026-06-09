@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Work — Aalvee Damle</title>
+<meta name="description" content="Selected case studies by Aalvee Damle — Senior Product Designer across AI, banking, risk, and AgriTech." />
+<style>
+/* ============================================================
+   AALVEE DAMLE · WORK PAGE
+   Shares design system with homepage (Apple-derived, lime/coral)
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #000000;
+  --bg-alt: #0a0a0a;
+  --bg-card: #161617;
+  --bg-card-hover: #1d1d1f;
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --ink-mute: #86868b;
+  --line: #2a2a2c;
+  --line-soft: #1d1d1f;
+  --accent: #E9F056;
+  --accent-ink: #0a0a0a;
+  --accent-hover: #f1f578;
+  --chip: rgba(255,255,255,0.06);
+  --chip-hover: rgba(255,255,255,0.12);
+  --nav-bg: rgba(0,0,0,0.72);
+  --nav-border: rgba(255,255,255,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.45);
+
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --ease: cubic-bezier(0.28,0.16,0.22,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f7;
+  --bg-card: #f5f5f7;
+  --bg-card-hover: #ececef;
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --ink-mute: #6e6e73;
+  --line: #d2d2d7;
+  --line-soft: #e8e8ed;
+  --accent: #ff5c34;
+  --accent-ink: #ffffff;
+  --accent-hover: #ff7050;
+  --chip: rgba(0,0,0,0.04);
+  --chip-hover: rgba(0,0,0,0.08);
+  --nav-bg: rgba(255,255,255,0.8);
+  --nav-border: rgba(0,0,0,0.08);
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.05), 0 24px 48px rgba(0,0,0,0.08);
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  background: var(--bg);
+  transition: background-color .5s var(--ease), color .5s var(--ease);
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--ink); text-decoration: none; transition: color .25s var(--ease), opacity .25s var(--ease); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ---------- Layout ---------- */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.wrap-narrow { max-width: 980px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 720px) { .wrap, .wrap-narrow { padding: 0 22px; } }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 64px;
+  background: var(--nav-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background-color .3s var(--ease), border-color .3s var(--ease);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  height: 100%;
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-brand .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--ink); opacity: .82;
+  font-size: 15px; font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.nav-links a:hover { opacity: 1; }
+.nav-links a[aria-current="page"] {
+  opacity: 1;
+  color: var(--accent);
+}
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--accent); color: var(--accent-ink) !important;
+  padding: 9px 18px; border-radius: 980px;
+  font-size: 14px; font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
+}
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+/* ---- Theme toggle ---- */
+.theme-toggle {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  color: var(--ink);
+  transition: background-color .25s var(--ease), transform .4s var(--ease);
+  position: relative;
+}
+.theme-toggle:hover { background: var(--chip); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-svg {
+  width: 20px; height: 20px;
+  overflow: visible;
+  position: absolute;
+  transition: opacity .4s var(--ease), transform .5s var(--ease-out);
+}
+.theme-svg.icon-sun  { stroke: var(--ink); }
+.theme-svg.icon-moon { fill: var(--ink); stroke: none; }
+[data-theme="light"] .theme-svg.icon-sun  { opacity: 1; transform: rotate(0deg)   scale(1);   }
+[data-theme="light"] .theme-svg.icon-moon { opacity: 0; transform: rotate(-40deg) scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-sun  { opacity: 0; transform: rotate(40deg)  scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg)   scale(1);   }
+
+/* ---- Hamburger ---- */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color .25s var(--ease);
+}
+.nav-toggle:hover { background: var(--chip); }
+.nav-toggle span {
+  display: block;
+  width: 18px; height: 1.5px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform .3s var(--ease), opacity .2s var(--ease);
+}
+.nav-toggle span + span { margin-top: 5px; }
+.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+@media (max-width: 720px) {
+  .nav-toggle { display: flex; }
+  .nav-inner { padding: 0 22px; }
+  .nav-links {
+    display: flex;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 64px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--nav-bg);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--nav-border);
+    padding: 8px 0 20px;
+    list-style: none;
+    transition: max-height .35s var(--ease-out), opacity .2s var(--ease);
+  }
+  .nav-open .nav-links { max-height: 500px; opacity: 1; pointer-events: auto; }
+  .nav-links li { width: 100%; }
+  .nav-links a:not(.nav-cta) { display: block; padding: 12px 22px; font-size: 16px; opacity: 1; }
+  .nav-links li:has(> .theme-toggle) { padding: 8px 22px 4px; }
+  .nav-links .nav-cta { margin: 12px 22px 0; width: calc(100% - 44px); justify-content: center; padding: 12px 22px; font-size: 15px; }
+}
+
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+.page-header {
+  padding: clamp(72px, 10vw, 120px) 0 clamp(56px, 7vw, 96px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.page-header-inner {
+  max-width: 920px;
+}
+.page-label {
+  font-size: 13px; font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+  display: block;
+}
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6vw, 80px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.page-title .accent-text {
+  color: var(--accent);
+  font-style: italic;
+}
+.page-lede {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  letter-spacing: -0.012em;
+  max-width: 640px;
+}
+
+/* ============================================================
+   CASE STUDIES SECTION
+   ============================================================ */
+.section { padding: clamp(64px, 9vw, 120px) 0; }
+
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.cs-card {
+  position: relative;
+  border-radius: 24px;
+  background: var(--bg-card);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color .35s var(--ease), transform .35s var(--ease-out);
+  border: 1px solid var(--line-soft);
+}
+.cs-card:hover {
+  background: var(--bg-card-hover);
+  color: inherit;
+  transform: translateY(-4px);
+}
+.cs-card-body {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+.cs-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+}
+.cs-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.4vw, 30px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.cs-blurb {
+  font-size: 15px; line-height: 1.5;
+  color: var(--ink-mute);
+  letter-spacing: -0.005em;
+  margin-bottom: 22px;
+  max-width: 460px;
+}
+.cs-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px;
+}
+.cs-tag {
+  display: inline-block;
+  padding: 5px 12px;
+  background: var(--chip);
+  border-radius: 980px;
+  font-size: 12px;
+  color: var(--ink-2);
+  letter-spacing: -0.005em;
+  font-weight: 500;
+}
+.cs-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 22px;
+  padding-top: 2px;
+}
+.cs-meta-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+.cs-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cs-meta-value {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  letter-spacing: -0.008em;
+}
+
+/* Visual region */
+.cs-visual {
+  position: relative;
+  overflow: hidden;
+  order: -1;
+}
+.cs-visual::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, var(--accent) 0%, transparent 60%);
+  opacity: 0.06;
+  transition: opacity .4s var(--ease);
+  z-index: 1;
+}
+.cs-card:hover .cs-visual::before { opacity: 0.14; }
+.cs-visual img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform .5s var(--ease-out);
+}
+.cs-card:hover .cs-visual img { transform: scale(1.04); }
+
+/* CTA row on each card */
+.cs-cta {
+  margin-top: auto;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500;
+  color: var(--accent);
+  letter-spacing: -0.005em;
+  transition: gap .25s var(--ease);
+}
+.cs-card:hover .cs-cta { gap: 10px; }
+
+/* ============================================================
+   CONTACT STRIP
+   ============================================================ */
+.contact-strip {
+  border-top: 1px solid var(--line-soft);
+  padding: clamp(72px, 10vw, 120px) 0;
+}
+.contact-strip-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media (min-width: 720px) {
+  .contact-strip-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+}
+.contact-strip-text {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.contact-strip-text .accent-text { color: var(--accent); font-style: italic; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px;
+  border-radius: 980px;
+  font-size: 15px; font-weight: 500;
+  letter-spacing: -0.01em;
+  background: var(--accent); color: var(--accent-ink);
+  white-space: nowrap;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
+  flex-shrink: 0;
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); color: var(--accent-ink); }
+.btn-primary::after { content: "→"; font-size: 16px; transition: transform .25s var(--ease); }
+.btn-primary:hover::after { transform: translateX(3px); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: var(--bg);
+  color: var(--ink-mute);
+  padding: 48px 0 32px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 14px;
+}
+.foot-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+@media (min-width: 720px) {
+  .foot-inner { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+.foot-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.022em;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.foot-brand .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.foot-tag { color: var(--ink-mute); max-width: 320px; line-height: 1.5; }
+.foot-col h4 {
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.foot-col a {
+  display: block;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  transition: color .2s var(--ease);
+}
+.foot-col a:hover { color: var(--accent); }
+.foot-bottom {
+  border-top: 1px solid var(--line-soft);
+  margin-top: 40px; padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+/* ============================================================
+   ANIMATIONS / REVEALS
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .cursor-trail { display: none; }
+}
+
+/* ============================================================
+   CURSOR TRAIL
+   ============================================================ */
+.cursor-trail {
+  position: fixed;
+  top: 0; left: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 90;
+  will-change: transform, opacity;
+  transition: opacity .25s var(--ease);
+}
+[data-theme="light"] .cursor-trail { opacity: 0.55; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  .cursor-trail { display: none; }
+}
+
+/* ============================================================
+   MOBILE CARD LAYOUT
+   ============================================================ */
+@media (max-width: 720px) {
+  .cs-card { grid-template-columns: 1fr; }
+  .cs-card-body { padding: 28px 28px 24px; }
+  .cs-visual { height: 220px; order: -1; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="work.html" aria-current="page">Work</a></li>
+      <li><a href="aalvee_ux_strategies_v1.html">UX Strategies</a></li>
+      <li><a href="aalvee_about_v3.html">About</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+          <svg class="theme-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2"     x2="12" y2="4"/>
+            <line x1="12" y1="20"    x2="12" y2="22"/>
+            <line x1="2"  y1="12"    x2="4"  y2="12"/>
+            <line x1="20" y1="12"    x2="22" y2="12"/>
+            <line x1="4.93"  y1="4.93"  x2="6.34"  y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="4.93"  y1="19.07" x2="6.34"  y2="17.66"/>
+            <line x1="17.66" y1="6.34"  x2="19.07" y2="4.93"/>
+          </svg>
+          <svg class="theme-svg icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+      <li><a class="nav-cta" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Let's Talk</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="page-header-inner reveal">
+      <span class="page-label">Selected Work</span>
+      <h1 class="page-title">Case Studies <span class="accent-text">that ship.</span></h1>
+      <p class="page-lede">End-to-end design across AI, risk, banking, and AgriTech — built with research, refined with evidence, and measured against real outcomes.</p>
+    </div>
+  </div>
+</header>
+
+<!-- CASE STUDIES -->
+<main>
+  <section class="section">
+    <div class="wrap">
+      <div class="cs-grid">
+
+        <!-- Geniaus -->
+        <a href="aalvee_case_geniaus_v2.html" class="cs-card reveal">
+          <div class="cs-card-body">
+            <div class="cs-eyebrow">Case Study 01</div>
+            <h2 class="cs-title">An AI Co-pilot Auditors Actually Trust</h2>
+            <p class="cs-blurb">Reframing a black-box GenAI tool inside a Big Four risk platform — designing for transparency, recoverability, and the auditor's mental model of evidence.</p>
+            <div class="cs-meta">
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Problem</span>
+                <span class="cs-meta-value">Auditors couldn't trust AI-generated evidence — no transparency, no control.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Solution</span>
+                <span class="cs-meta-value">Redesigned the GenAI layer with evidence trails, confidence indicators, and override flows.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Outcome</span>
+                <span class="cs-meta-value">Adopted across EY risk teams; GenAI reframed from liability to trusted co-pilot.</span>
+              </div>
+            </div>
+            <div class="cs-tags">
+              <span class="cs-tag">GenAI · Risk</span>
+              <span class="cs-tag">Trust &amp; Transparency</span>
+            </div>
+            <span class="cs-cta">Read case study →</span>
+          </div>
+          <div class="cs-visual">
+            <img src="homepage%20card%20images/geniaus%20cover.png" alt="Geniaus case study preview" loading="lazy" />
+          </div>
+        </a>
+
+        <!-- Genie -->
+        <a href="aalvee_case_genie_v1.html" class="cs-card reveal">
+          <div class="cs-card-body">
+            <div class="cs-eyebrow">Case Study 02</div>
+            <h2 class="cs-title">Embedding AI Into the Workflow, Not Beside It</h2>
+            <p class="cs-blurb">A contextual AI widget built to live inside EY's risk platform — bringing AI to the exact moment auditors need it, without breaking their workflow or trust.</p>
+            <div class="cs-meta">
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Problem</span>
+                <span class="cs-meta-value">Auditors valued GenIAus but resented leaving their risk dashboard to use a separate AI tool.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Solution</span>
+                <span class="cs-meta-value">Designed Genie — a layered contextual widget embedded in the VIA platform with page awareness and deep workflow integration.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Outcome</span>
+                <span class="cs-meta-value">−60% context-switching; time-to-first-query dropped from 4 min to ~45s; +28% trust rating.</span>
+              </div>
+            </div>
+            <div class="cs-tags">
+              <span class="cs-tag">GenAI · EY</span>
+              <span class="cs-tag">Embedded AI</span>
+            </div>
+            <span class="cs-cta">Read case study →</span>
+          </div>
+          <div class="cs-visual">
+            <img src="homepage%20card%20images/genie%20cover%202.png" alt="Genie case study preview" loading="lazy" />
+          </div>
+        </a>
+
+        <!-- Peepal -->
+        <a href="aalvee_case_peepal_v2.html" class="cs-card reveal">
+          <div class="cs-card-body">
+            <div class="cs-eyebrow">Case Study 03</div>
+            <h2 class="cs-title">Empowering Farmers Through Sustainable Practice</h2>
+            <p class="cs-blurb">A research-led AgriTech tool for the World Bank that became EY's first engagement considered for patent application — translating field research into a mobile-first system.</p>
+            <div class="cs-meta">
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Problem</span>
+                <span class="cs-meta-value">Smallholder farmers had no accessible tool to adopt sustainable practices at scale.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Solution</span>
+                <span class="cs-meta-value">Field-research-led mobile tool built around real farmer workflows — simple, vernacular-ready.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Outcome</span>
+                <span class="cs-meta-value">EY's first patent-considered engagement; validated by the World Bank as a replicable model.</span>
+              </div>
+            </div>
+            <div class="cs-tags">
+              <span class="cs-tag">World Bank · AgriTech</span>
+              <span class="cs-tag">Patent-pending</span>
+            </div>
+            <span class="cs-cta">Read case study →</span>
+          </div>
+          <div class="cs-visual">
+            <img src="homepage%20card%20images/peepal%20cover.png" alt="Peepal case study preview" loading="lazy" />
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT STRIP -->
+  <div class="contact-strip">
+    <div class="wrap">
+      <div class="contact-strip-inner reveal">
+        <p class="contact-strip-text">Have a project in mind? <span class="accent-text">Let's talk.</span></p>
+        <a class="btn-primary" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand"><span class="dot"></span>Aalvee Damle</div>
+        <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <a href="work.html">Work</a>
+        <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
+        <a href="aalvee_about_v3.html">About</a>
+        <a href="mailto:damleaalvee@gmail.com">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:damleaalvee@gmail.com">Email</a>
+        <a href="tel:+15408788790">+1 540 878 8790</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Aalvee Damle. All rights reserved.</span>
+      <span>Washington DC · Fredericksburg, VA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Theme toggle */
+(function () {
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  if (!btn) return;
+  try {
+    var saved = window.localStorage && localStorage.getItem('aalvee-theme');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { window.localStorage && localStorage.setItem('aalvee-theme', next); } catch (e) {}
+  });
+})();
+
+/* Reveal-on-scroll */
+(function () {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+})();
+
+/* Cursor trail */
+(function () {
+  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+  if (coarse) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var TOTAL = 15;
+  var dots = [];
+  var mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  var halfDot = 12;
+
+  for (var i = 0; i < TOTAL; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-trail';
+    document.body.appendChild(d);
+    dots.push({ el: d, x: mouse.x, y: mouse.y });
+  }
+
+  document.addEventListener('mousemove', function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
+
+  function loop() {
+    var x = mouse.x, y = mouse.y;
+    for (var i = 0; i < dots.length; i++) {
+      var dot = dots[i];
+      dot.x += (x - dot.x) * 0.3;
+      dot.y += (y - dot.y) * 0.3;
+      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
+      x = dot.x;
+      y = dot.y;
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* Hamburger nav toggle */
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  if (!toggle) return;
+  toggle.addEventListener('click', function () {
+    var isOpen = document.body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+      toggle.focus();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
