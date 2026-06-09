@@ -446,18 +446,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   grid-template-columns: 1fr;
   gap: 24px;
 }
-@media (min-width: 900px) {
-  .cs-grid { grid-template-columns: 1fr 1fr; }
-}
 
 .cs-card {
   position: relative;
   border-radius: 24px;
   background: var(--bg-card);
-  padding: 40px 40px 0;
   overflow: hidden;
-  display: flex; flex-direction: column;
-  min-height: 520px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   text-decoration: none;
   color: inherit;
   transition: background-color .35s var(--ease), transform .35s var(--ease-out);
@@ -467,6 +463,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: var(--bg-card-hover);
   color: inherit;
   transform: translateY(-4px);
+}
+.cs-card-body {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
 }
 .cs-eyebrow {
   font-size: 12px;
@@ -506,14 +507,39 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-weight: 500;
 }
 
-/* Visual region — abstract preview, no "weird color cards" */
+/* Problem / Solution / Outcome rows */
+.cs-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 22px;
+  padding-top: 2px;
+}
+.cs-meta-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+.cs-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cs-meta-value {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  letter-spacing: -0.008em;
+}
+
+/* Visual region */
 .cs-visual {
-  margin: 0 -40px;
-  margin-top: auto;
-  height: 240px;
   position: relative;
   overflow: hidden;
-  display: flex; align-items: flex-end; justify-content: center;
+  order: -1;
 }
 .cs-visual::before {
   content: "";
@@ -521,8 +547,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: radial-gradient(ellipse at 50% 100%, var(--accent) 0%, transparent 60%);
   opacity: 0.06;
   transition: opacity .4s var(--ease);
+  z-index: 1;
 }
 .cs-card:hover .cs-visual::before { opacity: 0.14; }
+
+.cs-visual img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform .5s var(--ease-out);
+}
+.cs-card:hover .cs-visual img { transform: scale(1.04); }
 
 /* Each preview is a stylized device/UI mock */
 .preview {
@@ -937,8 +974,9 @@ body.in-hero .cursor-trail { opacity: 0; }
   .nav-links a:not(.nav-cta) { display: block; padding: 12px 22px; font-size: 16px; opacity: 1; }
   .nav-links li:has(> .theme-toggle) { padding: 8px 22px 4px; }
   .nav-links .nav-cta { margin: 12px 22px 0; width: calc(100% - 44px); justify-content: center; padding: 12px 22px; font-size: 15px; }
-  .cs-card { padding: 32px 28px 0; }
-  .cs-visual { margin: 0 -28px; height: 200px; }
+  .cs-card { grid-template-columns: 1fr; }
+  .cs-card-body { padding: 28px 28px 24px; }
+  .cs-visual { height: 220px; }
 }
 </style>
 <!-- GSAP for hero dot field animation -->
@@ -1063,80 +1101,91 @@ body.in-hero .cursor-trail { opacity: 0; }
 
       <!-- Geniaus — links to the published case study page -->
       <a href="aalvee_case_geniaus_v2.html" class="cs-card reveal">
-        <div class="cs-eyebrow">Case Study 01</div>
-        <h3 class="cs-title">An AI Co-pilot Auditors Actually Trust</h3>
-        <p class="cs-blurb">Reframing a black-box GenAI tool inside a Big Four risk platform — designing for transparency, recoverability, and the auditor's mental model of evidence.</p>
-        <div class="cs-tags">
-          <span class="cs-tag">GenAI · Risk</span>
-          <span class="cs-tag">Trust &amp; Transparency</span>
-        </div>
-        <div class="cs-visual">
-          <div class="preview pv-geniaus">
-            <div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="preview-body">
-              <div class="ai-line"><div class="ai-avatar me"></div><div class="ai-bubble med"></div></div>
-              <div class="ai-line"><div class="ai-avatar bot"></div><div class="ai-bubble long"></div></div>
-              <div class="ai-line"><div class="ai-avatar bot"></div><div class="ai-bubble short"></div></div>
-              <div class="ai-line"><div class="ai-avatar me"></div><div class="ai-bubble long"></div></div>
-              <div class="ai-line"><div class="ai-avatar bot"></div><div class="ai-bubble med"></div></div>
+        <div class="cs-card-body">
+          <div class="cs-eyebrow">Case Study 01</div>
+          <h3 class="cs-title">An AI Co-pilot Auditors Actually Trust</h3>
+          <p class="cs-blurb">Reframing a black-box GenAI tool inside a Big Four risk platform — designing for transparency, recoverability, and the auditor's mental model of evidence.</p>
+          <div class="cs-meta">
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Problem</span>
+              <span class="cs-meta-value">Auditors couldn't trust AI-generated evidence — no transparency, no control.</span>
+            </div>
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Solution</span>
+              <span class="cs-meta-value">Redesigned the GenAI layer with evidence trails, confidence indicators, and override flows.</span>
+            </div>
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Outcome</span>
+              <span class="cs-meta-value">Adopted across EY risk teams; GenAI reframed from liability to trusted co-pilot.</span>
             </div>
           </div>
+          <div class="cs-tags">
+            <span class="cs-tag">GenAI · Risk</span>
+            <span class="cs-tag">Trust &amp; Transparency</span>
+          </div>
+        </div>
+        <div class="cs-visual">
+          <img src="homepage%20card%20images/geniaus%20cover.png" alt="Geniaus case study preview" loading="lazy" />
         </div>
       </a>
 
       <!-- Genie -->
       <a href="aalvee_case_genie_v1.html" class="cs-card reveal">
-        <div class="cs-eyebrow">Case Study 02</div>
-        <h3 class="cs-title">Scaling a Wealth Platform Without Breaking Trust</h3>
-        <p class="cs-blurb">Wireframes, prototypes, and high-fidelity flows for a leading U.S. bank — aligned with strict brand and regulatory guidelines while modernizing the wealth experience.</p>
-        <div class="cs-tags">
-          <span class="cs-tag">Banking · Wealth</span>
-          <span class="cs-tag">Regulated UX</span>
-        </div>
-        <div class="cs-visual">
-          <div class="preview pv-genie">
-            <div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="preview-body">
-              <div class="panel">
-                <div class="hdr"></div>
-                <div class="chart">
-                  <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                </div>
-              </div>
-              <div class="panel">
-                <div class="hdr"></div>
-                <div class="hdr" style="width:80%"></div>
-                <div class="hdr" style="width:60%"></div>
-                <div class="hdr" style="width:40%"></div>
-              </div>
+        <div class="cs-card-body">
+          <div class="cs-eyebrow">Case Study 02</div>
+          <h3 class="cs-title">Embedding AI Into the Workflow, Not Beside It</h3>
+          <p class="cs-blurb">A contextual AI widget built to live inside EY's risk platform — bringing AI to the exact moment auditors need it, without breaking their workflow or trust.</p>
+          <div class="cs-meta">
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Problem</span>
+              <span class="cs-meta-value">Auditors valued GenIAus but resented leaving their risk dashboard to use a separate AI tool.</span>
+            </div>
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Solution</span>
+              <span class="cs-meta-value">Designed Genie — a layered contextual widget embedded in the VIA platform with page awareness and deep workflow integration.</span>
+            </div>
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Outcome</span>
+              <span class="cs-meta-value">−60% context-switching; time-to-first-query dropped from 4 min to ~45s; +28% trust rating.</span>
             </div>
           </div>
+          <div class="cs-tags">
+            <span class="cs-tag">GenAI · EY</span>
+            <span class="cs-tag">Embedded AI</span>
+          </div>
+        </div>
+        <div class="cs-visual">
+          <img src="homepage%20card%20images/genie%20cover%202.png" alt="Genie case study preview" loading="lazy" />
         </div>
       </a>
 
       <!-- Peepal -->
       <a href="aalvee_case_peepal_v2.html" class="cs-card reveal">
-        <div class="cs-eyebrow">Case Study 03</div>
-        <h3 class="cs-title">Empowering Farmers Through Sustainable Practice</h3>
-        <p class="cs-blurb">A research-led AgriTech tool for the World Bank that became EY's first engagement considered for patent application — translating field research into a mobile-first system.</p>
-        <div class="cs-tags">
-          <span class="cs-tag">World Bank · AgriTech</span>
-          <span class="cs-tag">Patent-pending</span>
-        </div>
-        <div class="cs-visual">
-          <div class="preview pv-peepal">
-            <div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <div class="preview-body">
-              <div class="phone">
-                <div class="leaf-icon"></div>
-                <div class="row full"></div>
-                <div class="row three"></div>
-                <div class="row half"></div>
-                <div class="row three"></div>
-                <div class="row full"></div>
-              </div>
+        <div class="cs-card-body">
+          <div class="cs-eyebrow">Case Study 03</div>
+          <h3 class="cs-title">Empowering Farmers Through Sustainable Practice</h3>
+          <p class="cs-blurb">A research-led AgriTech tool for the World Bank that became EY's first engagement considered for patent application — translating field research into a mobile-first system.</p>
+          <div class="cs-meta">
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Problem</span>
+              <span class="cs-meta-value">Smallholder farmers had no accessible tool to adopt sustainable practices at scale.</span>
+            </div>
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Solution</span>
+              <span class="cs-meta-value">Field-research-led mobile tool built around real farmer workflows — simple, vernacular-ready.</span>
+            </div>
+            <div class="cs-meta-row">
+              <span class="cs-meta-label">Outcome</span>
+              <span class="cs-meta-value">EY's first patent-considered engagement; validated by the World Bank as a replicable model.</span>
             </div>
           </div>
+          <div class="cs-tags">
+            <span class="cs-tag">World Bank · AgriTech</span>
+            <span class="cs-tag">Patent-pending</span>
+          </div>
+        </div>
+        <div class="cs-visual">
+          <img src="homepage%20card%20images/peepal%20cover.png" alt="Peepal case study preview" loading="lazy" />
         </div>
       </a>
 
