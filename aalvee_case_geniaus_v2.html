@@ -408,18 +408,21 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 .foot-bottom { border-top: 1px solid var(--line-soft); margin-top: 40px; padding-top: 24px;
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink-mute); }
 
-/* Cursor trail */
-.cursor-trail { position: fixed; top: 0; left: 0; width: 24px; height: 24px;
-  border-radius: 50%; background: var(--accent); opacity: 0.7;
-  pointer-events: none; z-index: 90; will-change: transform, opacity;
-  transition: opacity .25s var(--ease); }
-[data-theme="light"] .cursor-trail { opacity: 0.55; }
-body.in-hero .cursor-trail { opacity: 0; }
-@media (hover: none), (pointer: coarse), (max-width: 768px) { .cursor-trail { display: none; } }
+/* Smooth cursor */
+* { cursor: none !important; }
+.smooth-cursor { position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--accent); opacity: 0.65;
+  pointer-events: none; z-index: 9999; will-change: transform;
+  transition: width .25s var(--ease-out), height .25s var(--ease-out), opacity .25s var(--ease-out); }
+.smooth-cursor.hover    { width: 34px; height: 34px; opacity: 0.3; }
+.smooth-cursor.clicking { width: 14px; height: 14px; opacity: 0.9; transition-duration: .1s; }
+[data-theme="light"] .smooth-cursor { opacity: 0.5; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .smooth-cursor { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .smooth-cursor { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  .cursor-trail { display: none; }
+  .smooth-cursor { display: none; }
   .carousel.autoplay.playing .carousel-stage::after { animation: none; }
 }
 
@@ -533,8 +536,7 @@ body.in-hero .cursor-trail { opacity: 0; }
     <div class="meta-grid">
       <div class="meta-item"><span class="label">Client</span><span class="value">Ernst &amp; Young</span></div>
       <div class="meta-item"><span class="label">Role</span><span class="value">UX Designer · Lead</span></div>
-      <div class="meta-item"><span class="label">Team</span><span class="value">PM · PO · 8 Developers</span></div>
-      <div class="meta-item"><span class="label">Year</span><span class="value">2023</span></div>
+      <div class="meta-item"><span class="label">Team</span><span class="value">PM · PO · 10 Developers</span></div>
     </div>
     <div class="impact-strip">
       <div class="impact-stat"><span class="num">−40%</span><span class="label">Task completion time</span></div>
@@ -1215,33 +1217,27 @@ body.in-hero .cursor-trail { opacity: 0; }
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 })();
 
-/* Cursor trail */
+/* Smooth cursor */
 (function () {
   var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
   if (coarse) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var TOTAL = 15, dots = [], mouse = { x: window.innerWidth/2, y: window.innerHeight/2 }, halfDot = 12;
-  for (var i = 0; i < TOTAL; i++) {
-    var d = document.createElement('div');
-    d.className = 'cursor-trail';
-    document.body.appendChild(d);
-    dots.push({ el: d, x: mouse.x, y: mouse.y });
-  }
+  var el = document.createElement('div');
+  el.className = 'smooth-cursor';
+  document.body.appendChild(el);
+  var mouse = { x: -100, y: -100 }, pos = { x: -100, y: -100 }, LERP = 0.18;
   document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-  var hero = document.querySelector('.hero');
-  if (hero) {
-    hero.addEventListener('mouseenter', function () { document.body.classList.add('in-hero'); });
-    hero.addEventListener('mouseleave', function () { document.body.classList.remove('in-hero'); });
-  }
+  document.querySelectorAll('button, [role="button"]').forEach(function (t) {
+    t.addEventListener('mouseenter', function () { el.classList.add('hover'); });
+    t.addEventListener('mouseleave', function () { el.classList.remove('hover'); });
+  });
+  document.addEventListener('mousedown', function () { el.classList.add('clicking'); });
+  document.addEventListener('mouseup',   function () { el.classList.remove('clicking'); });
   function loop() {
-    var x = mouse.x, y = mouse.y;
-    for (var i = 0; i < dots.length; i++) {
-      var dot = dots[i];
-      dot.x += (x - dot.x) * 0.3;
-      dot.y += (y - dot.y) * 0.3;
-      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
-      x = dot.x; y = dot.y;
-    }
+    pos.x += (mouse.x - pos.x) * LERP;
+    pos.y += (mouse.y - pos.y) * LERP;
+    var half = el.offsetWidth / 2;
+    el.style.transform = 'translate(' + (pos.x - half) + 'px, ' + (pos.y - half) + 'px)';
     requestAnimationFrame(loop);
   }
   loop();
