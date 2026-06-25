@@ -498,27 +498,35 @@ footer {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  .cursor-trail { display: none; }
+  .smooth-cursor { display: none; }
 }
 
 /* ============================================================
-   CURSOR TRAIL
+   SMOOTH CURSOR — single filled dot that lerps behind the cursor
    ============================================================ */
-.cursor-trail {
+* { cursor: none !important; }
+.smooth-cursor {
   position: fixed;
   top: 0; left: 0;
-  width: 24px; height: 24px;
+  width: 20px; height: 20px;
   border-radius: 50%;
   background: var(--accent);
-  opacity: 0.7;
+  opacity: 0.65;
   pointer-events: none;
-  z-index: 90;
-  will-change: transform, opacity;
-  transition: opacity .25s var(--ease);
+  z-index: 9999;
+  will-change: transform;
+  transition: width .25s var(--ease-out), height .25s var(--ease-out), opacity .25s var(--ease-out);
 }
-[data-theme="light"] .cursor-trail { opacity: 0.55; }
+.smooth-cursor.hover    { width: 34px; height: 34px; opacity: 0.3; }
+.smooth-cursor.clicking { width: 14px; height: 14px; opacity: 0.9; transition-duration: .1s; }
+[data-theme="light"] .smooth-cursor { opacity: 0.5; }
 @media (hover: none), (pointer: coarse), (max-width: 768px) {
-  .cursor-trail { display: none; }
+  * { cursor: revert !important; }
+  .smooth-cursor { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { cursor: revert !important; }
+  .smooth-cursor { display: none; }
 }
 
 /* ============================================================
@@ -678,6 +686,69 @@ footer {
           </div>
         </a>
 
+        <!-- ResolveNow -->
+        <a href="aalvee_case_resolvenow_v1.html" class="cs-card reveal">
+          <div class="cs-card-body">
+            <div class="cs-eyebrow">Case Study 04</div>
+            <h2 class="cs-title">Civic Complaint Isn't a UX Problem. It's a Trust Problem.</h2>
+            <p class="cs-blurb">A research-led redesign of citizen complaint infrastructure for Indian municipalities — starting not with the form, but with the structural failure of trust that made citizens stop raising issues.</p>
+            <div class="cs-meta">
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Problem</span>
+                <span class="cs-meta-value">Citizens stopped raising complaints because nothing got resolved — no transparency, no accountability, no feedback loop.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Solution</span>
+                <span class="cs-meta-value">Designed ResolveNow to attack four broken mental-model beliefs: visible officers, real-time tracking, ward-level accountability, and a closed feedback loop.</span>
+              </div>
+              <div class="cs-meta-row">
+                <span class="cs-meta-label">Outcome</span>
+                <span class="cs-meta-value">A system designed to repair civic trust — not just digitise a form — validated through multi-lens research across citizens and municipal officials.</span>
+              </div>
+            </div>
+            <div class="cs-tags">
+              <span class="cs-tag">Civic Tech · E-Governance</span>
+              <span class="cs-tag">India</span>
+            </div>
+            <span class="cs-cta">Read case study →</span>
+          </div>
+          <div class="cs-visual" style="background: #0a0a0a; display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;inset:0;" aria-hidden="true">
+              <defs>
+                <radialGradient id="rn-glow" cx="50%" cy="60%" r="55%">
+                  <stop offset="0%" stop-color="#E9F056" stop-opacity="0.18"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="480" height="360" fill="#0a0a0a"/>
+              <rect width="480" height="360" fill="url(#rn-glow)"/>
+              <!-- Ward card -->
+              <rect x="140" y="80" width="200" height="200" rx="20" fill="#161616" stroke="rgba(233,240,86,0.18)" stroke-width="1"/>
+              <!-- Header -->
+              <rect x="140" y="80" width="200" height="52" rx="20" fill="#111"/>
+              <rect x="140" y="112" width="200" height="20" fill="#111"/>
+              <circle cx="166" cy="106" r="10" fill="rgba(233,240,86,0.15)"/>
+              <text x="166" y="110" text-anchor="middle" font-size="9" font-weight="700" fill="#E9F056" font-family="system-ui,sans-serif">18</text>
+              <text x="184" y="103" font-size="10" font-weight="600" fill="#f5f5f7" font-family="system-ui,sans-serif">Ward HAL</text>
+              <text x="184" y="115" font-size="8" fill="#86868b" font-family="system-ui,sans-serif">East cluster · Zone 03</text>
+              <!-- Status row -->
+              <rect x="156" y="148" width="168" height="28" rx="8" fill="rgba(233,240,86,0.08)" stroke="rgba(233,240,86,0.2)" stroke-width="0.8"/>
+              <circle cx="170" cy="162" r="4" fill="#E9F056"/>
+              <text x="180" y="166" font-size="9" fill="#E9F056" font-family="system-ui,sans-serif" font-weight="600">3 issues resolved this week</text>
+              <!-- Complaint row 1 -->
+              <rect x="156" y="186" width="168" height="36" rx="8" fill="#1a1a1a"/>
+              <rect x="162" y="194" width="4" height="20" rx="2" fill="#E9F056"/>
+              <text x="172" y="204" font-size="9" font-weight="600" fill="#f5f5f7" font-family="system-ui,sans-serif">Pothole — MG Road</text>
+              <text x="172" y="215" font-size="8" fill="#86868b" font-family="system-ui,sans-serif">In progress · 2d ago</text>
+              <!-- Complaint row 2 -->
+              <rect x="156" y="230" width="168" height="36" rx="8" fill="#1a1a1a"/>
+              <rect x="162" y="238" width="4" height="20" rx="2" fill="rgba(233,240,86,0.3)"/>
+              <text x="172" y="248" font-size="9" font-weight="600" fill="#f5f5f7" font-family="system-ui,sans-serif">Streetlight — 4th Cross</text>
+              <text x="172" y="259" font-size="8" fill="#86868b" font-family="system-ui,sans-serif">Raised · just now</text>
+            </svg>
+          </div>
+        </a>
+
       </div>
     </div>
   </section>
@@ -753,39 +824,38 @@ footer {
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 })();
 
-/* Cursor trail */
+/* Smooth cursor */
 (function () {
   var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
   if (coarse) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var TOTAL = 15;
-  var dots = [];
-  var mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-  var halfDot = 12;
+  var el = document.createElement('div');
+  el.className = 'smooth-cursor';
+  document.body.appendChild(el);
 
-  for (var i = 0; i < TOTAL; i++) {
-    var d = document.createElement('div');
-    d.className = 'cursor-trail';
-    document.body.appendChild(d);
-    dots.push({ el: d, x: mouse.x, y: mouse.y });
-  }
+  var mouse = { x: -100, y: -100 };
+  var pos   = { x: -100, y: -100 };
+  var LERP  = 0.18;
 
   document.addEventListener('mousemove', function (e) {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   }, { passive: true });
 
+  document.querySelectorAll('button, [role="button"]').forEach(function (t) {
+    t.addEventListener('mouseenter', function () { el.classList.add('hover'); });
+    t.addEventListener('mouseleave', function () { el.classList.remove('hover'); });
+  });
+
+  document.addEventListener('mousedown', function () { el.classList.add('clicking'); });
+  document.addEventListener('mouseup',   function () { el.classList.remove('clicking'); });
+
   function loop() {
-    var x = mouse.x, y = mouse.y;
-    for (var i = 0; i < dots.length; i++) {
-      var dot = dots[i];
-      dot.x += (x - dot.x) * 0.3;
-      dot.y += (y - dot.y) * 0.3;
-      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
-      x = dot.x;
-      y = dot.y;
-    }
+    pos.x += (mouse.x - pos.x) * LERP;
+    pos.y += (mouse.y - pos.y) * LERP;
+    var half = el.offsetWidth / 2;
+    el.style.transform = 'translate(' + (pos.x - half) + 'px, ' + (pos.y - half) + 'px)';
     requestAnimationFrame(loop);
   }
   loop();
