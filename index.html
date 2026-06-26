@@ -16,7 +16,7 @@
 /* ---------- Tokens ---------- */
 :root {
   /* DARK is default — Apple-accurate surface hierarchy */
-  --bg: #000000;              /* page: true black, like apple.com dark */
+  --bg: #0f0f10;
   --bg-alt: #0a0a0a;          /* alt section, subtle lift from page */
   --bg-card: #161617;         /* elevated surface (Apple cards) */
   --bg-card-hover: #1d1d1f;   /* card hover, Apple line-soft equivalent */
@@ -176,9 +176,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    ============================================================ */
 .hero {
   position: relative;
-  padding: clamp(72px, 12vw, 140px) 0 clamp(140px, 16vw, 220px);
+  padding: clamp(48px, 8vw, 100px) 0 120px;
   background: var(--bg);
   border-bottom: 1px solid var(--line-soft);
+  overflow-x: clip;
+  text-align: center;
 }
 
 /* "Available for new opportunities" pill */
@@ -210,19 +212,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 .greeting {
   font-family: var(--font-display);
-  font-size: 21px; color: var(--ink-mute);
+  font-size: 17px; color: var(--ink-mute);
   letter-spacing: -0.015em;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(42px, 6.4vw, 88px);
+  font-size: clamp(32px, 4.5vw, 56px);
   font-weight: 600;
-  line-height: 1.04;
+  line-height: 1.1;
   letter-spacing: -0.035em;
   color: var(--ink);
-  max-width: 1040px;
-  margin-bottom: 32px;
+  max-width: 720px;
+  margin: 0 auto 24px;
 }
 .hero-title .accent-text {
   color: var(--accent);
@@ -231,16 +233,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .hero-lede {
   font-family: var(--font-display);
-  font-size: clamp(17px, 1.5vw, 19px);
+  font-size: clamp(15px, 1.2vw, 17px);
   line-height: 1.55;
   color: var(--ink-2);
   letter-spacing: -0.012em;
-  max-width: 720px;
-  margin-bottom: 40px;
+  max-width: 560px;
+  margin: 0 auto 32px;
 }
 .hero-actions {
   display: inline-flex; gap: 14px; flex-wrap: wrap;
-  margin-bottom: 80px;
+  margin-bottom: 24px;
+  justify-content: center;
 }
 .btn-primary, .btn-secondary {
   display: inline-flex; align-items: center; gap: 8px;
@@ -266,15 +269,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .btn-primary:hover::after, .btn-secondary:hover::after { transform: translateX(3px); }
 
-/* Stats row — extra top margin gives breathing room from CTAs above */
+/* Stats row */
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 720px;
-  margin-top: clamp(48px, 6vw, 80px);
+  max-width: 560px;
+  margin: 0 auto;
   border-top: 1px solid var(--line-soft);
-  padding-top: 40px;
+  padding-top: 32px;
 }
 @media (max-width: 600px) {
   .hero-stats { grid-template-columns: 1fr 1fr; }
@@ -859,68 +862,88 @@ footer {
     transition-duration: 0.01ms !important;
   }
   .availability .pulse::after { display: none; }
-  .cursor-trail { display: none; }
+  .cursor-dot { display: none; }
   .hero-dots { display: none; }
 }
 
-/* ============================================================
-   CURSOR TRAIL — 15 lerped dots in brand color, behind the cursor
-   Behavior ported from user's reference HTML
-   ============================================================ */
-.cursor-trail {
-  position: fixed;
-  top: 0; left: 0;
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: var(--accent);   /* lime in dark, coral in light */
-  opacity: 0.7;
-  pointer-events: none;
-  z-index: 90;                 /* below nav (100), above content */
-  will-change: transform, opacity;
-  transition: opacity .25s var(--ease);
-}
-[data-theme="light"] .cursor-trail {
-  opacity: 0.55;               /* coral is more saturated, so dim it a touch */
-}
-/* Hide the trail when the cursor is inside the hero — keep cursor behavior clean there */
-body.in-hero .cursor-trail { opacity: 0; }
-@media (hover: none), (pointer: coarse), (max-width: 768px) {
-  .cursor-trail { display: none; }
-}
+/* Cursor trail */
+* { cursor: none !important; }
+.hero-pill { cursor: grab !important; }
+.hero-pill:active { cursor: grabbing !important; }
+.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+[data-theme="light"] .cursor-dot { background: #ff5c34; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
 
-/* ============================================================
-   HERO DOT FIELD — 160 SVG dots with glow + parallax
-   Sage (#AEB8A0) in dark · Lime (#E9F056) in light
-   Behavior ported from user's reference HTML (GSAP-driven)
-   ============================================================ */
-.hero { position: relative; }
-.hero-dots {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  overflow: hidden;
-}
-.hero-dots svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;     /* let glow extend past viewBox edges, no clipping */
-}
-.hero-dots circle {
-  fill: #AEB8A0;          /* sage */
-  opacity: 0.8;
-  transform-origin: center;
-  will-change: transform;
-  filter: url(#hero-glow);
-}
-[data-theme="light"] .hero-dots circle {
-  fill: #E9F056;          /* lime — pops against the white hero in light mode */
-  opacity: 0.8;
-}
-/* Hero content + cue must sit above the dot field */
+/* Hero content + cue must sit above any decorative layers */
 .hero .wrap        { position: relative; z-index: 3; }
 .hero-mouse-cue    { z-index: 3; }
+
+/* ============================================================
+   HERO SKILL PILLS — fall-in + draggable
+   ============================================================ */
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  width: 100%;
+  padding: 0 24px 12px;
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  white-space: nowrap;
+  will-change: transform;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.hero-pill:active { cursor: grabbing; }
+.hero-pill .pill-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+.hero-pill-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  will-change: transform;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.hero-pill-circle:active { cursor: grabbing; }
+@media (max-width: 720px) {
+  .hero { padding-bottom: 280px; }
+  .hero-pills { gap: 10px; padding: 0 16px 14px; }
+  .hero-pill {
+    padding: 10px 16px;
+    font-size: 10px;
+    gap: 6px;
+    transform: rotate(0deg) !important;
+  }
+  .hero-pill .pill-icon { font-size: 13px; }
+}
 
 /* ---------- Hamburger button ---------- */
 .nav-toggle {
@@ -979,8 +1002,6 @@ body.in-hero .cursor-trail { opacity: 0; }
   .cs-visual { height: 220px; }
 }
 </style>
-<!-- GSAP for hero dot field animation -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
 
 <body>
@@ -1027,27 +1048,7 @@ body.in-hero .cursor-trail { opacity: 0; }
      HERO
      ============================================================ -->
 <section class="hero">
-  <!-- Animated dot field background (GSAP-driven) -->
-  <div class="hero-dots" aria-hidden="true">
-    <svg id="heroDotsCanvas" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <filter id="hero-glow" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-    </svg>
-  </div>
-
   <div class="wrap">
-    <div class="availability">
-      <span class="pulse"></span>
-      <span>Available for new opportunities</span>
-    </div>
-
     <p class="greeting">Hi, I am Aalvee.</p>
 
     <h1 class="hero-title">
@@ -1058,33 +1059,22 @@ body.in-hero .cursor-trail { opacity: 0; }
       Senior Product Designer with 4+ years across AI, banking, risk, and innovation. At EY, I led research and design for GenAI-integrated risk tools, wealth platforms for a leading U.S. bank, and future-state strategy for global enterprises — partnering closely with PMs, engineers, and risk teams.
     </p>
 
-    <div class="hero-actions">
-      <a href="#work" class="btn-primary">View my work</a>
-    </div>
-
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="num">4<span class="accent-text">+</span></span>
-        <span class="lbl">Years experience</span>
-      </div>
-      <div class="stat">
-        <span class="num">15<span class="accent-text">+</span></span>
-        <span class="lbl">Enterprise products shipped</span>
-      </div>
-      <div class="stat">
-        <span class="num">4</span>
-        <span class="lbl">Industries · AI, Risk, Banking, AgriTech</span>
-      </div>
-    </div>
   </div>
 
-  <!-- Sphere-style scroll/mouse cue at bottom of hero -->
-  <div class="hero-mouse-cue" aria-hidden="true">
-    <div class="sphere-mouse">
-      <div class="sphere-dot"></div>
-    </div>
-    <span class="cue-label">Scroll</span>
+  <!-- Floating skill pills — flow layout, fall one by one -->
+  <div class="hero-pills" aria-hidden="true">
+      <div class="hero-pill" data-rotate="-8" style="background:#FDCF00"><span>Product Design</span><span class="pill-icon">🎨</span></div>
+      <div class="hero-pill" data-rotate="6" style="background:#FBCFE8"><span>User Research</span><span class="pill-icon">🔍</span></div>
+      <div class="hero-pill" data-rotate="-4" style="background:#D9C9FF"><span>UX Strategy</span><span class="pill-icon">🧭</span></div>
+      <div class="hero-pill" data-rotate="7" style="background:#BBF7D0"><span>Design Systems</span><span class="pill-icon">⚙️</span></div>
+      <div class="hero-pill" data-rotate="-5" style="background:#F4F4F5"><span>Prototyping</span><span class="pill-icon">🛠️</span></div>
+      <div class="hero-pill" data-rotate="5" style="background:#FDCF00"><span>AI Product Design</span><span class="pill-icon">🤖</span></div>
+      <div class="hero-pill" data-rotate="-6" style="background:#FED7AA"><span>Interaction Design</span><span class="pill-icon">✨</span></div>
+      <div class="hero-pill" data-rotate="8" style="background:#FBCFE8"><span>Enterprise UX</span><span class="pill-icon">🏢</span></div>
+      <div class="hero-pill" data-rotate="-7" style="background:#D9C9FF"><span>Product Strategy</span><span class="pill-icon">📐</span></div>
+      <div class="hero-pill" data-rotate="6" style="background:#BBF7D0"><span>Design Thinking</span><span class="pill-icon">💡</span></div>
   </div>
+
 </section>
 
 <!-- ============================================================
@@ -1382,117 +1372,182 @@ body.in-hero .cursor-trail { opacity: 0; }
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 })();
 
-/* ============================================================
-   Cursor trail — 15 dots lerping behind the cursor (0.3 ratio)
-   Behavior ported from user's reference HTML
-   ============================================================ */
+/* Cursor trail — single dot in hero, full trail elsewhere */
 (function () {
-  // Skip on touch / coarse-pointer devices
   var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
   if (coarse) return;
-  // Respect reduced-motion preference
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var TOTAL = 15;
-  var dots = [];
-  var mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-  var halfDot = 12; // 24px / 2, to center on cursor
+  var hero = document.querySelector('.hero');
+  var COUNT = 15, LERP = 0.22, dots = [];
 
-  for (var i = 0; i < TOTAL; i++) {
+  for (var i = 0; i < COUNT; i++) {
     var d = document.createElement('div');
-    d.className = 'cursor-trail';
+    d.className = 'cursor-dot';
+    var t = 1 - i / COUNT;
+    d.style.width = '24px';
+    d.style.height = '24px';
+    d.style.opacity = t * 0.75;
     document.body.appendChild(d);
-    dots.push({ el: d, x: mouse.x, y: mouse.y });
+    dots.push({ el: d, x: -100, y: -100 });
   }
+
+  var mouse = { x: -100, y: -100 };
+  var inHero = false;
 
   document.addEventListener('mousemove', function (e) {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
+    if (hero) {
+      var rect = hero.getBoundingClientRect();
+      inHero = e.clientY >= rect.top && e.clientY <= rect.bottom;
+    }
   }, { passive: true });
 
-  // Fade out the trail while cursor is inside the hero (keeps cursor "normal" there)
-  var hero = document.querySelector('.hero');
-  if (hero) {
-    hero.addEventListener('mouseenter', function () { document.body.classList.add('in-hero'); });
-    hero.addEventListener('mouseleave', function () { document.body.classList.remove('in-hero'); });
-  }
-
   function loop() {
-    var x = mouse.x, y = mouse.y;
+    var prev = mouse;
     for (var i = 0; i < dots.length; i++) {
-      var dot = dots[i];
-      dot.x += (x - dot.x) * 0.3;
-      dot.y += (y - dot.y) * 0.3;
-      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
-      x = dot.x;
-      y = dot.y;
+      var d = dots[i];
+      if (inHero) {
+        if (i === 0) {
+          // First dot: simple dot, snaps to cursor
+          d.x = mouse.x;
+          d.y = mouse.y;
+          d.el.style.width = '24px';
+          d.el.style.height = '24px';
+          d.el.style.opacity = '1';
+          var half = 12;
+          d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
+        } else {
+          // Hide trail dots in hero
+          d.el.style.opacity = '0';
+          d.x = mouse.x;
+          d.y = mouse.y;
+        }
+      } else {
+        // Normal trail outside hero
+        var t = 1 - i / COUNT;
+        d.el.style.width = '24px';
+        d.el.style.height = '24px';
+        d.el.style.opacity = String(t * 0.75);
+        d.x += (prev.x - d.x) * LERP;
+        d.y += (prev.y - d.y) * LERP;
+        var half2 = d.el.offsetWidth / 2;
+        d.el.style.transform = 'translate(' + (d.x - half2) + 'px, ' + (d.y - half2) + 'px)';
+      }
+      prev = d;
     }
     requestAnimationFrame(loop);
   }
   loop();
 })();
 
+
 /* ============================================================
-   Hero dot field — 160 GSAP-animated SVG dots with parallax
-   Behavior ported from user's reference HTML
+   Hero skill pills — gravity drop with bounce + drag
+   CSS keyframe handles the fall (guaranteed to reach bottom).
+   JS handles drag only.
    ============================================================ */
 (function () {
-  if (typeof gsap === 'undefined') return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pills = document.querySelectorAll('.hero-pill, .hero-pill-circle');
+  if (!pills.length) return;
+  var isMobile = window.innerWidth <= 720;
 
-  var svg = document.getElementById('heroDotsCanvas');
-  if (!svg) return;
+  // Inject the drop keyframes
+  var style = document.createElement('style');
+  style.textContent =
+    '@keyframes pillDrop {' +
+    '  0%   { transform: translateY(-800px) rotate(var(--start-rot)); opacity: 0; }' +
+    '  15%  { opacity: 1; }' +
+    '  58%  { transform: translateY(0px) rotate(var(--end-rot)); }' +
+    '  72%  { transform: translateY(-18px) rotate(var(--end-rot)); }' +
+    '  85%  { transform: translateY(0px) rotate(var(--end-rot)); }' +
+    '  92%  { transform: translateY(-5px) rotate(var(--end-rot)); }' +
+    '  100% { transform: translateY(0px) rotate(var(--end-rot)); opacity: 1; }' +
+    '}' +
+    '@keyframes pillDropMobile {' +
+    '  0%   { transform: translateY(-600px); opacity: 0; }' +
+    '  15%  { opacity: 1; }' +
+    '  58%  { transform: translateY(0px); }' +
+    '  72%  { transform: translateY(-14px); }' +
+    '  85%  { transform: translateY(0px); }' +
+    '  92%  { transform: translateY(-4px); }' +
+    '  100% { transform: translateY(0px); opacity: 1; }' +
+    '}';
+  document.head.appendChild(style);
 
-  var DOT_COUNT = 160;
-  var dots = [];
-  var ns = 'http://www.w3.org/2000/svg';
+  pills.forEach(function (pill, i) {
+    var targetRotate = isMobile ? 0 : (parseFloat(pill.dataset.rotate) || 0);
+    var startRotate = isMobile ? 0 : (Math.random() - 0.5) * 25;
+    var delay = i * 80; // one after the other
 
-  for (var i = 0; i < DOT_COUNT; i++) {
-    var dot = document.createElementNS(ns, 'circle');
-    var cx = Math.random() * 800;
-    var cy = Math.random() * 600;
-    var depth = Math.random();
-    var r = 0.5 + depth * 3;
+    // Track drag offset
+    var dragX = 0, dragY = 0;
 
-    dot.setAttribute('cx', cx);
-    dot.setAttribute('cy', cy);
-    dot.setAttribute('r', r);
-    svg.appendChild(dot);
+    if (reducedMotion) {
+      pill.style.transform = 'rotate(' + targetRotate + 'deg)';
+    } else {
+      // Set CSS variables for the keyframe
+      pill.style.setProperty('--start-rot', startRotate + 'deg');
+      pill.style.setProperty('--end-rot', targetRotate + 'deg');
+      pill.style.opacity = '0';
+      pill.style.transform = 'translateY(-800px)';
 
-    dots.push({ el: dot, depth: depth });
+      // Start the CSS animation after delay
+      setTimeout(function () {
+        var animName = isMobile ? 'pillDropMobile' : 'pillDrop';
+        pill.style.animation = animName + ' 0.7s cubic-bezier(0.22, 0.68, 0.35, 1) forwards';
+        pill.style.opacity = '';
+      }, delay);
 
-    // Fade-in stagger
-    gsap.from(dot, {
-      opacity: 0,
-      duration: 1,
-      delay: i * 0.005,
-      ease: 'power2.out'
+      // After animation ends, set final transform so drag works
+      pill.addEventListener('animationend', function () {
+        pill.style.animation = 'none';
+        pill.style.transform = isMobile
+          ? 'translateY(0)'
+          : 'translate(0px, 0px) rotate(' + targetRotate + 'deg)';
+      }, { once: true });
+    }
+
+    // Drag
+    var isDragging = false;
+    var pointerStartX, pointerStartY, dragStartX, dragStartY;
+
+    pill.addEventListener('pointerdown', function (e) {
+      isDragging = true;
+      pill.setPointerCapture(e.pointerId);
+      pill.style.animation = 'none';
+      pill.style.zIndex = '10';
+      pill.style.cursor = 'grabbing';
+      pill.style.transition = 'none';
+      pointerStartX = e.clientX;
+      pointerStartY = e.clientY;
+      dragStartX = dragX;
+      dragStartY = dragY;
+      e.preventDefault();
     });
 
-    // Gentle drifting yoyo float
-    gsap.to(dot, {
-      x: '+=' + (Math.random() * 60 - 30),
-      y: '+=' + (Math.random() * 60 - 30),
-      duration: 2 + Math.random() * 3,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-      delay: Math.random() * 2
+    window.addEventListener('pointermove', function (e) {
+      if (!isDragging) return;
+      dragX = dragStartX + (e.clientX - pointerStartX);
+      dragY = dragStartY + (e.clientY - pointerStartY);
+      var tilt = isMobile ? 0 : Math.max(-20, Math.min(20, (e.clientX - pointerStartX) * 0.08));
+      pill.style.transform = 'translate(' + dragX + 'px, ' + dragY + 'px) rotate(' + tilt + 'deg)';
     });
-  }
 
-  // Parallax response to cursor (depth-weighted)
-  window.addEventListener('mousemove', function (e) {
-    var x = (e.clientX / window.innerWidth - 0.5) * 100;
-    var y = (e.clientY / window.innerHeight - 0.5) * 100;
-    dots.forEach(function (item) {
-      gsap.to(item.el, {
-        x: x * item.depth,
-        y: y * item.depth,
-        duration: 0.8,
-        ease: 'power2.out'
-      });
-    });
+    function endDrag() {
+      if (!isDragging) return;
+      isDragging = false;
+      pill.style.cursor = 'grab';
+      pill.style.zIndex = '';
+      // Snap rotation back with a quick transition
+      pill.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      pill.style.transform = 'translate(' + dragX + 'px, ' + dragY + 'px) rotate(' + targetRotate + 'deg)';
+      setTimeout(function () { pill.style.transition = 'none'; }, 400);
+    }
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
   });
 })();
 
