@@ -14,69 +14,81 @@
 
 /* ----- Tokens -------------------------------------------------- */
 :root {
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono:    "SF Mono", ui-monospace, Menlo, Consolas, monospace;
-  --ease:    cubic-bezier(.4,0,.2,1);
-  --ease-out: cubic-bezier(.16,1,.3,1);
-  --max:    1280px;
-  --shadow: 0 1px 2px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+  --ease:     cubic-bezier(0.28,0.16,0.22,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+  --max:      1280px;
 }
 
 [data-theme="dark"] {
   --bg:           #000;
+  --bg-alt:       #0a0a0a;
   --bg-2:         #0a0a0a;
-  --bg-card:      #111;
-  --bg-card-hover:#161616;
+  --bg-card:      #161617;
+  --bg-card-hover:#1d1d1f;
   --bg-elev:      #1a1a1a;
-  --ink:          #ffffff;
-  --ink-2:        #e8e8e8;
-  --ink-mute:     #8a8a8a;
+  --ink:          #f5f5f7;
+  --ink-2:        #d2d2d7;
+  --ink-mute:     #86868b;
   --ink-dim:      #5a5a5a;
-  --line:         rgba(255,255,255,0.14);
-  --line-soft:    rgba(255,255,255,0.07);
+  --line:         #2a2a2c;
+  --line-soft:    #1d1d1f;
   --chip:         rgba(255,255,255,0.06);
+  --chip-hover:   rgba(255,255,255,0.12);
   --accent:       #E9F056;
   --accent-soft:  rgba(233,240,86,0.16);
+  --accent-ink:   #0a0a0a;
+  --accent-hover: #f1f578;
   --danger:       #ff5c34;
   --danger-soft:  rgba(255,92,52,0.16);
-  --nav-bg:       rgba(0,0,0,0.62);
+  --nav-bg:       rgba(0,0,0,0.72);
+  --nav-border:   rgba(255,255,255,0.08);
+  --shadow:       0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  --shadow-lg:    0 4px 12px rgba(0,0,0,0.4), 0 24px 48px rgba(0,0,0,0.45);
 }
 
 [data-theme="light"] {
-  --bg:           #ffffff;
-  --bg-2:         #f6f6f4;
-  --bg-card:      #f3f3ef;
-  --bg-card-hover:#ececea;
+  --bg:           #fff;
+  --bg-alt:       #f5f5f7;
+  --bg-2:         #f5f5f7;
+  --bg-card:      #f5f5f7;
+  --bg-card-hover:#ececef;
   --bg-elev:      #ffffff;
-  --ink:          #0a0a0a;
-  --ink-2:        #1f1f1f;
-  --ink-mute:     #6a6a6a;
+  --ink:          #1d1d1f;
+  --ink-2:        #424245;
+  --ink-mute:     #6e6e73;
   --ink-dim:      #aaaaaa;
-  --line:         rgba(0,0,0,0.14);
-  --line-soft:    rgba(0,0,0,0.07);
-  --chip:         rgba(0,0,0,0.05);
+  --line:         #d2d2d7;
+  --line-soft:    #e8e8ed;
+  --chip:         rgba(0,0,0,0.04);
+  --chip-hover:   rgba(0,0,0,0.08);
   --accent:       #ff5c34;
   --accent-soft:  rgba(255,92,52,0.12);
+  --accent-ink:   #fff;
+  --accent-hover: #ff7050;
   --danger:       #c2381a;
   --danger-soft:  rgba(194,56,26,0.10);
-  --nav-bg:       rgba(255,255,255,0.72);
+  --nav-bg:       rgba(255,255,255,0.8);
+  --nav-border:   rgba(0,0,0,0.08);
+  --shadow:       0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-lg:    0 4px 12px rgba(0,0,0,0.05), 0 24px 48px rgba(0,0,0,0.08);
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 body {
-  background: var(--bg);
-  color: var(--ink);
   font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  transition: background-color .35s var(--ease), color .35s var(--ease);
+  font-size: 17px; line-height: 1.5; letter-spacing: -0.022em;
+  color: var(--ink); background: var(--bg);
+  transition: background-color .5s var(--ease), color .5s var(--ease);
   overflow-x: hidden;
 }
-a { color: inherit; text-decoration: none; }
+a { color: var(--ink); text-decoration: none; transition: color .25s var(--ease), opacity .25s var(--ease); }
 img, svg { display: block; max-width: 100%; }
-::selection { background: var(--accent); color: #000; }
+::selection { background: var(--accent); color: var(--accent-ink); }
 
 .container {
   width: 100%;
@@ -89,160 +101,127 @@ img, svg { display: block; max-width: 100%; }
    NAV — 64px sticky translucent
    ============================================================ */
 .nav {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: 0; z-index: 100;
+  height: 64px;
   background: var(--nav-bg);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background-color .3s var(--ease), border-color .3s var(--ease);
 }
 .nav-inner {
-  height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 24px;
+  max-width: var(--max); margin: 0 auto;
+  height: 100%; padding: 0 clamp(20px, 4vw, 56px);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
 }
-.brand {
-  display: inline-flex; align-items: center; gap: 10px;
+.nav-brand {
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.018em;
-  font-size: 15px;
-  color: var(--ink);
+  font-size: 22px; font-weight: 600;
+  letter-spacing: -0.022em; color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
 }
-.brand-dot {
+.nav-brand .dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
+  background: var(--accent); display: inline-block;
 }
-.nav-links {
-  display: flex; align-items: center; gap: clamp(18px, 3vw, 36px);
+.nav-links { display: flex; gap: 32px; align-items: center; list-style: none; }
+.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; }
+.nav-links a:hover { opacity: 1; }
+.nav-links a.active { opacity: 1; color: var(--accent); }
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--accent); color: var(--accent-ink) !important;
+  padding: 9px 18px; border-radius: 980px;
+  font-size: 14px; font-weight: 500;
+  letter-spacing: -0.01em; white-space: nowrap;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
 }
-.nav-links a {
-  font-size: 14px;
-  color: var(--ink-mute);
-  letter-spacing: -0.005em;
-  transition: color .25s var(--ease);
-}
-.nav-links a:hover, .nav-links a.is-active { color: var(--ink); }
-.nav-right { display: flex; align-items: center; gap: 14px; }
-.theme-btn {
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.theme-toggle {
   width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
   display: inline-flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: background-color .25s var(--ease), border-color .25s var(--ease);
+  border-radius: 50%; color: var(--ink);
+  transition: background-color .25s var(--ease), transform .4s var(--ease);
+  position: relative;
 }
-.theme-btn:hover { background: var(--chip); }
-.theme-btn svg { width: 16px; height: 16px; }
-[data-theme="dark"] .theme-btn .sun  { display: block; }
-[data-theme="dark"] .theme-btn .moon { display: none; }
-[data-theme="light"] .theme-btn .sun  { display: none; }
-[data-theme="light"] .theme-btn .moon { display: block; }
+.theme-toggle:hover { background: var(--chip); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-svg {
+  width: 20px; height: 20px;
+  overflow: visible; position: absolute;
+  transition: opacity .4s var(--ease), transform .5s var(--ease-out);
+}
+.theme-svg.icon-sun  { stroke: var(--ink); fill: none; }
+.theme-svg.icon-moon { fill: var(--ink); stroke: none; }
+[data-theme="light"] .theme-svg.icon-sun  { opacity: 1; transform: rotate(0deg)   scale(1);   }
+[data-theme="light"] .theme-svg.icon-moon { opacity: 0; transform: rotate(-40deg) scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-sun  { opacity: 0; transform: rotate(40deg)  scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg)   scale(1);   }
+.nav-toggle {
+  display: none; flex-direction: column; justify-content: center; align-items: center;
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  transition: background-color .25s var(--ease);
+}
+.nav-toggle:hover { background: var(--chip); }
+.nav-toggle span { display: block; width: 18px; height: 1.5px; background: var(--ink); border-radius: 2px; transition: transform .3s var(--ease), opacity .2s var(--ease); }
+.nav-toggle span + span { margin-top: 5px; }
+.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 @media (max-width: 720px) {
-  .nav-links a:not(.is-active) { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-inner { padding: 0 22px; }
+  .nav-links {
+    display: flex; overflow: hidden; max-height: 0; opacity: 0; pointer-events: none;
+    position: absolute; top: 64px; left: 0; right: 0;
+    flex-direction: column; align-items: flex-start; gap: 0;
+    background: var(--nav-bg); backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--nav-border); padding: 8px 0 20px; list-style: none;
+    transition: max-height .35s var(--ease-out), opacity .2s var(--ease);
+  }
+  .nav-open .nav-links { max-height: 500px; opacity: 1; pointer-events: auto; }
+  .nav-links li { width: 100%; }
+  .nav-links a:not(.nav-cta) { display: block; padding: 12px 22px; font-size: 16px; opacity: 1; }
+  .nav-links li:has(> .theme-toggle) { padding: 8px 22px 4px; }
+  .nav-links .nav-cta { margin: 12px 22px 0; width: calc(100% - 44px); justify-content: center; padding: 12px 22px; font-size: 15px; }
 }
 
 /* ============================================================
    BREADCRUMB
    ============================================================ */
-.crumb {
-  padding: 32px 0 0;
-  font-size: 13px;
-  color: var(--ink-mute);
-  letter-spacing: -0.005em;
-}
-.crumb a { color: var(--ink-mute); transition: color .25s var(--ease); }
-.crumb a:hover { color: var(--ink); }
-.crumb .sep { margin: 0 8px; opacity: 0.5; }
+.breadcrumb { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mute);
+  letter-spacing: -0.005em; margin-bottom: 16px; }
+.breadcrumb a { color: var(--ink-mute); }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb .sep { opacity: 0.5; }
 
 /* ============================================================
    HERO
    ============================================================ */
-.hero { padding: clamp(56px, 8vw, 112px) 0 clamp(48px, 6vw, 84px); }
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-  font-weight: 500;
-  margin-bottom: 28px;
-}
-.hero-eyebrow .pill {
-  background: var(--accent-soft);
-  color: var(--accent);
-  padding: 4px 10px;
-  border-radius: 980px;
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  font-weight: 600;
-}
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 6.4vw, 84px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.038em;
-  color: var(--ink);
-  max-width: 1140px;
-  margin: 0 0 32px;
-}
-.hero-title .accent-text {
-  color: var(--accent);
-  font-style: italic;
-  font-weight: 500;
-}
-.hero-deck {
-  font-family: var(--font-display);
-  font-size: clamp(19px, 1.85vw, 25px);
-  line-height: 1.5;
-  letter-spacing: -0.018em;
-  color: var(--ink-2);
-  max-width: 880px;
-  margin: 0 0 40px;
-}
-.hero-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 56px;
-}
-.tag {
-  display: inline-flex; align-items: center;
-  padding: 7px 13px;
-  font-size: 12px;
-  letter-spacing: -0.005em;
-  border-radius: 980px;
-  background: var(--chip);
-  color: var(--ink-2);
-  border: 1px solid var(--line-soft);
-}
-.hero-meta {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  border-top: 1px solid var(--line);
-  padding-top: 32px;
-}
-.meta-stat .n {
-  font-family: var(--font-display);
-  font-size: clamp(34px, 4.2vw, 56px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.035em;
-  color: var(--ink);
-  display: block;
-  margin-bottom: 10px;
-}
-.meta-stat .l {
-  font-size: 13px;
-  color: var(--ink-mute);
-  letter-spacing: -0.005em;
-  line-height: 1.45;
-}
-@media (max-width: 720px) {
-  .hero-meta { grid-template-columns: 1fr 1fr; gap: 28px; }
-}
+.hero { padding: clamp(80px, 10vw, 140px) 0 clamp(56px, 7vw, 96px);
+  border-bottom: 1px solid var(--line-soft); background: var(--bg); }
+.hero-eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.04em;
+  text-transform: uppercase; margin-bottom: 18px; }
+.hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 80px); font-weight: 600;
+  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 20px; max-width: 1080px; }
+.hero-title .accent-text { color: var(--accent); font-style: italic; }
+.hero-deck { font-family: var(--font-display); font-size: clamp(20px, 2vw, 26px); line-height: 1.45;
+  color: var(--ink-2); letter-spacing: -0.018em; max-width: 800px; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px;
+  border-top: 1px solid var(--line-soft); padding-top: 36px; max-width: 1080px; }
+@media (min-width: 720px) { .meta-grid { grid-template-columns: repeat(4, 1fr); } }
+.meta-item .label { font-size: 12px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 8px; display: block; }
+.meta-item .value { font-family: var(--font-display); font-size: 17px; font-weight: 500;
+  color: var(--ink); letter-spacing: -0.012em; line-height: 1.35; }
+.impact-strip { margin-top: 56px; padding: 28px 32px;
+  background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 22px;
+  display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 720px) { .impact-strip { grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 36px 44px; } }
+.impact-stat .num { font-family: var(--font-display); font-size: clamp(40px, 4.5vw, 56px); font-weight: 600;
+  line-height: 1; letter-spacing: -0.03em; color: var(--accent); display: block; margin-bottom: 6px; }
+.impact-stat .label { font-size: 14px; color: var(--ink-2); letter-spacing: -0.005em; }
 
 /* ============================================================
    SECTION
@@ -703,41 +682,56 @@ figcaption .figcap-num {
 /* ============================================================
    FOOTER
    ============================================================ */
-.footer {
-  padding: clamp(48px, 6vw, 88px) 0 40px;
-  border-top: 1px solid var(--line-soft);
-}
-.footer-inner {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  flex-wrap: wrap; gap: 32px;
-}
-.footer-brand {
-  font-family: var(--font-display);
-  font-size: 14px;
+footer {
+  background: var(--bg);
   color: var(--ink-mute);
-  max-width: 340px;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
+  padding: 48px 0 32px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 14px;
 }
-.footer-brand .name {
-  display: block; color: var(--ink); font-weight: 600; font-size: 16px;
-  margin-bottom: 6px;
+.foot-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
 }
-.footer-links {
-  display: flex; gap: clamp(24px, 4vw, 56px);
+@media (min-width: 720px) {
+  .foot-inner { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+.foot-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.022em;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.foot-brand .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.foot-tag { color: var(--ink-mute); max-width: 320px; line-height: 1.5; }
+.foot-col h4 {
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.foot-col a {
+  display: block;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  transition: color .2s var(--ease);
+}
+.foot-col a:hover { color: var(--accent); }
+.foot-bottom {
+  border-top: 1px solid var(--line-soft);
+  margin-top: 40px; padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   font-size: 13px;
   color: var(--ink-mute);
-}
-.footer-links a:hover { color: var(--ink); }
-.footer-bottom {
-  margin-top: clamp(40px, 5vw, 64px);
-  padding-top: 24px;
-  border-top: 1px solid var(--line-soft);
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 16px;
-  font-size: 12px;
-  color: var(--ink-dim);
-  letter-spacing: -0.005em;
 }
 
 /* ============================================================
@@ -751,6 +745,13 @@ figcaption .figcap-num {
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* Cursor trail */
+* { cursor: none !important; }
+.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+[data-theme="light"] .cursor-dot { background: #ff5c34; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
 </style>
 </head>
 <body>
@@ -758,56 +759,62 @@ figcaption .figcap-num {
 <!-- ============================================================
      NAV
      ============================================================ -->
-<header class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="HOME_URL_HERE">
-      <span class="brand-dot"></span>
-      Aalvee Damle
-    </a>
-    <nav class="nav-links">
-      <a href="CASE_STUDIES_URL_HERE" class="is-active">Work</a>
-      <a href="UX_STRATEGIES_URL_HERE">UX Strategies</a>
-      <a href="ABOUT_URL_HERE">About</a>
-    </nav>
-    <div class="nav-right">
-      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </div>
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="aalvee_ux_strategies_v1.html">UX Strategies</a></li>
+      <li><a href="aalvee_about_v3.html">About</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+          <svg class="theme-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2"     x2="12" y2="4"/>
+            <line x1="12" y1="20"    x2="12" y2="22"/>
+            <line x1="2"  y1="12"    x2="4"  y2="12"/>
+            <line x1="20" y1="12"    x2="22" y2="12"/>
+            <line x1="4.93"  y1="4.93"  x2="6.34"  y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="4.93"  y1="19.07" x2="6.34"  y2="17.66"/>
+            <line x1="17.66" y1="6.34"  x2="19.07" y2="4.93"/>
+          </svg>
+          <svg class="theme-svg icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+      <li><a class="nav-cta" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Let's Talk</a></li>
+    </ul>
   </div>
-</header>
-
-<div class="container crumb">
-  <a href="CASE_STUDIES_URL_HERE">Work</a>
-  <span class="sep">/</span>
-  <span>Case Study 04 — ResolveNow</span>
-</div>
+</nav>
 
 <!-- ============================================================
      HERO
      ============================================================ -->
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow reveal">
-      <span class="pill">CASE STUDY 04</span>
-      <span>Civic Tech · E-Governance · India</span>
+    <div class="breadcrumb">
+      <a href="work.html">Work</a>
+      <span class="sep">/</span>
+      <span>Case Study 04</span>
     </div>
-    <h1 class="hero-title reveal">Civic complaint isn't a UX problem. <span class="accent-text">It's a trust problem.</span></h1>
-    <p class="hero-deck reveal reveal-delay-1">ResolveNow is a citizen complaint platform for Indian municipalities. The interesting question wasn't "how do we let citizens raise tickets" — it was <em>why citizens had stopped raising them in the first place,</em> and what the design could do to repair that loop.</p>
-    <div class="hero-tags reveal reveal-delay-2">
-      <span class="tag">Civic Tech</span>
-      <span class="tag">E-Governance</span>
-      <span class="tag">Service Design</span>
-      <span class="tag">Behavioural UX</span>
-      <span class="tag">Systems Thinking</span>
-      <span class="tag">Field Research</span>
+    <div class="hero-eyebrow">Civic Tech · E-Governance · India</div>
+    <h1 class="hero-title">Civic complaint isn't a UX problem. <span class="accent-text">It's a trust problem.</span></h1>
+    <p class="hero-deck">ResolveNow is a citizen complaint platform for Indian municipalities. The interesting question wasn't "how do we let citizens raise tickets" — it was <em>why citizens had stopped raising them in the first place,</em> and what the design could do to repair that loop.</p>
+    <div class="meta-grid">
+      <div class="meta-item"><span class="label">Context</span><span class="value">Indian Municipalities</span></div>
+      <div class="meta-item"><span class="label">Role</span><span class="value">UX Researcher · Designer</span></div>
+      <div class="meta-item"><span class="label">Domain</span><span class="value">Civic Tech · E-Governance</span></div>
+      <div class="meta-item"><span class="label">Scope</span><span class="value">Research to Blueprint</span></div>
     </div>
-    <div class="hero-meta reveal reveal-delay-3">
-      <div class="meta-stat"><span class="n">5+</span><span class="l">research methods</span></div>
-      <div class="meta-stat"><span class="n">3</span><span class="l">primary personas</span></div>
-      <div class="meta-stat"><span class="n">1</span><span class="l">systemic loop to break</span></div>
-      <div class="meta-stat"><span class="n">0</span><span class="l">existing apps surfaced ward accountability</span></div>
+    <div class="impact-strip">
+      <div class="impact-stat"><span class="num">5+</span><span class="label">Research methods used</span></div>
+      <div class="impact-stat"><span class="num">3</span><span class="label">Primary personas mapped</span></div>
+      <div class="impact-stat"><span class="num">1</span><span class="label">Systemic trust loop redesigned</span></div>
     </div>
   </div>
 </section>
@@ -1157,7 +1164,7 @@ figcaption .figcap-num {
 
     <figure class="reveal reveal-delay-1">
       <div class="svg-figure">
-        <svg viewBox="0 0 1200 480" xmlns="http://www.w3.org/2000/svg" aria-labelledby="fig04-title">
+        <svg viewBox="0 0 1200 488" xmlns="http://www.w3.org/2000/svg" aria-labelledby="fig04-title">
           <title id="fig04-title">Two empathy maps, identical emotional state</title>
 
           <!-- Empathy map 1 - Mukesh -->
@@ -1195,9 +1202,9 @@ figcaption .figcap-num {
             <text x="320" y="324" text-anchor="middle" font-size="12" class="fill-ink">No bribes</text>
 
             <!-- Feels strip -->
-            <rect x="20" y="400" width="400" height="40" rx="8" class="fill-card-2 stroke-soft" stroke-width="1"/>
-            <text x="220" y="420" text-anchor="middle" font-size="10" letter-spacing="1.5" font-weight="600" class="fill-mute">FEELS</text>
-            <text x="220" y="434" text-anchor="middle" font-size="13" font-style="italic" class="fill-danger">anxious · troubled · confused · dissatisfied</text>
+            <rect x="20" y="400" width="400" height="48" rx="8" class="fill-card-2 stroke-soft" stroke-width="1"/>
+            <text x="220" y="424" text-anchor="middle" font-size="10" letter-spacing="1.5" font-weight="600" class="fill-mute">FEELS</text>
+            <text x="220" y="438" text-anchor="middle" font-size="13" font-style="italic" class="fill-danger">anxious · troubled · confused · dissatisfied</text>
           </g>
 
           <!-- Empathy map 2 - Venkatesh -->
@@ -1234,14 +1241,14 @@ figcaption .figcap-num {
             <text x="320" y="324" text-anchor="middle" font-size="12" class="fill-ink">numbers</text>
 
             <!-- Feels strip -->
-            <rect x="20" y="400" width="400" height="40" rx="8" class="fill-card-2 stroke-soft" stroke-width="1"/>
-            <text x="220" y="420" text-anchor="middle" font-size="10" letter-spacing="1.5" font-weight="600" class="fill-mute">FEELS</text>
-            <text x="220" y="434" text-anchor="middle" font-size="13" font-style="italic" class="fill-danger">anxious · helpless · confused · dissatisfied</text>
+            <rect x="20" y="400" width="400" height="48" rx="8" class="fill-card-2 stroke-soft" stroke-width="1"/>
+            <text x="220" y="424" text-anchor="middle" font-size="10" letter-spacing="1.5" font-weight="600" class="fill-mute">FEELS</text>
+            <text x="220" y="438" text-anchor="middle" font-size="13" font-style="italic" class="fill-danger">anxious · helpless · confused · dissatisfied</text>
           </g>
 
           <!-- Bridging connector — connects at the middle of the inner sides of both Feels strips -->
-          <line x1="460" y1="460" x2="680" y2="460" class="stroke-accent" stroke-width="1.5" stroke-dasharray="4 4"/>
-          <text x="570" y="452" text-anchor="middle" font-size="11" font-weight="600" letter-spacing="2" class="fill-accent">IDENTICAL</text>
+          <line x1="460" y1="464" x2="680" y2="464" class="stroke-accent" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="570" y="456" text-anchor="middle" font-size="11" font-weight="600" letter-spacing="2" class="fill-accent">IDENTICAL</text>
         </svg>
       </div>
       <figcaption><span class="figcap-num">FIG 04</span> Two empathy maps, 28-year age gap, ₹12-lakh income gap, opposite digital fluency — and identical emotional terminal state. The "Feels" rows match almost word for word. <em>The system fails the same way at both ends.</em></figcaption>
@@ -1419,9 +1426,9 @@ figcaption .figcap-num {
           <path d="M 1100,229.49 A 529 246 0 0 1 1020,459.56" class="fill-none stroke-accent" stroke-width="1.5" marker-end="url(#arrowhead)"/>
           <text x="1138" y="353" font-size="11" font-style="italic" class="fill-mute">erodes trust</text>
 
-          <!-- 3 → 4 · from box 3 bottom edge (960.58, 490) to box 4 bottom edge (239.42, 490) · midpoint ≈ (600, 556) -->
-          <path d="M 960.58,490 A 529 246 0 0 1 239.42,490" class="fill-none stroke-accent" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-          <text x="600" y="580" text-anchor="middle" font-size="11" font-style="italic" class="fill-mute">leaves room for</text>
+          <!-- 3 → 4 · from box 3 left edge (780, 460) to box 4 right edge (420, 460) -->
+          <path d="M 780,460 A 400 180 0 0 1 420,460" class="fill-none stroke-accent" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <text x="600" y="570" text-anchor="middle" font-size="11" font-style="italic" class="fill-mute">leaves room for</text>
 
           <!-- 4 → 5 · from box 4 left edge (180, 459.56) to box 5 left edge (100, 229.49) · midpoint ≈ (78, 349) -->
           <path d="M 180,459.56 A 529 246 0 0 1 100,229.49" class="fill-none stroke-accent" stroke-width="1.5" marker-end="url(#arrowhead)"/>
@@ -2567,7 +2574,7 @@ figcaption .figcap-num {
      NEXT PROJECT STRIP
      ============================================================ -->
 <div class="container">
-  <a href="CASE_STUDIES_URL_HERE" class="next-strip reveal">
+  <a href="work.html" class="next-strip reveal">
     <div>
       <span class="lbl">NEXT CASE STUDY</span>
       <h3 class="t">All <em>case studies</em>.</h3>
@@ -2579,23 +2586,30 @@ figcaption .figcap-num {
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer class="footer">
+<footer>
   <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="name">Aalvee Damle</span>
-        UX designer working at the intersection of behavioural research, systems thinking, and shipping things that actually move.
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand"><span class="dot"></span>Aalvee Damle</div>
+        <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
       </div>
-      <div class="footer-links">
-        <a href="HOME_URL_HERE">Home</a>
-        <a href="CASE_STUDIES_URL_HERE">Work</a>
-        <a href="UX_STRATEGIES_URL_HERE">UX Strategies</a>
-        <a href="ABOUT_URL_HERE">About</a>
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <a href="work.html">Work</a>
+        <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
+        <a href="aalvee_about_v3.html">About</a>
+        <a href="mailto:damleaalvee@gmail.com">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:damleaalvee@gmail.com">Email</a>
+        <a href="tel:+15408788790">+1 540 878 8790</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Aalvee Damle · All rights reserved.</span>
-      <span>Case Study 04 — ResolveNow</span>
+    <div class="foot-bottom">
+      <span>© 2026 Aalvee Damle. All rights reserved.</span>
+      <span>Washington DC · Fredericksburg, VA</span>
     </div>
   </div>
 </footer>
@@ -2623,6 +2637,32 @@ figcaption .figcap-num {
   });
 })();
 
+/* ---- Hamburger nav toggle ---- */
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  if (!toggle) return;
+  toggle.addEventListener('click', function () {
+    var isOpen = document.body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation');
+      toggle.focus();
+    }
+  });
+})();
+
 /* ============================================================
    Reveal on scroll — IntersectionObserver
    ============================================================ */
@@ -2642,6 +2682,39 @@ figcaption .figcap-num {
   }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
 
   items.forEach(function (el) { io.observe(el); });
+})();
+
+/* Cursor trail */
+(function () {
+  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+  if (coarse) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var COUNT = 15, LERP = 0.22, dots = [];
+  for (var i = 0; i < COUNT; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-dot';
+    var t = 1 - i / COUNT;
+    d.style.width = '24px';
+    d.style.height = '24px';
+    d.style.opacity = t * 0.75;
+    document.body.appendChild(d);
+    dots.push({ el: d, x: -100, y: -100 });
+  }
+  var mouse = { x: -100, y: -100 };
+  document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  function loop() {
+    var prev = mouse;
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      d.x += (prev.x - d.x) * LERP;
+      d.y += (prev.y - d.y) * LERP;
+      var half = d.el.offsetWidth / 2;
+      d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
+      prev = d;
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 
