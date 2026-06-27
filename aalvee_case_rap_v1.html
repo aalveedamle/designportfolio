@@ -95,32 +95,56 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border-bottom: 1px solid var(--nav-border);
   transition: background-color .4s var(--ease), border-color .4s var(--ease);
 }
-.nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
-.brand { font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -0.018em; }
-.brand .dot { color: var(--accent); }
-.nav-links { display: flex; gap: clamp(18px, 3vw, 36px); align-items: center; }
-.nav-links a {
-  font-size: 13px;
-  color: var(--ink-2);
-  letter-spacing: -0.01em;
+.nav-inner {
+  max-width: 1240px; margin: 0 auto;
+  height: 100%; padding: 0 clamp(20px, 4vw, 48px);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 600;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-brand .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; list-style: none; }
+.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; }
+.nav-links a:hover { opacity: 1; }
+.nav-links a.active { opacity: 1; color: var(--accent); }
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--accent); color: var(--accent-ink) !important;
+  padding: 9px 18px; border-radius: 980px;
+  font-size: 14px; font-weight: 500;
+  letter-spacing: -0.01em; white-space: nowrap;
+  transition: background-color .25s var(--ease), transform .2s var(--ease);
+}
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.theme-toggle {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; color: var(--ink);
+  transition: background-color .25s var(--ease), transform .4s var(--ease);
   position: relative;
 }
-.nav-links a:hover { color: var(--ink); }
-.nav-links a.active { color: var(--ink); }
-.nav-links a.active::after {
-  content: ""; position: absolute; bottom: -22px; left: 0; right: 0;
-  height: 2px; background: var(--accent); border-radius: 2px;
+.theme-toggle:hover { background: var(--chip); }
+.theme-toggle:active { transform: scale(0.92); }
+.theme-svg {
+  width: 20px; height: 20px;
+  overflow: visible; position: absolute;
+  transition: opacity .4s var(--ease), transform .5s var(--ease-out);
 }
-.theme-toggle {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--chip);
-  transition: background-color .25s var(--ease), transform .25s var(--ease);
-}
-.theme-toggle:hover { background: var(--chip-hover); transform: rotate(15deg); }
-.theme-toggle svg { width: 16px; height: 16px; stroke: var(--ink); fill: none; }
-[data-theme="dark"]  .theme-toggle .icon-moon { display: none; }
-[data-theme="light"] .theme-toggle .icon-sun  { display: none; }
+.theme-svg.icon-sun  { stroke: var(--ink); fill: none; }
+.theme-svg.icon-moon { fill: var(--ink); stroke: none; }
+[data-theme="light"] .theme-svg.icon-sun  { opacity: 1; transform: rotate(0deg)   scale(1);   }
+[data-theme="light"] .theme-svg.icon-moon { opacity: 0; transform: rotate(-40deg) scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-sun  { opacity: 0; transform: rotate(40deg)  scale(0.5); }
+[data-theme="dark"]  .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg)   scale(1);   }
 
 /* ---------- Hamburger button ---------- */
 .nav-toggle {
@@ -167,10 +191,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     transition: max-height .35s var(--ease-out), opacity .2s var(--ease);
   }
   .nav-open .nav-links { max-height: 500px; opacity: 1; pointer-events: auto; }
-  .nav-links a { display: block; padding: 12px clamp(20px, 4vw, 48px); font-size: 16px; color: var(--ink-2); }
-  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
-  .nav-links a.active::after { display: none; }
-  .nav-links .theme-toggle { margin: 8px clamp(20px, 4vw, 48px) 4px; }
+  .nav-links li { width: 100%; }
+  .nav-links a:not(.nav-cta) { display: block; padding: 12px 22px; font-size: 16px; opacity: 1; }
+  .nav-links li:has(> .theme-toggle) { padding: 8px 22px 4px; }
+  .nav-links .nav-cta { margin: 12px 22px 0; width: calc(100% - 44px); justify-content: center; padding: 12px 22px; font-size: 15px; }
 }
 
 /* ============================================================
@@ -483,6 +507,21 @@ figcaption .figcap-num {
   background: var(--bg-alt);
 }
 
+/* video figure */
+.video-figure {
+  width: 100%;
+  border-radius: 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-soft);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.video-figure video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* placeholder when image src is missing or fails */
 .img-figure.placeholder {
   display: flex;
@@ -609,33 +648,57 @@ figcaption .figcap-num {
 /* ============================================================
    FOOTER
    ============================================================ */
-.footer {
-  padding: clamp(48px, 6vw, 80px) 0 clamp(32px, 4vw, 48px);
+footer {
+  background: var(--bg);
+  color: var(--ink-mute);
+  padding: 48px 0 32px;
   border-top: 1px solid var(--line-soft);
+  font-size: 14px;
 }
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 24px;
+.foot-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
 }
-.footer .f-brand {
+@media (min-width: 720px) {
+  .foot-inner { grid-template-columns: 1.4fr 1fr 1fr; }
+}
+.foot-brand {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: -0.018em;
+  font-size: 22px; font-weight: 600;
   color: var(--ink);
+  letter-spacing: -0.022em;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
 }
-.footer .f-brand .dot { color: var(--accent); }
-.footer p {
+.foot-brand .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.foot-tag { color: var(--ink-mute); max-width: 320px; line-height: 1.5; }
+.foot-col h4 {
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.foot-col a {
+  display: block;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+  transition: color .2s var(--ease);
+}
+.foot-col a:hover { color: var(--accent); }
+.foot-bottom {
+  border-top: 1px solid var(--line-soft);
+  margin-top: 40px; padding-top: 24px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   font-size: 13px;
   color: var(--ink-mute);
-  letter-spacing: -0.005em;
 }
-.footer .f-links { display: flex; gap: 24px; }
-.footer .f-links a { font-size: 13px; color: var(--ink-mute); }
-.footer .f-links a:hover { color: var(--ink); }
 
 /* ============================================================
    REVEAL ON SCROLL
@@ -647,6 +710,13 @@ figcaption .figcap-num {
 }
 .reveal.in { opacity: 1; transform: none; }
 
+/* Cursor trail */
+* { cursor: none !important; }
+.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+[data-theme="light"] .cursor-dot { background: #ff5c34; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+
 </style>
 </head>
 <body>
@@ -654,23 +724,38 @@ figcaption .figcap-num {
 <!-- ============================================================
      NAV
 ============================================================ -->
-<header class="nav">
-  <div class="container nav-inner">
-    <a href="HOME_URL_HERE" class="brand">Aalvee Damle<span class="dot">.</span></a>
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
     <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav class="nav-links">
-      <a href="work.html" class="active">Work</a>
-      <a href="UX_STRATEGIES_URL_HERE">UX Strategies</a>
-      <a href="ABOUT_URL_HERE">About</a>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <svg class="icon-sun"  viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/></svg>
-      </button>
-    </nav>
+    <ul class="nav-links">
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="aalvee_ux_strategies_v1.html">UX Strategies</a></li>
+      <li><a href="aalvee_about_v3.html">About</a></li>
+      <li>
+        <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+          <svg class="theme-svg icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2"     x2="12" y2="4"/>
+            <line x1="12" y1="20"    x2="12" y2="22"/>
+            <line x1="2"  y1="12"    x2="4"  y2="12"/>
+            <line x1="20" y1="12"    x2="22" y2="12"/>
+            <line x1="4.93"  y1="4.93"  x2="6.34"  y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="4.93"  y1="19.07" x2="6.34"  y2="17.66"/>
+            <line x1="17.66" y1="6.34"  x2="19.07" y2="4.93"/>
+          </svg>
+          <svg class="theme-svg icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+      <li><a class="nav-cta" href="mailto:damleaalvee@gmail.com?subject=Let%27s%20Talk">Let's Talk</a></li>
+    </ul>
   </div>
-</header>
+</nav>
 
 <!-- breadcrumb -->
 <div class="container">
@@ -807,13 +892,14 @@ figcaption .figcap-num {
     <!-- DIAGRAM 01 — Four personas, one engine -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 01: Four personas, one engine">
+        <svg viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 01: Four personas, one engine">
           <!-- Central engine -->
           <circle cx="550" cy="350" r="92" class="fill-card-alt stroke-accent" stroke-width="2"/>
           <circle cx="550" cy="350" r="62" class="fill-none stroke-accent" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.55"/>
           <text x="550" y="338" text-anchor="middle" class="fill-accent" font-size="13" font-weight="600" letter-spacing="0.1em">DIGITAL TWIN</text>
           <text x="550" y="358" text-anchor="middle" class="fill-ink" font-size="22" font-weight="600" letter-spacing="-0.02em">One engine</text>
-          <text x="550" y="378" text-anchor="middle" class="fill-mute" font-size="12">shared scope · shared data topology</text>
+          <text x="550" y="374" text-anchor="middle" class="fill-mute" font-size="11">shared scope</text>
+          <text x="550" y="390" text-anchor="middle" class="fill-mute" font-size="11">shared data topology</text>
 
           <!-- Connector lines -->
           <line x1="465" y1="295" x2="280" y2="160" class="stroke-soft" stroke-width="1.2"/>
@@ -869,7 +955,7 @@ figcaption .figcap-num {
           <text x="550" y="685" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Different questions. Same digital twin. The conversational layer routes each persona to the right combination of panels.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 01</span>Four personas, one engine — four different questions into the same digital twin. The conversational interface absorbs the difference between roles.</figcaption>
+      <figcaption><span class="figcap-num">Fig 01</span>Four personas, one engine — four different questions into the same digital twin. The conversational interface absorbs the difference between roles.</figcaption>
     </figure>
 
   </div>
@@ -896,86 +982,61 @@ figcaption .figcap-num {
 
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg" aria-label="Risk Manager mental model">
-          <!-- Central node: Risk Manager -->
-          <rect x="450" y="60" width="200" height="120" rx="10" class="fill-accent stroke-none"/>
-          <text x="550" y="106" text-anchor="middle" class="fill-accent-ink" font-size="14" font-weight="600" letter-spacing="0.1em">PERSONA</text>
-          <text x="550" y="138" text-anchor="middle" class="fill-accent-ink" font-size="26" font-weight="700" letter-spacing="-0.02em">Risk</text>
-          <text x="550" y="164" text-anchor="middle" class="fill-accent-ink" font-size="26" font-weight="700" letter-spacing="-0.02em">Manager</text>
+        <svg viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" aria-label="Risk Manager mental model">
+          <!-- Triangle outline -->
+          <polygon points="550,30 120,720 980,720" class="fill-none stroke-soft" stroke-width="1.2" stroke-dasharray="6 4" opacity="0.4"/>
 
-          <!-- ASK 01: Interface to client data sources -->
-          <rect x="380" y="240" width="280" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
-          <text x="398" y="266" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 01</text>
-          <text x="398" y="290" class="fill-ink" font-size="14" font-weight="600">An interface to connect to</text>
-          <text x="398" y="308" class="fill-ink" font-size="14" font-weight="600">client's data sources</text>
-          <text x="398" y="328" class="fill-mute" font-size="12" font-style="italic">— surface what's out there</text>
+          <!-- Apex: Risk Manager -->
+          <rect x="430" y="40" width="240" height="90" rx="12" class="fill-accent stroke-none"/>
+          <text x="550" y="72" text-anchor="middle" class="fill-accent-ink" font-size="12" font-weight="600" letter-spacing="0.1em">PERSONA</text>
+          <text x="550" y="104" text-anchor="middle" class="fill-accent-ink" font-size="24" font-weight="700" letter-spacing="-0.02em">Risk Manager</text>
 
-          <!-- ASK 02: Local data location (linked bidirectionally to ASK 01) -->
-          <rect x="720" y="240" width="320" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
-          <text x="738" y="266" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 02</text>
-          <text x="738" y="290" class="fill-ink" font-size="14" font-weight="600">A local data location where</text>
-          <text x="738" y="308" class="fill-ink" font-size="14" font-weight="600">files can be placed — and the system</text>
-          <text x="738" y="326" class="fill-ink" font-size="14" font-weight="600">checks &amp; updates automatically</text>
+          <!-- Dashed line from apex down -->
+          <line x1="550" y1="130" x2="550" y2="170" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
 
-          <!-- bidirectional arrow between ASK 01 and ASK 02 -->
-          <line x1="664" y1="289" x2="716" y2="289" class="stroke-accent" stroke-width="1.4"/>
-          <polygon points="716,285 724,289 716,293" class="fill-accent stroke-none"/>
-          <polygon points="664,285 656,289 664,293" class="fill-accent stroke-none"/>
+          <!-- ASK 01 — widest-narrow (near top) -->
+          <rect x="310" y="170" width="480" height="72" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="330" y="198" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 01</text>
+          <text x="430" y="198" class="fill-ink" font-size="14" font-weight="600">An interface to connect to client's data sources</text>
+          <text x="330" y="222" class="fill-mute" font-size="12" font-style="italic">— surface what's out there</text>
 
-          <!-- ASK 03: Repository of rules -->
-          <rect x="780" y="380" width="280" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
-          <text x="798" y="406" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 03</text>
-          <text x="798" y="430" class="fill-ink" font-size="14" font-weight="600">A repository of rules that will</text>
-          <text x="798" y="448" class="fill-ink" font-size="14" font-weight="600">be utilised for making</text>
-          <text x="798" y="466" class="fill-ink" font-size="14" font-weight="600">data consumable</text>
+          <!-- ASK 02 -->
+          <rect x="270" y="258" width="560" height="72" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="290" y="286" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 02</text>
+          <text x="390" y="286" class="fill-ink" font-size="14" font-weight="600">A local data location — system checks &amp; updates automatically</text>
+          <text x="290" y="310" class="fill-mute" font-size="12" font-style="italic">— files placed, auto-refreshed</text>
 
-          <!-- arrow from ASK 01 up to ASK 03 (data flowing into rules) -->
-          <path d="M540 338 Q 540 380 780 410" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="776,406 786,410 776,414" class="fill-accent stroke-none"/>
+          <!-- ASK 03 -->
+          <rect x="230" y="346" width="640" height="72" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="250" y="374" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 03</text>
+          <text x="350" y="374" class="fill-ink" font-size="14" font-weight="600">A repository of rules for making data consumable</text>
+          <text x="250" y="398" class="fill-mute" font-size="12" font-style="italic">— the model's logic, exposed and editable</text>
 
-          <!-- ASK 04: Present me information -->
-          <rect x="380" y="380" width="280" height="98" rx="10" class="fill-card stroke-accent" stroke-width="1.4"/>
-          <text x="398" y="406" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 04 · CORE</text>
-          <text x="398" y="430" class="fill-ink" font-size="14" font-weight="600">Present me information</text>
-          <text x="398" y="448" class="fill-ink" font-size="14" font-weight="600">that I need to act on</text>
-          <text x="398" y="468" class="fill-mute" font-size="12" font-style="italic">— surface-up, not pull-down</text>
+          <!-- ASK 04 — CORE (accent border) -->
+          <rect x="190" y="434" width="720" height="72" rx="10" class="fill-card stroke-accent" stroke-width="1.6"/>
+          <text x="210" y="462" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 04 · CORE</text>
+          <text x="350" y="462" class="fill-ink" font-size="14" font-weight="600">Present me information that I need to act on</text>
+          <text x="210" y="486" class="fill-mute" font-size="12" font-style="italic">— surface-up, not pull-down</text>
 
-          <!-- ASK 05: Enable me execute -->
-          <rect x="380" y="520" width="280" height="98" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
-          <text x="398" y="546" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 05</text>
-          <text x="398" y="570" class="fill-ink" font-size="14" font-weight="600">Enable me to execute</text>
-          <text x="398" y="588" class="fill-ink" font-size="14" font-weight="600">activities needed to</text>
-          <text x="398" y="606" class="fill-ink" font-size="14" font-weight="600">assess risks</text>
+          <!-- ASK 05 -->
+          <rect x="160" y="522" width="780" height="72" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="180" y="550" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 05</text>
+          <text x="280" y="550" class="fill-ink" font-size="14" font-weight="600">Enable me to execute activities needed to assess risks</text>
+          <text x="180" y="574" class="fill-mute" font-size="12" font-style="italic">— the simulation can be driven from the interface itself</text>
 
-          <!-- ASK 06: Common interface for admin needs -->
-          <rect x="40" y="380" width="280" height="178" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
-          <text x="58" y="406" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 06</text>
-          <text x="58" y="430" class="fill-ink" font-size="14" font-weight="600">A common interface for</text>
-          <text x="58" y="448" class="fill-ink" font-size="14" font-weight="600">accessing different services</text>
-          <text x="58" y="468" class="fill-ink" font-size="14" font-weight="600">aligned to business-admin</text>
-          <text x="58" y="486" class="fill-ink" font-size="14" font-weight="600">&amp; system-admin needs</text>
-          <text x="58" y="516" class="fill-mute" font-size="12" font-style="italic">— the interface respects</text>
-          <text x="58" y="534" class="fill-mute" font-size="12" font-style="italic">  roles and entitlements</text>
-
-          <!-- Connector arrows from Risk Manager to surrounding nodes -->
-          <line x1="500" y1="180" x2="440" y2="234" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
-          <line x1="600" y1="180" x2="660" y2="234" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
-          <line x1="550" y1="180" x2="550" y2="374" class="stroke-mute" stroke-width="1.1" stroke-dasharray="3 3"/>
-
-          <!-- Arrow from ASK 04 back to ASK 06 (left arrow) -->
-          <line x1="380" y1="425" x2="324" y2="425" class="stroke-accent" stroke-width="1.4"/>
-          <polygon points="324,421 316,425 324,429" class="fill-accent stroke-none"/>
-
-          <!-- Arrow wrapping from ASK 05 back to ASK 06 -->
-          <path d="M380 569 Q 340 569 340 510 Q 340 480 324 480" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="324,476 316,480 324,484" class="fill-accent stroke-none"/>
+          <!-- ASK 06 — widest (base of triangle) -->
+          <rect x="130" y="610" width="840" height="86" rx="10" class="fill-card stroke-soft" stroke-width="1"/>
+          <text x="150" y="638" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">ASK 06</text>
+          <text x="250" y="638" class="fill-ink" font-size="14" font-weight="600">A common interface for accessing different services aligned to business-admin &amp; system-admin needs</text>
+          <text x="150" y="662" class="fill-mute" font-size="12" font-style="italic">— the interface respects roles and entitlements</text>
+          <text x="150" y="682" class="fill-mute" font-size="12" font-style="italic">  (the base everything sits on)</text>
 
           <!-- Caption -->
-          <text x="550" y="668" text-anchor="middle" class="fill-mute" font-size="13" font-style="italic">Six asks. Together they describe a cockpit, not a tool — connect, hold the rules, surface what matters, let me act, respect who I am.</text>
+          <text x="550" y="770" text-anchor="middle" class="fill-mute" font-size="13" font-style="italic">Six asks. Together they describe a cockpit, not a tool — connect, hold the rules, surface what matters, let me act, respect who I am.</text>
           <text x="550" y="690" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">THE RISK MANAGER'S MENTAL MODEL</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Fig 01</span>The Risk Manager's mental model — six asks that, taken together, describe a digital-twin cockpit rather than a reporting tool.</figcaption>
+      <figcaption><span class="figcap-num">Fig 02</span>The Risk Manager's mental model — six asks that, taken together, describe a digital-twin cockpit rather than a reporting tool.</figcaption>
     </figure>
   </div>
 </section>
@@ -1001,7 +1062,7 @@ figcaption .figcap-num {
     <!-- DIAGRAM 02 — The Risk Simulation Stack -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 780" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 02: The Risk Simulation Stack">
+        <svg viewBox="0 0 1100 780" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 03: The Risk Simulation Stack">
           <!-- Top: Decision Surfaces -->
           <rect x="80" y="40" width="940" height="92" rx="12" class="fill-card stroke-soft" stroke-width="1"/>
           <text x="100" y="68" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">LAYER 5 — DECISION SURFACES</text>
@@ -1080,7 +1141,7 @@ figcaption .figcap-num {
           <text x="40" y="370" class="fill-mute" font-size="10" font-weight="600" letter-spacing="0.1em" transform="rotate(-90 40 370)">DATA FLOWS UP</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 02</span>The Risk Simulation Stack — five layers, with the digital twin emerging out of the tool panels the canvas holds together.</figcaption>
+      <figcaption><span class="figcap-num">Fig 03</span>The Risk Simulation Stack — five layers, with the digital twin emerging out of the tool panels the canvas holds together.</figcaption>
     </figure>
 
     <figure class="reveal">
@@ -1233,7 +1294,7 @@ figcaption .figcap-num {
           <text x="600" y="776" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">PLATFORM POSITIONING · TRIPLE BRIDGE</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Fig 02</span>RAP's platform architecture — Analytics HUB platform and EY RAP app side by side, sitting between the client data topology below, the EY tool ecosystem to the left, the EY One Risk Apps above, and third-party GRC tools to the right.</figcaption>
+      <figcaption><span class="figcap-num">Fig 04</span>RAP's platform architecture — Analytics HUB platform and EY RAP app side by side, sitting between the client data topology below, the EY tool ecosystem to the left, the EY One Risk Apps above, and third-party GRC tools to the right.</figcaption>
     </figure>
 
     <figure class="reveal">
@@ -1312,21 +1373,21 @@ figcaption .figcap-num {
               <polygon points="430,220 430,460 480,490 480,250" class="fill-bg" opacity="0.15"/>
             </g>
 
-            <!-- Right side AI wrap labels (diagonal) -->
-            <g transform="translate(826,260) rotate(-90)">
-              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Machine learning</text>
+            <!-- Right side AI wrap labels (centred with cube y=220–460, mid=340) -->
+            <g transform="translate(826,340) rotate(-90)">
+              <text x="0" y="0" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Machine learning</text>
             </g>
-            <g transform="translate(844,275) rotate(-90)">
-              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Artificial intelligence</text>
+            <g transform="translate(844,340) rotate(-90)">
+              <text x="0" y="0" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Artificial intelligence</text>
             </g>
-            <g transform="translate(862,300) rotate(-90)">
-              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Natural language processing</text>
+            <g transform="translate(862,340) rotate(-90)">
+              <text x="0" y="0" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Natural language processing</text>
             </g>
-            <g transform="translate(880,290) rotate(-90)">
-              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Neural networks</text>
+            <g transform="translate(880,340) rotate(-90)">
+              <text x="0" y="0" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Neural networks</text>
             </g>
-            <g transform="translate(898,300) rotate(-90)">
-              <text x="0" y="0" class="fill-ink" font-size="11" font-weight="600">Voice &amp; document</text>
+            <g transform="translate(898,340) rotate(-90)">
+              <text x="0" y="0" text-anchor="middle" class="fill-ink" font-size="11" font-weight="600">Voice &amp; document</text>
             </g>
 
             <text x="600" y="510" text-anchor="middle" class="fill-mute" font-size="11" font-style="italic">AI wraps every face of the cube</text>
@@ -1383,7 +1444,7 @@ figcaption .figcap-num {
           <text x="600" y="712" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">THE EVER-EVOLVING SOLUTION</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Fig 03</span>The ever-evolving solution cube — five model layers wrapped in ML, NLP, neural networks, and document understanding; surrounded by what the cube delivers (1000+ test scenarios, multi-source ingestion, integrated services, self-service workflow).</figcaption>
+      <figcaption><span class="figcap-num">Fig 05</span>The ever-evolving solution cube — five model layers wrapped in ML, NLP, neural networks, and document understanding; surrounded by what the cube delivers (1000+ test scenarios, multi-source ingestion, integrated services, self-service workflow).</figcaption>
     </figure>
 
     <figure class="reveal">
@@ -1569,7 +1630,7 @@ figcaption .figcap-num {
           <text x="600" y="704" text-anchor="middle" class="fill-accent" font-size="12" font-weight="600" letter-spacing="0.06em">FUTURE-STATE DATA ACCESS MODEL</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Fig 04</span>The three ways of accessing data — tomorrow. Structured ERP extraction, on-prem client workbench, and in-place query all funnel through Analytics Hub into IRL and Risk &amp; Control Monitor, then fan out into the consumption fabric.</figcaption>
+      <figcaption><span class="figcap-num">Fig 06</span>The three ways of accessing data — tomorrow. Structured ERP extraction, on-prem client workbench, and in-place query all funnel through Analytics Hub into IRL and Risk &amp; Control Monitor, then fan out into the consumption fabric.</figcaption>
     </figure>
   </div>
 </section>
@@ -1606,7 +1667,7 @@ figcaption .figcap-num {
     <!-- DIAGRAM 03 — The canvas -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 640" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 03: The canvas">
+        <svg viewBox="0 0 1100 640" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 07: The canvas">
           <!-- Primary monitor outline -->
           <rect x="40" y="60" width="760" height="440" rx="14" class="fill-card-alt stroke-soft" stroke-width="1.4"/>
           <text x="50" y="50" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">PRIMARY MONITOR</text>
@@ -1745,7 +1806,17 @@ figcaption .figcap-num {
           <text x="540" y="576" text-anchor="middle" class="fill-ink" font-size="13" font-weight="600" font-style="italic">The canvas is the body of the twin.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 03</span>The canvas — chat-on-left + tileable workspace-on-right hosting multiple tool panels, with scope propagation across all panels and a popped-out panel surviving on a second monitor.</figcaption>
+      <figcaption><span class="figcap-num">Fig 07</span>The canvas — chat-on-left + tileable workspace-on-right hosting multiple tool panels, with scope propagation across all panels and a popped-out panel surviving on a second monitor.</figcaption>
+    </figure>
+
+    <figure class="reveal">
+      <div class="video-figure">
+        <video controls playsinline preload="metadata">
+          <source src="RAP.mov" type="video/quicktime">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <figcaption><span class="figcap-num">Video 01</span>RAP canvas in action — navigating the multi-tool workspace, conversational steering, and scope propagation across panels.</figcaption>
     </figure>
   </div>
 </section>
@@ -1786,7 +1857,7 @@ figcaption .figcap-num {
     <!-- DIAGRAM 04 — The simulation flow -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 800" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 04: The simulation flow">
+        <svg viewBox="0 0 1100 800" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 08: The simulation flow">
           <!-- Step 1: Start -->
           <rect x="450" y="30" width="200" height="56" rx="28" class="fill-card stroke-soft" stroke-width="1.2"/>
           <text x="550" y="64" text-anchor="middle" class="fill-ink" font-size="14" font-weight="600">Sign in</text>
@@ -1872,7 +1943,7 @@ figcaption .figcap-num {
           <text x="50" y="766" class="fill-mute" font-size="11" font-style="italic">computing on insufficient inputs.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 04</span>The simulation flow — onboarding is model-build, and the readiness diamonds are <em>model gates</em>, not UI gates. The interface refuses to simulate on insufficient inputs.</figcaption>
+      <figcaption><span class="figcap-num">Fig 08</span>The simulation flow — onboarding is model-build, and the readiness diamonds are <em>model gates</em>, not UI gates. The interface refuses to simulate on insufficient inputs.</figcaption>
     </figure>
   </div>
 </section>
@@ -1919,7 +1990,7 @@ figcaption .figcap-num {
     <!-- DIAGRAM 05 — Conversation-simulation pairing -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 05: Conversation-simulation pairing">
+        <svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 09: Conversation-simulation pairing">
           <!-- Headers -->
           <text x="270" y="36" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CONVERSATION (LEFT)</text>
           <text x="800" y="36" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">CANVAS STATE (RIGHT)</text>
@@ -2003,7 +2074,7 @@ figcaption .figcap-num {
           <text x="550" y="580" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Each turn on the left maps to a state on the right. Scope tokens persist across turns and across every panel.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 05</span>The conversation–simulation pairing — each turn maps to a canvas state; scope tokens persist across both.</figcaption>
+      <figcaption><span class="figcap-num">Fig 09</span>The conversation–simulation pairing — each turn maps to a canvas state; scope tokens persist across both.</figcaption>
     </figure>
   </div>
 </section>
@@ -2032,7 +2103,7 @@ figcaption .figcap-num {
     <!-- DIAGRAM 06 — Uncertainty heat map -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 06: Uncertainty visualisation framework">
+        <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 10: Uncertainty visualisation framework">
           <!-- Axis labels -->
           <text x="30" y="40" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">SEVERITY ↑</text>
           <text x="40" y="540" class="fill-mute" font-size="11" font-weight="600" letter-spacing="0.1em">LIKELIHOOD →</text>
@@ -2100,7 +2171,7 @@ figcaption .figcap-num {
           <text x="40" y="528" class="fill-accent" font-size="12" font-weight="600">The model knows its confidence. The dashboard refuses to. RAP doesn't.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 06</span>Uncertainty visualisation framework — two-layer encoding where colour expresses expected risk and stroke weight expresses model confidence.</figcaption>
+      <figcaption><span class="figcap-num">Fig 10</span>Uncertainty visualisation framework — two-layer encoding where colour expresses expected risk and stroke weight expresses model confidence.</figcaption>
     </figure>
 
     <!-- Problem 02 — What-if -->
@@ -2121,7 +2192,7 @@ figcaption .figcap-num {
     <!-- DIAGRAM 07 — What-if loop -->
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram 07: The what-if loop">
+        <svg viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg" aria-label="Fig 11: The what-if loop">
           <!-- Center -->
           <circle cx="550" cy="310" r="86" class="fill-card-alt stroke-accent" stroke-width="2"/>
           <text x="550" y="298" text-anchor="middle" class="fill-accent" font-size="11" font-weight="600" letter-spacing="0.1em">THE LOOP</text>
@@ -2159,27 +2230,30 @@ figcaption .figcap-num {
           <text x="150" y="230" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">Toggle / refine</text>
           <text x="150" y="248" text-anchor="middle" class="fill-mute" font-size="11">baseline · new-state · diff</text>
 
-          <!-- Arrows around -->
-          <path d="M650 110 Q 780 130 850 180" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="846,176 855,182 849,189" class="fill-accent stroke-none"/>
+          <!-- Arrows — five arc segments of ONE ellipse: center (550,340), rx=460, ry=240.
+               Every start/end point is a computed intersection of that ellipse with a box edge,
+               so the five visible arcs imply a single continuous oval (law of closure). -->
 
-          <path d="M950 260 Q 990 350 925 430" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="922,425 928,432 919,435" class="fill-accent stroke-none"/>
+          <!-- 01→02 -->
+          <path d="M650 106 A 460 240 0 0 1 893 180" class="stroke-accent fill-none" stroke-width="1.4"/>
 
-          <path d="M780 480 Q 530 540 320 480" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="322,484 312,478 322,476" class="fill-accent stroke-none"/>
+          <!-- 02→03 -->
+          <path d="M984 260 A 460 240 0 0 1 976 430" class="stroke-accent fill-none" stroke-width="1.4"/>
 
-          <path d="M170 430 Q 110 350 150 260" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="154,263 148,256 142,263" class="fill-accent stroke-none"/>
+          <!-- 03→04 -->
+          <path d="M875 510 A 460 240 0 0 1 225 510" class="stroke-accent fill-none" stroke-width="1.4"/>
 
-          <path d="M270 200 Q 400 130 450 110" class="stroke-accent fill-none" stroke-width="1.4"/>
-          <polygon points="448,114 458,110 450,103" class="fill-accent stroke-none"/>
+          <!-- 04→05 -->
+          <path d="M124 430 A 460 240 0 0 1 116 260" class="stroke-accent fill-none" stroke-width="1.4"/>
+
+          <!-- 05→01 -->
+          <path d="M207 180 A 460 240 0 0 1 450 106" class="stroke-accent fill-none" stroke-width="1.4"/>
 
           <!-- Caption -->
-          <text x="550" y="580" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Baseline and perturbed state can sit side by side in the canvas — the diff is visual, not computational.</text>
+          <text x="550" y="604" text-anchor="middle" class="fill-mute" font-size="12" font-style="italic">Baseline and perturbed state can sit side by side in the canvas — the diff is visual, not computational.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">Diagram 07</span>The what-if loop — perturb, re-simulate, overlay the diff, adjust. The user sees <em>change</em>, not just result.</figcaption>
+      <figcaption><span class="figcap-num">Fig 11</span>The what-if loop — perturb, re-simulate, overlay the diff, adjust. The user sees <em>change</em>, not just result.</figcaption>
     </figure>
 
     <!-- Problem 03 -->
@@ -2285,14 +2359,30 @@ PROJECT METADATA
 <!-- ============================================================
      FOOTER
 ============================================================ -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <a href="HOME_URL_HERE" class="f-brand">Aalvee Damle<span class="dot">.</span></a>
-    <p>© 2026 · Designed and built by Aalvee Damle.</p>
-    <div class="f-links">
-      <a href="work.html">Work</a>
-      <a href="UX_STRATEGIES_URL_HERE">UX Strategies</a>
-      <a href="ABOUT_URL_HERE">About</a>
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand"><span class="dot"></span>Aalvee Damle</div>
+        <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navigation</h4>
+        <a href="work.html">Work</a>
+        <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
+        <a href="aalvee_about_v3.html">About</a>
+        <a href="mailto:damleaalvee@gmail.com">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Connect</h4>
+        <a href="https://www.linkedin.com/in/aalvee-damle/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:damleaalvee@gmail.com">Email</a>
+        <a href="tel:+15408788790">+1 540 878 8790</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Aalvee Damle. All rights reserved.</span>
+      <span>Washington DC · Fredericksburg, VA</span>
     </div>
   </div>
 </footer>
@@ -2363,6 +2453,39 @@ PROJECT METADATA
       toggle.focus();
     }
   });
+})();
+
+/* Cursor trail */
+(function () {
+  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+  if (coarse) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var COUNT = 15, LERP = 0.22, dots = [];
+  for (var i = 0; i < COUNT; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-dot';
+    var t = 1 - i / COUNT;
+    d.style.width = '24px';
+    d.style.height = '24px';
+    d.style.opacity = t * 0.75;
+    document.body.appendChild(d);
+    dots.push({ el: d, x: -100, y: -100 });
+  }
+  var mouse = { x: -100, y: -100 };
+  document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  function loop() {
+    var prev = mouse;
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      d.x += (prev.x - d.x) * LERP;
+      d.y += (prev.y - d.y) * LERP;
+      var half = d.el.offsetWidth / 2;
+      d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
+      prev = d;
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 
