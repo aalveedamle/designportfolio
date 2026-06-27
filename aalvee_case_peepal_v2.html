@@ -248,18 +248,11 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink-mute); }
 
 /* Cursor trail */
-.cursor-trail { position: fixed; top: 0; left: 0; width: 24px; height: 24px;
-  border-radius: 50%; background: var(--accent); opacity: 0.7;
-  pointer-events: none; z-index: 90; will-change: transform, opacity;
-  transition: opacity .25s var(--ease); }
-[data-theme="light"] .cursor-trail { opacity: 0.55; }
-body.in-hero .cursor-trail { opacity: 0; }
-@media (hover: none), (pointer: coarse), (max-width: 768px) { .cursor-trail { display: none; } }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  .cursor-trail { display: none; }
-}
+* { cursor: none !important; }
+.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+[data-theme="light"] .cursor-dot { background: #ff5c34; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
 
 /* ---------- Hamburger button ---------- */
 .nav-toggle {
@@ -320,7 +313,7 @@ body.in-hero .cursor-trail { opacity: 0; }
 
 <nav class="nav" aria-label="Primary">
   <div class="nav-inner">
-    <a href="aalvee_homepage_v14.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <a href="index.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
     <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -2432,7 +2425,7 @@ body.in-hero .cursor-trail { opacity: 0; }
         <a href="work.html">Work</a>
         <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
         <a href="aalvee_about_v3.html">About</a>
-        <a href="aalvee_homepage_v14.html#contact">Contact</a>
+        <a href="index.html#contact">Contact</a>
       </div>
       <div class="foot-col">
         <h4>Connect</h4>
@@ -2470,27 +2463,28 @@ body.in-hero .cursor-trail { opacity: 0; }
   var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
   if (coarse) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var TOTAL = 15, dots = [], mouse = { x: window.innerWidth/2, y: window.innerHeight/2 }, halfDot = 12;
-  for (var i = 0; i < TOTAL; i++) {
+  var COUNT = 15, LERP = 0.22, dots = [];
+  for (var i = 0; i < COUNT; i++) {
     var d = document.createElement('div');
-    d.className = 'cursor-trail';
+    d.className = 'cursor-dot';
+    var t = 1 - i / COUNT;
+    d.style.width = '24px';
+    d.style.height = '24px';
+    d.style.opacity = t * 0.75;
     document.body.appendChild(d);
-    dots.push({ el: d, x: mouse.x, y: mouse.y });
+    dots.push({ el: d, x: -100, y: -100 });
   }
+  var mouse = { x: -100, y: -100 };
   document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-  var hero = document.querySelector('.hero');
-  if (hero) {
-    hero.addEventListener('mouseenter', function () { document.body.classList.add('in-hero'); });
-    hero.addEventListener('mouseleave', function () { document.body.classList.remove('in-hero'); });
-  }
   function loop() {
-    var x = mouse.x, y = mouse.y;
+    var prev = mouse;
     for (var i = 0; i < dots.length; i++) {
-      var dot = dots[i];
-      dot.x += (x - dot.x) * 0.3;
-      dot.y += (y - dot.y) * 0.3;
-      dot.el.style.transform = 'translate(' + (dot.x - halfDot) + 'px, ' + (dot.y - halfDot) + 'px)';
-      x = dot.x; y = dot.y;
+      var d = dots[i];
+      d.x += (prev.x - d.x) * LERP;
+      d.y += (prev.y - d.y) * LERP;
+      var half = d.el.offsetWidth / 2;
+      d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
+      prev = d;
     }
     requestAnimationFrame(loop);
   }

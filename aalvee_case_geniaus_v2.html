@@ -93,7 +93,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero { padding: clamp(80px, 10vw, 140px) 0 clamp(56px, 7vw, 96px);
   border-bottom: 1px solid var(--line-soft); background: var(--bg); }
 .breadcrumb { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mute);
-  letter-spacing: -0.005em; margin-bottom: 28px; }
+  letter-spacing: -0.005em; margin-bottom: 16px; }
 .breadcrumb a { color: var(--ink-mute); }
 .breadcrumb a:hover { color: var(--accent); }
 .breadcrumb .sep { opacity: 0.5; }
@@ -408,21 +408,16 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 .foot-bottom { border-top: 1px solid var(--line-soft); margin-top: 40px; padding-top: 24px;
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink-mute); }
 
-/* Smooth cursor */
+/* Cursor trail */
 * { cursor: none !important; }
-.smooth-cursor { position: fixed; top: 0; left: 0; width: 20px; height: 20px;
-  border-radius: 50%; background: var(--accent); opacity: 0.65;
-  pointer-events: none; z-index: 9999; will-change: transform;
-  transition: width .25s var(--ease-out), height .25s var(--ease-out), opacity .25s var(--ease-out); }
-.smooth-cursor.hover    { width: 34px; height: 34px; opacity: 0.3; }
-.smooth-cursor.clicking { width: 14px; height: 14px; opacity: 0.9; transition-duration: .1s; }
-[data-theme="light"] .smooth-cursor { opacity: 0.5; }
-@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .smooth-cursor { display: none; } }
-@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .smooth-cursor { display: none; } }
+.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+[data-theme="light"] .cursor-dot { background: #ff5c34; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  .smooth-cursor { display: none; }
+  .cursor-dot { display: none; }
   .carousel.autoplay.playing .carousel-stage::after { animation: none; }
 }
 
@@ -490,7 +485,7 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 
 <nav class="nav" aria-label="Primary">
   <div class="nav-inner">
-    <a href="aalvee_homepage_v14.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <a href="index.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
     <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -1132,7 +1127,7 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 
 <section class="next-case">
   <div class="wrap">
-    <a href="aalvee_homepage_v14.html#genie" class="next-card">
+    <a href="index.html#genie" class="next-card">
       <span class="label">Next Case Study</span>
       <span class="title">Scaling a Wealth Platform Without Breaking Trust →</span>
     </a>
@@ -1161,7 +1156,7 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
   <div class="wrap">
     <div class="foot-inner">
       <div>
-        <div class="foot-brand"><span class="nav-brand"><span class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle"></span>Aalvee Damle</span></div>
+        <div class="foot-brand"><span class="dot"></span>Aalvee Damle</div>
         <p class="foot-tag">Crafting digital experiences with purpose, rigor, and care.</p>
       </div>
       <div class="foot-col">
@@ -1169,7 +1164,7 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
         <a href="work.html">Work</a>
         <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
         <a href="aalvee_about_v3.html">About</a>
-        <a href="aalvee_homepage_v14.html#contact">Contact</a>
+        <a href="index.html#contact">Contact</a>
       </div>
       <div class="foot-col">
         <h4>Connect</h4>
@@ -1189,16 +1184,16 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 /* Theme toggle */
 (function () {
   var root = document.documentElement;
-  var btn  = document.getElementById('themeToggle');
-  if (!btn) return;
   try {
-    var saved = window.localStorage && localStorage.getItem('aalvee-theme');
+    var saved = localStorage.getItem('aalvee-theme');
     if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
   } catch (e) {}
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
   btn.addEventListener('click', function () {
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
-    try { window.localStorage && localStorage.setItem('aalvee-theme', next); } catch (e) {}
+    try { localStorage.setItem('aalvee-theme', next); } catch (e) {}
   });
 })();
 
@@ -1216,27 +1211,34 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 })();
 
-/* Smooth cursor */
+/* Cursor trail */
 (function () {
   var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
   if (coarse) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var el = document.createElement('div');
-  el.className = 'smooth-cursor';
-  document.body.appendChild(el);
-  var mouse = { x: -100, y: -100 }, pos = { x: -100, y: -100 }, LERP = 0.18;
+  var COUNT = 15, LERP = 0.22, dots = [];
+  for (var i = 0; i < COUNT; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-dot';
+    var t = 1 - i / COUNT;
+    d.style.width = '24px';
+    d.style.height = '24px';
+    d.style.opacity = t * 0.75;
+    document.body.appendChild(d);
+    dots.push({ el: d, x: -100, y: -100 });
+  }
+  var mouse = { x: -100, y: -100 };
   document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-  document.querySelectorAll('button, [role="button"]').forEach(function (t) {
-    t.addEventListener('mouseenter', function () { el.classList.add('hover'); });
-    t.addEventListener('mouseleave', function () { el.classList.remove('hover'); });
-  });
-  document.addEventListener('mousedown', function () { el.classList.add('clicking'); });
-  document.addEventListener('mouseup',   function () { el.classList.remove('clicking'); });
   function loop() {
-    pos.x += (mouse.x - pos.x) * LERP;
-    pos.y += (mouse.y - pos.y) * LERP;
-    var half = el.offsetWidth / 2;
-    el.style.transform = 'translate(' + (pos.x - half) + 'px, ' + (pos.y - half) + 'px)';
+    var prev = mouse;
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      d.x += (prev.x - d.x) * LERP;
+      d.y += (prev.y - d.y) * LERP;
+      var half = d.el.offsetWidth / 2;
+      d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
+      prev = d;
+    }
     requestAnimationFrame(loop);
   }
   loop();

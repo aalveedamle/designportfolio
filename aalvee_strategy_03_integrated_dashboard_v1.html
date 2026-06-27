@@ -13,7 +13,7 @@
    ============================================================ */
 
 :root {
-  --bg: #000000;
+  --bg: #0f0f10;
   --bg-alt: #0a0a0a;
   --bg-card: #161617;
   --bg-card-hover: #1d1d1f;
@@ -903,6 +903,13 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
   .nav-links .nav-cta { margin: 12px 22px 0; width: calc(100% - 44px); justify-content: center; padding: 12px 22px; font-size: 15px; }
   .svg-figure { padding: 18px; }
 }
+
+/* Cursor trail */
+* { cursor: none !important; }
+.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+[data-theme="light"] .cursor-dot { background: #ff5c34; }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
 </style>
 </head>
 <body>
@@ -912,7 +919,7 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
      ============================================================ -->
 <nav class="nav" aria-label="Primary">
   <div class="nav-inner">
-    <a href="aalvee_homepage_v14.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
+    <a href="index.html" class="nav-brand"><span class="dot"></span> Aalvee</a>
     <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -1526,7 +1533,7 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
 
       <div class="foot-col">
         <h4>Navigation</h4>
-        <a href="aalvee_homepage_v14.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="work.html">Work</a>
         <a href="aalvee_ux_strategies_v1.html">UX Strategies</a>
         <a href="aalvee_about_v3.html">About</a>
@@ -1645,6 +1652,39 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
       toggle.focus();
     }
   });
+})();
+
+/* Cursor trail */
+(function () {
+  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+  if (coarse) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var COUNT = 15, LERP = 0.22, dots = [];
+  for (var i = 0; i < COUNT; i++) {
+    var d = document.createElement('div');
+    d.className = 'cursor-dot';
+    var t = 1 - i / COUNT;
+    d.style.width = '24px';
+    d.style.height = '24px';
+    d.style.opacity = t * 0.75;
+    document.body.appendChild(d);
+    dots.push({ el: d, x: -100, y: -100 });
+  }
+  var mouse = { x: -100, y: -100 };
+  document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  function loop() {
+    var prev = mouse;
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      d.x += (prev.x - d.x) * LERP;
+      d.y += (prev.y - d.y) * LERP;
+      var half = d.el.offsetWidth / 2;
+      d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
+      prev = d;
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
 })();
 </script>
 

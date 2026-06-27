@@ -14,7 +14,7 @@
 
 /* ---------- Tokens ---------- */
 :root {
-  --bg: #000000;
+  --bg: #0f0f10;
   --bg-alt: #0a0a0a;
   --bg-card: #161617;
   --bg-card-hover: #1d1d1f;
@@ -213,77 +213,29 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ============================================================
    HERO
    ============================================================ */
-.hero { padding: clamp(48px, 8vw, 96px) 0 clamp(64px, 9vw, 120px); }
-.hero-eyebrow {
-  display: inline-block;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--accent);
-  background: var(--chip);
-  padding: 6px 14px;
-  border-radius: 999px;
-  margin-bottom: clamp(28px, 4vw, 40px);
-}
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 7vw, 84px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-  max-width: 1100px;
-  margin-bottom: clamp(24px, 3vw, 36px);
-}
+.hero { padding: clamp(80px, 10vw, 140px) 0 clamp(56px, 7vw, 96px);
+  border-bottom: 1px solid var(--line-soft); background: var(--bg); }
+.hero-eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.04em;
+  text-transform: uppercase; margin-bottom: 18px; }
+.hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 80px); font-weight: 600;
+  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 20px; max-width: 1080px; }
 .hero-title .accent-text { color: var(--accent); font-style: italic; }
-.hero-deck {
-  font-family: var(--font-display);
-  font-size: clamp(19px, 1.8vw, 24px);
-  line-height: 1.5;
-  letter-spacing: -0.018em;
-  color: var(--ink-2);
-  max-width: 880px;
-  margin-bottom: clamp(36px, 4vw, 52px);
-}
-.hero-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: clamp(40px, 5vw, 60px);
-}
-.hero-tags .tag {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: var(--chip);
-  color: var(--ink-2);
-}
-.hero-meta {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(16px, 2vw, 28px);
-  padding-top: clamp(28px, 3vw, 40px);
-  border-top: 1px solid var(--line-soft);
-}
-.meta-num {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  line-height: 1;
-  margin-bottom: 10px;
-}
-.meta-num .meta-accent { color: var(--accent); }
-.meta-label {
-  font-size: 13px;
-  color: var(--ink-mute);
-  letter-spacing: -0.005em;
-  line-height: 1.4;
-}
-@media (max-width: 720px) {
-  .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-}
+.hero-deck { font-family: var(--font-display); font-size: clamp(20px, 2vw, 26px); line-height: 1.45;
+  color: var(--ink-2); letter-spacing: -0.018em; max-width: 800px; margin-bottom: 56px; }
+.meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px;
+  border-top: 1px solid var(--line-soft); padding-top: 36px; max-width: 1080px; }
+@media (min-width: 720px) { .meta-grid { grid-template-columns: repeat(4, 1fr); } }
+.meta-item .label { font-size: 12px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 8px; display: block; }
+.meta-item .value { font-family: var(--font-display); font-size: 17px; font-weight: 500;
+  color: var(--ink); letter-spacing: -0.012em; line-height: 1.35; }
+.impact-strip { margin-top: 56px; padding: 28px 32px;
+  background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 22px;
+  display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 720px) { .impact-strip { grid-template-columns: repeat(4, 1fr); gap: 40px; padding: 36px 44px; } }
+.impact-stat .num { font-family: var(--font-display); font-size: clamp(40px, 4.5vw, 56px); font-weight: 600;
+  line-height: 1; letter-spacing: -0.03em; color: var(--accent); display: block; margin-bottom: 6px; }
+.impact-stat .label { font-size: 14px; color: var(--ink-2); letter-spacing: -0.005em; }
 
 /* ============================================================
    SECTIONS
@@ -757,50 +709,34 @@ footer {
   </div>
 </nav>
 
-<!-- breadcrumb -->
-<div class="container">
-  <div class="breadcrumb">
-    <a href="work.html">Work</a>
-    <span class="sep">/</span>
-    <span>Case Study 05 — RAP</span>
-  </div>
-</div>
-
 <!-- ============================================================
      HERO
 ============================================================ -->
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow reveal">Case Study 05 · EY · GenAI · Digital Twin · Risk Analytics</span>
-    <h1 class="hero-title reveal">A dashboard shows what happened. <span class="accent-text">A digital twin shows what could.</span></h1>
-    <p class="hero-deck reveal">EY's analytics managers were working across VIA, IRL, Symphony, Nexus, and a dozen other risk tools — manually compiling data, switching contexts, losing the thread. RAP was scoped to fix that. It started as a <em>canvas</em> that could hold multiple tools in one place. It ended as something more: an AI-assisted <em>digital twin</em> of the enterprise — a simulation that four very different roles (CRO, Internal Auditor, Risk Consultant, Controls Manager) could steer through a single conversation. The design problem wasn't the chrome. It was the shift from <em>holding tools together</em> to <em>holding a model together</em>.</p>
-    <div class="hero-tags reveal">
-      <span class="tag">EY</span>
-      <span class="tag">Risk Analytics</span>
-      <span class="tag">Digital Twin</span>
-      <span class="tag">Multi-Tool Canvas</span>
-      <span class="tag">Conversational AI</span>
-      <span class="tag">Simulation UX</span>
-      <span class="tag">Uncertainty Visualisation</span>
-      <span class="tag">Enterprise GenAI</span>
+    <div class="breadcrumb">
+      <a href="work.html">Work</a>
+      <span class="sep">/</span>
+      <span>Case Study 05</span>
     </div>
-    <div class="hero-meta reveal">
-      <div>
-        <div class="meta-num"><span class="meta-accent">6+</span></div>
-        <div class="meta-label">EY risk tools hosted by the canvas (VIA, IRL, Symphony, Nexus, Cyber, Supply Chain)</div>
-      </div>
-      <div>
-        <div class="meta-num"><span class="meta-accent">4</span></div>
-        <div class="meta-label">Personas served (CRO · Internal Auditor · Risk Consultant · Controls Manager)</div>
-      </div>
-      <div>
-        <div class="meta-num"><span class="meta-accent">4</span></div>
-        <div class="meta-label">Simulation surfaces (Digital Twin · Data Topology · Process Mapping · Dashboard)</div>
-      </div>
-      <div>
-        <div class="meta-num"><span class="meta-accent">1</span></div>
-        <div class="meta-label">Conversational steering interface across all of it</div>
-      </div>
+    <div class="hero-eyebrow">EY · GenAI · Digital Twin · Risk Analytics</div>
+    <h1 class="hero-title">
+      A dashboard shows what happened. <span class="accent-text">A digital twin shows what could.</span>
+    </h1>
+    <p class="hero-deck">
+      EY's analytics managers were working across VIA, IRL, Symphony, Nexus, and a dozen other risk tools — manually compiling data, switching contexts, losing the thread. RAP was scoped to fix that. It started as a canvas that could hold multiple tools in one place. It ended as something more: an AI-assisted digital twin of the enterprise — a simulation that four very different roles could steer through a single conversation.
+    </p>
+    <div class="meta-grid">
+      <div class="meta-item"><span class="label">Client</span><span class="value">Ernst &amp; Young</span></div>
+      <div class="meta-item"><span class="label">Role</span><span class="value">Product Designer</span></div>
+      <div class="meta-item"><span class="label">Domain</span><span class="value">Risk Analytics · Digital Twin</span></div>
+      <div class="meta-item"><span class="label">Year</span><span class="value">2024</span></div>
+    </div>
+    <div class="impact-strip">
+      <div class="impact-stat"><span class="num">6+</span><span class="label">EY risk tools unified in one canvas</span></div>
+      <div class="impact-stat"><span class="num">4</span><span class="label">Personas served by a single engine</span></div>
+      <div class="impact-stat"><span class="num">4</span><span class="label">Simulation surfaces designed</span></div>
+      <div class="impact-stat"><span class="num">1</span><span class="label">Conversational steering interface</span></div>
     </div>
   </div>
 </section>
