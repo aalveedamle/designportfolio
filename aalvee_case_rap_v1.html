@@ -200,15 +200,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ============================================================
    BREADCRUMB
    ============================================================ */
-.breadcrumb {
-  padding: 28px 0 0;
-  font-size: 13px;
-  color: var(--ink-mute);
-  letter-spacing: -0.005em;
-}
+.breadcrumb { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mute);
+  letter-spacing: -0.005em; margin-bottom: 16px; }
 .breadcrumb a { color: var(--ink-mute); }
-.breadcrumb a:hover { color: var(--ink); }
-.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb .sep { opacity: 0.5; }
 
 /* ============================================================
    HERO
