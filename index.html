@@ -449,7 +449,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex;
   gap: 20px;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding: 0 0 24px;
@@ -1641,11 +1641,26 @@ footer {
   function getScrollAmount(){
     return card ? card.offsetWidth + 20 : 400;
   }
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function smoothScroll(distance){
+    var start = grid.scrollLeft;
+    var startTime = null;
+    var duration = 800;
+    function step(timestamp){
+      if(!startTime) startTime = timestamp;
+      var elapsed = timestamp - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = easeOutCubic(progress);
+      grid.scrollLeft = start + distance * eased;
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
   prev.addEventListener('click', function(){
-    grid.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    smoothScroll(-getScrollAmount());
   });
   next.addEventListener('click', function(){
-    grid.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    smoothScroll(getScrollAmount());
   });
   function updateButtons(){
     prev.disabled = grid.scrollLeft <= 10;
