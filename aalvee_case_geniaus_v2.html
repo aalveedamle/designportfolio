@@ -30,7 +30,7 @@
   --g-line: rgba(245,245,247,0.22); /* visible on dark bg */
 }
 [data-theme="light"] {
-  --bg: #fff; --bg-alt: #f5f5f7; --bg-card: #f5f5f7; --bg-card-hover: #ececef;
+  --bg: #f9f9f7; --bg-alt: #faf7f2; --bg-card: #f5f3ee; --bg-card-hover: #edebe5;
   --ink: #1d1d1f; --ink-2: #424245; --ink-mute: #6e6e73;
   --line: #d2d2d7; --line-soft: #e8e8ed;
   --accent: #ff5c34; --accent-ink: #fff; --accent-hover: #ff7050;
@@ -121,7 +121,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* SECTION SHELL */
 .section { padding: clamp(72px, 9vw, 120px) 0; }
-.section-alt { background: var(--bg-alt); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.section-alt { background: var(--bg); }
 .section-head { margin-bottom: 48px; }
 .section-label { font-size: 13px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.02em;
   margin-bottom: 14px; display: block; }
@@ -377,7 +377,7 @@ figcaption .figcap-num {
   line-height: 1.1; letter-spacing: -0.025em; color: var(--ink); }
 .next-card .arrow { font-size: 24px; color: var(--accent); }
 
-.contact { background: var(--bg-alt); border-top: 1px solid var(--line-soft); padding: clamp(72px, 9vw, 120px) 0; }
+.contact { background: var(--bg); border-top: 1px solid var(--line-soft); padding: clamp(72px, 9vw, 120px) 0; }
 .contact .section-title { max-width: 920px; }
 .contact-body { display: grid; grid-template-columns: 1fr; gap: 56px; align-items: end; margin-top: 56px; }
 @media (min-width: 900px) { .contact-body { grid-template-columns: 1.4fr 1fr; gap: 80px; } }
