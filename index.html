@@ -851,8 +851,6 @@ footer {
 
 /* Cursor trail */
 * { cursor: none !important; }
-.hero-pill { cursor: grab !important; }
-.hero-pill:active { cursor: grabbing !important; }
 .cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
 [data-theme="light"] .cursor-dot { background: #ff5c34; }
 @media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
@@ -862,71 +860,6 @@ footer {
 .hero .wrap        { position: relative; z-index: 3; }
 .hero-mouse-cue    { z-index: 3; }
 
-/* ============================================================
-   HERO SKILL PILLS — fall-in + draggable
-   ============================================================ */
-.hero-pills {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 10px;
-  width: 100%;
-  padding: 0 24px 12px;
-  z-index: 2;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-.hero-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: 999px;
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #1a1a1a;
-  white-space: nowrap;
-  will-change: transform;
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
-}
-.hero-pill:active { cursor: grabbing; }
-.hero-pill .pill-icon {
-  font-size: 15px;
-  line-height: 1;
-}
-.hero-pill-circle {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  will-change: transform;
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
-}
-.hero-pill-circle:active { cursor: grabbing; }
-@media (max-width: 720px) {
-  .hero { padding-bottom: 280px; }
-  .hero-pills { gap: 10px; padding: 0 16px 14px; }
-  .hero-pill {
-    padding: 10px 16px;
-    font-size: 10px;
-    gap: 6px;
-    transform: rotate(0deg) !important;
-  }
-  .hero-pill .pill-icon { font-size: 13px; }
-}
 
 /* ---------- Hamburger button ---------- */
 .nav-toggle {
@@ -1046,24 +979,11 @@ footer {
     </h1>
 
     <p class="hero-lede">
-      Senior Product Designer with 4+ years across AI, banking, risk, and innovation. At EY, I led research and design for GenAI-integrated risk tools, wealth platforms for a leading U.S. bank, and future-state strategy for global enterprises — partnering closely with PMs, engineers, and risk teams.
+      Senior Product Designer, 6+ years across AI, banking, and risk. At EY, I've designed GenAI-integrated risk tools, wealth platforms for a leading U.S. bank, and future-state strategy for global enterprises.
     </p>
 
   </div>
 
-  <!-- Floating skill pills — flow layout, fall one by one -->
-  <div class="hero-pills" aria-hidden="true">
-      <div class="hero-pill" data-rotate="-8" style="background:#FDCF00"><span>Product Design</span><span class="pill-icon">🎨</span></div>
-      <div class="hero-pill" data-rotate="6" style="background:#FBCFE8"><span>User Research</span><span class="pill-icon">🔍</span></div>
-      <div class="hero-pill" data-rotate="-4" style="background:#D9C9FF"><span>UX Strategy</span><span class="pill-icon">🧭</span></div>
-      <div class="hero-pill" data-rotate="7" style="background:#BBF7D0"><span>Design Systems</span><span class="pill-icon">⚙️</span></div>
-      <div class="hero-pill" data-rotate="-5" style="background:#F4F4F5"><span>Prototyping</span><span class="pill-icon">🛠️</span></div>
-      <div class="hero-pill" data-rotate="5" style="background:#FDCF00"><span>AI Product Design</span><span class="pill-icon">🤖</span></div>
-      <div class="hero-pill" data-rotate="-6" style="background:#FED7AA"><span>Interaction Design</span><span class="pill-icon">✨</span></div>
-      <div class="hero-pill" data-rotate="8" style="background:#FBCFE8"><span>Enterprise UX</span><span class="pill-icon">🏢</span></div>
-      <div class="hero-pill" data-rotate="-7" style="background:#D9C9FF"><span>Product Strategy</span><span class="pill-icon">📐</span></div>
-      <div class="hero-pill" data-rotate="6" style="background:#BBF7D0"><span>Design Thinking</span><span class="pill-icon">💡</span></div>
-  </div>
 
 </section>
 
