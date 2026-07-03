@@ -183,6 +183,51 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   text-align: center;
 }
 
+/* ============================================================
+   HERO GRID BACKGROUND — diagonal lines in perspective forming
+   kite/diamond cells. Lines fade to ~0 behind the copy block;
+   each cell only tints on direct hover.
+   ============================================================ */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  perspective: 2200px;
+  -webkit-mask-image:
+    radial-gradient(ellipse 46% 58% at 50% 46%, transparent 0%, transparent 30%, black 80%),
+    radial-gradient(ellipse 65% 65% at 100% 0%, transparent 0%, transparent 15%, black 75%);
+          mask-image:
+    radial-gradient(ellipse 46% 58% at 50% 46%, transparent 0%, transparent 30%, black 80%),
+    radial-gradient(ellipse 65% 65% at 100% 0%, transparent 0%, transparent 15%, black 75%);
+  mask-composite: intersect;
+}
+.hero-grid-bg .grid-plane {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 220vmax;
+  height: 220vmax;
+  transform: translate(-50%, -50%) rotateZ(45deg) rotateX(55deg);
+  transform-style: preserve-3d;
+  display: grid;
+  grid-template-columns: repeat(52, 1fr);
+  grid-template-rows: repeat(52, 1fr);
+}
+.hero-grid-bg .grid-cell {
+  border: 1px solid var(--line);
+  background-color: transparent;
+  transition: background-color .35s var(--ease);
+}
+.hero-grid-bg .grid-cell:hover {
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+@media (max-width: 720px) {
+  .hero-grid-bg { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid-bg .grid-cell { transition: none; }
+}
+
 /* "Available for new opportunities" pill */
 .availability {
   display: inline-flex; align-items: center; gap: 10px;
@@ -971,6 +1016,7 @@ footer {
      HERO
      ============================================================ -->
 <section class="hero">
+  <div class="hero-grid-bg" id="heroGridBg" aria-hidden="true"></div>
   <div class="wrap">
     <p class="greeting">Hi, I am Aalvee.</p>
 
@@ -1327,6 +1373,22 @@ footer {
     root.setAttribute('data-theme', next);
     try { window.localStorage && localStorage.setItem('aalvee-theme', next); } catch (e) {}
   });
+})();
+
+/* ============================================================
+   Hero grid background — builds the diamond cells so each one
+   can respond to native :hover
+   ============================================================ */
+(function () {
+  var host = document.getElementById('heroGridBg');
+  if (!host) return;
+  var plane = document.createElement('div');
+  plane.className = 'grid-plane';
+  var COLS = 52, ROWS = 52;
+  for (var i = 0; i < COLS * ROWS; i++) {
+    plane.appendChild(document.createElement('div')).className = 'grid-cell';
+  }
+  host.appendChild(plane);
 })();
 
 /* ============================================================
