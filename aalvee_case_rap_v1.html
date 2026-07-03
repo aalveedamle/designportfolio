@@ -789,7 +789,10 @@ footer {
     <div class="prose reveal">
       <p>The first version of RAP wasn't a digital twin. It was supposed to be one place where an analytics manager could open VIA, IRL, Symphony, Nexus, Cyber, and Supply Chain — all the EY risk tools they were already using — without re-authenticating, re-orienting, and re-scoping every five minutes. The brief was straightforward: <strong>stop the toolchain bleed.</strong></p>
       <p>But containers for tools have a property nobody quite planned for. <em>Once you put VIA's output next to IRL's output next to a process map in the same canvas, you stop looking at "tools" — you start looking at an assembled view of the enterprise.</em> Exception data from one tool. Control library from another. Process imprint from a third. Held together by a shared scope ("SOX Audit 1245") and a shared timeframe. The canvas, almost accidentally, was a <strong>digital twin.</strong></p>
-      <p>That's the pivot that defines this case study. RAP was scoped as a UI integration project. It became a model-building project. <strong>Solving the fragmentation problem and building the digital twin turned out to be the same problem.</strong></p>
+      <p>That's the pivot that defines this case study. RAP was scoped as a UI integration project. It became a model-building project.</p>
+    </div>
+    <p class="pullquote reveal">Solving the fragmentation problem and building the digital twin turned out to be the same problem.</p>
+    <div class="prose reveal">
       <p>Once that pivot was visible, the design vocabulary changed. We weren't designing a dashboard anymore — we were designing the surface of a probabilistic engine. The interface had to carry <em>uncertainty,</em> support <em>what-if exploration,</em> and earn the user's trust in outputs the user did not personally generate. That's a different design discipline, and it's what this case study is really about.</p>
     </div>
     <p class="pullquote reveal">A dashboard shows what happened. A digital twin shows what could. The pivot from one to the other started with a much smaller question — <em>"can we open multiple tools in one place?"</em> — and ended somewhere much bigger.</p>
@@ -802,14 +805,15 @@ footer {
 <section class="section">
   <div class="container">
     <span class="section-label reveal">02 — The pain</span>
-    <h2 class="section-title reveal">The day of an analytics manager — <span class="accent-text">and why nothing in it was working.</span></h2>
+    <h2 class="section-title reveal">Priya opens a SOX audit with five windows open. <span class="accent-text">None of them talk to each other.</span></h2>
     <div class="prose reveal">
-      <p>A risk analyst at the start of a SOX audit has the following on their desk: a SAP transaction extract in one window, EY VIA in a second, the Integrated Risk Library (IRL) in a third, a process map in a fourth, and a spreadsheet pulling it all together in a fifth. Two monitors. Sometimes three. The work isn't analysis — the work is <strong>keeping the cross-references aligned across five windows.</strong></p>
+      <p>Priya is a Risk Manager, three years into risk work, currently overseeing <strong>SOX Audit 1245.</strong> Her desk: a SAP transaction extract in one window, EY VIA in a second, the Integrated Risk Library (IRL) in a third, a process map in a fourth, a spreadsheet stitching it all together in a fifth. Two monitors. Sometimes three.</p>
+      <p>"I'm not doing analysis," she says. "I'm doing context-switching with extra steps."</p>
       <p>This was the day the project started from. The original brief named the pain precisely:</p>
       <ul>
-        <li><strong>Background.</strong> Analytics managers in risk practices were navigating a fragmented toolchain — VIA for analytics, IRL for the risk library, Symphony for orchestration, plus client-side systems like SAP and Oracle, plus document repositories, plus internal exception trackers. Each tool was good at its job. <em>Together they were a coordination problem.</em> The cognitive load wasn't computation — it was <strong>context-switching.</strong></li>
+        <li><strong>Background.</strong> Analytics managers in risk practices were navigating a fragmented toolchain — VIA for analytics, IRL for the risk library, Symphony for orchestration, plus client-side systems like SAP and Oracle, plus document repositories, plus internal exception trackers. Each tool was good at its job. <em>Together they were a coordination problem.</em></li>
         <li><strong>Problem.</strong> No centralised interface that could integrate the disparate analytics tools, automate repetitive tasks, and let users move between scope-setting, analysis, and reporting without losing context. Manual compilation across disparate sources was the norm — increasing cognitive load, raising the likelihood of oversight, and slowing decisions in environments where decision-velocity was the whole point.</li>
-        <li><strong>Needs.</strong> A unified interface that could <em>hold</em> the tools simultaneously rather than chain them. AI to automate cross-referencing across them. Seamless switching between tools and functionalities. Multi-pane and multi-monitor continuity (risk analysts genuinely work across more than one screen — the product had to respect that). Advanced AI-driven features for predictive analytics and scenario modelling.</li>
+        <li><strong>Needs.</strong> A unified interface that could <em>hold</em> the tools simultaneously rather than chain them. AI to automate cross-referencing across them. Seamless switching between tools and functionalities. Multi-pane and multi-monitor continuity — Priya genuinely works across more than one screen, and the product had to respect that. Advanced AI-driven features for predictive analytics and scenario modelling.</li>
         <li><strong>Goal.</strong> Build an AI-powered tool that lets analytics managers perform every activity needed for risk assessment within a single, cohesive interface — leveraging AI to automate processes and provide intelligent insights.</li>
         <li><strong>Impact.</strong> Less time per assessment. More accurate evaluations. Managers freed to focus on <em>strategic decision-making</em> rather than tool wrangling.</li>
       </ul>
@@ -861,6 +865,7 @@ footer {
       <p>The temptation in enterprise software is to give each persona their own application. The strategic move with RAP was the opposite: <strong>one digital twin, one canvas, one conversational steering interface, persona-specific decision surfaces sitting on top.</strong></p>
       <p>The conversational layer absorbed the difference. A CRO asks <em>"What's our concentration risk in the UKI portfolio if regulatory capital tightens?"</em> An Internal Auditor asks <em>"On SOX Audit 1245, flag transactions in the AZ entity that breach materiality."</em> A Controls Manager asks <em>"Which preventive controls have had failed test attempts in the last quarter?"</em> Same engine. Same data topology. Same digital twin. <strong>Different questions into it.</strong></p>
       <p>The data topology was deliberately polyglot: SAP/Oracle, generic ERP, documents, images, CSV/Excel — because each persona's evidence sat in a different format and the model had to ingest all of it.</p>
+      <p>Priya, who opened this case study, doesn't sit neatly in just one of these four boxes — as Risk Manager, her cockpit has to synthesize pieces of all of them. That's exactly the design problem the next section unpacks.</p>
     </div>
 
     <!-- DIAGRAM 01 — Four personas, one engine -->
@@ -954,6 +959,13 @@ footer {
       <p>Read together, this is a brief for a digital-twin <em>cockpit</em> — not a reporting tool. <strong>Connect to my sources, hold the rules, surface what matters, let me act on it, and respect who I am.</strong></p>
     </div>
 
+    <div class="move-card reveal">
+      <span class="move-num">PERSONA SPOTLIGHT</span>
+      <h3>Priya — <em>the Risk Manager.</em></h3>
+      <p class="move-meta"><strong>Currently on:</strong> SOX Audit 1245</p>
+      <p>She's the persona this case study keeps returning to. Not because her workflow is the most complex — the CRO's what-if scenarios and the Controls Manager's inventory are arguably harder problems — but because her line from section 02 ("I'm doing context-switching with extra steps") is the complaint every other persona is quietly making too, just about a different set of windows.</p>
+    </div>
+
     <figure class="reveal">
       <div class="svg-figure">
         <svg viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" aria-label="Risk Manager mental model">
@@ -1023,14 +1035,8 @@ footer {
     <span class="section-label reveal">06 — System position</span>
     <h2 class="section-title reveal">RAP sits between the data, the tools, <span class="accent-text">and the downstream apps.</span> It's a triple bridge.</h2>
     <div class="prose reveal">
-      <p>Synthesising the working architecture, RAP occupies a position no single EY product had occupied before:</p>
-      <ul>
-        <li><strong>Below RAP:</strong> the client's heterogeneous data topology — SAP, Oracle, generic ERPs, custom systems, documents, CSVs, images.</li>
-        <li><strong>Around RAP:</strong> the EY risk tool ecosystem — <strong>VIA</strong> (analytics), <strong>IRL</strong> (Integrated Risk Library), <strong>Symphony</strong> (orchestration), <strong>Nexus</strong>, <strong>Cyber</strong>, <strong>Supply Chain</strong>, and others. Each of these is a sophisticated tool in its own right. RAP isn't replacing them — it's <em>hosting</em> them.</li>
-        <li><strong>Inside RAP:</strong> the digital twin itself — structured data ingestion, unstructured data consumption, a PRC (Process / Risk / Control) taxonomy hierarchy, a control-test and KRI analytics library, self-service workflow, continuous monitoring and dashboards, integrated data services. Wrapped in machine learning, natural language processing, neural networks, and voice-and-document understanding.</li>
-        <li><strong>Above RAP:</strong> the downstream risk applications that consume the model — Risk and Control Monitor, ICM, Issue Tracker, Reporting/Control Tower — and third-party GRC tools (AuditBoard, Workiva, TeamMate).</li>
-      </ul>
-      <p><strong>The crucial insight:</strong> RAP isn't an app. It isn't a dashboard either. <em>It's a host environment.</em> Other tools live inside it. The client's data flows up into it. The downstream apps consume from it. And in the middle of all that — assembled out of the tool outputs that the canvas holds together — sits the digital twin.</p>
+      <p>Synthesising the architecture, RAP sits somewhere no single EY product had sat before. <strong>Below it,</strong> the client's raw data — SAP, Oracle, ERPs, documents, images. <strong>Around it,</strong> the EY tool ecosystem — VIA, IRL, Symphony, Nexus, Cyber, Supply Chain — each hosted, not replaced. <strong>Inside it,</strong> the digital twin itself: a PRC taxonomy, a control-test and KRI library, continuous monitoring, wrapped in ML and NLP. <strong>Above it,</strong> the downstream apps and third-party GRC tools that consume the model.</p>
+      <p><strong>RAP isn't an app, and it isn't a dashboard.</strong> <em>It's a host environment.</em> Other tools live inside it. The model gets assembled out of what they hold together.</p>
     </div>
 
     <!-- DIAGRAM 02 — The Risk Simulation Stack -->
@@ -1629,8 +1635,9 @@ footer {
 
     <h3 class="sub-h reveal"><span class="num">P2</span>Shared scope across panels.</h3>
     <div class="prose reveal">
-      <p>When the user pins "SOX Audit 1245" as a scope chip, every tool surface in the canvas inherits that scope. The VIA panel queries against that audit. The IRL panel filters its risk library to risks relevant to that audit. The process map highlights the in-scope process. <strong>The user scopes once; the canvas scopes everywhere.</strong> This is the move that turns "tools side by side" into "a coherent view of the enterprise." Without shared scope, multiple panels are just multiple windows in a different shape. With shared scope, the panels stop being separate tools and start behaving like organs of a single body.</p>
+      <p>When the user pins <strong>"SOX Audit 1245"</strong> — Priya's audit — as a scope chip, every tool surface in the canvas inherits it. The VIA panel queries against that audit. The IRL panel filters its risk library down to what's relevant. The process map highlights the in-scope process. This is the move that turns "tools side by side" into "a coherent view of the enterprise." Without shared scope, multiple panels are just multiple windows in a different shape. With shared scope, they stop being separate tools and start behaving like organs of a single body.</p>
     </div>
+    <p class="pullquote reveal">The user scopes once. The canvas scopes everywhere.</p>
 
     <h3 class="sub-h reveal"><span class="num">P3</span>Cross-monitor continuity.</h3>
     <div class="prose reveal">
@@ -1825,8 +1832,9 @@ footer {
         <li><strong>If YES</strong> → the Digital / Heat / Inherent Map renders in the canvas, visualising risk in a structured format based on input criteria from the IRL and the digital twin.</li>
         <li><strong>If NO</strong> → the system asks for the missing inputs before computing.</li>
       </ol>
-      <p>This looks like an ordinary flow diagram, but it isn't. In a normal app, "missing inputs" is a form-validation problem. <strong>In RAP, missing inputs mean the model isn't ready to simulate yet.</strong> The decision diamonds aren't UI gates — they're simulation-readiness gates. The interface refuses to lie by computing on insufficient inputs.</p>
+      <p>This looks like an ordinary flow diagram, but it isn't. In a normal app, "missing inputs" is a form-validation problem. <strong>In RAP, missing inputs mean the model isn't ready to simulate yet.</strong> The decision diamonds aren't UI gates — they're simulation-readiness gates.</p>
     </div>
+    <p class="pullquote reveal">The interface refuses to lie by computing on insufficient inputs.</p>
 
     <!-- DIAGRAM 04 — The simulation flow -->
     <figure class="reveal">
@@ -2071,8 +2079,9 @@ footer {
         <li>The dominant colour expresses the <em>expected severity-likelihood product.</em></li>
         <li>A secondary visual treatment — a stroke weight or an opacity differential — encodes the <em>model's confidence</em> in that estimate.</li>
       </ul>
-      <p>High-confidence cells read as crisp. Low-confidence cells read as softer-edged. The user learns to scan crispness as a proxy for trustworthiness without having to read confidence intervals. <strong>The picture carries the uncertainty.</strong></p>
+      <p>High-confidence cells read as crisp. Low-confidence cells read as softer-edged. The user learns to scan crispness as a proxy for trustworthiness without having to read confidence intervals.</p>
     </div>
+    <p class="pullquote reveal">The picture carries the uncertainty.</p>
 
     <!-- DIAGRAM 06 — Uncertainty heat map -->
     <figure class="reveal">
@@ -2292,6 +2301,8 @@ footer {
         <p>A probability is not a decision. A heat cell is not an action. Designing the bridge — Investigate / Escalate / What-if, each opening another panel into the canvas — is the difference between an AI product that's <em>interesting</em> and an AI product that's <em>useful.</em></p>
       </div>
     </div>
+
+    <p class="pullquote reveal">A dashboard would have told Priya what already went wrong on SOX Audit 1245. RAP tells her what's about to — with a number attached to how sure it is, and three ways to act before it does. That's the whole distance between a container and a twin.</p>
   </div>
 </section>
 
