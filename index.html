@@ -42,6 +42,7 @@
   /* Motion */
   --ease: cubic-bezier(0.28,0.16,0.22,1);
   --ease-out: cubic-bezier(0.16,1,0.3,1);
+  --ease-bounce: cubic-bezier(0.34,1.56,0.64,1);
 }
 
 [data-theme="light"] {
@@ -722,6 +723,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: border-color .25s var(--ease), background-color .25s var(--ease);
 }
 .tm-card:hover { border-color: var(--line); }
+
+/* Playful slide-in — odd cards enter from the left, even from the right */
+.tm-grid .tm-card.reveal {
+  transition: opacity .85s var(--ease-bounce), transform .85s var(--ease-bounce), border-color .25s var(--ease), background-color .25s var(--ease);
+}
+.tm-grid .tm-card:nth-child(odd).reveal { transform: translateX(-56px); }
+.tm-grid .tm-card:nth-child(even).reveal { transform: translateX(56px); }
+.tm-grid .tm-card.reveal.in { transform: none; }
 
 .tm-quote {
   font-family: var(--font-display);
