@@ -199,23 +199,48 @@ img, svg { display: block; max-width: 100%; }
 /* ============================================================
    HERO
    ============================================================ */
-.hero { padding: clamp(80px, 10vw, 140px) 0 clamp(56px, 7vw, 96px);
+.hero { position: relative; overflow: hidden; text-align: center;
+  padding: clamp(80px, 10vw, 140px) 0 clamp(64px, 8vw, 110px);
   border-bottom: 1px solid var(--line-soft); background: var(--bg); }
-.hero-eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.04em;
-  text-transform: uppercase; margin-bottom: 18px; }
+.hero-back { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; color: var(--ink-mute);
+  margin-bottom: 20px; transition: color .2s var(--ease); }
+.hero-back:hover { color: var(--ink); }
+.hero-back svg { width: 14px; height: 14px; flex-shrink: 0; }
+.hero-badge { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(233,240,86,0.25);
+  background: rgba(233,240,86,0.08); border-radius: 50px; padding: 8px 18px; margin-bottom: 22px; }
+[data-theme="light"] .hero-badge { border-color: rgba(255,92,52,0.25); background: rgba(255,92,52,0.08); }
 .hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 80px); font-weight: 600;
-  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 20px; max-width: 1080px; }
+  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin: 0 auto 20px; max-width: 1080px; }
 .hero-title .accent-text { color: var(--accent); font-style: italic; }
-.hero-deck { font-family: var(--font-display); font-size: clamp(20px, 2vw, 26px); line-height: 1.45;
-  color: var(--ink-2); letter-spacing: -0.018em; max-width: 800px; margin-bottom: 56px; }
-.meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px;
-  border-top: 1px solid var(--line-soft); padding-top: 36px; max-width: 1080px; }
-@media (min-width: 720px) { .meta-grid { grid-template-columns: repeat(4, 1fr); } }
-.meta-item .label { font-size: 12px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.06em;
-  text-transform: uppercase; margin-bottom: 8px; display: block; }
-.meta-item .value { font-family: var(--font-display); font-size: 17px; font-weight: 500;
+.hero-deck { font-family: var(--font-display); font-size: clamp(18px, 1.5vw, 21px); line-height: 1.5;
+  color: var(--ink-mute); letter-spacing: -0.014em; max-width: 620px; margin: 0 auto 52px; }
+.meta-grid { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 32px 48px; margin: 0 auto; }
+.meta-item .label { font-size: 11px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 8px; display: block; opacity: 0.75; }
+.meta-item .value { font-family: var(--font-display); font-size: 16px; font-weight: 500;
   color: var(--ink); letter-spacing: -0.012em; line-height: 1.35; }
-.impact-strip { margin-top: 56px; padding: 28px 32px;
+.hero-image-wrap { margin: clamp(48px, 6vw, 72px) auto 0; }
+.hero-phone { width: min(280px, 70vw); margin: 0 auto; }
+.hero-phone svg { width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.45)) drop-shadow(0 0 30px rgba(233,240,86,0.1)); }
+[data-theme="light"] .hero-phone svg { filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) drop-shadow(0 0 30px rgba(255,92,52,0.1)); }
+.hero-phone .stroke-accent  { stroke: var(--accent); }
+.hero-phone .stroke-soft    { stroke: var(--line); }
+.hero-phone .fill-ink       { fill: var(--ink); }
+.hero-phone .fill-mute      { fill: var(--ink-mute); }
+.hero-phone .fill-ink-mute  { fill: var(--ink-mute); }
+.hero-phone .stroke-ink-mute{ stroke: var(--ink-mute); }
+.hero-phone .fill-accent    { fill: var(--accent); }
+.hero-phone .fill-accent-soft { fill: var(--accent-soft); }
+.hero-phone .fill-danger    { fill: var(--danger); }
+.hero-phone .fill-card-2    { fill: var(--bg-2); }
+.hero-phone .fill-card      { fill: var(--bg-elev); }
+.hero-phone .fill-chip      { fill: var(--chip); }
+.hero-phone-shadow { width: 40%; height: 20px; margin: 18px auto 0; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,0.3), rgba(0,0,0,0) 75%); }
+.impact-strip-section { padding: clamp(48px, 6vw, 72px) 0; }
+.impact-strip { margin-top: 0; padding: 28px 32px;
   background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 22px;
   display: grid; grid-template-columns: 1fr; gap: 24px; }
 @media (min-width: 720px) { .impact-strip { grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 36px 44px; } }
@@ -839,27 +864,143 @@ footer {
      ============================================================ -->
 <section class="hero">
   <div class="container">
-    <div class="breadcrumb">
-      <a href="work.html">Work</a>
-      <span class="sep">/</span>
-      <span>Case Study 04</span>
-    </div>
-    <div class="hero-eyebrow">Civic Tech · E-Governance · India</div>
+    <a href="work.html" class="hero-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to Work
+    </a>
+    <div class="hero-badge">Case Study 04</div>
     <h1 class="hero-title">Civic complaint isn't a UX problem. <span class="accent-text">It's a trust problem.</span></h1>
-    <p class="hero-deck">ResolveNow is a citizen complaint platform for Indian municipalities. The interesting question wasn't "how do we let citizens raise tickets" — it was <em>why citizens had stopped raising them in the first place,</em> and what the design could do to repair that loop.</p>
+    <p class="hero-deck">ResolveNow — a citizen complaint platform for Indian municipalities, designed to repair the trust loop that made people stop reporting issues.</p>
     <div class="meta-grid">
       <div class="meta-item"><span class="label">Context</span><span class="value">Indian Municipalities</span></div>
       <div class="meta-item"><span class="label">Role</span><span class="value">UX Researcher · Designer</span></div>
       <div class="meta-item"><span class="label">Domain</span><span class="value">Civic Tech · E-Governance</span></div>
       <div class="meta-item"><span class="label">Scope</span><span class="value">Research to Blueprint</span></div>
     </div>
+
+    <div class="hero-image-wrap">
+      <div class="hero-phone">
+        <svg viewBox="28 38 284 604" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ResolveNow home screen — active complaints surfaced">
+          <rect x="28" y="38" width="284" height="604" rx="44" fill="#1c1c1e"/>
+          <rect x="28" y="38" width="284" height="604" rx="44" fill="none" stroke="#000" stroke-width="1"/>
+          <rect x="40" y="50" width="260" height="580" rx="34" class="fill-card-2 stroke-soft" stroke-width="1.5"/>
+          <rect x="155" y="64" width="30" height="9" rx="4.5" class="fill-ink"/>
+          <text x="64" y="84" font-size="10" font-weight="700" class="fill-ink">9:41</text>
+          <g class="fill-ink">
+            <rect x="244" y="80" width="2" height="3" rx="0.5"/>
+            <rect x="247" y="78" width="2" height="5" rx="0.5"/>
+            <rect x="250" y="76" width="2" height="7" rx="0.5"/>
+            <rect x="253" y="74" width="2" height="9" rx="0.5"/>
+          </g>
+          <g transform="translate(259 76)" class="stroke-ink" fill="none" stroke-width="0.9" stroke-linecap="round">
+            <path d="M 0 3 a 6 6 0 0 1 8 0"/>
+            <path d="M 1.5 5 a 4 4 0 0 1 5 0"/>
+            <path d="M 3 7 a 2 2 0 0 1 2 0"/>
+            <circle cx="4" cy="8.5" r="0.6" class="fill-ink stroke-none"/>
+          </g>
+          <g transform="translate(272 75)">
+            <rect x="0" y="0" width="16" height="8" rx="2" class="fill-none stroke-ink" stroke-width="0.8"/>
+            <rect x="16.5" y="2.5" width="1.4" height="3" rx="0.6" class="fill-ink"/>
+            <rect x="1.2" y="1.2" width="12" height="5.6" rx="1" class="fill-ink"/>
+          </g>
+          <rect x="140" y="612" width="60" height="3" rx="1.5" class="fill-ink-mute"/>
+
+          <circle cx="68" cy="124" r="17" class="fill-chip stroke-soft" stroke-width="0.7"/>
+          <text x="68" y="129" text-anchor="middle" font-size="11" font-weight="700" class="fill-ink">AD</text>
+          <text x="92" y="120" font-size="14" font-weight="600" letter-spacing="-0.2" class="fill-ink">Hi, Aalvee</text>
+          <text x="92" y="134" font-size="10" class="fill-mute">Wed · Ward 18 · HAL</text>
+          <g transform="translate(266 115)" fill="none" class="stroke-ink" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 1 11 V 7 a 5 5 0 1 1 10 0 V 11 Z"/>
+            <path d="M -1 11 H 13"/>
+            <path d="M 4 14 a 2 2 0 0 0 4 0"/>
+            <circle cx="11" cy="2" r="2.2" class="fill-danger stroke-none"/>
+          </g>
+
+          <rect x="56" y="156" width="228" height="68" rx="14" class="fill-accent-soft stroke-accent" stroke-width="1"/>
+          <text x="72" y="180" font-size="9" letter-spacing="1.5" font-weight="700" class="fill-accent">ACTIVE ISSUES</text>
+          <text x="72" y="206" font-size="23" font-weight="700" letter-spacing="-0.6" class="fill-ink">3 in your area</text>
+          <g transform="translate(268 188)" fill="none" class="stroke-ink" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 0 -5 L 5 0 L 0 5"/>
+          </g>
+
+          <text x="56" y="252" font-size="11" font-weight="700" letter-spacing="-0.1" class="fill-ink">Open complaints</text>
+          <text x="284" y="252" text-anchor="end" font-size="10" font-weight="600" class="fill-accent">View all</text>
+
+          <rect x="56" y="264" width="228" height="92" rx="14" class="fill-card stroke-soft" stroke-width="0.6"/>
+          <rect x="68" y="276" width="92" height="18" rx="9" class="fill-accent-soft"/>
+          <circle cx="77" cy="285" r="2.5" class="fill-accent"/>
+          <text x="84" y="288" font-size="9" font-weight="700" letter-spacing="0.6" class="fill-accent">IN PROGRESS</text>
+          <text x="272" y="288" text-anchor="end" font-size="9" font-weight="600" letter-spacing="0.4" class="fill-mute">DAY 2 · #A1023</text>
+          <text x="68" y="312" font-size="14" font-weight="600" letter-spacing="-0.25" class="fill-ink">No Electricity</text>
+          <text x="68" y="328" font-size="10.5" class="fill-mute">Wire cutoff · 12th Main · Power dept.</text>
+          <rect x="68" y="338" width="204" height="4" rx="2" class="fill-chip"/>
+          <rect x="68" y="338" width="102" height="4" rx="2" class="fill-accent"/>
+
+          <rect x="56" y="364" width="228" height="92" rx="14" class="fill-card stroke-soft" stroke-width="0.6"/>
+          <rect x="68" y="376" width="74" height="18" rx="9" class="fill-chip"/>
+          <circle cx="77" cy="385" r="2.5" class="fill-mute"/>
+          <text x="84" y="388" font-size="9" font-weight="700" letter-spacing="0.6" class="fill-mute">ASSIGNED</text>
+          <text x="272" y="388" text-anchor="end" font-size="9" font-weight="600" letter-spacing="0.4" class="fill-mute">DAY 1 · #A1019</text>
+          <text x="68" y="412" font-size="14" font-weight="600" letter-spacing="-0.25" class="fill-ink">Street Lights Out</text>
+          <text x="68" y="428" font-size="10.5" class="fill-mute">Lighting · 12th Main · BBMP</text>
+          <rect x="68" y="438" width="204" height="4" rx="2" class="fill-chip"/>
+          <rect x="68" y="438" width="51" height="4" rx="2" class="fill-accent"/>
+
+          <rect x="56" y="464" width="228" height="66" rx="14" class="fill-card stroke-soft" stroke-width="0.6"/>
+          <rect x="68" y="476" width="72" height="18" rx="9" class="fill-chip"/>
+          <circle cx="77" cy="485" r="2.5" class="fill-mute"/>
+          <text x="84" y="488" font-size="9" font-weight="700" letter-spacing="0.6" class="fill-mute">RESOLVED</text>
+          <text x="272" y="488" text-anchor="end" font-size="9" font-weight="600" letter-spacing="0.4" class="fill-mute">5 DAYS · #A0998</text>
+          <text x="68" y="512" font-size="13" font-weight="600" letter-spacing="-0.2" class="fill-ink">Water pipeline leak · closed ✓</text>
+
+          <line x1="56" y1="554" x2="284" y2="554" class="stroke-soft" stroke-width="0.6"/>
+          <g transform="translate(82 580)">
+            <path d="M -7 4 L 0 -3 L 7 4 V 8 a 1 1 0 0 1 -1 1 H -6 a 1 1 0 0 1 -1 -1 Z" class="fill-accent stroke-accent" stroke-width="0.5"/>
+            <text x="0" y="20" text-anchor="middle" font-size="8" font-weight="700" class="fill-accent">Home</text>
+          </g>
+          <g transform="translate(126 580)">
+            <g fill="none" class="stroke-ink-mute" stroke-width="1.4" stroke-linecap="round">
+              <path d="M -5 -2 H 6"/>
+              <path d="M -5 2 H 6"/>
+              <path d="M -5 6 H 3"/>
+              <circle cx="-6" cy="-2" r="0.6" class="fill-ink-mute stroke-none"/>
+              <circle cx="-6" cy="2" r="0.6" class="fill-ink-mute stroke-none"/>
+              <circle cx="-6" cy="6" r="0.6" class="fill-ink-mute stroke-none"/>
+            </g>
+            <text x="0" y="20" text-anchor="middle" font-size="8" class="fill-mute">Track</text>
+          </g>
+          <circle cx="170" cy="582" r="16" class="fill-accent"/>
+          <path d="M 170 574 V 590 M 162 582 H 178" stroke="#000" stroke-width="2.2" stroke-linecap="round"/>
+          <g transform="translate(214 580)">
+            <g fill="none" class="stroke-ink-mute" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 0 8 c 3.5 -4 5 -7 5 -10 a 5 5 0 0 0 -10 0 c 0 3 1.5 6 5 10 Z"/>
+              <circle cx="0" cy="-2" r="2"/>
+            </g>
+            <text x="0" y="20" text-anchor="middle" font-size="8" class="fill-mute">Ward</text>
+          </g>
+          <g transform="translate(258 580)">
+            <g fill="none" class="stroke-ink-mute" stroke-width="1.4" stroke-linecap="round">
+              <circle cx="0" cy="-2" r="3"/>
+              <path d="M -5 6 a 5 5 0 0 1 10 0"/>
+            </g>
+            <text x="0" y="20" text-anchor="middle" font-size="8" class="fill-mute">Profile</text>
+          </g>
+        </svg>
+      </div>
+      <div class="hero-phone-shadow" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<div class="impact-strip-section">
+  <div class="container">
     <div class="impact-strip">
       <div class="impact-stat"><span class="num">5+</span><span class="label">Research methods used</span></div>
       <div class="impact-stat"><span class="num">3</span><span class="label">Primary personas mapped</span></div>
       <div class="impact-stat"><span class="num">1</span><span class="label">Systemic trust loop redesigned</span></div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- ============================================================
      §01 — THE STRATEGIC INSIGHT
