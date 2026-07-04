@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>GenIAus — Case Study · Aalvee Damle</title>
-<meta name="description" content="Redesigning an AI-powered auditing tool for enterprise adoption. A case study by Aalvee Damle." />
+<meta name="description" content="Turning an ignored GenAI auditing tool into a co-pilot auditors trust. A case study by Aalvee Damle." />
 <style>
 /* ============================================================
    GENIAUS CASE STUDY v2 — Aalvee Damle
@@ -90,28 +90,38 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 [data-theme="dark"] .theme-svg.icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
 
 /* HERO */
-.hero { padding: clamp(80px, 10vw, 140px) 0 clamp(56px, 7vw, 96px);
+.hero { position: relative; overflow: hidden; text-align: center;
+  padding: clamp(80px, 10vw, 140px) 0 clamp(64px, 8vw, 110px);
   border-bottom: 1px solid var(--line-soft); background: var(--bg); }
-.breadcrumb { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-mute);
-  letter-spacing: -0.005em; margin-bottom: 16px; }
-.breadcrumb a { color: var(--ink-mute); }
-.breadcrumb a:hover { color: var(--accent); }
-.breadcrumb .sep { opacity: 0.5; }
-.hero-eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.04em;
-  text-transform: uppercase; margin-bottom: 18px; }
+.hero-back { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; color: var(--ink-mute);
+  margin-bottom: 20px; transition: color .2s var(--ease); }
+.hero-back:hover { color: var(--ink); }
+.hero-back svg { width: 14px; height: 14px; flex-shrink: 0; }
+.hero-badge { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(233,240,86,0.25);
+  background: rgba(233,240,86,0.08); border-radius: 50px; padding: 8px 18px; margin-bottom: 22px; }
+[data-theme="light"] .hero-badge { border-color: rgba(255,92,52,0.25); background: rgba(255,92,52,0.08); }
 .hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 80px); font-weight: 600;
-  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 20px; max-width: 1080px; }
+  line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); margin: 0 auto 20px; max-width: 1080px; }
 .hero-title .accent-text { color: var(--accent); font-style: italic; }
-.hero-deck { font-family: var(--font-display); font-size: clamp(20px, 2vw, 26px); line-height: 1.45;
-  color: var(--ink-2); letter-spacing: -0.018em; max-width: 800px; margin-bottom: 56px; }
-.meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px;
-  border-top: 1px solid var(--line-soft); padding-top: 36px; max-width: 1080px; }
-@media (min-width: 720px) { .meta-grid { grid-template-columns: repeat(4, 1fr); } }
-.meta-item .label { font-size: 12px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.06em;
-  text-transform: uppercase; margin-bottom: 8px; display: block; }
-.meta-item .value { font-family: var(--font-display); font-size: 17px; font-weight: 500;
+.hero-deck { font-family: var(--font-display); font-size: clamp(18px, 1.5vw, 21px); line-height: 1.5;
+  color: var(--ink-mute); letter-spacing: -0.014em; max-width: 620px; margin: 0 auto 52px; }
+.meta-grid { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 32px 48px; margin: 0 auto; }
+.meta-item .label { font-size: 11px; font-weight: 500; color: var(--ink-mute); letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 8px; display: block; opacity: 0.75; }
+.meta-item .value { font-family: var(--font-display); font-size: 16px; font-weight: 500;
   color: var(--ink); letter-spacing: -0.012em; line-height: 1.35; }
-.impact-strip { margin-top: 56px; padding: 28px 32px;
+.hero-image-wrap { margin: clamp(48px, 6vw, 72px) auto 0; max-width: 980px; }
+.hero-tablet { position: relative; background: #1c1c1e; border-radius: 32px;
+  padding: 18px 18px 26px; box-shadow: 0 30px 80px rgba(0,0,0,0.45), 0 0 44px rgba(233,240,86,0.1); }
+[data-theme="light"] .hero-tablet { box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 0 44px rgba(255,92,52,0.1); }
+.hero-tablet-cam { width: 6px; height: 6px; border-radius: 50%; background: #3a3a3c; margin: 0 auto 12px; }
+.hero-tablet-screen { border-radius: 14px; overflow: hidden; background: var(--bg-alt); line-height: 0; }
+.hero-tablet-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.hero-tablet-shadow { width: 70%; height: 28px; margin: 18px auto 0; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,0.35), rgba(0,0,0,0) 75%); }
+.impact-strip-section { padding: clamp(48px, 6vw, 72px) 0; }
+.impact-strip { margin-top: 0; padding: 28px 32px;
   background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 22px;
   display: grid; grid-template-columns: 1fr; gap: 24px; }
 @media (min-width: 720px) { .impact-strip { grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 36px 44px; } }
@@ -558,30 +568,44 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 
 <section class="hero">
   <div class="wrap">
-    <div class="breadcrumb">
-      <a href="work.html">Work</a>
-      <span class="sep">/</span>
-      <span>Case Study 01</span>
-    </div>
-    <div class="hero-eyebrow">Ernst &amp; Young · GenAI · Risk &amp; Audit</div>
+    <a href="work.html" class="hero-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to Work
+    </a>
+    <div class="hero-badge">Case Study 01</div>
     <h1 class="hero-title">
-      Redesigning <span class="accent-text">GenIAus</span> — an AI auditing tool that engineers built and auditors couldn't use.
+      Turning AI Into <span class="accent-text">a Co-pilot Auditors Trust</span>
     </h1>
     <p class="hero-deck">
-      A live, beta-stage GenAI tool inside EY's Virtual Internal Auditor platform was failing adoption — not because the AI was wrong, but because the interface couldn't communicate what the AI could do. I led the redesign as a systems thinking exercise, not a UI cleanup.
+      GenIAus — EY's GenAI auditing assistant, rebuilt from an ignored feature into a co-pilot auditors actually rely on.
     </p>
     <div class="meta-grid">
       <div class="meta-item"><span class="label">Client</span><span class="value">Ernst &amp; Young</span></div>
       <div class="meta-item"><span class="label">Role</span><span class="value">UX Designer · Lead</span></div>
       <div class="meta-item"><span class="label">Team</span><span class="value">PM · PO · 10 Developers</span></div>
     </div>
+
+    <div class="hero-image-wrap">
+      <div class="hero-tablet">
+        <div class="hero-tablet-cam" aria-hidden="true"></div>
+        <div class="hero-tablet-screen">
+          <img src="HERO IMAGES /GenIAUs.png" alt="GenIAus — Virtual Internal Auditor home screen" />
+        </div>
+      </div>
+      <div class="hero-tablet-shadow" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<div class="impact-strip-section">
+  <div class="wrap">
     <div class="impact-strip">
       <div class="impact-stat"><span class="num">−40%</span><span class="label">Task completion time</span></div>
       <div class="impact-stat"><span class="num">+35%</span><span class="label">Adoption rate post-iteration</span></div>
       <div class="impact-stat"><span class="num">+84%</span><span class="label">Time spent on platform</span></div>
     </div>
   </div>
-</section>
+</div>
 
 <section class="section">
   <div class="wrap">
