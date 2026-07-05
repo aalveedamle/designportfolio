@@ -119,8 +119,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .nav-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
 .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; }
-.nav-links a:hover { opacity: 1; }
+.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; transition: color .2s var(--ease), opacity .2s var(--ease); }
+.nav-links a:hover { opacity: 1; color: var(--accent); }
 .nav-links a.active { opacity: 1; color: var(--accent); }
 .nav-cta {
   display: inline-flex; align-items: center;

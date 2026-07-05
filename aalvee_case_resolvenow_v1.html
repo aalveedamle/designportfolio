@@ -125,8 +125,8 @@ img, svg { display: block; max-width: 100%; }
   background: var(--accent); display: inline-block;
 }
 .nav-links { display: flex; gap: 32px; align-items: center; list-style: none; }
-.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; }
-.nav-links a:hover { opacity: 1; }
+.nav-links a { color: var(--ink); opacity: .82; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; transition: color .2s var(--ease), opacity .2s var(--ease); }
+.nav-links a:hover { opacity: 1; color: var(--accent); }
 .nav-links a.active { opacity: 1; color: var(--accent); }
 .nav-cta {
   display: inline-flex; align-items: center;
