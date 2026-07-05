@@ -1091,34 +1091,26 @@ footer {
   });
 })();
 
-/* Cursor trail */
+/* Cursor dot */
 (function () {
   var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
   if (coarse) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var COUNT = 15, LERP = 0.22, dots = [];
-  for (var i = 0; i < COUNT; i++) {
-    var d = document.createElement('div');
-    d.className = 'cursor-dot';
-    var t = 1 - i / COUNT;
-    d.style.width = '24px';
-    d.style.height = '24px';
-    d.style.opacity = t * 0.75;
-    document.body.appendChild(d);
-    dots.push({ el: d, x: -100, y: -100 });
-  }
+  var LERP = 0.12;
+  var d = document.createElement('div');
+  d.className = 'cursor-dot';
+  d.style.width = '24px';
+  d.style.height = '24px';
+  d.style.opacity = '1';
+  document.body.appendChild(d);
   var mouse = { x: -100, y: -100 };
+  var pos = { x: -100, y: -100 };
   document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
   function loop() {
-    var prev = mouse;
-    for (var i = 0; i < dots.length; i++) {
-      var d = dots[i];
-      d.x += (prev.x - d.x) * LERP;
-      d.y += (prev.y - d.y) * LERP;
-      var half = d.el.offsetWidth / 2;
-      d.el.style.transform = 'translate(' + (d.x - half) + 'px, ' + (d.y - half) + 'px)';
-      prev = d;
-    }
+    pos.x += (mouse.x - pos.x) * LERP;
+    pos.y += (mouse.y - pos.y) * LERP;
+    var half = d.offsetWidth / 2;
+    d.style.transform = 'translate(' + (pos.x - half) + 'px, ' + (pos.y - half) + 'px)';
     requestAnimationFrame(loop);
   }
   loop();
