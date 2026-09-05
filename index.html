@@ -536,39 +536,6 @@ body { padding-top: 64px; }
 }
 
 /* ============================================================
-   IMPACT — sticky-stat pattern: the claim stays pinned while the
-   evidence scrolls up past it, so the headline is backed up
-   without needing a page break.
-   ============================================================ */
-.impact { padding: clamp(60px, 8vw, 100px) 0; }
-.impact-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-@media (min-width: 900px) {
-  .impact-grid { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .impact-pin-wrap { position: sticky; top: 100px; }
-}
-.impact-pin .section-title { max-width: 15ch; }
-.impact-stack { display: flex; flex-direction: column; gap: 20px; }
-.impact-stat {
-  background: var(--bg-card);
-  border: 1px solid var(--line-soft);
-  border-radius: 20px;
-  padding: 28px;
-  transition: border-color .25s var(--ease), background-color .25s var(--ease);
-}
-.impact-stat:hover { border-color: var(--line); }
-.impact-stat .num {
-  font-family: var(--font-display);
-  font-size: clamp(38px, 4.6vw, 52px);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1;
-  color: var(--accent);
-  display: block;
-  margin-bottom: 12px;
-}
-.impact-stat p { color: var(--ink-2); font-size: 15px; line-height: 1.55; letter-spacing: -0.005em; }
-
-/* ============================================================
    FEATURED CASE STUDIES — 2-column grid (stacks to 1 on mobile)
    ============================================================ */
 .cs-grid {
@@ -1238,36 +1205,6 @@ body.mmenu-open { overflow: hidden; }
   </div>
 
 
-</section>
-
-<!-- ============================================================
-     IMPACT — sticky claim, scrolling evidence
-     ============================================================ -->
-<section class="section impact" id="impact">
-  <div class="wrap">
-    <div class="impact-grid">
-      <div class="impact-pin-wrap">
-        <div class="impact-pin reveal">
-          <span class="section-label">What the work adds up to</span>
-          <h2 class="section-title">Six years, three industries, one throughline.</h2>
-        </div>
-      </div>
-      <div class="impact-stack">
-        <div class="impact-stat reveal">
-          <span class="num">6+</span>
-          <p>Years designing across AI, banking, and risk — most of it inside Big Four enterprise engagements.</p>
-        </div>
-        <div class="impact-stat reveal">
-          <span class="num">60%</span>
-          <p>Reduction in context-switching after embedding AI directly into the auditor's workflow (Genie, EY).</p>
-        </div>
-        <div class="impact-stat reveal">
-          <span class="num">28%</span>
-          <p>Increase in user trust rating following launch, once AI reasoning became visible instead of a black box (Genie, EY).</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- ============================================================
