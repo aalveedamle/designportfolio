@@ -621,7 +621,8 @@ body { padding-top: 64px; }
    BEYOND DESIGN — polaroid wall
    ============================================================ */
 .beyond { background: var(--bg); padding-bottom: clamp(60px, 8vw, 100px); }
-.beyond-intro {
+.beyond-intro,
+.ill-intro {
   font-family: var(--font-display);
   font-size: clamp(20px, 2vw, 26px);
   line-height: 1.5;
@@ -873,6 +874,59 @@ footer {
 
 /* Caveat handwritten font (Google Fonts) */
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap');
+
+/* ============================================================
+   ILLUSTRATIONS — 2-column masonry
+   Same layout as the reference gallery, sized to the page's
+   1200px .wrap so it lines up with the sections above and below.
+   ============================================================ */
+
+.ill-grid {
+  columns: 2;
+  column-gap: 0;
+  margin: 0 -6.5px;          /* cancel card padding so tiles align to the title */
+}
+
+.ill-card {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  margin: 0;
+  padding: 6.5px 6.5px 19px;
+}
+
+.ill-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--bg-card);
+  transition: background-color .5s var(--ease);
+}
+.ill-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.ill-cap {
+  margin-top: 13px;
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  transition: color .3s var(--ease);
+}
+.ill-card:hover .ill-cap { color: var(--ink); }
+
+@media (max-width: 720px) {
+  .ill-grid { columns: 1; }
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1432,6 +1486,129 @@ footer {
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ILLUSTRATIONS — 2-column masonry
+     ============================================================ -->
+<section class="section illustrations">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-label">Illustrations</span>
+      <h2 class="section-title">Made by hand.</h2>
+    </div>
+
+    <p class="ill-intro reveal">
+      Pencil, ink, watercolour, acrylic, and the occasional album cover. None of it needed a brief — which is exactly why I keep doing it.
+    </p>
+
+    <div class="ill-grid">
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1219 / 1600">
+              <img src="illustrations/monks-lotus-crane.jpg" alt="Colored pencil drawing of two monks in saffron robes with a lotus, peony and crane" loading="lazy" width="1219" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Monks, Lotus, Crane</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1150 / 1600">
+              <img src="illustrations/fractured-humpback.jpg" alt="Pen and ink humpback whale dissolving into geometric facets" loading="lazy" width="1150" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Fractured Humpback</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1600">
+              <img src="illustrations/the-orbit-cover.jpg" alt="Album cover: desert rock formations under an orbital diagram and starfield" loading="lazy" width="1600" height="1600" />
+            </div>
+            <figcaption class="ill-cap">The Orbit — Cover Art</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1548">
+              <img src="illustrations/african-jacana.jpg" alt="Watercolour African jacana stepping across lily pads" loading="lazy" width="1600" height="1548" />
+            </div>
+            <figcaption class="ill-cap">African Jacana</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1192 / 1600">
+              <img src="illustrations/crystalline-hummingbird.jpg" alt="Pen and ink hummingbird whose tail breaks into crystal forms" loading="lazy" width="1192" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Crystalline Hummingbird</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1591">
+              <img src="illustrations/two-circles-eclipse.jpg" alt="Abstract acrylic painting of a red and a teal circle overlapping on turquoise" loading="lazy" width="1600" height="1591" />
+            </div>
+            <figcaption class="ill-cap">Two Circles, One Eclipse</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1600">
+              <img src="illustrations/showing-off-cover.jpg" alt="Album cover: line-drawn portrait against a starfield and wireframe landscape" loading="lazy" width="1600" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Showing Off — Cover Art</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1326 / 1600">
+              <img src="illustrations/fly-agaric.jpg" alt="Watercolour fly agaric mushroom with red root system" loading="lazy" width="1326" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Fly Agaric, Rooted</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1180 / 1600">
+              <img src="illustrations/mudra-study.jpg" alt="Colored pencil study of a hand held in a mudra against warm pink and gold" loading="lazy" width="1180" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Mudra Study</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1546">
+              <img src="illustrations/wingbeat-study.jpg" alt="Colored pencil bird in flight with gold and slate blue wings" loading="lazy" width="1600" height="1546" />
+            </div>
+            <figcaption class="ill-cap">Wingbeat Study</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1463">
+              <img src="illustrations/polar-bear.jpg" alt="Watercolour polar bear mid-stride" loading="lazy" width="1600" height="1463" />
+            </div>
+            <figcaption class="ill-cap">Polar Bear</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1293 / 1600">
+              <img src="illustrations/radiance-in-red.jpg" alt="Abstract acrylic painting of radiating red and orange facets" loading="lazy" width="1293" height="1600" />
+            </div>
+            <figcaption class="ill-cap">Radiance in Red</figcaption>
+          </div>
+        </figure>
+        <figure class="ill-card">
+          <div class="ill-inner reveal">
+            <div class="ill-media" style="aspect-ratio: 1600 / 1080">
+              <img src="illustrations/spring-in-blossom.jpg" alt="Oil painting of a woman in red beneath blossoming branches" loading="lazy" width="1600" height="1080" />
+            </div>
+            <figcaption class="ill-cap">Spring, in Blossom</figcaption>
+          </div>
+        </figure>
     </div>
   </div>
 </section>
