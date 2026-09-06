@@ -302,31 +302,31 @@ body { padding-top: 64px; }
    ============================================================ */
 .hero {
   position: relative;
-  padding: clamp(72px, 10vw, 120px) 0 clamp(56px, 8vw, 100px);
+  padding: 0 0 clamp(56px, 8vw, 100px);
   background: var(--bg);
   border-bottom: 1px solid var(--line-soft);
 }
 .hero-inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
-}
-@media (min-width: 980px) {
-  .hero-inner { grid-template-columns: 460px 1fr; }
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: clamp(40px, 5vw, 72px);
 }
 
-/* Video placeholder block (for user to swap in their video later) */
+/* Hero video block — full-bleed band */
 .hero-video {
   position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: 24px;
+  width: 100%;
+  height: clamp(320px, 62vh, 680px);
   overflow: hidden;
   background:
     radial-gradient(circle at 30% 20%, rgba(233,240,86,0.12), transparent 50%),
     linear-gradient(160deg, #1a1a1c 0%, #0a0a0a 100%);
-  border: 1px solid var(--line-soft);
-  box-shadow: var(--shadow-lg);
+  border-bottom: 1px solid var(--line-soft);
+}
+/* Narrow screens: shorten the band, or the landscape frame crops to an
+   extreme close-up. */
+@media (max-width: 720px) {
+  .hero-video { height: clamp(240px, 36vh, 320px); }
 }
 [data-theme="light"] .hero-video {
   background:
@@ -363,6 +363,55 @@ body { padding-top: 64px; }
   font-weight: 500;
 }
 
+/* Play/pause + mute controls overlaid on the hero video */
+.hero-video-controls {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: clamp(16px, 3vw, 28px);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  /* The bar spans the full width to centre itself — only the buttons take clicks. */
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+.hero-video:hover .hero-video-controls,
+.hero-video:focus-within .hero-video-controls,
+.hero-video.is-paused .hero-video-controls,
+.hero-video.is-unmuted .hero-video-controls { opacity: 1; transform: none; }
+@media (hover: none) {
+  .hero-video-controls { opacity: 1; transform: none; }
+}
+.hv-btn {
+  width: 40px; height: 40px;
+  flex: 0 0 auto;
+  pointer-events: auto;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(12,12,14,0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background .25s var(--ease), transform .25s var(--ease), border-color .25s var(--ease);
+}
+.hv-btn:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.06); }
+.hv-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.hv-btn svg { width: 16px; height: 16px; fill: #fff; display: block; }
+.hv-btn:hover svg { fill: var(--accent-ink); }
+/* Icon swapping — driven by state classes on .hero-video */
+.hv-btn .ico-pause, .hv-btn .ico-play,
+.hv-btn .ico-muted, .hv-btn .ico-loud { display: none; }
+.hero-video .hv-play .ico-pause { display: block; }
+.hero-video.is-paused .hv-play .ico-pause { display: none; }
+.hero-video.is-paused .hv-play .ico-play { display: block; }
+.hero-video .hv-mute .ico-muted { display: block; }
+.hero-video.is-unmuted .hv-mute .ico-muted { display: none; }
+.hero-video.is-unmuted .hv-mute .ico-loud { display: block; }
+
 /* Big editorial headline */
 .hero-greet {
   font-family: var(--font-display);
@@ -386,7 +435,7 @@ body { padding-top: 64px; }
   line-height: 1.55;
   color: var(--ink-2);
   letter-spacing: -0.012em;
-  max-width: 520px;
+  max-width: 640px;
 }
 
 /* ============================================================
@@ -410,36 +459,66 @@ body { padding-top: 64px; }
   color: var(--ink-mute);
 }
 .toolkit-row {
-  flex: 1;
+  flex: 0 1 auto;
   width: 100%;
   overflow: hidden;
   min-width: 0;
-  mask-image: linear-gradient(to right, transparent 0, black 48px, black calc(100% - 48px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0, black 48px, black calc(100% - 48px), transparent 100%);
+  --tk-fade: 48px;
+  mask-image: linear-gradient(to right, transparent 0, black var(--tk-fade), black calc(100% - var(--tk-fade)), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black var(--tk-fade), black calc(100% - var(--tk-fade)), transparent 100%);
 }
 .toolkit-track {
   display: flex;
   align-items: center;
-  gap: 30px;
   width: max-content;
-  padding: 4px 2px;
+  padding: 4px 0;
   animation: toolkit-marquee 32s linear infinite;
+  will-change: transform;
 }
-.toolkit-row:hover .toolkit-track { animation-play-state: paused; }
+/* The track holds two identical sets. Each set carries its own trailing gap,
+   so the track is exactly two equal halves and translateX(-50%) lands the
+   second set precisely where the first started — no jump at the loop seam. */
+.toolkit-set {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--tk-gap, 30px);
+  padding-right: var(--tk-gap, 30px);
+}
 @keyframes toolkit-marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 .toolkit-icon {
   flex-shrink: 0;
-  width: 38px; height: 38px;
+  width: var(--tk-size, 38px); height: var(--tk-size, 38px);
   display: flex; align-items: center; justify-content: center;
   transition: transform .25s var(--ease-out);
 }
-.toolkit-icon:hover { transform: translateY(-3px); }
 .toolkit-icon svg { width: 100%; height: 100%; display: block; border-radius: 9px; }
+/* Hover-only affordances — on touch these stick after a tap. */
+@media (hover: hover) {
+  .toolkit-row:hover .toolkit-track { animation-play-state: paused; }
+  .toolkit-icon:hover { transform: translateY(-3px); }
+}
 @media (max-width: 720px) {
   .toolkit-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  /* flex-basis would apply to height once the row stacks — keep it intrinsic. */
+  .toolkit-row { flex: none; --tk-fade: 20px; }
+  .toolkit-track { --tk-gap: 22px; --tk-size: 34px; }
+}
+/* The global reduce-motion reset crushes every animation to 0.01ms but leaves
+   iteration-count at infinite, which turns this marquee into a strobe.
+   Stop it outright and let the strip be swiped instead. */
+@media (prefers-reduced-motion: reduce) {
+  .toolkit-track { animation: none !important; transform: none !important; }
+  .toolkit-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    mask-image: none; -webkit-mask-image: none;
+  }
+  .toolkit-row::-webkit-scrollbar { display: none; }
 }
 
 /* ============================================================
@@ -991,26 +1070,27 @@ footer {
      HERO — video + editorial headline
      ============================================================ -->
 <section class="hero">
+  <!-- Hero video: loops muted by default; controls let you pause and unmute. -->
+  <div class="hero-video" id="heroVideoWrap">
+    <video id="heroVideo" loop muted playsinline autoplay preload="metadata"
+           poster="video/about-hero-poster.jpg">
+      <source src="video/about-hero.mp4" type="video/mp4" />
+    </video>
+
+    <div class="hero-video-controls">
+      <button type="button" class="hv-btn hv-play" id="heroVideoPlay" aria-label="Pause video">
+        <svg class="ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>
+        <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button type="button" class="hv-btn hv-mute" id="heroVideoMute" aria-label="Unmute video">
+        <svg class="ico-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3l3 3-1.4 1.4-3-3-3 3L10.7 15l3-3-3-3 1.4-1.4 3 3 3-3L19.5 9l-3 3z"/></svg>
+        <svg class="ico-loud" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm11.5 3a3.5 3.5 0 0 0-2-3.15v6.3A3.5 3.5 0 0 0 15.5 12zM13.5 3.8v2.06A6.5 6.5 0 0 1 13.5 18.14v2.06A8.5 8.5 0 0 0 13.5 3.8z"/></svg>
+      </button>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="hero-inner">
-
-      <!-- Video block (placeholder until user adds video). -->
-      <!--
-        TO ADD A VIDEO LATER:
-        Replace the .hero-video-placeholder div with:
-          <video autoplay muted loop playsinline poster="poster.jpg">
-            <source src="your-video.mp4" type="video/mp4" />
-          </video>
-      -->
-      <div class="hero-video">
-        <div class="hero-video-placeholder">
-          <span class="play" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </span>
-          <span class="label">Video coming soon</span>
-        </div>
-      </div>
-
       <div>
         <p class="hero-greet">Hello!</p>
         <h1 class="hero-headline">
@@ -1036,6 +1116,7 @@ footer {
         <div class="toolkit-track">
 
           <!-- Copy 1 — exact marks sourced from Simple Icons (CC0) at official brand colors -->
+          <div class="toolkit-set">
           <span class="toolkit-icon" title="Claude">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D97757"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>
           </span>
@@ -1140,7 +1221,10 @@ footer {
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#0052CC"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg>
           </span>
 
+          </div>
+
           <!-- Copy 2 (duplicate for seamless marquee loop; hidden from assistive tech) -->
+          <div class="toolkit-set" aria-hidden="true">
           <span class="toolkit-icon" title="Claude" aria-hidden="true">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#D97757"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>
           </span>
@@ -1244,6 +1328,8 @@ footer {
           <span class="toolkit-icon" title="Jira" aria-hidden="true">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#0052CC"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg>
           </span>
+
+          </div>
 
         </div>
       </div>
@@ -1865,6 +1951,94 @@ footer {
   }
   paint();
   setInterval(paint, 15000);
+})();
+
+/* ============================================================
+   Hero video — loops muted on load; manual play/pause + mute.
+   ============================================================ */
+(function () {
+  var wrap  = document.getElementById('heroVideoWrap');
+  var video = document.getElementById('heroVideo');
+  var playBtn = document.getElementById('heroVideoPlay');
+  var muteBtn = document.getElementById('heroVideoMute');
+  if (!wrap || !video || !playBtn || !muteBtn) return;
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pausedByUser = reduced;   // reduced motion: wait for an explicit play
+  var pausedOffscreen = false;
+
+  function syncPlay() {
+    var paused = video.paused;
+    wrap.classList.toggle('is-paused', paused);
+    playBtn.setAttribute('aria-label', paused ? 'Play video' : 'Pause video');
+  }
+  function syncMute() {
+    wrap.classList.toggle('is-unmuted', !video.muted);
+    muteBtn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+  }
+
+  video.addEventListener('play', syncPlay);
+  video.addEventListener('pause', syncPlay);
+  video.addEventListener('volumechange', syncMute);
+
+  playBtn.addEventListener('click', function () {
+    if (video.paused) {
+      pausedByUser = false;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    } else {
+      pausedByUser = true;
+      video.pause();
+    }
+    syncPlay();
+  });
+
+  muteBtn.addEventListener('click', function () {
+    video.muted = !video.muted;
+    // Unmuting a video the browser never started needs a nudge — this click is the gesture.
+    if (!video.muted && video.paused && !pausedByUser) {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    syncMute();
+  });
+
+  // Autoplay muted unless the visitor asked for reduced motion.
+  if (reduced) {
+    video.removeAttribute('autoplay');
+    video.pause();
+  } else {
+    var kick = video.play();
+    if (kick && kick.catch) kick.catch(function () { pausedByUser = true; syncPlay(); });
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && video.paused && !pausedByUser && !pausedOffscreen) {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  });
+
+  // Don't run (or talk) while scrolled out of view.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (pausedOffscreen && !pausedByUser) {
+            pausedOffscreen = false;
+            var p = video.play();
+            if (p && p.catch) p.catch(function () {});
+          }
+        } else if (!video.paused) {
+          pausedOffscreen = true;
+          video.pause();
+        }
+      });
+    }, { threshold: 0.25 }).observe(video);
+  }
+
+  syncPlay();
+  syncMute();
 })();
 </script>
 
