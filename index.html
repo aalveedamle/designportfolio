@@ -2,6 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
+<script>
+  /* Apply the saved theme before first paint — otherwise light-mode visitors see a dark flash */
+  (function () { try { var t = localStorage.getItem('aalvee-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82"></script>
 <script>
@@ -235,14 +239,14 @@ body { padding-top: 64px; }
 /* ============================================================
    HERO GRID BACKGROUND — diagonal lines in perspective forming
    kite/diamond cells. Lines fade to ~0 behind the copy block;
-   each cell only tints on direct hover.
+   each cell only tints on direct hover. Drawn on one <canvas> by
+   the "Hero grid background" script at the bottom of the page.
    ============================================================ */
 .hero-grid-bg {
   position: absolute;
   inset: 0;
   z-index: 1;
   overflow: hidden;
-  perspective: 2200px;
   -webkit-mask-image:
     radial-gradient(ellipse 46% 58% at 50% 46%, transparent 0%, transparent 30%, black 80%),
     radial-gradient(ellipse 65% 65% at 100% 0%, transparent 0%, transparent 15%, black 75%);
@@ -251,57 +255,15 @@ body { padding-top: 64px; }
     radial-gradient(ellipse 65% 65% at 100% 0%, transparent 0%, transparent 15%, black 75%);
   mask-composite: intersect;
 }
-.hero-grid-bg .grid-plane {
+.hero-grid-bg canvas {
   position: absolute;
-  top: 50%; left: 50%;
-  width: 220vmax;
-  height: 220vmax;
-  transform: translate(-50%, -50%) rotateZ(45deg) rotateX(55deg);
-  transform-style: preserve-3d;
-  display: grid;
-  grid-template-columns: repeat(52, 1fr);
-  grid-template-rows: repeat(52, 1fr);
-}
-.hero-grid-bg .grid-cell {
-  border: 1px solid var(--line);
-  background-color: transparent;
-  transition: background-color .35s var(--ease);
-}
-.hero-grid-bg .grid-cell:hover {
-  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 @media (max-width: 720px) {
   .hero-grid-bg { display: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-grid-bg .grid-cell { transition: none; }
-}
-
-/* "Available for new opportunities" pill */
-.availability {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 8px 14px;
-  border: 1px solid var(--line);
-  border-radius: 980px;
-  font-size: 13px; color: var(--ink-2);
-  letter-spacing: -0.005em;
-  margin-bottom: 32px;
-}
-.availability .pulse {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent);
-  position: relative;
-}
-.availability .pulse::after {
-  content: ""; position: absolute; inset: 0;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: pulse-ring 2s ease-out infinite;
-}
-@keyframes pulse-ring {
-  0%   { transform: scale(1);   opacity: .7; }
-  80%  { transform: scale(2.6); opacity: 0; }
-  100% { transform: scale(2.6); opacity: 0; }
 }
 
 .greeting {
@@ -312,6 +274,7 @@ body { padding-top: 64px; }
 }
 .hero-title {
   font-family: var(--font-display);
+  text-wrap: balance;
   font-size: clamp(32px, 4.5vw, 56px);
   font-weight: 600;
   line-height: 1.1;
@@ -392,124 +355,6 @@ body { padding-top: 64px; }
   font-size: 14px;
   color: var(--ink-mute);
   letter-spacing: -0.005em;
-}
-
-/* Make hero content sit above any decorative layers */
-.hero .wrap { position: relative; z-index: 3; }
-.hero-mouse-cue { z-index: 3; }
-
-/* ============================================================
-   SPHERE MOUSE CUE — visible scroll indicator at bottom of hero
-   3D sphere depth + scrolling dot inside (lime accent)
-   ============================================================ */
-.hero-mouse-cue {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  animation: cue-bob 3.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes cue-bob {
-  0%, 100% { transform: translate(-50%, 0); }
-  50%      { transform: translate(-50%, -6px); }
-}
-
-.sphere-mouse {
-  position: relative;
-  width: 32px;
-  height: 52px;
-  border-radius: 32px;
-  border: 1.5px solid var(--ink-2);
-  background:
-    /* base shading top→bottom for spherical depth */
-    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 70%),
-    radial-gradient(ellipse 70% 55% at 35% 22%, rgba(255,255,255,0.20) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,0.06), transparent 50%);
-  overflow: hidden;
-  isolation: isolate;
-  transition: border-color .35s var(--ease), box-shadow .35s var(--ease);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -8px 12px rgba(0,0,0,0.35),
-    0 6px 18px rgba(0,0,0,0.35);
-}
-[data-theme="light"] .sphere-mouse {
-  border-color: var(--ink-2);
-  background:
-    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(0,0,0,0.10) 0%, transparent 70%),
-    radial-gradient(ellipse 70% 55% at 35% 22%, rgba(255,255,255,0.95) 0%, transparent 65%),
-    linear-gradient(180deg, rgba(0,0,0,0.02), transparent 50%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.7),
-    inset 0 -6px 10px rgba(0,0,0,0.06),
-    0 4px 14px rgba(0,0,0,0.08);
-}
-
-/* Glossy specular highlight (the wet-sphere glint) */
-.sphere-mouse::before {
-  content: "";
-  position: absolute;
-  top: 6px; left: 8px;
-  width: 9px; height: 13px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.55) 0%, transparent 70%);
-  filter: blur(0.5px);
-  z-index: 2;
-  pointer-events: none;
-}
-[data-theme="light"] .sphere-mouse::before {
-  background: radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.95) 0%, transparent 70%);
-}
-
-/* Bottom rim shadow that completes the sphere illusion */
-.sphere-mouse::after {
-  content: "";
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 70%; height: 8px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(0,0,0,0.45), transparent 70%);
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Scrolling dot (lime accent) */
-.sphere-dot {
-  position: absolute;
-  left: 50%;
-  top: 9px;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px rgba(233,240,86,0.65);
-  transform: translateX(-50%);
-  animation: sphere-dot-scroll 2.2s var(--ease-out) infinite;
-  z-index: 1;
-}
-@keyframes sphere-dot-scroll {
-  0%   { top: 8px;  opacity: 0; transform: translate(-50%, 0) scale(0.6); }
-  18%  { opacity: 1; transform: translate(-50%, 0) scale(1); }
-  78%  { opacity: 1; transform: translate(-50%, 0) scale(1); }
-  100% { top: 34px; opacity: 0; transform: translate(-50%, 0) scale(0.6); }
-}
-
-.cue-label {
-  font-size: 11px;
-  color: var(--ink-mute);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-/* Hide the static cue on small screens — too cramped */
-@media (max-width: 600px) {
-  .hero-mouse-cue { display: none; }
 }
 
 /* ============================================================
@@ -609,10 +454,8 @@ body { padding-top: 64px; }
   display: inline-block;
   padding: 4px 10px;
   border-radius: 980px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.16);
   border: 1px solid rgba(255,255,255,0.16);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -720,82 +563,6 @@ body { padding-top: 64px; }
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* Geniaus preview — AI conversation panel */
-.pv-geniaus .preview-body {
-  background: var(--bg);
-}
-.pv-geniaus .ai-line {
-  display: flex; gap: 8px; align-items: center;
-}
-.pv-geniaus .ai-bubble {
-  height: 8px; border-radius: 4px;
-  background: var(--line);
-}
-.pv-geniaus .ai-bubble.short { width: 40%; }
-.pv-geniaus .ai-bubble.med   { width: 65%; }
-.pv-geniaus .ai-bubble.long  { width: 80%; }
-.pv-geniaus .ai-avatar {
-  width: 14px; height: 14px; border-radius: 50%;
-  flex-shrink: 0;
-}
-.pv-geniaus .ai-avatar.me { background: var(--accent); }
-.pv-geniaus .ai-avatar.bot { background: var(--ink-2); }
-
-/* Genie preview — wealth dashboard */
-.pv-genie .preview-body {
-  flex-direction: row; gap: 10px;
-  height: 100%;
-}
-.pv-genie .panel {
-  flex: 1;
-  background: var(--bg-alt);
-  border-radius: 6px;
-  padding: 10px;
-  display: flex; flex-direction: column; gap: 6px;
-}
-.pv-genie .panel .hdr {
-  height: 6px; width: 50%; background: var(--line); border-radius: 3px;
-}
-.pv-genie .chart {
-  flex: 1; display: flex; align-items: flex-end; gap: 3px;
-}
-.pv-genie .chart .bar {
-  flex: 1; background: var(--line); border-radius: 2px 2px 0 0;
-}
-.pv-genie .chart .bar:nth-child(1) { height: 30%; }
-.pv-genie .chart .bar:nth-child(2) { height: 55%; }
-.pv-genie .chart .bar:nth-child(3) { height: 40%; }
-.pv-genie .chart .bar:nth-child(4) { height: 75%; background: var(--accent); }
-.pv-genie .chart .bar:nth-child(5) { height: 60%; }
-
-/* Peepal preview — mobile farming app */
-.pv-peepal .preview-body {
-  align-items: center; padding: 18px 0 0;
-}
-.pv-peepal .phone {
-  width: 36%;
-  aspect-ratio: 9/16;
-  background: var(--bg-alt);
-  border-radius: 14px 14px 0 0;
-  border: 1px solid var(--line);
-  border-bottom: none;
-  padding: 10px;
-  display: flex; flex-direction: column; gap: 6px;
-}
-.pv-peepal .phone .row {
-  height: 5px; background: var(--line); border-radius: 3px;
-}
-.pv-peepal .phone .row.full   { width: 100%; }
-.pv-peepal .phone .row.three { width: 70%; }
-.pv-peepal .phone .row.half  { width: 50%; }
-.pv-peepal .phone .leaf-icon {
-  width: 24px; height: 24px;
-  background: var(--accent);
-  border-radius: 50% 4px 50% 50%;
-  align-self: center;
-  margin: 4px 0;
 }
 
 /* ============================================================
@@ -996,27 +763,28 @@ footer {
    ============================================================ */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
 .reveal.in { opacity: 1; transform: none; }
+/* These elements are also .reveal. .reveal.in's transform:none has the same specificity and
+   comes later, so it was cancelling their hover lift and replacing their own transitions. */
+.cs-card.reveal.in { transition: opacity .9s var(--ease-out), transform .6s var(--ease-out), box-shadow .6s var(--ease-out), border-color .6s var(--ease-out); }
+.cs-card.reveal.in:hover { transform: translateY(-6px) scale(1.01); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  .availability .pulse::after { display: none; }
   .cursor-dot { display: none; }
-  .hero-dots { display: none; }
 }
 
-/* Cursor trail */
-* { cursor: none !important; }
-.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+/* Cursor follower — decorative only. The native cursor stays visible, so pointing never lags. */
+.cursor-dot { position: fixed; top: -12px; left: -12px; width: 24px; height: 24px; border-radius: 50%; pointer-events: none; z-index: 9999; background: #E9F056; opacity: 0; transition: opacity .2s ease; }
+.cursor-dot.is-visible { opacity: 1; }
 [data-theme="light"] .cursor-dot { background: #ff5c34; }
-@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
-@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { .cursor-dot { display: none; } }
 
-/* Hero content + cue must sit above any decorative layers */
-.hero .wrap        { position: relative; z-index: 3; }
-.hero-mouse-cue    { z-index: 3; }
+/* Hero content must sit above the grid background */
+.hero .wrap { position: relative; z-index: 3; }
 
 
 /* ---------- Nav clock (matches fiasco.design's live local-time widget) ---------- */
@@ -1195,7 +963,7 @@ body.mmenu-open { overflow: hidden; }
     <p class="greeting">Hi, I'm Aalvee.</p>
 
     <h1 class="hero-title">
-      I research and design <span class="accent-text">AI products</span>.
+      I research and design <span class="accent-text">AI&nbsp;products</span>.
     </h1>
 
     <p class="hero-lede">
@@ -1222,7 +990,7 @@ body.mmenu-open { overflow: hidden; }
       <!-- Geniaus — links to the published case study page -->
       <a href="aalvee_case_geniaus_v2.html" class="cs-card reveal">
         <div class="cs-visual">
-          <img src="homepage%20card%20images/geniaus%20cover.png" alt="Geniaus case study preview" loading="lazy" />
+          <img src="homepage%20card%20images/geniaus-cover.jpg" decoding="async" alt="Geniaus case study preview" loading="lazy" />
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
         </div>
@@ -1261,7 +1029,7 @@ body.mmenu-open { overflow: hidden; }
       <!-- Genie -->
       <a href="aalvee_case_genie_v1.html" class="cs-card reveal">
         <div class="cs-visual">
-          <img src="homepage%20card%20images/genie%20cover%202.png" alt="Genie case study preview" loading="lazy" />
+          <img src="homepage%20card%20images/genie-cover-2.jpg" decoding="async" alt="Genie case study preview" loading="lazy" />
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
         </div>
@@ -1300,7 +1068,7 @@ body.mmenu-open { overflow: hidden; }
       <!-- Peepal -->
       <a href="aalvee_case_peepal_v2.html" class="cs-card reveal">
         <div class="cs-visual">
-          <img src="homepage card images/Peepal cover 2.png" alt="Peepal case study preview" loading="lazy" />
+          <img src="homepage%20card%20images/peepal-cover-2.jpg" decoding="async" alt="Peepal case study preview" loading="lazy" />
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
         </div>
@@ -1338,7 +1106,7 @@ body.mmenu-open { overflow: hidden; }
 
       <a href="aalvee_case_resolvenow_v1.html" class="cs-card reveal">
         <div class="cs-visual">
-          <img src="homepage card images/Resolve now cover.png" alt="ResolveNow case study preview" loading="lazy" />
+          <img src="homepage%20card%20images/resolve-now-cover.jpg" decoding="async" alt="ResolveNow case study preview" loading="lazy" />
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
         </div>
@@ -1376,7 +1144,7 @@ body.mmenu-open { overflow: hidden; }
 
       <a href="aalvee_case_rap_v1.html" class="cs-card reveal">
         <div class="cs-visual">
-          <img src="homepage card images/Rap .png" alt="RAP case study preview" loading="lazy" />
+          <img src="homepage%20card%20images/rap.jpg" decoding="async" alt="RAP case study preview" loading="lazy" />
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
         </div>
@@ -1405,6 +1173,44 @@ body.mmenu-open { overflow: hidden; }
                 <div class="cs-meta-row">
                   <span class="cs-meta-label">Outcome</span>
                   <span class="cs-meta-value">One engine serving CRO, Internal Auditor, Risk Consultant, and Controls Manager — with uncertainty visualisation and what-if simulation.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="aalvee_case_yulu_v1.html" class="cs-card reveal">
+        <div class="cs-visual">
+          <img src="homepage card images/yulu cover.svg" alt="Yulu case study preview" loading="lazy" />
+          <div class="cs-dim"></div>
+          <div class="cs-sheen"></div>
+        </div>
+        <div class="cs-top">
+          <div class="cs-eyebrow">Case Study 06</div>
+          <div class="cs-tags">
+            <span class="cs-tag">AI-Native · Agent Design</span>
+            <span class="cs-tag">Micro-Mobility · Delhi</span>
+          </div>
+        </div>
+        <div class="cs-card-body">
+          <div class="cs-glass">
+            <div class="cs-glow"><span></span></div>
+            <div class="cs-title-wrap"><h3 class="cs-title">The Best AI in This Product Is the AI You Never See.</h3></div>
+            <div class="cs-blurb-wrap"><p class="cs-blurb">Yulu — an AI-native micro-mobility product designed from a real 2020 Delhi research base. Four narrow agents that prevent failures instead of apologising for them.</p></div>
+            <div class="cs-meta">
+              <div class="cs-meta-inner">
+                <div class="cs-meta-row">
+                  <span class="cs-meta-label">Problem</span>
+                  <span class="cs-meta-value">Riders weren't leaving over price — they were leaving because the system surprised them. Locks that lie, batteries that die mid-route.</span>
+                </div>
+                <div class="cs-meta-row">
+                  <span class="cs-meta-label">Solution</span>
+                  <span class="cs-meta-value">Killed the obvious chatbot. Four narrow agents that resolve failures before the rider meets them, and stay silent otherwise.</span>
+                </div>
+                <div class="cs-meta-row">
+                  <span class="cs-meta-label">Outcome</span>
+                  <span class="cs-meta-value">Architecture, behaviour spec, three prompt versions, an evaluation rubric and a live prototype with fault injection — including where it broke.</span>
                 </div>
               </div>
             </div>
@@ -1554,10 +1360,6 @@ body.mmenu-open { overflow: hidden; }
    Theme toggle — DARK is default, persists in localStorage
    (Framer-safe: localStorage works in Embed and on published sites)
    ============================================================ */
-/* ============================================================
-   Theme toggle — DARK is default, persists in localStorage
-   (Framer-safe: localStorage works in Embed and on published sites)
-   ============================================================ */
 (function () {
   var root = document.documentElement;
   var btn  = document.getElementById('themeToggle');
@@ -1599,7 +1401,16 @@ body.mmenu-open { overflow: hidden; }
     nav.classList.toggle('nav--invert', isInvert);
   }
 
+  // Scroll events can fire several times per frame; do the work at most once per frame
+  var ticking = false;
   function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function update() {
+    ticking = false;
     if (document.body.classList.contains('mmenu-open')) {
       nav.classList.remove('nav--hidden');
       computeInvert();
@@ -1672,19 +1483,145 @@ body.mmenu-open { overflow: hidden; }
 })();
 
 /* ============================================================
-   Hero grid background — builds the diamond cells so each one
-   can respond to native :hover
+   Hero grid background — a perspective diamond grid drawn on one
+   <canvas>. It replaces 2,704 hoverable <div>s on a ~3,000px 3D
+   plane, which were expensive to paint and to hit-test on every
+   mouse move. The geometry mirrors the old CSS (perspective 2200px;
+   a 220vmax plane of 52×52 cells; rotateZ(45deg) rotateX(55deg)),
+   and the cell under the pointer still tints with a .35s fade.
    ============================================================ */
 (function () {
   var host = document.getElementById('heroGridBg');
-  if (!host) return;
-  var plane = document.createElement('div');
-  plane.className = 'grid-plane';
-  var COLS = 52, ROWS = 52;
-  for (var i = 0; i < COLS * ROWS; i++) {
-    plane.appendChild(document.createElement('div')).className = 'grid-cell';
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext && canvas.getContext('2d');
+  if (!host || !ctx) return;
+  host.appendChild(canvas);
+  var hero = host.parentNode;
+
+  var N = 52, D = 2200, FADE = 350, TINT = 0.2;
+  var TILT = 55 * Math.PI / 180, sinT = Math.sin(TILT), cosT = Math.cos(TILT), R = Math.SQRT1_2;
+  var NX = R * sinT, NY = -R * sinT, NZ = cosT;   // plane normal after both rotations
+  var V_LIMIT = 0.9 * D / sinT;                    // keep geometry in front of the camera on huge screens
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W = 0, H = 0, dpr = 1, S = 0, cell = 0, lineColor = '#2a2a2c', accent = '#E9F056';
+  var tints = {}, hovered = -1, raf = 0;
+
+  // Plane point (u, v), in px from the plane's centre → canvas px
+  function project(u, v) {
+    var y1 = v * cosT, z = v * sinT, s = D / (D - z);
+    return [W / 2 + (u - y1) * R * s, H / 2 + (u + y1) * R * s];
   }
-  host.appendChild(plane);
+
+  // Canvas px → index of the cell under it (ray/plane intersection), or -1
+  function cellAt(px, py) {
+    var X = px - W / 2, Y = py - H / 2;
+    var k = (NX * X + NY * Y) / D;
+    if (k === NZ) return -1;
+    var z = D * k / (k - NZ);
+    if (z >= D) return -1;
+    var f = (D - z) / D, x = X * f, y = Y * f;
+    var u = R * (x + y), v = R * (y - x) * cosT + z * sinT;
+    var col = Math.floor((u + S / 2) / cell), row = Math.floor((v + S / 2) / cell);
+    return col < 0 || row < 0 || col >= N || row >= N ? -1 : row * N + col;
+  }
+
+  function quad(u0, v0, u1, v1) {
+    var a = project(u0, v0), b = project(u1, v0), c = project(u1, v1), d = project(u0, v1);
+    ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.lineTo(c[0], c[1]); ctx.lineTo(d[0], d[1]);
+    ctx.closePath();
+  }
+
+  function alphaOf(t, now) {
+    if (reduced) return t.to;
+    var p = Math.min(1, Math.max(0, (now - t.start) / FADE));
+    return t.from + (t.to - t.from) * p * p * (3 - 2 * p);
+  }
+
+  function draw(now) {
+    raf = 0;
+    if (!W) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    var half = S / 2, vMax = Math.min(half, V_LIMIT), animating = false;
+
+    // Hover tints sit under the lines, like a cell's background under its border
+    ctx.fillStyle = accent;
+    for (var key in tints) {
+      var t = tints[key], a = alphaOf(t, now);
+      if (!reduced && now - t.start < FADE) animating = true;
+      else if (t.to === 0) { delete tints[key]; continue; }
+      var i = +key, u0 = -half + (i % N) * cell, v0 = -half + Math.floor(i / N) * cell;
+      if (a <= 0 || v0 >= vMax) continue;
+      ctx.globalAlpha = TINT * a;
+      ctx.beginPath();
+      quad(u0, v0, u0 + cell, Math.min(v0 + cell, vMax));
+      ctx.fill();
+    }
+
+    // Neighbouring cells each drew a 1px border, so every grid line is 2px wide on the plane
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = lineColor;
+    ctx.beginPath();
+    for (var n = 0; n <= N; n++) {
+      var p = -half + n * cell;
+      quad(p - 1, -half, p + 1, vMax);
+      if (p - 1 < vMax) quad(-half, p - 1, half, Math.min(p + 1, vMax));
+    }
+    ctx.fill();
+
+    if (animating) raf = requestAnimationFrame(draw);
+  }
+
+  function schedule() { if (!raf) raf = requestAnimationFrame(draw); }
+
+  function setHover(idx, now) {
+    if (idx === hovered) return;
+    if (hovered >= 0) tints[hovered] = { from: tints[hovered] ? alphaOf(tints[hovered], now) : 1, to: 0, start: now };
+    if (idx >= 0) tints[idx] = { from: tints[idx] ? alphaOf(tints[idx], now) : 0, to: 1, start: now };
+    hovered = idx;
+    schedule();
+  }
+
+  function readColors() {
+    var cs = getComputedStyle(document.documentElement);
+    lineColor = cs.getPropertyValue('--line').trim() || lineColor;
+    accent = cs.getPropertyValue('--accent').trim() || accent;
+  }
+
+  function resize() {
+    W = host.clientWidth; H = host.clientHeight;
+    if (!W || !H) { W = 0; return; }                              // hidden below 720px
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    S = 2.2 * Math.max(window.innerWidth, window.innerHeight);     // 220vmax
+    cell = S / N;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    draw(performance.now());
+  }
+
+  var px = 0, py = 0, overCopy = false, pending = false;
+  function onPointerFrame(now) {
+    pending = false;
+    if (!W) return;
+    var r = host.getBoundingClientRect();
+    setHover(overCopy ? -1 : cellAt(px - r.left, py - r.top), now);
+  }
+  hero.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    px = e.clientX; py = e.clientY;
+    // Like the old per-cell :hover, the copy block sits above the grid and blocks it
+    overCopy = !!(e.target.closest && e.target.closest('.wrap'));
+    if (!pending) { pending = true; requestAnimationFrame(onPointerFrame); }
+  }, { passive: true });
+  hero.addEventListener('pointerleave', function () { setHover(-1, performance.now()); });
+
+  readColors();
+  resize();
+  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(host);
+  window.addEventListener('resize', resize);
+  new MutationObserver(function () { readColors(); draw(performance.now()); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
 
 /* ============================================================
@@ -1703,139 +1640,45 @@ body.mmenu-open { overflow: hidden; }
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 })();
 
-/* Cursor dot */
+/* Cursor dot — a decorative follower. The native cursor stays visible, so a busy
+   page can never make pointing itself lag. Easing is time-based (not per frame),
+   so it feels the same on 60Hz and 120Hz screens, and the loop stops as soon as
+   the dot catches up instead of running every frame forever. */
 (function () {
-  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
-  if (coarse) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var LERP = 0.12;
+  if (!window.matchMedia || !window.requestAnimationFrame) return;
+  var off = window.matchMedia('(hover: none), (pointer: coarse), (max-width: 768px), (prefers-reduced-motion: reduce)');
+  var HALF_LIFE = 35; // ms for the dot to close half of its distance to the pointer
   var d = document.createElement('div');
   d.className = 'cursor-dot';
-  d.style.width = '24px';
-  d.style.height = '24px';
-  d.style.opacity = '1';
+  d.setAttribute('aria-hidden', 'true');
   document.body.appendChild(d);
-  var mouse = { x: -100, y: -100 };
-  var pos = { x: -100, y: -100 };
-  document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-  function loop() {
-    pos.x += (mouse.x - pos.x) * LERP;
-    pos.y += (mouse.y - pos.y) * LERP;
-    var half = d.offsetWidth / 2;
-    d.style.transform = 'translate(' + (pos.x - half) + 'px, ' + (pos.y - half) + 'px)';
-    requestAnimationFrame(loop);
+  var mx = 0, my = 0, x = 0, y = 0, shown = false, raf = 0, last = 0;
+  function place() { d.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)'; }
+  function frame(now) {
+    var k = 1 - Math.pow(0.5, Math.min(Math.max(now - last, 1), 100) / HALF_LIFE);
+    last = now;
+    x += (mx - x) * k;
+    y += (my - y) * k;
+    if (Math.abs(mx - x) < 0.2 && Math.abs(my - y) < 0.2) { x = mx; y = my; }
+    place();
+    raf = (x !== mx || y !== my) ? requestAnimationFrame(frame) : 0;
   }
-  loop();
-})();
-
-
-/* ============================================================
-   Hero skill pills — gravity drop with bounce + drag
-   CSS keyframe handles the fall (guaranteed to reach bottom).
-   JS handles drag only.
-   ============================================================ */
-(function () {
-  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var pills = document.querySelectorAll('.hero-pill, .hero-pill-circle');
-  if (!pills.length) return;
-  var isMobile = window.innerWidth <= 720;
-
-  // Inject the drop keyframes
-  var style = document.createElement('style');
-  style.textContent =
-    '@keyframes pillDrop {' +
-    '  0%   { transform: translateY(-800px) rotate(var(--start-rot)); opacity: 0; }' +
-    '  15%  { opacity: 1; }' +
-    '  58%  { transform: translateY(0px) rotate(var(--end-rot)); }' +
-    '  72%  { transform: translateY(-18px) rotate(var(--end-rot)); }' +
-    '  85%  { transform: translateY(0px) rotate(var(--end-rot)); }' +
-    '  92%  { transform: translateY(-5px) rotate(var(--end-rot)); }' +
-    '  100% { transform: translateY(0px) rotate(var(--end-rot)); opacity: 1; }' +
-    '}' +
-    '@keyframes pillDropMobile {' +
-    '  0%   { transform: translateY(-600px); opacity: 0; }' +
-    '  15%  { opacity: 1; }' +
-    '  58%  { transform: translateY(0px); }' +
-    '  72%  { transform: translateY(-14px); }' +
-    '  85%  { transform: translateY(0px); }' +
-    '  92%  { transform: translateY(-4px); }' +
-    '  100% { transform: translateY(0px); opacity: 1; }' +
-    '}';
-  document.head.appendChild(style);
-
-  pills.forEach(function (pill, i) {
-    var targetRotate = isMobile ? 0 : (parseFloat(pill.dataset.rotate) || 0);
-    var startRotate = isMobile ? 0 : (Math.random() - 0.5) * 25;
-    var delay = i * 80; // one after the other
-
-    // Track drag offset
-    var dragX = 0, dragY = 0;
-
-    if (reducedMotion) {
-      pill.style.transform = 'rotate(' + targetRotate + 'deg)';
-    } else {
-      // Set CSS variables for the keyframe
-      pill.style.setProperty('--start-rot', startRotate + 'deg');
-      pill.style.setProperty('--end-rot', targetRotate + 'deg');
-      pill.style.opacity = '0';
-      pill.style.transform = 'translateY(-800px)';
-
-      // Start the CSS animation after delay
-      setTimeout(function () {
-        var animName = isMobile ? 'pillDropMobile' : 'pillDrop';
-        pill.style.animation = animName + ' 0.7s cubic-bezier(0.22, 0.68, 0.35, 1) forwards';
-        pill.style.opacity = '';
-      }, delay);
-
-      // After animation ends, set final transform so drag works
-      pill.addEventListener('animationend', function () {
-        pill.style.animation = 'none';
-        pill.style.transform = isMobile
-          ? 'translateY(0)'
-          : 'translate(0px, 0px) rotate(' + targetRotate + 'deg)';
-      }, { once: true });
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse' || off.matches) return;
+    mx = e.clientX; my = e.clientY;
+    if (!shown) {
+      shown = true; x = mx; y = my;
+      place();
+      d.classList.add('is-visible');
     }
-
-    // Drag
-    var isDragging = false;
-    var pointerStartX, pointerStartY, dragStartX, dragStartY;
-
-    pill.addEventListener('pointerdown', function (e) {
-      isDragging = true;
-      pill.setPointerCapture(e.pointerId);
-      pill.style.animation = 'none';
-      pill.style.zIndex = '10';
-      pill.style.cursor = 'grabbing';
-      pill.style.transition = 'none';
-      pointerStartX = e.clientX;
-      pointerStartY = e.clientY;
-      dragStartX = dragX;
-      dragStartY = dragY;
-      e.preventDefault();
-    });
-
-    window.addEventListener('pointermove', function (e) {
-      if (!isDragging) return;
-      dragX = dragStartX + (e.clientX - pointerStartX);
-      dragY = dragStartY + (e.clientY - pointerStartY);
-      var tilt = isMobile ? 0 : Math.max(-20, Math.min(20, (e.clientX - pointerStartX) * 0.08));
-      pill.style.transform = 'translate(' + dragX + 'px, ' + dragY + 'px) rotate(' + tilt + 'deg)';
-    });
-
-    function endDrag() {
-      if (!isDragging) return;
-      isDragging = false;
-      pill.style.cursor = 'grab';
-      pill.style.zIndex = '';
-      // Snap rotation back with a quick transition
-      pill.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      pill.style.transform = 'translate(' + dragX + 'px, ' + dragY + 'px) rotate(' + targetRotate + 'deg)';
-      setTimeout(function () { pill.style.transition = 'none'; }, 400);
-    }
-    window.addEventListener('pointerup', endDrag);
-    window.addEventListener('pointercancel', endDrag);
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+  }, { passive: true });
+  // Hide when the pointer leaves the window (or moves into an iframe) instead of stranding the dot at the edge
+  document.addEventListener('mouseout', function (e) {
+    if (!e.relatedTarget) { shown = false; d.classList.remove('is-visible'); }
   });
 })();
+
 
 /* ============================================================
    Mobile menu — full-screen accent takeover (matches fiasco.design)
@@ -1882,11 +1725,17 @@ body.mmenu-open { overflow: hidden; }
 (function () {
   var els = [document.getElementById('navClock'), document.getElementById('mmenuClock')].filter(Boolean);
   if (!els.length) return;
-  function paint() {
-    var t = new Date().toLocaleTimeString('en-US', {
-      timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false
+  var fmt;
+  try {
+    fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZoneName: 'short'
     });
-    els.forEach(function (el) { el.innerHTML = t + ' <sup>EST</sup>'; });
+  } catch (e) { return; }
+  function paint() {
+    var t = { hour: '--', minute: '--', timeZoneName: 'ET' };
+    fmt.formatToParts(new Date()).forEach(function (p) { t[p.type] = p.value; });
+    // timeZoneName follows daylight saving: EST in winter, EDT in summer
+    els.forEach(function (el) { el.innerHTML = t.hour + ':' + t.minute + ' <sup>' + t.timeZoneName + '</sup>'; });
   }
   paint();
   setInterval(paint, 15000);

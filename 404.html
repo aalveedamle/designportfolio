@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<script>
+  /* Apply the saved theme before first paint — otherwise light-mode visitors see a dark flash */
+  (function () { try { var t = localStorage.getItem('aalvee-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Page not found — Aalvee Damle</title>
+<style>
+/* Served by Cloudflare for any URL that doesn't exist (wrangler.toml: not_found_handling = "404-page").
+   Links are root-absolute because this page can be served at any depth. */
+:root {
+  --bg: #0f0f10;
+  --ink: #f5f5f7;
+  --ink-2: #d2d2d7;
+  --ink-mute: #86868b;
+  --line: #2a2a2c;
+  --accent: #E9F056;
+  --accent-ink: #0a0a0a;
+  --accent-hover: #f1f578;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(0.28,0.16,0.22,1);
+}
+[data-theme="light"] {
+  --bg: #f9f9f7;
+  --ink: #1d1d1f;
+  --ink-2: #424245;
+  --ink-mute: #6e6e73;
+  --line: #d2d2d7;
+  --accent: #ff5c34;
+  --accent-ink: #ffffff;
+  --accent-hover: #ff7050;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  font-family: var(--font-text);
+  font-size: 17px; line-height: 1.47; letter-spacing: -0.022em;
+  color: var(--ink); background: var(--bg);
+}
+a { color: var(--ink); text-decoration: none; }
+.top { max-width: 1200px; width: 100%; margin: 0 auto; padding: 22px 32px; }
+.brand {
+  font-family: var(--font-display); font-size: 22px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+main {
+  flex: 1;
+  display: flex; flex-direction: column; justify-content: center;
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  padding: 48px 32px 96px;
+}
+.code {
+  font-family: var(--font-display);
+  font-size: clamp(96px, 18vw, 200px); font-weight: 700;
+  line-height: 0.9; letter-spacing: -0.05em;
+  color: var(--accent);
+}
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.5vw, 56px); font-weight: 600;
+  line-height: 1.1; letter-spacing: -0.035em;
+  margin: 24px 0 16px;
+}
+p { color: var(--ink-2); max-width: 520px; margin-bottom: 32px; }
+.actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; border-radius: 980px;
+  font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+  transition: background-color .25s var(--ease), border-color .25s var(--ease);
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { border: 1px solid var(--line); }
+.btn-secondary:hover { border-color: var(--ink); }
+@media (max-width: 720px) {
+  .top, main { padding-left: 22px; padding-right: 22px; }
+}
+</style>
+</head>
+<body>
+  <header class="top">
+    <a href="/" class="brand"><span class="dot"></span> Aalvee</a>
+  </header>
+  <main>
+    <div class="code" aria-hidden="true">404</div>
+    <h1>This page doesn't exist.</h1>
+    <p>The link may be old, or the address mistyped. Everything I've made is a click away from the homepage.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/">Go to homepage</a>
+      <a class="btn btn-secondary" href="/work.html">See my work</a>
+    </div>
+  </main>
+</body>
+</html>

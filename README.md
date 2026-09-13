@@ -23,12 +23,14 @@ That's a deliberate constraint, not laziness. A portfolio is six or seven pages 
 | `aalvee_strategy_*.html` | UX strategy write-ups |
 | `yulu-prototype.html` | Standalone interactive prototype embedded in the Yulu case study |
 | `yulu-wireframes.html` | Annotated wireframe set for the Yulu case study |
+| `images/` | Case-study and About photos, one folder per page |
+| `404.html` | Not-found page |
 
 ## Design system
 
 Tokens live in a `:root` block with a `[data-theme="light"]` override, duplicated identically across pages.
 
-- Dark by default; theme choice persists in `localStorage`
+- Dark by default; theme choice persists in `localStorage` and is applied before first paint
 - Accent: `#E9F056` lime (dark) / `#ff5c34` coral (light)
 - Type: SF Pro Display for headings, SF Pro Text for body
 - Layout: `.wrap` at 1200px, `.wrap-narrow` at 820–980px
@@ -38,9 +40,11 @@ Tokens live in a `:root` block with a `[data-theme="light"]` override, duplicate
 
 ## Motion
 
-Three behaviours, inlined on every page: a theme toggle, an `IntersectionObserver` reveal-on-scroll, and a 15-node cursor trail. The homepage additionally uses GSAP for the hero dot field — 160 SVG circles with parallax on `mousemove`.
+Inlined on every page: a theme toggle, an `IntersectionObserver` reveal-on-scroll, and a decorative cursor dot that follows the (still visible) native cursor. The homepage hero draws its perspective diamond grid on a single `<canvas>`, with a tint on the cell under the pointer.
 
-All of it is disabled under `prefers-reduced-motion`, and the cursor trail is skipped entirely on coarse-pointer devices.
+Motion is built to stay off the main thread's back: scroll handlers run at most once per frame, the cursor dot's animation loop stops when it catches up, and images are real files loaded with `loading="lazy" decoding="async"` rather than inlined.
+
+All of it is disabled under `prefers-reduced-motion`, and the cursor dot is skipped entirely on touch and coarse-pointer devices.
 
 ## Running it
 
@@ -56,7 +60,7 @@ python3 -m http.server 8000
 
 ## Deploying
 
-Pushing to `main` triggers a Cloudflare Workers build, which publishes to aalveedamle.com. Static assets are served from the repo root via the `ASSETS` binding in `wrangler.toml`.
+Pushing to `main` triggers a Cloudflare Workers build, which publishes to aalveedamle.com. Static assets are served from the repo root via the `ASSETS` binding in `wrangler.toml`; `.assetsignore` keeps repo files that aren't part of the site (config, notes, raw media) from being published. Unknown URLs get `404.html`.
 
 ---
 

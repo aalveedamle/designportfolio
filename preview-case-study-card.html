@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Case Study Card — Preview</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    background: #0b0b0b;
+    display: flex; align-items: center; justify-content: center;
+    padding: 32px;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .case-card {
+    position: relative;
+    width: 380px;
+    height: 520px;
+    border-radius: 36px;
+    overflow: hidden;
+    background: #121212;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform .7s cubic-bezier(0,0,0.2,1), box-shadow .7s cubic-bezier(0,0,0.2,1), border-color .7s cubic-bezier(0,0,0.2,1);
+  }
+  .case-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(255,255,255,0.2);
+    box-shadow: 0 30px 120px rgba(255,255,255,0.08);
+  }
+
+  /* IMAGE + OVERLAYS */
+  .card-media { position: absolute; inset: 0; overflow: hidden; }
+  .card-media img {
+    height: 100%; width: 100%; object-fit: cover;
+    transition: transform 1.4s cubic-bezier(0,0,0.2,1);
+  }
+  .case-card:hover .card-media img { transform: scale(1.1); }
+
+  .overlay-dim { position: absolute; inset: 0; background: rgba(0,0,0,0.2); }
+  .overlay-fade {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.2) 55%, transparent 100%);
+    opacity: 0.9;
+  }
+  .overlay-sheen {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.05), transparent, transparent);
+    opacity: 0;
+    transition: opacity .7s ease;
+  }
+  .case-card:hover .overlay-sheen { opacity: 1; }
+
+  /* TOP META */
+  .card-top {
+    position: absolute; top: 28px; left: 28px; right: 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 20;
+  }
+  .card-index {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .35em;
+    color: rgba(255,255,255,0.55);
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  .card-tags {
+    display: flex; gap: 8px;
+    transform: translateY(0); opacity: 1;
+    transition: transform .7s ease, opacity .7s ease;
+  }
+  .case-card:hover .card-tags { transform: translateY(-4px); }
+  .card-tag {
+    padding: 4px 12px;
+    border-radius: 980px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    font-size: 10px; text-transform: uppercase; letter-spacing: .15em;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* CONTENT */
+  .card-content { position: absolute; inset-inline: 0; bottom: 0; z-index: 20; padding: 28px; }
+
+  .glass-panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 24px;
+    transition: background-color .7s cubic-bezier(0,0,0.2,1), border-color .7s cubic-bezier(0,0,0.2,1);
+  }
+  .case-card:hover .glass-panel {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .glass-glow { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; }
+  .case-card:hover .glass-glow { opacity: 1; }
+  .glass-glow span {
+    position: absolute; top: -80px; right: 0;
+    height: 160px; width: 160px;
+    border-radius: 50%;
+    background: rgba(103, 232, 249, 0.1);
+    filter: blur(48px);
+  }
+
+  .glass-inner { position: relative; z-index: 10; }
+
+  .card-title-wrap, .card-desc-wrap { overflow: hidden; }
+  .card-title {
+    margin: 0;
+    font-size: 42px; line-height: 1; letter-spacing: -0.02em;
+    color: #fff; font-weight: 600;
+    transition: transform .7s ease;
+  }
+  .case-card:hover .card-title { transform: translateY(-4px); }
+
+  .card-desc {
+    margin: 16px 0 0;
+    max-width: 280px;
+    font-size: 14px; line-height: 1.6;
+    color: rgba(255,255,255,0.65);
+    transition: transform .7s ease, color .7s ease;
+  }
+  .case-card:hover .card-desc { color: rgba(255,255,255,0.8); transform: translateY(-4px); }
+
+  /* EXPANDING SECTION */
+  .card-expand {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-top: 0;
+    transition: grid-template-rows .7s cubic-bezier(0,0,0.2,1), opacity .7s cubic-bezier(0,0,0.2,1), margin-top .7s cubic-bezier(0,0,0.2,1);
+  }
+  .case-card:hover .card-expand {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 24px;
+  }
+  .card-expand-inner { overflow: hidden; }
+  .card-meta-rows { padding-top: 8px; display: flex; flex-direction: column; gap: 20px; }
+  .card-meta-row {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 16px;
+  }
+  .card-meta-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .2em;
+    color: rgba(255,255,255,0.4);
+  }
+  .card-meta-value {
+    max-width: 180px; text-align: right;
+    font-size: 14px; color: rgba(255,255,255,0.85);
+  }
+
+  .card-cta {
+    margin-top: 12px;
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.1);
+    padding: 16px;
+    font-size: 14px; font-weight: 500; letter-spacing: .01em;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color .5s ease, color .5s ease;
+    font-family: inherit;
+  }
+  .card-cta:hover { background: #fff; color: #000; }
+
+  /* AMBIENT EDGE LIGHT */
+  .card-ring {
+    pointer-events: none;
+    position: absolute; inset: 0;
+    border-radius: 36px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    transition: box-shadow .7s ease;
+  }
+  .case-card:hover .card-ring { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+
+  <div class="case-card">
+    <div class="card-media">
+      <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" alt="Proxy AI case study preview" />
+      <div class="overlay-dim"></div>
+      <div class="overlay-fade"></div>
+      <div class="overlay-sheen"></div>
+    </div>
+
+    <div class="card-top">
+      <div class="card-index">No. 01</div>
+      <div class="card-tags">
+        <span class="card-tag">Strategy</span>
+        <span class="card-tag">AI Product</span>
+      </div>
+    </div>
+
+    <div class="card-content">
+      <div class="glass-panel">
+        <div class="glass-glow"><span></span></div>
+        <div class="glass-inner">
+          <div class="card-title-wrap">
+            <h2 class="card-title">Proxy AI</h2>
+          </div>
+          <div class="card-desc-wrap">
+            <p class="card-desc">Designing enterprise AI systems that improve decision making without removing human trust.</p>
+          </div>
+
+          <div class="card-expand">
+            <div class="card-expand-inner">
+              <div class="card-meta-rows">
+                <div class="card-meta-row">
+                  <span class="card-meta-label">Role</span>
+                  <span class="card-meta-value">Lead Product Designer</span>
+                </div>
+                <div class="card-meta-row">
+                  <span class="card-meta-label">Outcome</span>
+                  <span class="card-meta-value">Reduced analyst workflow time by 37%</span>
+                </div>
+                <div class="card-meta-row">
+                  <span class="card-meta-label">Timeline</span>
+                  <span class="card-meta-value">8 Months</span>
+                </div>
+                <button class="card-cta">View Full Case Study →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-ring"></div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="Yulu case study cover — a map where only bikes that can complete the trip are shown">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141416"/>
+      <stop offset="0.55" stop-color="#0f0f10"/>
+      <stop offset="1" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.52" r="0.55">
+      <stop offset="0" stop-color="#E9F056" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#E9F056" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a0a0a" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <rect width="1200" height="900" fill="url(#glow)"/>
+
+  <!-- street grid -->
+  <g stroke="#2a2a2c" stroke-width="1.4" opacity="0.85">
+    <path d="M0 130H1200M0 260H1200M0 390H1200M0 520H1200M0 650H1200M0 780H1200"/>
+    <path d="M120 0V900M280 0V900M440 0V900M600 0V900M760 0V900M920 0V900M1080 0V900"/>
+  </g>
+  <!-- arterials -->
+  <g stroke="#1d1d1f" stroke-width="22" opacity="0.95">
+    <path d="M0 470H1200"/><path d="M612 0V900"/>
+  </g>
+  <g stroke="#242426" stroke-width="1" opacity="0.9">
+    <path d="M0 459H1200M0 481H1200M601 0V900M623 0V900"/>
+  </g>
+
+  <!-- yulu zones -->
+  <g fill="#E9F056" fill-opacity="0.07" stroke="#E9F056" stroke-opacity="0.42" stroke-width="1.6" stroke-dasharray="7 7">
+    <rect x="196" y="536" width="242" height="150" rx="16"/>
+    <rect x="742" y="196" width="238" height="146" rx="16"/>
+  </g>
+  <g fill="#E9F056" fill-opacity="0.5" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif" font-size="17" letter-spacing="1.6">
+    <text x="216" y="670">YULU ZONE</text>
+    <text x="762" y="326">YULU ZONE</text>
+  </g>
+
+  <!-- hidden bikes: present in the world, absent from the map -->
+  <g opacity="0.2">
+    <g stroke="#5a5a5a" stroke-width="1.8" stroke-dasharray="5 5" fill="none">
+      <rect x="880" y="640" width="106" height="44" rx="14"/>
+      <rect x="176" y="214" width="106" height="44" rx="14"/>
+    </g>
+    <g fill="#5a5a5a" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif" font-size="19" font-weight="600" text-anchor="middle">
+      <text x="933" y="669">hidden</text>
+      <text x="229" y="243">hidden</text>
+    </g>
+  </g>
+
+  <!-- rider -->
+  <circle cx="612" cy="470" r="46" fill="#E9F056" fill-opacity="0.10"/>
+  <circle cx="612" cy="470" r="27" fill="none" stroke="#E9F056" stroke-opacity="0.45" stroke-width="2"/>
+  <circle cx="612" cy="470" r="14" fill="#E9F056"/>
+
+  <!-- cleared bikes -->
+  <g font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', Helvetica, Arial, sans-serif" text-anchor="middle">
+    <g>
+      <rect x="316" y="336" width="126" height="54" rx="17" fill="#161617" stroke="#E9F056" stroke-width="2.4"/>
+      <text x="379" y="371" fill="#f5f5f7" font-size="24" font-weight="700">24 km</text>
+      <path d="M369 390 L379 404 L389 390 Z" fill="#E9F056"/>
+    </g>
+    <g>
+      <rect x="806" y="446" width="126" height="54" rx="17" fill="#161617" stroke="#E9F056" stroke-width="2.4"/>
+      <text x="869" y="481" fill="#f5f5f7" font-size="24" font-weight="700">19 km</text>
+      <path d="M859 500 L869 514 L879 500 Z" fill="#E9F056"/>
+    </g>
+    <g>
+      <rect x="466" y="646" width="126" height="54" rx="17" fill="#161617" stroke="#E9F056" stroke-width="2.4"/>
+      <text x="529" y="681" fill="#f5f5f7" font-size="24" font-weight="700">11 km</text>
+      <path d="M519 700 L529 714 L539 700 Z" fill="#E9F056"/>
+    </g>
+  </g>
+
+  <!-- destination chip -->
+  <g>
+    <rect x="374" y="94" width="452" height="66" rx="33" fill="#161617" fill-opacity="0.94" stroke="#2a2a2c" stroke-width="1.4"/>
+    <circle cx="416" cy="127" r="9" fill="#E9F056"/>
+    <text x="442" y="135" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif" font-size="23" font-weight="500">To Connaught Place · 6.2 km</text>
+  </g>
+
+  <rect y="620" width="1200" height="280" fill="url(#fade)"/>
+
+</svg>

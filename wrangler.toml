@@ -2,4 +2,4 @@ name = "designportfolio"
 main = "index.js"
 compatibility_date = "2026-05-23"
 
-assets = { directory = "./", binding = "ASSETS", not_found_handling = "single-page-application" }
+assets = { directory = "./", binding = "ASSETS", not_found_handling = "404-page" }

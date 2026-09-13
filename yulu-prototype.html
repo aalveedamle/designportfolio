@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yulu — AI-native rider prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --y-500:#2ABAF0;
+  --y-600:#0E93C6;
+  --y-700:#0A7FAE;
+  --y-800:#05587B;
+  --y-50:#E8F6FD;
+
+  --ink:#0C1A20; --ink-2:#3A4E56; --ink-3:#77898F;
+  --paper:#F4F8FA; --card:#FFFFFF; --line:#DCE6EA; --line-2:#C2D2D8;
+
+  --amber:#8A5A08; --amber-wash:#FBF0DC;
+  --red:#A3352A; --red-wash:#FAE9E6;
+  --green:#1F6B4C; --green-wash:#E2F1EA;
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px;
+  --ctl-h:48px; --ctl-pad:12px 14px;
+  --r-ctl:10px; --r-card:14px;
+  --screen-pad:var(--s5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+  line-height:1.5;padding:var(--s5) var(--s4) var(--s6)}
+.wrap{max-width:1120px;margin:0 auto}
+.masthead{margin-bottom:var(--s5);max-width:60ch}
+.masthead h1{font-size:23px;font-weight:600;letter-spacing:-.02em}
+.masthead p{color:var(--ink-2);font-size:14px;margin-top:var(--s2)}
+.stage{display:grid;grid-template-columns:auto 1fr;gap:var(--s6);align-items:start}
+@media(max-width:900px){.stage{grid-template-columns:1fr}}
+
+.phone{width:390px;height:770px;background:var(--card);border:1px solid var(--line-2);
+  border-radius:34px;position:relative;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 1px 2px rgba(12,26,32,.07)}
+@media(max-width:900px){.phone{width:100%;max-width:390px;margin:0 auto}}
+.statusbar{height:34px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 var(--s5);font-size:12px;color:var(--ink-3);border-bottom:1px solid var(--line)}
+.screen{flex:1;overflow-y:auto;display:flex;flex-direction:column;position:relative}
+
+/* every screen body uses one padding + one vertical rhythm */
+.pad{padding:var(--screen-pad);display:flex;flex-direction:column;flex:1}
+.pad>*+*{margin-top:var(--s4)}
+.pad>.spacer+*{margin-top:0}
+.pad>h2.t+p.sub{margin-top:var(--s2)}
+.spacer{flex:1;margin-top:var(--s4)}
+
+h2.t{font-size:20px;font-weight:600;letter-spacing:-.015em;line-height:1.3}
+p.sub{font-size:14px;color:var(--ink-2)}
+.lbl{font-size:12px;color:var(--ink-3);display:block;margin-bottom:var(--s1)}
+
+/* controls share one height + one padding */
+input[type=text],input[type=tel]{width:100%;font:inherit;font-size:16px;height:var(--ctl-h);
+  padding:var(--ctl-pad);border:1px solid var(--line-2);border-radius:var(--r-ctl);
+  background:var(--card);color:var(--ink)}
+input:focus{outline:2px solid var(--y-700);outline-offset:1px;border-color:var(--y-600)}
+.prefix{display:flex;align-items:center;height:var(--ctl-h);padding:var(--ctl-pad);
+  border:1px solid var(--line-2);border-radius:var(--r-ctl);font-size:16px;background:var(--paper)}
+
+button{font:inherit;cursor:pointer;border-radius:var(--r-ctl);border:1px solid transparent}
+.btn{width:100%;height:var(--ctl-h);padding:0 var(--s4);background:var(--y-500);color:var(--ink);
+  font-size:15px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;
+  border-color:var(--y-600)}
+.btn:hover{background:#4AC6F3}
+.btn.dark{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:500}
+.btn.dark:hover{background:#061014}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.ghost:hover{background:var(--paper)}
+
+.btn:focus-visible,.linkbtn:focus-visible,.pin:focus-visible{outline:2px solid var(--y-700);outline-offset:2px}
+.linkbtn{background:none;border:none;color:var(--y-800);font-size:14px;width:100%;
+  height:44px;text-decoration:underline;text-underline-offset:2px}
+.linkbtn.inline{width:auto;text-align:left;height:auto;padding:var(--s1) 0}
+
+.stack{display:flex;flex-direction:column;gap:var(--s2)}
+.side{display:flex;gap:var(--s2)}
+.field{display:flex;gap:var(--s2)}
+
+.err{color:var(--red);font-size:13px;margin-top:var(--s2)}
+
+.otp{display:flex;gap:var(--s2)}
+.otp input{width:100%;text-align:center;font-size:19px;padding:0}
+
+.map{position:relative;flex:1;min-height:250px;
+  background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),
+    repeating-linear-gradient(0deg,#DAE7EC 0 1px,transparent 1px 46px),
+    repeating-linear-gradient(90deg,#DAE7EC 0 1px,transparent 1px 46px);
+  background-color:#EAF2F5}
+.road{position:absolute;background:#fff;border:1px solid #DFEAEE}
+.zone{position:absolute;background:rgba(42,186,240,.13);border:1px dashed rgba(10,127,174,.5);border-radius:var(--r-ctl)}
+.zone span{position:absolute;bottom:var(--s1);left:var(--s2);font-size:10px;color:var(--y-800)}
+.me{position:absolute;width:15px;height:15px;border-radius:50%;background:var(--y-500);
+  border:3px solid #fff;box-shadow:0 0 0 1px var(--y-700)}
+.pin{position:absolute;transform:translate(-50%,-100%);background:var(--card);border:1px solid var(--ink);
+  border-radius:var(--s2);padding:0 var(--s2);height:28px;min-width:48px;font-size:11px;font-weight:500;
+  cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center}
+.pin{border-color:var(--y-700)}
+.pin:hover,.pin.sel{background:var(--y-500);color:var(--ink);border-color:var(--y-700)}
+
+.sheet{background:var(--card);border-top:1px solid var(--line);padding:var(--s3) var(--screen-pad) var(--s4);flex:none}
+.sheet>*+*{margin-top:var(--s3)}
+.sheetgrab{width:34px;height:4px;background:var(--line-2);border-radius:2px;margin:0 auto var(--s3)}
+
+.chip{display:inline-flex;align-items:center;gap:var(--s2);background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:var(--s2) var(--s3);font-size:13px;max-width:100%}
+.chip button{background:none;border:none;color:var(--y-800);text-decoration:underline;font-size:13px;padding:0}
+
+.notice{border-radius:var(--r-ctl);padding:var(--s3);font-size:13px;border:1px solid}
+.notice>*+*{margin-top:var(--s1)}
+.notice h4{font-size:14px;font-weight:600;display:flex;align-items:center;gap:var(--s2)}
+.notice.warn{background:var(--amber-wash);border-color:#E4C489;color:#5C3B06}
+.notice.bad{background:var(--red-wash);border-color:#E7BDB6;color:#6B2018}
+.notice.good{background:var(--green-wash);border-color:#B5D2C3;color:#1D4433}
+.notice.info{background:var(--y-50);border-color:#A6DCF4;color:var(--y-800)}
+
+.panel{padding:var(--s3);background:var(--paper);border-radius:var(--r-ctl)}
+.stat{display:flex;justify-content:space-between;align-items:baseline;padding:var(--s2) 0;
+  border-bottom:1px solid var(--line);font-size:14px}
+.stat:last-child{border-bottom:none}
+.stat b{font-weight:500}
+.big{font-size:15px;font-weight:600}
+
+.ridebar{display:flex;gap:var(--s5);padding:var(--s3) var(--screen-pad);border-bottom:1px solid var(--line);
+  background:var(--paper);flex:none}
+.ridebar div{font-size:12px;color:var(--ink-3)}
+.ridebar strong{display:block;font-size:17px;font-weight:600;color:var(--ink);margin-top:var(--s1);
+  font-family:'IBM Plex Mono',monospace}
+
+.scanbox{flex:1;background:#08161C;display:flex;align-items:center;justify-content:center;position:relative}
+.scanframe{width:184px;height:184px;border:2px solid rgba(255,255,255,.85);border-radius:var(--r-card)}
+.scanhint{position:absolute;top:var(--s5);left:0;right:0;text-align:center;color:#fff;font-size:14px;padding:0 var(--s6)}
+
+.list{list-style:none}
+.list li{border-bottom:1px solid var(--line)}
+.listbtn{width:100%;background:none;border:none;text-align:left;padding:var(--s3) 0;display:flex;
+  justify-content:space-between;align-items:center;gap:var(--s3);min-height:56px}
+.listbtn:hover{background:var(--paper)}
+.listbtn small{display:block;color:var(--ink-3);font-size:12.5px;margin-top:var(--s1)}
+.listbtn .rng{font-size:13px;color:var(--ink-2);white-space:nowrap;text-align:right}
+
+.insp{position:sticky;top:var(--s5)}
+.insp h3{font-size:15px;font-weight:600}
+.insp .cap{font-size:13px;color:var(--ink-2);margin:var(--s1) 0 var(--s4);max-width:52ch}
+.agent{background:var(--card);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:var(--s3);margin-bottom:var(--s2)}
+.agent .top{display:flex;justify-content:space-between;align-items:center;gap:var(--s2);margin-bottom:var(--s2)}
+.agent .nm{font-size:13.5px;font-weight:600}
+.state{font-size:11px;font-weight:500;padding:var(--s1) var(--s2);border-radius:999px;white-space:nowrap}
+.state.silent{background:var(--paper);color:var(--ink-3);border:1px solid var(--line)}
+.state.surf{background:var(--amber-wash);color:var(--amber);border:1px solid #E4C489}
+.state.off{background:transparent;color:#AFC0C6;border:1px solid var(--line)}
+.agent .why{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-2);
+  line-height:1.65;white-space:pre-wrap;word-break:break-word}
+
+.calc{background:var(--ink);color:#CFE2EA;border-radius:var(--r-card);padding:var(--s3);
+  margin-bottom:var(--s2);font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  line-height:1.7;white-space:pre-wrap}
+
+.tools{background:var(--card);border:1px solid var(--line);border-radius:var(--r-card);padding:var(--s3)}
+.tools h4{font-size:13px;font-weight:600}
+.tools p{font-size:12.5px;color:var(--ink-3);margin:var(--s1) 0 var(--s3)}
+.tools .g{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.tools button{background:var(--paper);border:1px solid var(--line-2);color:var(--ink);font-size:12.5px;
+  padding:var(--s2);border-radius:var(--r-ctl);min-height:44px;text-align:left;line-height:1.35}
+.tools button:hover{border-color:var(--ink-2)}
+.tools button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.reset{margin-top:var(--s2);width:100%;text-align:center!important}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(prefers-reduced-motion:no-preference){
+  .fade{animation:f .18s ease-out}
+  @keyframes f{from{opacity:.4}to{opacity:1}}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="masthead">
+  <h1>yulu — AI-native rider prototype</h1>
+  <p>The rider never sees a confidence score. The panel on the right shows what the agents decided at each step, and why.</p>
+</div>
+
+<div class="stage">
+
+  <div class="phone">
+    <div class="statusbar"><span>9:41</span><span style="color:var(--y-800);font-weight:600">yulu</span></div>
+    <div class="screen" id="screen"></div>
+  </div>
+
+  <div class="insp">
+    <h3>Agent inspector</h3>
+    <p class="cap">Not part of the rider experience. This exposes the orchestration layer so the decisions behind each screen are legible.</p>
+    <div id="agents"></div>
+    <div class="calc" id="calc"></div>
+    <div class="tools">
+      <h4>Inject a failure</h4>
+      <p>Toggle a hardware or data fault, then continue the flow.</p>
+      <div class="g" id="faults"></div>
+      <button class="reset" id="reset">Restart the flow</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="sr" role="status" aria-live="polite" id="live"></div>
+
+<script>
+const RIDE_RATE=2.0, PAUSE_RATE=0.5;
+
+const FLEET=[
+  {id:'4471',range:24.0,dist:120,walk:4,x:38,y:44,lock:'ok',gps:'ok',svc:3},
+  {id:'2210',range:11.2,dist:210,walk:6,x:63,y:32,lock:'ok',gps:'ok',svc:9},
+  {id:'8804',range:7.4, dist:90, walk:3,x:27,y:63,lock:'ok',gps:'ok',svc:5},
+  {id:'6135',range:19.5,dist:340,walk:9,x:72,y:66,lock:'flaky',gps:'ok',svc:2},
+  {id:'3092',range:4.1, dist:150, walk:5,x:52,y:22,lock:'ok',gps:'drift',svc:21}
+];
+
+const DESTS=[
+  {name:'Connaught Place',km:6.2},
+  {name:'Hauz Khas Village',km:3.1},
+  {name:'Nehru Place',km:9.4},
+  {name:'INA Metro Station',km:1.4}
+];
+
+let S={};
+function fresh(){
+  S={
+    screen:'phone', phone:'', otp:'', name:'', wallet:null, dest:null,
+    browsing:false, bike:null, held:0, paused:false,
+    elapsed:0, fare:0, pauseMin:0, rangeLeft:0, adjusted:0,
+    faults:{noBikes:false,unlockFail:false,dieMidRide:false,lockStuck:false,gpsGap:false},
+    err:'', otpErr:'', retries:0
+  };
+}
+fresh();
+
+const req = km => Math.max(km*1.5, 2);
+
+function ready(b){
+  const km = S.dest ? S.dest.km : 0;
+  const need = req(km);
+  const reasons=[];
+  if(b.range < need) reasons.push('range '+b.range.toFixed(1)+' km < required '+need.toFixed(1)+' km');
+  if(b.lock==='flaky') reasons.push('lock state unconfirmed on last close');
+  if(b.gps==='drift') reasons.push('GPS drift beyond tolerance');
+  if(b.svc>14) reasons.push('days since service = '+b.svc);
+  return {ok:reasons.length===0, reasons, need};
+}
+function cleared(){ return S.faults.noBikes ? [] : FLEET.filter(b=>ready(b).ok); }
+function marginal(b){ const r=ready(b); return r.ok && b.range < r.need*1.6; }
+
+const el=(h)=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstElementChild;};
+function say(t){ document.getElementById('live').textContent=t; }
+
+function go(s,msg){ S.screen=s; if(msg) say(msg); render(); }
+
+/* ---------- screens ---------- */
+const SCREENS={
+
+phone(){return `<div class="pad fade">
+  <h2 class="t">Rides that are ready when you are</h2>
+  <p class="sub">Enter your number to start.</p>
+  <div>
+    <label class="lbl" for="ph">Phone number</label>
+    <div class="field">
+      <span class="prefix">+91</span>
+      <input id="ph" type="tel" inputmode="numeric" maxlength="10" value="${S.phone}" aria-describedby="pherr">
+    </div>
+    <div class="err" id="pherr">${S.err}</div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="go">Continue</button>
+  <p style="font-size:11.5px;color:var(--ink-3);text-align:center">By continuing you agree to our terms and privacy policy.</p>
+</div>`},
+
+otp(){return `<div class="pad fade">
+  <h2 class="t">Enter the code</h2>
+  <p class="sub">Sent to +91 ${S.phone.slice(0,2)}••• ••${S.phone.slice(-3)}</p>
+  <div class="otp" role="group" aria-label="Six digit verification code">
+    ${[0,1,2,3,4,5].map(i=>`<input type="tel" inputmode="numeric" maxlength="1" class="ob" data-i="${i}" aria-label="Digit ${i+1} of 6">`).join('')}
+  </div>
+  <div class="err">${S.otpErr}</div>
+  <button class="linkbtn inline" id="fill">Auto-fill from SMS</button>
+  <div class="spacer"></div>
+  <button class="btn" id="go">Verify</button>
+</div>`},
+
+name(){return `<div class="pad fade">
+  <h2 class="t">What should we call you?</h2>
+  <p class="sub">First name is enough.</p>
+  <div>
+    <label class="lbl" for="nm">First name</label>
+    <input id="nm" type="text" autocomplete="given-name" value="${S.name}">
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="go">Continue</button>
+</div>`},
+
+wallet(){return `<div class="pad fade">
+  <h2 class="t">Add a payment method</h2>
+  <p class="sub">You're charged after each ride. No deposit, no cash.</p>
+  <div class="stack">
+    <button class="btn" id="upi">Link UPI</button>
+    <button class="btn ghost" id="card">Add a card</button>
+  </div>
+  <div class="notice info">
+    <p>You can also add this later, at the bike. Nothing is charged until a ride ends.</p>
+  </div>
+  <div class="spacer"></div>
+  <button class="linkbtn" id="skip">Skip for now</button>
+</div>`},
+
+dest(){return `<div class="pad fade">
+  <h2 class="t">Where are you going?</h2>
+  <p class="sub">We check every bike has the range for your trip before showing it.</p>
+  <ul class="list">
+    ${DESTS.map((d,i)=>`<li><button class="listbtn dst" data-i="${i}">
+      <span><b style="font-weight:500">${d.name}</b><small>${d.km} km away</small></span>
+      <span class="rng">needs ${req(d.km).toFixed(1)} km</span>
+    </button></li>`).join('')}
+  </ul>
+  <div class="spacer"></div>
+  <button class="linkbtn" id="browse">Just browsing — show me bikes nearby</button>
+</div>`},
+
+map(){
+  const list=cleared();
+  const need = S.dest ? req(S.dest.km) : 2;
+  return `<div style="display:flex;flex-direction:column;flex:1">
+  <div class="pad" style="flex:none;padding-bottom:var(--s3)">
+    ${S.dest?`<div class="chip"><span>To ${S.dest.name} · ${S.dest.km} km</span><button id="edit">Change</button></div>`
+      :`<div class="notice info"><p>Showing bikes with at least 2 km of range. Add a destination for a better match.</p>
+         <button class="linkbtn inline" id="edit">Add a destination</button></div>`}
+  </div>
+  <div class="map">
+    <div class="road" style="left:0;right:0;top:47%;height:11px"></div>
+    <div class="road" style="top:0;bottom:0;left:44%;width:11px"></div>
+    <div class="zone" style="left:22%;top:52%;width:26%;height:20%"><span>Yulu zone</span></div>
+    <div class="zone" style="left:58%;top:22%;width:26%;height:19%"><span>Yulu zone</span></div>
+    <div class="me" style="left:47%;top:52%"></div>
+    ${list.map(b=>`<button class="pin ${S.bike&&S.bike.id===b.id?'sel':''}" data-id="${b.id}"
+       style="left:${b.x}%;top:${b.y}%" aria-label="Yulu ${b.id}, ${b.range.toFixed(1)} kilometre range, ${b.dist} metres away">
+       ${b.range.toFixed(0)} km</button>`).join('')}
+  </div>
+  <div class="sheet">
+    <div class="sheetgrab"></div>
+    <p style="font-size:14px;font-weight:500">${list.length} ${list.length===1?'bike':'bikes'} ${S.dest?'can make this trip':'nearby'}</p>
+    <p style="font-size:12.5px;color:var(--ink-3)">Needs ${need.toFixed(1)} km of range${S.dest?'':' (no destination set)'}</p>
+    <ul class="list" style="max-height:150px;overflow-y:auto">
+      ${list.map(b=>`<li><button class="listbtn pick" data-id="${b.id}">
+        <span><b style="font-weight:500">Yulu ${b.id}</b><small>${b.dist} m · ${b.walk} min walk</small></span>
+        <span class="rng">${b.range.toFixed(1)} km range</span></button></li>`).join('')}
+    </ul>
+  </div></div>`
+},
+
+f1(){
+  const km=S.dest?S.dest.km:0;
+  return `<div class="pad fade">
+  <div class="chip"><span>To ${S.dest?S.dest.name:'—'} · ${km} km</span><button id="edit">Change</button></div>
+  <div class="notice bad">
+    <h4>No bikes nearby can make this trip</h4>
+    <p>There are bikes here, but none have the range for ${km} km. We'd rather tell you than send you to one that runs out.</p>
+  </div>
+  <div class="stack">
+    <button class="btn ghost" id="notify">Notify me when one's ready</button>
+    <button class="btn ghost" id="shorter">Try a shorter trip</button>
+  </div>
+  <div class="spacer"></div>
+</div>`},
+
+preview(){
+  const b=S.bike, r=ready(b), m=marginal(b);
+  return `<div class="pad fade">
+  <button class="linkbtn inline" id="back">Back to map</button>
+  <h2 class="t">Yulu ${b.id}</h2>
+  <p class="sub">${b.dist} m away · ${b.walk} min walk</p>
+  <div class="panel">
+    <div class="stat"><span>Range on this bike</span><b class="big">${b.range.toFixed(1)} km</b></div>
+    <div class="stat"><span>Your trip needs</span><b>${r.need.toFixed(1)} km</b></div>
+  </div>
+  ${m?`<div class="notice warn"><h4>⚠ Tighter than usual</h4>
+    <p>This bike clears your trip, but with less spare range than most. If you're planning stops along the way, pick another.</p></div>`:''}
+  <div class="spacer"></div>
+  <div class="stack">
+    <button class="btn" id="hold">${S.held?`Held for ${String(Math.floor(S.held/60)).padStart(1,'0')}:${String(S.held%60).padStart(2,'0')}`:'Reserve and walk over'}</button>
+    <button class="btn ghost" id="dirs">Walking directions</button>
+  </div>
+</div>`},
+
+pay(){return `<div class="pad fade">
+  <h2 class="t">Ready to ride Yulu ${S.bike.id}</h2>
+  <p class="sub">You're charged after the ride, based on time.</p>
+  <div class="panel">
+    <div class="stat"><span>Riding</span><b>₹${RIDE_RATE.toFixed(2)}/min</b></div>
+    <div class="stat"><span>Paused</span><b>₹${PAUSE_RATE.toFixed(2)}/min</b></div>
+  </div>
+  <div class="notice info"><p>We place a hold now and charge the actual fare when you finish. If the bike doesn't unlock, the hold is released.</p></div>
+  <div class="spacer"></div>
+  <button class="btn" id="go">${S.wallet?`Confirm with ${S.wallet} and scan`:'Add UPI and scan'}</button>
+</div>`},
+
+scan(){return `<div style="display:flex;flex-direction:column;flex:1">
+  <div class="scanbox">
+    <p class="scanhint">Scan the code on the handlebar</p>
+    <div class="scanframe"></div>
+  </div>
+  <div class="pad" style="flex:none">
+    <button class="btn" id="go">Simulate scan</button>
+    <button class="linkbtn" id="manual">Enter bike ID instead</button>
+  </div></div>`},
+
+f2(){return `<div class="pad fade">
+  <div class="notice bad">
+    <h4>This bike didn't unlock</h4>
+    <p>We haven't started your ride, and your payment hold has been released.</p>
+  </div>
+  <div class="stack">
+    ${S.retries<2?`<button class="btn ghost" id="retry">Try again</button>`:''}
+    <button class="btn" id="other">Find another bike</button>
+  </div>
+  ${S.retries>=2?`<p style="font-size:12.5px;color:var(--ink-3)">We've flagged this bike and taken it off the map for everyone.</p>`:''}
+  <div class="spacer"></div>
+</div>`},
+
+ride(){
+  const mm=String(Math.floor(S.elapsed/60)).padStart(2,'0'), ss=String(S.elapsed%60).padStart(2,'0');
+  return `<div style="display:flex;flex-direction:column;flex:1">
+  <div class="ridebar">
+    <div>Range left<strong>${S.rangeLeft.toFixed(1)} km</strong></div>
+    <div>Time<strong>${mm}:${ss}</strong></div>
+    <div>Fare<strong>₹${S.fare.toFixed(2)}</strong></div>
+  </div>
+  <div class="map">
+    <div class="road" style="left:0;right:0;top:47%;height:11px"></div>
+    <div class="road" style="top:0;bottom:0;left:44%;width:11px"></div>
+    <div class="zone" style="left:58%;top:22%;width:26%;height:19%"><span>Destination zone</span></div>
+    <div class="me" style="left:${S.paused?'47':'56'}%;top:${S.paused?'52':'40'}%"></div>
+  </div>
+  <div class="sheet">
+    ${S.paused?`<div class="notice warn"><h4>Paused</h4>
+      <p>₹${PAUSE_RATE.toFixed(2)}/min · Yulu ${S.bike.id} is held for you. We'll end the ride automatically after 40 minutes.</p></div>`:''}
+    <div class="side">
+      <button class="btn dark" id="end" style="flex:2">End ride</button>
+      <button class="btn ghost" id="pause" style="flex:1">${S.paused?'Resume':'Pause'}</button>
+    </div>
+    <button class="linkbtn" id="issue">Report an issue</button>
+  </div></div>`
+},
+
+f3(){return `<div class="pad fade">
+  <div class="notice bad">
+    <h4>The battery's out</h4>
+    <p>Nearest Yulu zone: 340 m — walk it there to finish.</p>
+  </div>
+  <button class="btn ghost" id="dirs">Walking directions</button>
+  <div class="notice good">
+    <p>Your fare stopped when the battery did. We've already adjusted this ride.</p>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="go">I've parked it</button>
+</div>`},
+
+endride(){return `<div class="pad fade">
+  <h2 class="t">You're in a Yulu zone</h2>
+  <p class="sub">Lock the bike to finish your ride.</p>
+  <div class="panel">
+    <div class="stat"><span>Time</span><b>${Math.floor(S.elapsed/60)} min</b></div>
+    ${S.pauseMin?`<div class="stat"><span>Paused</span><b>${S.pauseMin} min</b></div>`:''}
+    <div class="stat"><span>Fare so far</span><b class="big">₹${S.fare.toFixed(2)}</b></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="go">I've locked it</button>
+</div>`},
+
+f5(){return `<div class="pad fade">
+  <div class="notice warn">
+    <h4>We can't confirm the lock</h4>
+    <p>Give the lock a firm push until it clicks, then try again.</p>
+  </div>
+  <button class="btn ghost" id="retry">Try again</button>
+  <p style="font-size:13px;color:var(--ink-2)">Still not working?</p>
+  <button class="btn" id="anyway">End ride anyway</button>
+  <p style="font-size:12.5px;color:var(--ink-3)">Your fare stops now. We'll flag the bike for pickup and sort out the rest.</p>
+  <div class="spacer"></div>
+</div>`},
+
+receipt(){
+  const adj=S.adjusted, gap=S.faults.gpsGap;
+  return `<div class="pad fade">
+  <h2 class="t">Ride complete</h2>
+  <p class="sub">${Math.floor(S.elapsed/60)} min · Yulu ${S.bike.id}</p>
+  <div class="panel">
+    <div class="stat"><span>Riding (${Math.floor(S.elapsed/60)-S.pauseMin} min)</span><b>₹${((Math.floor(S.elapsed/60)-S.pauseMin)*RIDE_RATE).toFixed(2)}</b></div>
+    ${S.pauseMin?`<div class="stat"><span>Paused (${S.pauseMin} min)</span><b>₹${(S.pauseMin*PAUSE_RATE).toFixed(2)}</b></div>`:''}
+    ${adj?`<div class="stat"><span>Adjustment</span><b style="color:var(--green)">−₹${adj.toFixed(2)}</b></div>`:''}
+    <div class="stat"><span><b class="big">Total</b></span><b class="big">₹${Math.max(0,S.fare-adj).toFixed(2)}</b></div>
+  </div>
+  ${gap?`<div class="notice info"><h4>We're reviewing this ride</h4>
+      <p>There's a gap in the ride data, so we're checking it manually. You haven't been charged for the disputed time while we look. Someone will update you within 24 hours.</p></div>`
+   : adj?`<div class="notice good"><h4>Adjusted — ₹${adj.toFixed(2)} refunded</h4>
+      <p>The ride didn't complete the way it should have, so we've taken the affected time off your fare.</p></div>`:''}
+  <div class="spacer"></div>
+  <button class="btn" id="go">Done</button>
+</div>`}
+};
+
+/* ---------- inspector ---------- */
+function agentStates(){
+  const s=S.screen;
+  const A={readiness:['off','not engaged'],battery:['off','not engaged'],billing:['off','not engaged'],dispatch:['silent','running continuously — ops side']};
+
+  if(['map','preview','f1'].includes(s)){
+    const hidden=FLEET.filter(b=>!ready(b).ok);
+    A.readiness=[s==='f1'?'surf':'silent',
+      s==='f1'?'no bike cleared the check — surfaced by absence'
+      :`${cleared().length} of ${FLEET.length} cleared\nhidden: ${hidden.map(b=>b.id).join(', ')||'none'}`];
+    A.battery=[s==='preview'&&S.bike&&marginal(S.bike)?'surf':'silent',
+      S.dest?`required = max(${S.dest.km} × 1.5, 2) = ${req(S.dest.km).toFixed(1)} km`
+            :'no destination — floor of 2.0 km applied'];
+  }
+  if(s==='scan') A.readiness=['silent','re-verifying lock state before the timer starts'];
+  if(s==='f2')   A.readiness=['surf','lock did not confirm open — payment hold released'];
+  if(s==='ride'){
+    A.battery=['silent',`monitoring decay · ${S.rangeLeft.toFixed(1)} km left`];
+    A.billing=['silent','recording telemetry: GPS trace, lock events, range curve'];
+  }
+  if(s==='f3'){ A.battery=['surf','prediction missed — range exhausted before arrival'];
+                A.billing=['silent','ride pre-flagged for adjustment, fare stopped']; }
+  if(s==='endride') A.readiness=['silent','waiting for lock-close ping — rider word not accepted'];
+  if(s==='f5')      A.readiness=['surf','no closure ping received within 10s'];
+  if(s==='receipt') A.billing=[S.faults.gpsGap?'surf':(S.adjusted?'surf':'silent'),
+    S.faults.gpsGap?'telemetry ambiguous — escalated, rider not charged'
+    :(S.adjusted?'failure evidenced in telemetry — auto-adjusted':'clean ride, no intervention')];
+  return A;
+}
+
+function renderInspector(){
+  const A=agentStates();
+  const names={readiness:'Bike readiness',battery:'Battery decay',billing:'Billing resolution',dispatch:'Rebalancing / dispatch'};
+  document.getElementById('agents').innerHTML=Object.keys(names).map(k=>{
+    const [st,why]=A[k];
+    const lbl=st==='surf'?'surfaced':st==='silent'?'silent':'idle';
+    return `<div class="agent"><div class="top"><span class="nm">${names[k]}</span>
+      <span class="state ${st}">${lbl}</span></div><div class="why">${why}</div></div>`;
+  }).join('');
+
+  const km=S.dest?S.dest.km:null;
+  document.getElementById('calc').textContent=
+`readiness rule
+  required = max(trip × 1.5, 2 km)
+${km!==null?`  trip     = ${km.toFixed(1)} km
+  required = ${req(km).toFixed(1)} km`:`  trip     = not set
+  required = 2.0 km (floor)`}
+
+fleet
+${FLEET.map(b=>{const r=ready(b);
+  return `  ${b.id}  ${b.range.toFixed(1).padStart(4)} km  ${r.ok?'shown ':'hidden'}${r.ok?'':'  ← '+r.reasons[0]}`;}).join('\n')}`;
+}
+
+const FAULTS=[
+  ['noBikes','No bike passes readiness'],
+  ['unlockFail','Lock fails to open'],
+  ['dieMidRide','Battery dies mid-ride'],
+  ['lockStuck',"Lock won't confirm at end"],
+  ['gpsGap','GPS gap in telemetry']
+];
+function renderFaults(){
+  document.getElementById('faults').innerHTML=FAULTS.map(([k,l])=>
+    `<button data-f="${k}" aria-pressed="${S.faults[k]}">${l}</button>`).join('');
+}
+
+/* ---------- render + wiring ---------- */
+let timer=null;
+function render(){
+  clearInterval(timer);
+  const sc=document.getElementById('screen');
+  sc.innerHTML=SCREENS[S.screen]();
+  renderInspector(); renderFaults();
+  wire();
+  if(S.screen==='ride') timer=setInterval(tick,1000);
+}
+
+function tick(){
+  S.elapsed+=5;
+  if(S.paused){ if(S.elapsed%60===0) S.pauseMin++; S.fare+=PAUSE_RATE*(5/60); }
+  else { S.fare+=RIDE_RATE*(5/60); S.rangeLeft=Math.max(0,S.rangeLeft-0.35); }
+  if(S.faults.dieMidRide && S.rangeLeft<=0.1){
+    S.adjusted=Math.min(S.fare, S.fare*0.4);
+    clearInterval(timer); go('f3','The battery ran out. Your fare has stopped.'); return;
+  }
+  const b=document.querySelector('.ridebar');
+  if(b){ const mm=String(Math.floor(S.elapsed/60)).padStart(2,'0'),ss=String(S.elapsed%60).padStart(2,'0');
+    b.children[0].querySelector('strong').textContent=S.rangeLeft.toFixed(1)+' km';
+    b.children[1].querySelector('strong').textContent=mm+':'+ss;
+    b.children[2].querySelector('strong').textContent='₹'+S.fare.toFixed(2);
+  }
+  if(S.elapsed%60===0) renderInspector();
+}
+
+function on(id,fn){const e=document.getElementById(id); if(e) e.onclick=fn;}
+function all(sel,fn){document.querySelectorAll(sel).forEach(e=>e.onclick=()=>fn(e));}
+
+function wire(){
+  const s=S.screen;
+
+  if(s==='phone'){
+    const i=document.getElementById('ph'); i.oninput=()=>{S.phone=i.value.replace(/\D/g,'')};
+    on('go',()=>{ if(S.phone.length!==10){S.err='Enter a 10-digit phone number';render();say(S.err);return;}
+      S.err=''; go('otp','Code sent'); });
+  }
+
+  if(s==='otp'){
+    const boxes=[...document.querySelectorAll('.ob')];
+    boxes.forEach((b,i)=>b.oninput=()=>{ if(b.value&&boxes[i+1])boxes[i+1].focus();
+      S.otp=boxes.map(x=>x.value).join(''); });
+    on('fill',()=>{ boxes.forEach((b,i)=>b.value='428913'[i]); S.otp='428913'; say('Code filled'); });
+    on('go',()=>{ if(S.otp.length!==6){S.otpErr="That code didn't match. Try again.";render();say(S.otpErr);return;}
+      S.otpErr=''; go('name'); });
+  }
+
+  if(s==='name'){ const i=document.getElementById('nm'); i.oninput=()=>S.name=i.value;
+    on('go',()=>go('wallet')); }
+
+  if(s==='wallet'){
+    on('upi',()=>{S.wallet='UPI';go('dest','UPI linked')});
+    on('card',()=>{S.wallet='card';go('dest','Card added')});
+    on('skip',()=>go('dest','Skipped — you can add one at the bike'));
+  }
+
+  if(s==='dest'){
+    all('.dst',e=>{ S.dest=DESTS[+e.dataset.i]; S.browsing=false;
+      go(cleared().length?'map':'f1'); });
+    on('browse',()=>{ S.dest=null; S.browsing=true; go(cleared().length?'map':'f1'); });
+  }
+
+  if(s==='map'){
+    on('edit',()=>go('dest'));
+    const pick=e=>{ S.bike=FLEET.find(b=>b.id===e.dataset.id); go('preview'); };
+    all('.pin',pick); all('.pick',pick);
+  }
+
+  if(s==='f1'){
+    on('edit',()=>go('dest')); on('shorter',()=>go('dest'));
+    on('notify',()=>say("We'll let you know when a bike is ready"));
+  }
+
+  if(s==='preview'){
+    on('back',()=>go('map'));
+    on('hold',()=>{ if(!S.held){S.held=300; say('Bike held for 5 minutes'); render();}
+      else go('pay'); });
+    on('dirs',()=>go('pay'));
+  }
+
+  if(s==='pay'){ on('go',()=>{ if(!S.wallet)S.wallet='UPI'; go('scan','Payment hold placed'); }); }
+
+  if(s==='scan'){
+    const attempt=()=>{ if(S.faults.unlockFail){ S.retries++; go('f2','The bike did not unlock. Nothing was charged.'); }
+      else { S.rangeLeft=S.bike.range; S.elapsed=0; S.fare=0;
+        go('ride','Unlocked. Ride started.'); } };
+    on('go',attempt); on('manual',attempt);
+  }
+
+  if(s==='f2'){
+    on('retry',()=>go('scan'));
+    on('other',()=>{ FLEET.find(b=>b.id===S.bike.id).lock='flaky'; S.bike=null; S.held=0; S.retries=0;
+      go(cleared().length?'map':'f1'); });
+  }
+
+  if(s==='ride'){
+    on('pause',()=>{ S.paused=!S.paused; render(); say(S.paused?'Ride paused':'Ride resumed'); });
+    on('issue',()=>say('Issue reported. Ride telemetry attached automatically.'));
+    on('end',()=>{ if(S.faults.lockStuck) go('endride'); else go('endride'); });
+  }
+
+  if(s==='f3'){ on('dirs',()=>say('Walking directions to the nearest zone'));
+    on('go',()=>go('receipt')); }
+
+  if(s==='endride'){
+    on('go',()=>{ if(S.faults.lockStuck){ go('f5','We could not confirm the lock'); }
+      else go('receipt','Ride complete'); });
+  }
+
+  if(s==='f5'){
+    on('retry',()=>{ if(S.faults.lockStuck) say('Still no confirmation'); else go('receipt'); });
+    on('anyway',()=>{ S.adjusted=Math.min(S.fare,S.fare*0.25); go('receipt','Ride ended, fare stopped'); });
+  }
+
+  if(s==='receipt'){ on('go',()=>{ fresh(); render(); }); }
+
+  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.f; S.faults[k]=!S.faults[k];
+    if(k==='noBikes'&&S.screen==='map'&&!cleared().length) { render(); go('f1'); return; }
+    if(k==='noBikes'&&S.screen==='f1'&&cleared().length) { go('map'); return; }
+    render();
+  });
+  document.getElementById('reset').onclick=()=>{ fresh(); render(); };
+}
+
+render();
+</script>
+</body>
+</html>

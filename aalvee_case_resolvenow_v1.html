@@ -2,6 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
+<script>
+  /* Apply the saved theme before first paint — otherwise light-mode visitors see a dark flash */
+  (function () { try { var t = localStorage.getItem('aalvee-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82"></script>
 <script>
@@ -893,12 +897,12 @@ footer {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 
-/* Cursor trail */
-* { cursor: none !important; }
-.cursor-dot { position: fixed; top: 0; left: 0; border-radius: 50%; pointer-events: none; z-index: 9999; will-change: transform; background: #E9F056; }
+/* Cursor follower — decorative only. The native cursor stays visible, so pointing never lags. */
+.cursor-dot { position: fixed; top: -12px; left: -12px; width: 24px; height: 24px; border-radius: 50%; pointer-events: none; z-index: 9999; background: #E9F056; opacity: 0; transition: opacity .2s ease; }
+.cursor-dot.is-visible { opacity: 1; }
 [data-theme="light"] .cursor-dot { background: #ff5c34; }
-@media (hover: none), (pointer: coarse), (max-width: 768px) { * { cursor: revert !important; } .cursor-dot { display: none; } }
-@media (prefers-reduced-motion: reduce) { * { cursor: revert !important; } .cursor-dot { display: none; } }
+@media (hover: none), (pointer: coarse), (max-width: 768px) { .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { .cursor-dot { display: none; } }
 
 /* ---------- Sticky sidebar TOC (desktop only) ---------- */
 .toc-sidebar {
@@ -2981,7 +2985,16 @@ footer {
     nav.classList.toggle('nav--invert', isInvert);
   }
 
+  // Scroll events can fire several times per frame; do the work at most once per frame
+  var ticking = false;
   function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function update() {
+    ticking = false;
     if (document.body.classList.contains('mmenu-open')) {
       nav.classList.remove('nav--hidden');
       computeInvert();
@@ -3094,11 +3107,17 @@ footer {
 (function () {
   var els = [document.getElementById('navClock'), document.getElementById('mmenuClock')].filter(Boolean);
   if (!els.length) return;
-  function paint() {
-    var t = new Date().toLocaleTimeString('en-US', {
-      timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false
+  var fmt;
+  try {
+    fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZoneName: 'short'
     });
-    els.forEach(function (el) { el.innerHTML = t + ' <sup>EST</sup>'; });
+  } catch (e) { return; }
+  function paint() {
+    var t = { hour: '--', minute: '--', timeZoneName: 'ET' };
+    fmt.formatToParts(new Date()).forEach(function (p) { t[p.type] = p.value; });
+    // timeZoneName follows daylight saving: EST in winter, EDT in summer
+    els.forEach(function (el) { el.innerHTML = t.hour + ':' + t.minute + ' <sup>' + t.timeZoneName + '</sup>'; });
   }
   paint();
   setInterval(paint, 15000);
@@ -3125,73 +3144,100 @@ footer {
   items.forEach(function (el) { io.observe(el); });
 })();
 
-/* Cursor dot */
+/* Cursor dot — a decorative follower. The native cursor stays visible, so a busy
+   page can never make pointing itself lag. Easing is time-based (not per frame),
+   so it feels the same on 60Hz and 120Hz screens, and the loop stops as soon as
+   the dot catches up instead of running every frame forever. */
 (function () {
-  var coarse = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
-  if (coarse) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var LERP = 0.12;
+  if (!window.matchMedia || !window.requestAnimationFrame) return;
+  var off = window.matchMedia('(hover: none), (pointer: coarse), (max-width: 768px), (prefers-reduced-motion: reduce)');
+  var HALF_LIFE = 35; // ms for the dot to close half of its distance to the pointer
   var d = document.createElement('div');
   d.className = 'cursor-dot';
-  d.style.width = '24px';
-  d.style.height = '24px';
-  d.style.opacity = '1';
+  d.setAttribute('aria-hidden', 'true');
   document.body.appendChild(d);
-  var mouse = { x: -100, y: -100 };
-  var pos = { x: -100, y: -100 };
-  document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-  function loop() {
-    pos.x += (mouse.x - pos.x) * LERP;
-    pos.y += (mouse.y - pos.y) * LERP;
-    var half = d.offsetWidth / 2;
-    d.style.transform = 'translate(' + (pos.x - half) + 'px, ' + (pos.y - half) + 'px)';
-    requestAnimationFrame(loop);
+  var mx = 0, my = 0, x = 0, y = 0, shown = false, raf = 0, last = 0;
+  function place() { d.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)'; }
+  function frame(now) {
+    var k = 1 - Math.pow(0.5, Math.min(Math.max(now - last, 1), 100) / HALF_LIFE);
+    last = now;
+    x += (mx - x) * k;
+    y += (my - y) * k;
+    if (Math.abs(mx - x) < 0.2 && Math.abs(my - y) < 0.2) { x = mx; y = my; }
+    place();
+    raf = (x !== mx || y !== my) ? requestAnimationFrame(frame) : 0;
   }
-  loop();
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType !== 'mouse' || off.matches) return;
+    mx = e.clientX; my = e.clientY;
+    if (!shown) {
+      shown = true; x = mx; y = my;
+      place();
+      d.classList.add('is-visible');
+    }
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+  }, { passive: true });
+  // Hide when the pointer leaves the window (or moves into an iframe) instead of stranding the dot at the edge
+  document.addEventListener('mouseout', function (e) {
+    if (!e.relatedTarget) { shown = false; d.classList.remove('is-visible'); }
+  });
 })();
 </script>
 
 
 <script>
 (function(){
-  var nav = document.createElement("nav");
-  nav.className = "toc-sidebar";
-  nav.setAttribute("aria-label", "Table of contents");
-  var labels = document.querySelectorAll(".section-label");
+  var nav = document.createElement('nav');
+  nav.className = 'toc-sidebar';
+  nav.setAttribute('aria-label', 'Table of contents');
+  var labels = document.querySelectorAll('.section-label');
   var sections = [];
   labels.forEach(function(label, i){
-    var sec = label.closest("section") || label.closest(".section");
+    var sec = label.closest('section') || label.closest('.section');
     if(!sec) return;
-    var id = "sec-" + (i + 1);
-    sec.id = id;
+    if(!sec.id) sec.id = 'sec-' + (i + 1);   // keep ids that already exist, e.g. #contact
+    var id = sec.id;
     var raw = label.textContent.trim();
     if(!/^\d/.test(raw)) return;
-    var name = raw.replace(/^\d+\s*[—–-]\s*/, "");
-    var a = document.createElement("a");
-    a.className = "toc-link";
-    a.href = "#" + id;
+    var name = raw.replace(/^\d+\s*[—–-]\s*/, '');
+    var a = document.createElement('a');
+    a.className = 'toc-link';
+    a.href = '#' + id;
     a.textContent = name;
-    a.addEventListener("click", function(e){
+    a.addEventListener('click', function(e){
       e.preventDefault();
-      sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     nav.appendChild(a);
     sections.push({ el: sec, link: a });
   });
   document.body.appendChild(nav);
 
-  function onScroll(){
-    var scrollY = window.scrollY + window.innerHeight * 0.3;
-    var active = null;
-    sections.forEach(function(s){
-      if(s.el.offsetTop <= scrollY) active = s;
-    });
-    sections.forEach(function(s){
-      s.link.classList.toggle("active", s === active);
-    });
+  // Section offsets are measured once, and again only when the page's size changes
+  // (lazy images, fonts, resize) — not re-read on every scroll event.
+  var tops = [], active = null, ticking = false;
+  function measure(){
+    tops = sections.map(function(s){ return s.el.offsetTop; });
+    update();
   }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  function update(){
+    ticking = false;
+    var y = window.scrollY + window.innerHeight * 0.3;
+    var next = null;
+    for (var i = 0; i < sections.length; i++) { if (tops[i] <= y) next = sections[i]; }
+    if (next === active) return;
+    if (active) active.link.classList.remove('active');
+    if (next) next.link.classList.add('active');
+    active = next;
+  }
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
+  else window.addEventListener('resize', measure);
+  measure();
 })();
 </script>
 </body>

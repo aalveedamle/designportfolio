@@ -1,0 +1,23 @@
+# Files in this repo that are NOT part of the website.
+# Cloudflare serves everything in the repo root (wrangler.toml: assets.directory = "./"),
+# so anything listed here is kept off aalveedamle.com. Same syntax as .gitignore.
+
+# Tooling, config and notes
+.git
+.gitignore
+.assetsignore
+.wrangler
+.claude
+.DS_Store
+*.md
+wrangler.toml
+index.js
+
+# Raw source media — the site uses the optimised copies
+About page video/
+Illustrations /
+RAP.mov
+homepage card images/*.png
+
+# Local experiments
+index-experimental.html
