@@ -381,7 +381,7 @@ body { padding-top: 64px; }
 }
 
 /* ============================================================
-   FEATURED CASE STUDIES — 2-column grid (stacks to 1 on mobile)
+   FEATURED CASE STUDIES — one full-width card per row
    ============================================================ */
 .cs-grid {
   display: grid;
@@ -389,7 +389,7 @@ body { padding-top: 64px; }
   gap: 20px;
 }
 @media (min-width: 720px) {
-  .cs-grid { grid-template-columns: 1fr 1fr; }
+  .cs-grid { gap: 28px; }
 }
 
 .cs-card {
@@ -403,7 +403,7 @@ body { padding-top: 64px; }
   transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out), border-color .6s var(--ease-out);
 }
 @media (min-width: 720px) {
-  .cs-card { height: 410px; }
+  .cs-card { height: clamp(460px, 50vw, 620px); }
 }
 .cs-card:hover {
   color: inherit;
@@ -883,6 +883,14 @@ body.mmenu-open { overflow: hidden; }
 }
 
 /* ---------- Responsive ---------- */
+/* Full-width case study cards: keep the glass panel a readable measure, centred
+   in the card, instead of stretching it across (66px = 28px inset + pill row + gap) */
+@media (min-width: 721px) {
+  .cs-top { top: 28px; left: 28px; right: 28px; }
+  .cs-card-body { max-width: 640px; margin-inline: auto; padding: 28px; max-height: calc(100% - 66px); }
+  .cs-title { font-size: 26px; }
+  .cs-blurb { font-size: 14px; }
+}
 @media (max-width: 720px) {
   .nav-menu-btn { display: block; }
   .nav-inner { padding: 0 22px; }
