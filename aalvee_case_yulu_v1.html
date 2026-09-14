@@ -16,7 +16,7 @@
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Yulu — Case Study 06 · Aalvee Damle</title>
-<meta name="description" content="An AI-native product designed from a real micro-mobility research base. Four narrow agents that prevent failures instead of discussing them — architecture, system prompts, prompt iterations, evaluation rubric, and a working prototype. A case study by Aalvee Damle." />
+<meta name="description" content="An AI-native micro-mobility product designed from a real research base. Four narrow agents that prevent failures instead of apologising for them — architecture, AI behaviour, evaluation and a working prototype. A case study by Aalvee Damle." />
 <style>
 /* ============================================================
    AALVEE DAMLE · CASE STUDY 06 — YULU
@@ -1052,66 +1052,6 @@ table.tbl tr.is-out td { opacity: 0.62; }
 .vd.no    { color: var(--danger); border-color: var(--danger); background: var(--danger-soft); }
 .vd.mine  { color: var(--ink); border-color: var(--line); background: var(--chip-hover); }
 
-/* ---------- Prompt + code blocks ---------- */
-.code {
-  border-radius: 16px;
-  border: 1px solid var(--line-soft);
-  background: var(--bg-2);
-  overflow: hidden;
-  margin: 24px 0;
-}
-.code:first-child { margin-top: 0; }
-.code:last-child { margin-bottom: 0; }
-.code-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; flex-wrap: wrap;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--line-soft);
-  background: var(--chip);
-}
-.code-bar .f {
-  font-family: var(--font-mono); font-size: 11.5px;
-  letter-spacing: 0.04em; color: var(--ink-mute);
-}
-.code-bar .f b { color: var(--ink); font-weight: 600; }
-.code pre {
-  margin: 0; padding: 20px 18px;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  font-family: var(--font-mono);
-  font-size: 12.5px; line-height: 1.75;
-  color: var(--ink-2);
-  letter-spacing: 0;
-  tab-size: 2;
-}
-.code pre .c  { color: var(--ink-dim); }              /* comment */
-.code pre .k  { color: var(--accent); }               /* key / keyword */
-.code pre .s  { color: var(--ink); }                  /* emphasised string */
-.code pre .del { color: var(--danger); display: block; background: var(--danger-soft); }
-.code pre .add { color: var(--accent); display: block; background: var(--accent-soft); }
-
-/* ---------- Prompt version stack ---------- */
-.pv { display: grid; gap: 16px; }
-.pv-item { border: 1px solid var(--line-soft); border-radius: 16px; overflow: hidden; background: var(--bg-2); }
-.pv-top {
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  padding: 14px 18px; border-bottom: 1px solid var(--line-soft);
-}
-.pv-top .v {
-  font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-  letter-spacing: 0.08em; color: var(--ink);
-}
-.pv-top .h { font-size: 14px; color: var(--ink-2); letter-spacing: -0.01em; }
-.pv-body { padding: 18px; }
-.pv-body p { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); margin: 0 0 10px; letter-spacing: -0.008em; }
-.pv-body p:last-child { margin-bottom: 0; }
-.pv-body p strong { color: var(--ink); font-weight: 600; }
-.pv-body .lbl {
-  font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
-  letter-spacing: 0.09em; text-transform: uppercase;
-  color: var(--ink-mute); display: block; margin: 16px 0 6px;
-}
-.pv-body .lbl:first-child { margin-top: 0; }
-
 /* ---------- Annotation callout — my voice against a machine output ---------- */
 .note {
   border-left: 3px solid var(--accent);
@@ -1131,25 +1071,6 @@ table.tbl tr.is-out td { opacity: 0.62; }
 .note p strong { color: var(--ink); font-weight: 600; }
 .note.reject { border-left-color: var(--danger); }
 .note.reject .who { color: var(--danger); }
-
-/* ---------- Machine output block ---------- */
-.mout {
-  border: 1px dashed var(--line);
-  border-radius: 14px;
-  padding: 18px;
-  background: var(--bg-2);
-  margin: 0 0 18px;
-}
-.mout .src {
-  font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
-  letter-spacing: 0.09em; text-transform: uppercase;
-  color: var(--ink-mute); display: block; margin-bottom: 10px;
-}
-.mout ul { margin: 0; padding-left: 20px; }
-.mout li { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); margin-bottom: 8px; letter-spacing: -0.008em; }
-.mout li:last-child { margin-bottom: 0; }
-.mout li::marker { color: var(--ink-dim); }
-.mout li strong { color: var(--ink); font-weight: 600; }
 
 /* ---------- Two-column split (human / AI) ---------- */
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -1372,6 +1293,49 @@ table.tbl tr.is-out td { opacity: 0.62; }
   text-transform: uppercase; color: var(--ink-mute); margin-top: 12px;
 }
 .wire .cap b { color: var(--ink-2); font-weight: 600; }
+/* ---------- Scan-optimization components (same system as GenIAus / Genie) ---------- */
+.glance-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 28px; }
+@media (min-width: 720px) { .glance-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+.glance-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.glance-text { font-family: var(--font-display); font-size: 15px; line-height: 1.5; color: var(--ink-2); letter-spacing: -0.008em; max-width: 480px; }
+
+.section-takeaway { font-family: var(--font-display); font-size: clamp(17px, 1.4vw, 19px); font-weight: 600;
+  line-height: 1.45; letter-spacing: -0.012em; color: var(--ink); max-width: 720px; margin: 18px 0 28px; }
+
+.mini-list { list-style: none; padding: 0; margin: 0 0 8px; max-width: 720px; }
+.mini-list li { position: relative; padding-left: 22px; margin-bottom: 14px;
+  font-family: var(--font-display); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.5;
+  color: var(--ink-2); letter-spacing: -0.01em; }
+.mini-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--ink-mute); }
+.mini-list li strong { color: var(--ink); font-weight: 600; }
+.mini-list li em { color: var(--ink); font-style: italic; }
+.mini-list li:last-child { margin-bottom: 0; }
+
+.stepper { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 28px 0 32px; }
+@media (min-width: 720px) { .stepper { grid-template-columns: repeat(4, 1fr); gap: 14px; } .stepper.three { grid-template-columns: repeat(3, 1fr); } }
+.step { background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 16px; padding: 20px 18px; }
+.step-day { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.step-name { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.012em; margin-bottom: 6px; }
+.step-desc { font-size: 13.5px; line-height: 1.45; color: var(--ink-mute); letter-spacing: -0.005em; }
+
+.insight-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 8px; }
+@media (min-width: 720px) { .insight-grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
+.insight-card { background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 18px; padding: 24px 26px; }
+.insight-card h4 { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.012em; margin-bottom: 8px; line-height: 1.35; }
+.insight-card p { font-size: 14.5px; line-height: 1.5; color: var(--ink-mute); letter-spacing: -0.005em; }
+.insight-card p em { color: var(--ink-2); font-style: italic; }
+
+.decision-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+@media (min-width: 760px) { .decision-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; } }
+.decision-block h4 { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 10px; }
+.decision-block.why h4 { color: var(--accent); }
+.decision-block ul { list-style: none; padding: 0; margin: 0; }
+.decision-block ul li { position: relative; padding-left: 15px; margin-bottom: 8px;
+  font-size: 15px; line-height: 1.55; color: var(--ink-2); letter-spacing: -0.005em; }
+.decision-block ul li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px;
+  border-radius: 50%; background: var(--ink-mute); }
+.decision-block ul li:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body>
@@ -1572,17 +1536,28 @@ table.tbl tr.is-out td { opacity: 0.62; }
     <span class="section-label reveal">01 — The framing</span>
     <h2 class="section-title reveal">Most products add AI at the end. <span class="accent-text">This one couldn't have been.</span></h2>
 
-    <div class="prose reveal reveal-delay-1" style="margin-top: 32px;">
-      <p>There is a version of this project that takes the Yulu app as it exists, bolts a chat assistant into the corner, and calls it AI-native. It would have been faster to design, easier to demo, and completely beside the point.</p>
-      <p>The research said riders were losing trust because the system surprised them — a bike that looked available but wouldn't unlock, a lock that read as closed but wasn't, a battery that died two kilometres from the office, a billing dispute with no evidence trail. <strong>None of those are conversation problems. A chatbot is a well-designed apology for a failure that should have been prevented.</strong></p>
-      <p>So the question I actually designed against was narrower and harder: <em>what can a system predict, decide and resolve on the rider's behalf, before she ever has to notice it went wrong?</em> That question has an answer only if AI sits underneath the product rather than on top of it — which means the interaction model, the failure states, the billing logic and the interface all have to be designed around it from the first screen.</p>
-      <p>This case study is the working. It includes the parts that usually get edited out: the direction I rejected, the system prompt that produced garbage, the code the model got wrong, and the evaluation that caught it.</p>
+    <div class="glance-grid reveal reveal-delay-1" style="margin-top:32px;">
+      <div class="glance-block">
+        <span class="glance-label">The Problem</span>
+        <p class="glance-text">Riders weren't leaving over price or roads. They were leaving because the system surprised them — locks that lie, batteries that die mid-route, charges with no evidence.</p>
+      </div>
+      <div class="glance-block">
+        <span class="glance-label">My Approach</span>
+        <p class="glance-text">Killed the obvious chatbot. Designed four narrow agents that resolve failures before the rider meets them, and stay silent otherwise.</p>
+      </div>
     </div>
+
+    <p class="section-takeaway reveal">A chatbot is a well-designed apology for a failure that should have been prevented.</p>
+
+    <ul class="mini-list reveal">
+      <li>Every failure in the research — a bike that won't unlock, a lock that reads closed but isn't, a battery that dies 2 km from the office — is a <strong>prevention problem, not a conversation problem.</strong></li>
+      <li>The question I designed against: <em>what can the system predict, decide and resolve before the rider notices anything went wrong?</em></li>
+    </ul>
 
     <div class="scope reveal reveal-delay-1">
       <h4>What is real here, and what is a design exploration</h4>
-      <p><strong>Real:</strong> the 2026 research base — a system study, an observational field study at two Delhi metro stations, 23 rider interviews, four personas, two customer journey maps, a SWOT and a gap analysis. That work was done as a team of three (Aalvee Damle, Bhanuja Dass, Vrinda Singh) for a service design course, and its findings are quoted here unchanged.</p>
-      <p><strong>A design exploration:</strong> everything after it. The product concept, the agent architecture, the system prompts, the interface, the prototype and the evaluation are mine, built in 2026, and were never shipped to a live fleet. Where I report evaluation results, they come from scripted scenarios run against my own prototype — directional, not empirical. I have labelled them that way throughout rather than dressing them up as product metrics.</p>
+      <p><strong>Real:</strong> the 2026 research base — system study, field observation, 23 rider interviews, personas, journey maps, SWOT and gap analysis — by a team of three (Aalvee Damle, Bhanuja Dass, Vrinda Singh) for a service design course.</p>
+      <p><strong>A design exploration:</strong> everything after it is mine and was never shipped to a live fleet. Evaluation results come from scripted scenarios — directional, not empirical.</p>
     </div>
   </div>
 </section>
@@ -1594,7 +1569,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
   <div class="container">
     <span class="section-label reveal">02 — The evidence</span>
     <h2 class="section-title reveal">I started with evidence, <span class="accent-text">not with a model.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Six months of shared micro-mobility in Delhi, studied from the inside: the system, the street, and 23 people who had just tried it for the first time.</p>
+    <p class="section-takeaway reveal">Riders had made peace with price and roads. They hadn't made peace with a system that behaved unpredictably.</p>
 
     <div class="facts reveal reveal-delay-1">
       <div class="fact"><span class="n">23</span><span class="l">personal interviews, mostly first-time riders — the brief was deliberately "staying a beginner".</span></div>
@@ -1688,13 +1663,12 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <text x="204" y="404" font-size="10" font-weight="600" class="fill-accent">Correct — but already table stakes in 2026, which is where this project starts.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">FIG 01</span>Artefact 1 — the research dataset. Six method streams, normalised into a single plain-text corpus so that a language model could read all of it at once instead of one slide at a time. The research team's own recommendation is included in the corpus deliberately: I wanted the synthesis to have to argue past it.</figcaption>
+      <figcaption><span class="figcap-num">FIG 01</span>The research dataset. Six method streams, normalised into one plain-text corpus so a language model could read all of it at once. The research team's own recommendation is included deliberately — the synthesis had to argue past it.</figcaption>
     </figure>
 
-    <div class="prose reveal">
-      <p>Two things in this evidence base mattered more than the rest, and both are easy to miss on a first read.</p>
-      <p><strong>The first is where dissatisfaction actually clustered.</strong> The journey map's "after usage" stage lists the complaints riders gave unprompted: storage space, roads, poor infrastructure, "app could be smooth", battery life, cost. Read as a list, it looks like six equal problems. Read against the interviews and the system study's feedback loop — <em>less battery, broken cycle parts, abandoned cycles, poor locking system</em> — three of those six are things the product cannot control, and three are reliability failures the product causes.</p>
-      <p><strong>The second is that price had already been accepted.</strong> The persona work describes riders as "price-conscious but not a constraint". Delhi's roads and infrastructure showed up as background conditions people had made peace with. What they hadn't made peace with was a system that behaved unpredictably.</p>
+    <div class="insight-grid reveal">
+      <div class="insight-card"><h4>Complaints split into two kinds</h4><p>The journey map's after-ride complaints look like six equal problems. Three — roads, infrastructure, storage — are outside the product's control. The other three are reliability failures the product causes.</p></div>
+      <div class="insight-card"><h4>Price had already been accepted</h4><p>The personas describe riders as "price-conscious but not a constraint". Unpredictability was the one thing nobody had accepted.</p></div>
     </div>
   </div>
 </section>
@@ -1706,108 +1680,24 @@ table.tbl tr.is-out td { opacity: 0.62; }
   <div class="container">
     <span class="section-label reveal">03 — Interrogating the evidence</span>
     <h2 class="section-title reveal">I used AI to read the research <span class="accent-text">against me,</span> not for me.</h2>
-    <p class="section-deck reveal" style="margin-top:20px;">The risk with a corpus you already know is that you find what you expect. So I gave the model the whole thing at once, and wrote the prompt to make agreement expensive.</p>
+    <p class="section-takeaway reveal">I gave the model the whole corpus at once, and briefed it to make agreement expensive.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer on">Product</span><span class="layer">Design</span><span class="layer on">AI</span><span class="layer">Engineering</span>
     </div>
 
-    <div class="art reveal reveal-delay-1">
-      <div class="art-head">
-        <div>
-          <div class="k">Artefact 2 · Synthesis prompt</div>
-          <div class="t">The prompt I used to interrogate the corpus</div>
-        </div>
-        <div class="meta">Context: full corpus in one pass<br>Run 3× at temperature 1 for variance</div>
-      </div>
-      <div class="art-body">
-        <div class="code">
-          <div class="code-bar"><span class="f"><b>synthesis.prompt</b> · v2 — the version that stopped producing consultant-speak</span></div>
-<pre><span class="c"># ROLE</span>
-You are a research analyst. You are not a designer and you are not
-proposing solutions. If you propose a solution I will discard the
-whole response.
+    <ul class="mini-list reveal" style="margin-top:28px;">
+      <li><strong>No solutions allowed.</strong> Without that rule, the first run jumped to a feature list within two paragraphs.</li>
+      <li><strong>Separate what riders said from what the team inferred</strong> — the research deck blurs the two.</li>
+      <li><strong>Cluster by underlying cause, not topic</strong> — the instruction that produced the reframe.</li>
+      <li><strong>Set aside what the product can't control, and say where the evidence is thin.</strong></li>
+    </ul>
 
-<span class="c"># INPUT</span>
-Below is the complete research corpus for a 2026 study of Yulu
-shared e-bikes in Delhi: a system study, field observation notes,
-23 interview summaries, 4 personas, 2 customer journey maps, a
-SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
-
-<span class="c"># TASK</span>
-1. Separate <span class="k">SAID</span> from <span class="k">INFERRED</span>. For every finding, mark whether a
-   participant stated it or the research team concluded it. I need
-   to know which of these has a person behind it.
-2. Cluster the complaints by <span class="k">underlying cause</span>, not by topic. Two
-   complaints belong together if fixing one would affect the other.
-3. For each cluster give me: frequency of mention across the corpus,
-   and whether it damages <span class="k">trust in the system</span> or merely
-   <span class="k">satisfaction with the experience</span>. Those are different failures.
-4. Name every cluster that is <span class="k">outside the product's control</span>
-   (infrastructure, city policy, hardware economics) and set it aside.
-5. Tell me what the corpus is <span class="k">thin on</span>. Where would you refuse to
-   draw a conclusion, and what would you have asked instead?
-
-<span class="c"># CONSTRAINTS</span>
-- Quote the source artefact for every claim. No claim without a source.
-- Do not soften findings that contradict the research team's own
-  recommendation. Argue against it if the evidence does.
-- If two artefacts disagree, say so rather than averaging them.</pre>
-        </div>
-
-        <div class="note">
-          <span class="who">Why the prompt looks like this</span>
-          <p>Every clause is doing a job. <strong>"You are not proposing solutions"</strong> exists because the first run without it produced a feature list within two paragraphs — and once a model has proposed a solution, everything after it is written to justify that solution. <strong>"Separate said from inferred"</strong> exists because the research deck mixes the two, and a synthesis that inherits that blur will confidently report a design team's opinion as a user need. <strong>"Cluster by underlying cause"</strong> is the instruction that produced the actual reframe. <strong>"Set aside what's outside the product's control"</strong> is scope discipline the model won't apply on its own — left alone it will happily recommend improving Delhi's roads.</p>
-          <p>The last clause is the one I'd defend hardest in a critique. Asking the model where the evidence is <em>thin</em> is the only part of the prompt that produces something I can't get from re-reading the deck myself.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="art reveal">
-      <div class="art-head">
-        <div>
-          <div class="k">Artefact 3 · Synthesis output + my review pass</div>
-          <div class="t">What the model returned, and what I did with each part</div>
-        </div>
-        <div class="meta">4 clusters returned<br>2 accepted · 1 rewritten · 1 rejected</div>
-      </div>
-      <div class="art-body">
-        <div class="mout">
-          <span class="src">Model output · clusters, condensed</span>
-          <ul>
-            <li><strong>C1 · Unpredictable system state</strong> — 14 of 23 interviews, plus the system study's feedback loop and 4 SWOT weaknesses. QR codes that don't scan, GPS that doesn't connect, payments that don't go through, locking that doesn't hold. Marked <em>trust</em>, not satisfaction: "participants describe these as reasons to stop using, not reasons to complain."</li>
-            <li><strong>C2 · Range uncertainty as a planning problem</strong> — appears in every journey-map stage from comparison onward. The corpus records it as a hardware complaint ("battery life could be more") but the quotes are about <em>not knowing</em>: "how long before the battery dies", "the battery is a constraint". Marked <em>trust</em>.</li>
-            <li><strong>C3 · Money handled by strangers</strong> — deposit, cash to ground staff, disputed post-ride charges. Marked <em>trust</em>. Flagged a contradiction: the research team's recommendation <em>adds</em> a cash step at the bike while the interviews describe cash handling as a friction point.</li>
-            <li><strong>C4 · Physical and civic conditions</strong> — roads, infrastructure, parking density, storage space. High frequency, marked <em>satisfaction</em>, and explicitly set aside as outside product control.</li>
-          </ul>
-          <span class="src" style="margin-top:16px;">Model output · where the corpus is thin</span>
-          <ul>
-            <li>"All 23 participants were beginners by design. The corpus contains almost no evidence about riders in month three or later, which is exactly the population a retention argument would need. I would not draw retention conclusions from this data."</li>
-            <li>"Cost appears in the gap list, the SWOT weaknesses and the journey map, but each is the same finding recorded three times. Counting them separately would overweight it."</li>
-          </ul>
-        </div>
-
-        <div class="note">
-          <span class="who">Kept — C1 and C2, and this is the reframe</span>
-          <p>Clustering by cause rather than topic is what turned six equal-looking complaints into one structural problem. <strong>"App could be smooth", "weak tracking system", "poor locking system" and "payment doesn't go through" are the same failure wearing four costumes: the rider cannot tell what state the system is in.</strong> That is the sentence the rest of the project is built on, and I did not have it before this pass.</p>
-        </div>
-
-        <div class="note">
-          <span class="who">Rewritten — C3 was right about the contradiction, wrong about the conclusion</span>
-          <p>The model spotted something I'd read past for weeks: the research team's own fix introduces a cash handover at the bike, and the same corpus records cash handling as friction. That catch is real and I kept it. But the model framed the cluster as "money handled by strangers," which points at removing the human. The interviews don't support that — ground staff show up in the field notes as the thing that <em>rescues</em> a failed ride. I rewrote the cluster as <strong>"charges the rider can't evidence,"</strong> which points at the dispute, not the person.</p>
-        </div>
-
-        <div class="note reject">
-          <span class="who">Rejected — the second synthesis run</span>
-          <p>Run two of the same prompt produced a fifth cluster: <strong>"safety and confidence on the road,"</strong> built on the journey map's "am I safe on it", "don't want to fall", and "how should I sit on it". It reads plausibly and it is the kind of finding that sounds humane in a portfolio.</p>
-          <p>It comes from a single journey-map cell. There are no interview quotes behind it, no field observations, and no SWOT entry. The model had synthesised a theme out of one artefact's speculative language — precisely the "said vs inferred" failure the prompt was written to prevent, appearing anyway. <strong>I dropped it, and I take the fact that it appeared as the argument for reading model output as a proposal rather than a finding.</strong></p>
-        </div>
-
-        <div class="note">
-          <span class="who">Kept, and it constrained the whole project — the thinness note</span>
-          <p>"You would not draw retention conclusions from this data" is correct, and it is inconvenient, because retention is exactly the problem I wanted to design against. It did not change my direction; it changed what I am allowed to claim. Everywhere below that this case study talks about retention, it is stated as a <em>hypothesis with a defined test</em> rather than as a finding — and Section 12 defines the measurement that would settle it.</p>
-        </div>
-      </div>
+    <div class="insight-grid reveal" style="margin-top:36px;">
+      <div class="insight-card"><h4>Kept — the reframe</h4><p>"App could be smooth", "weak tracking", "poor locking" and "payment doesn't go through" are one failure in four costumes: the rider can't tell what state the system is in.</p></div>
+      <div class="insight-card"><h4>Rewritten — the money cluster</h4><p>The model caught that the team's own fix adds a cash step the research calls friction. But it blamed ground staff, who actually rescue failed rides. I reframed it as <em>charges the rider can't evidence.</em></p></div>
+      <div class="insight-card"><h4>Rejected — "safety on the road"</h4><p>A plausible fifth cluster built from one journey-map cell, with no interview behind it. Proof that model output is a proposal, not a finding.</p></div>
+      <div class="insight-card"><h4>Kept — the thinness warning</h4><p>All 23 participants were beginners, so the data can't support retention claims. Every retention claim below is framed as a hypothesis with a test.</p></div>
     </div>
 
     <figure class="reveal">
@@ -1884,7 +1774,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
           </g>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">FIG 02</span>Artefact 4 — the opportunity map. Plotting by trust damage rather than by severity is what separates the top-right cluster from the things riders had already accepted about Delhi. The dashed red point is the finding I rejected, kept on the map on purpose: a synthesis artefact that shows only the accepted findings is hiding the part where judgement was applied.</figcaption>
+      <figcaption><span class="figcap-num">FIG 02</span>The opportunity map. Plotting by trust damage separates the top-right cluster from what riders had already accepted about Delhi. The dashed red point is the rejected finding, kept on purpose to show where judgement was applied.</figcaption>
     </figure>
 
     <div class="pullquote reveal">The problem was never supply or price. It was <em>invisible failures eroding trust</em> — and the rider carrying the cost of the system's uncertainty.</div>
@@ -1898,38 +1788,38 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
   <div class="container">
     <span class="section-label reveal">04 — Choosing a direction</span>
     <h2 class="section-title reveal">The obvious AI product here was a chatbot. <span class="accent-text">I killed it.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Four directions came out of the opportunity map — one of them mine, one of them the model's, and the one everybody expects. They were scored against criteria I wrote before I looked at the options.</p>
+    <p class="section-takeaway reveal">Four directions, scored against criteria written before I saw them. The chatbot had the highest demo value and the lowest product value.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer on">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer">Engineering</span>
     </div>
 
     <div class="art reveal reveal-delay-1">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 5 · Product hypotheses</div>
+          <div class="k">Product hypotheses</div>
           <div class="t">Four directions on the table</div>
         </div>
-        <div class="meta">3 human-generated · 1 model-generated<br>1 chosen</div>
+        <div class="meta">3 mine · 1 model-generated<br>1 chosen</div>
       </div>
       <div class="art-body">
         <div class="opts">
           <div class="opt">
             <div class="oi">H1 · MINE</div>
             <h4>A ride-hailing-grade trust layer</h4>
-            <p>Show the rider real bike state before she commits: verified lock, live battery, confirmed availability. Borrowed wholesale from the patterns cab apps already use.</p>
+            <p>Show real bike state before she commits: verified lock, live battery, confirmed availability.</p>
             <span class="vd">Necessary, not sufficient</span>
           </div>
           <div class="opt">
             <div class="oi">H2 · MINE</div>
             <h4>Deposit-free, wallet-based billing</h4>
-            <p>The research team's recommendation, fully digital: no ₹250 deposit, no cash, auto-settle from a wallet after the ride. Directly answers the corpus.</p>
+            <p>No ₹250 deposit, no cash, auto-settle from a wallet. The research team's recommendation, fully digital.</p>
             <span class="vd">Table stakes in 2026</span>
           </div>
           <div class="opt">
             <div class="oi">H3 · THE EXPECTED ONE</div>
             <h4>A rider-facing AI concierge</h4>
-            <p>A conversational assistant that handles unlock failures, disputes and route questions — replacing what ground staff do today, in chat.</p>
+            <p>A conversational assistant for unlock failures, disputes and route questions.</p>
             <span class="vd no">Rejected</span>
           </div>
         </div>
@@ -1937,21 +1827,9 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
           <div class="opt win" style="grid-column: 1 / -1;">
             <div class="oi">H4 · CHOSEN</div>
             <h4>AI as invisible connective tissue — narrow agents that prevent failures rather than discuss them</h4>
-            <p>No assistant, no chat surface, no score shown to the rider. Instead: a small set of single-purpose agents deciding what appears on the map, whether a specific trip is feasible on a specific bike, and how a billing dispute resolves — passing state to one another and surfacing <em>only</em> when confidence is low enough that a human should make the call.</p>
+            <p>No chat surface and no score shown to the rider. Single-purpose agents decide what appears on the map, whether this bike can make this trip, and how a dispute resolves — surfacing only when a human should make the call.</p>
             <span class="vd ok">Chosen — designed and prototyped below</span>
           </div>
-        </div>
-
-        <div class="note reject" style="margin-top:24px;">
-          <span class="who">Why H3 died — and it is the most important decision in this project</span>
-          <p>A visible chatbot competes with what the research says the rider actually wants. <strong>Ananya does not want a better way to report that her bike is broken. She wants to not get a broken bike.</strong> Every conversational turn in that concept is a turn that exists because the system already failed.</p>
-          <p>It also fails a test I hold AI features to: <em>does the interaction cost less than the problem it solves?</em> A rider standing at a dead bike in Delhi traffic, typing to an assistant, is paying attention she doesn't have to a system that should have spent that attention for her. The chat surface is the demo-friendly option and the wrong one.</p>
-        </div>
-
-        <div class="note">
-          <span class="who">Where the model earned its place — and where I overruled it</span>
-          <p>I asked for adversarial alternatives after I'd written my three. It produced a fifth direction I hadn't considered: <strong>crowd-sourced bike health — riders rate the bike after each ride, and those ratings drive what gets shown.</strong> It's a genuinely good idea and cheap to build.</p>
-          <p>I rejected it, for a reason worth stating: it moves the labour of maintaining trust <em>back onto the rider</em>, and it fails exactly when it matters most. The rider whose lock jammed is the least likely to stop and file a rating; the rider who had a clean ride has no reason to. You get a survivor-biased signal precisely on the bikes you need truth about. The idea did leave a mark though — it's why "Report an issue" during a ride attaches telemetry automatically instead of asking the rider to describe anything.</p>
         </div>
       </div>
     </div>
@@ -1959,60 +1837,50 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
     <div class="art reveal">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 6 · Decision matrix</div>
+          <div class="k">Decision matrix</div>
           <div class="t">Scored 1–5 against criteria written before the options</div>
         </div>
-        <div class="meta">Weighted toward evidence and failure cost —<br>not toward novelty</div>
+        <div class="meta">Weighted toward evidence and failure cost,<br>not novelty</div>
       </div>
       <div class="art-body">
         <div class="tbl-scroll">
           <table class="tbl wide">
             <thead>
               <tr>
-                <th style="width:22%">Direction</th>
+                <th style="width:24%">Direction</th>
                 <th>Evidence<br>support</th>
                 <th>Needs AI<br>to work</th>
                 <th>Cost of<br>being wrong</th>
                 <th>User<br>control</th>
                 <th>Buildable<br>as a proto</th>
-                <th style="width:26%">Verdict</th>
+                <th style="width:18%">Result</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><strong>H1</strong> Trust layer<br><span style="color:var(--ink-mute);font-size:13px">Show real bike state</span></td>
-                <td class="num">5</td><td class="num">1</td><td class="num">4</td><td class="num">4</td><td class="num">5</td>
-                <td>Strong on evidence, but any competent designer adapts this from existing patterns. <strong>Folded into H4 as a baseline, not kept as the idea.</strong></td>
-              </tr>
-              <tr>
-                <td><strong>H2</strong> Wallet billing<br><span style="color:var(--ink-mute);font-size:13px">No deposit, no cash</span></td>
-                <td class="num">5</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">5</td>
-                <td>Answers the corpus directly and is the right answer — but in 2026 it is the price of entry. <strong>Folded into H4.</strong></td>
-              </tr>
-              <tr class="is-out">
-                <td><strong>H3</strong> AI concierge<br><span style="color:var(--ink-mute);font-size:13px">Conversational assistant</span></td>
-                <td class="num">2</td><td class="num">5</td><td class="num">2</td><td class="num">3</td><td class="num">4</td>
-                <td>Solves the symptom conversationally. Highest demo value, lowest product value. <strong>Rejected.</strong></td>
-              </tr>
-              <tr class="is-out">
-                <td><strong>H5</strong> Crowd-sourced health<br><span style="color:var(--ink-mute);font-size:13px">Model-generated</span></td>
-                <td class="num">3</td><td class="num">2</td><td class="num">2</td><td class="num">3</td><td class="num">5</td>
-                <td>Survivor-biased signal, and it bills the rider for the system's diligence. <strong>Rejected — one mechanism kept.</strong></td>
-              </tr>
-              <tr class="is-chosen">
-                <td><strong>H4</strong> Invisible agents<br><span style="color:var(--ink-mute);font-size:13px">Prevent, don't discuss</span></td>
-                <td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">3</td>
-                <td><strong>Chosen.</strong> The only direction where AI is doing something conventional software struggles with — continuous per-trip prediction and evidence-based adjudication — and the only one where being wrong is designed to cost the company rather than the rider.</td>
-              </tr>
+              <tr><td><strong>H1</strong> Trust layer</td><td class="num">5</td><td class="num">1</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td>Folded into H4</td></tr>
+              <tr><td><strong>H2</strong> Wallet billing</td><td class="num">5</td><td class="num">1</td><td class="num">3</td><td class="num">4</td><td class="num">5</td><td>Folded into H4</td></tr>
+              <tr class="is-out"><td><strong>H3</strong> AI concierge</td><td class="num">2</td><td class="num">5</td><td class="num">2</td><td class="num">3</td><td class="num">4</td><td><strong>Rejected</strong></td></tr>
+              <tr class="is-out"><td><strong>H5</strong> Crowd-sourced health<br><span style="color:var(--ink-mute);font-size:13px">Model-generated</span></td><td class="num">3</td><td class="num">2</td><td class="num">2</td><td class="num">3</td><td class="num">5</td><td><strong>Rejected</strong></td></tr>
+              <tr class="is-chosen"><td><strong>H4</strong> Invisible agents</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">3</td><td><strong>Chosen</strong></td></tr>
             </tbody>
           </table>
         </div>
-
-        <div class="note">
-          <span class="who">The column that decided it — "needs AI to work"</span>
-          <p>H1 and H2 score 1 here, and that is not a criticism of them; they are both in the final product. But a direction that scores 1 on this column is a direction where adding a model is decoration. <strong>The test I applied: if you removed the intelligence, would the product still make its promise?</strong> H4 is the only one where the answer is no — deciding whether <em>this</em> bike can complete <em>this</em> trip, given a battery's decay history and a destination entered ten seconds ago, is a per-request judgement over live signals that you cannot express as a static rule and cannot ask a human to make at fleet scale.</p>
-        </div>
       </div>
+    </div>
+
+    <div class="decision-grid reveal" style="margin-top:40px;">
+      <div class="decision-block"><h4>Why the chatbot died</h4><ul>
+        <li>Ananya doesn't want a better way to report a broken bike. She wants to not get one.</li>
+        <li>Every chat turn exists because the system already failed.</li>
+      </ul></div>
+      <div class="decision-block"><h4>The model's idea I rejected</h4><ul>
+        <li>Crowd-sourced bike health: riders rate each bike after the ride.</li>
+        <li>Survivor-biased — the rider with a jammed lock is the least likely to rate.</li>
+      </ul></div>
+      <div class="decision-block why"><h4>The column that decided it</h4><ul>
+        <li>"Needs AI to work": remove the intelligence — does the product still keep its promise?</li>
+        <li>Only H4 needs per-trip judgement over live signals at fleet scale.</li>
+      </ul></div>
     </div>
   </div>
 </section>
@@ -2024,44 +1892,39 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
   <div class="container">
     <span class="section-label reveal">05 — The hypothesis</span>
     <h2 class="section-title reveal">Design for the rider who is <span class="accent-text">two bad rides from leaving.</span></h2>
+    <p class="section-takeaway reveal">I designed for the daily rider — and named the rider that choice leaves behind.</p>
 
-    <div class="prose reveal reveal-delay-1" style="margin-top:32px;">
-      <h3>The product hypothesis</h3>
-      <p>If bike readiness, trip feasibility and billing fairness are resolved <em>before</em> the rider encounters them, trust becomes a property of the system rather than something the rider has to actively maintain — and daily-rider retention improves without any change to price or fleet size.</p>
-      <p>That is a claim, not a finding, and the synthesis already told me the research corpus can't settle it: every participant was a beginner. So the hypothesis carries a defined test with it, and Section 12 specifies the instrumentation that would run it.</p>
-
-      <h3>The design target, and what it costs</h3>
-      <p>The research contains two usable archetypes — the <strong>Office Goer</strong> (urban commuter, under 5 km, hassling with auto drivers) and the <strong>Daily Life Traveller</strong> (travelling to the CBD with multiple stops). I designed for a composite of those two, and deliberately not for the price-sensitive occasional rider who dominates the persona set.</p>
-      <p><strong>The cost of that choice is real and I'd rather name it than hide it.</strong> Three of the four personas are students; two had used Yulu once or never. Optimising for the daily rider means the onboarding is thin, there's no value-proposition carousel, and nothing in the product works to convince a sceptic. That is a deliberate trade, made because retention — keeping a daily user from quietly churning after her second bad ride — is the harder problem and the one that rewards systems thinking over onboarding polish. It is also the assumption most worth testing against a second persona later.</p>
-    </div>
+    <ul class="mini-list reveal">
+      <li><strong>The hypothesis:</strong> if readiness, trip feasibility and billing fairness are resolved before the rider meets them, trust becomes a property of the system — and daily-rider retention improves without changing price or fleet size.</li>
+      <li><strong>It's a claim, not a finding.</strong> The research only covered beginners, so the hypothesis comes with a defined test (Section 12).</li>
+      <li><strong>The cost:</strong> thin onboarding and nothing to persuade a sceptic — a deliberate trade for the harder retention problem.</li>
+    </ul>
 
     <div class="persona-grid reveal">
       <div class="persona-card">
         <div class="name">Ananya Verma, 29</div>
-        <div class="meta">Composited from the Office Goer and Daily Life Traveller archetypes · South Delhi · rides 3–4 times a day</div>
+        <div class="meta">Composite of the Office Goer and Daily Life Traveller archetypes · South Delhi · rides 3–4 times a day</div>
         <dl>
           <dt>Trip</dt>
-          <dd>~4 km from the metro to her office, plus stops on the way home. Six months in, she is past deciding whether e-bikes are for her.</dd>
+          <dd>~4 km from the metro to her office, plus stops on the way home. Six months in.</dd>
           <dt>What burned her</dt>
-          <dd>A bike that died 2 km from the office. And a lock that showed <em>locked</em> in the app but wasn't — leaving her arguing a billing dispute with a stranger who had no more evidence than she did.</dd>
-          <dt>What she actually needs</dt>
-          <dd>Not persuasion, not a support channel, not a discount. <em>She needs the app to stop surprising her.</em></dd>
+          <dd>A bike that died 2 km from the office, and a lock that read <em>locked</em> but wasn't — followed by a billing dispute nobody could evidence.</dd>
+          <dt>What she needs</dt>
+          <dd><em>The app to stop surprising her.</em></dd>
           <dt>How she leaves</dt>
-          <dd>Quietly. No complaint, no uninstall event worth noticing — just an auto instead, three days running, and then it's a habit.</dd>
+          <dd>Quietly. An auto instead, three days running, and then it's a habit.</dd>
         </dl>
       </div>
       <div class="persona-card">
         <div class="name">The counter-persona I'm not designing for</div>
-        <div class="meta">Named so the trade-off is examined rather than convenient</div>
+        <div class="meta">Named so the trade-off is examined, not convenient</div>
         <dl>
           <dt>Who</dt>
-          <dd>The 21–24 student in the research personas. Occasional user, price-sensitive, discovered Yulu through a friend or a metro poster.</dd>
-          <dt>What she'd want instead</dt>
-          <dd>Reassurance and a low entry cost — a value-prop walkthrough, a first-ride offer, visible pricing before signup. All things this product deliberately omits.</dd>
-          <dt>Where the design still serves her</dt>
-          <dd>The deposit is gone, payment is captured at the bike rather than upfront, and a failed unlock never charges her. The floor is raised for everyone; only the optimisation is targeted.</dd>
+          <dd>The 21–24 occasional, price-sensitive student from the research personas.</dd>
+          <dt>How she's still served</dt>
+          <dd>No deposit, payment at the bike, and a failed unlock never charges her.</dd>
           <dt>Open</dt>
-          <dd>Whether the empty-map state (F1) reads as diligence or as a broken app to someone with no prior trust in the system. Untested, and I'd test it first.</dd>
+          <dd>Whether an empty map reads as diligence or as a broken app to her. I'd test it first.</dd>
         </dl>
       </div>
     </div>
@@ -2075,33 +1938,27 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
   <div class="container">
     <span class="section-label reveal">06 — Division of labour</span>
     <h2 class="section-title reveal">AI generated. <span class="accent-text">I decided.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">This is the map I worked to. It isn't a disclaimer — it's the operating model, and every section below can be checked against it.</p>
+    <p class="section-takeaway reveal">AI did the volume, pattern-finding and first drafts. Every decision about what the product is stayed with me.</p>
 
-    <div class="split reveal reveal-delay-1" style="margin-top:40px;">
+    <div class="split reveal reveal-delay-1">
       <div class="split-col is-me">
         <h4>Me · the designer</h4>
-        <p class="sub">Every judgement that determines what the product is and who absorbs the cost of it being wrong.</p>
         <ul>
-          <li><strong>Defined the problem</strong> — reframed six complaints into one trust failure, and rejected the model's fifth cluster when the evidence didn't hold it up.</li>
-          <li><strong>Set the constraints</strong> — no visible AI surface, no confidence score shown to the rider, no failure that resolves in the company's favour.</li>
-          <li><strong>Chose the product direction</strong> — killed the concierge, folded two directions into one, wrote the scoring criteria before seeing the options.</li>
-          <li><strong>Designed the interaction</strong> — the absence-based map, the destination-first flow, the placement of payment at the bike rather than at signup.</li>
-          <li><strong>Specified AI behaviour</strong> — the asymmetry rule, the escalation contract, the plain-language message style, and what each agent is deliberately not told.</li>
-          <li><strong>Judged quality</strong> — wrote the evaluation rubric, scored the outputs, and accepted an over-cautious failure mode as the correct one.</li>
-          <li><strong>Reviewed and modified the code</strong> — including the render bug that violated the core product promise and the dead threshold that made a designed state unreachable.</li>
+          <li><strong>Defined the problem</strong> — six complaints reframed as one trust failure.</li>
+          <li><strong>Set the constraints</strong> — no visible AI surface, no score shown, no failure resolved in the company's favour.</li>
+          <li><strong>Designed the interaction</strong> — absence-based map, destination-first flow, payment at the bike.</li>
+          <li><strong>Specified AI behaviour</strong> — asymmetry, escalation, message style, and what each agent isn't told.</li>
+          <li><strong>Judged quality</strong> — wrote the rubric and reviewed every piece of generated code.</li>
         </ul>
       </div>
       <div class="split-col">
         <h4>AI · in my design and engineering environment</h4>
-        <p class="sub">Volume, pattern-finding and first drafts. Nothing on this side ships without passing through the left.</p>
         <ul>
-          <li><strong>Read the corpus in one pass</strong> — clustered by cause across six method streams and separated stated findings from inferred ones.</li>
-          <li><strong>Found the contradiction</strong> I'd read past for weeks: the research team's fix adds a cash step the same research calls friction.</li>
-          <li><strong>Argued against my direction</strong> when asked to — produced the crowd-sourced alternative I then rejected on bias grounds.</li>
-          <li><strong>Generated edge cases</strong> — 31 of them, of which I kept 9. One changed the architecture.</li>
-          <li><strong>Wrote prototype code</strong> — the state machine, the screen renderers, the fault-injection scaffolding.</li>
-          <li><strong>Produced variations</strong> — three microcopy treatments per failure state, three visual treatments for readiness on the map.</li>
-          <li><strong>Told me where the evidence was thin</strong> — the retention caveat that constrained what this case study is allowed to claim.</li>
+          <li><strong>Read the whole corpus in one pass</strong> and clustered it by cause.</li>
+          <li><strong>Found the contradiction</strong> in the research team's own fix.</li>
+          <li><strong>Generated 31 edge cases</strong> — I kept 9; one changed the architecture.</li>
+          <li><strong>Wrote the prototype</strong> — state machine, screens, fault injection.</li>
+          <li><strong>Flagged thin evidence</strong> — which limited what I'm allowed to claim.</li>
         </ul>
       </div>
     </div>
@@ -2109,7 +1966,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
     <figure class="reveal">
       <div class="svg-figure">
         <svg viewBox="0 0 1000 300" role="img" aria-label="Responsibility map showing which decisions belong to the designer and which to the model at each project stage">
-          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">ARTEFACT 7 · HUMAN / AI RESPONSIBILITY MAP</text>
+          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">HUMAN / AI RESPONSIBILITY MAP</text>
 
           <text x="0" y="66" font-size="10.5" font-weight="700" letter-spacing="0.8" class="fill-accent">ME</text>
           <text x="0" y="248" font-size="10.5" font-weight="700" letter-spacing="0.8" class="fill-mute">AI</text>
@@ -2189,7 +2046,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
           </g>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">FIG 03</span>Artefact 7 — the responsibility map. The pattern that matters isn't the split itself, it's the direction of flow: model output enters the process as a proposal and only leaves it as a decision after passing through the top row. There is no stage where the model's output ships unreviewed, and there is no stage where I did the volume work by hand that a model does better.</figcaption>
+      <figcaption><span class="figcap-num">FIG 03</span>The responsibility map. Model output enters as a proposal and only leaves as a decision after passing through the top row — nothing the model produced shipped unreviewed.</figcaption>
     </figure>
   </div>
 </section>
@@ -2201,9 +2058,9 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
   <div class="container">
     <span class="section-label reveal">07 — The architecture</span>
     <h2 class="section-title reveal">Four narrow agents. <span class="accent-text">Only one of them is a language model.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">The restraint is the design decision. Most of this system is thresholds and a decay curve — because most of it should be. The model is used where judgement over messy evidence is genuinely required, and nowhere else.</p>
+    <p class="section-takeaway reveal">Most of this system is thresholds and a decay curve — because most of it should be.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer">Product</span><span class="layer">Design</span><span class="layer on">AI</span><span class="layer on">Engineering</span>
     </div>
 
@@ -2211,37 +2068,29 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
       <div class="agentc">
         <div class="top"><h4>Bike Readiness</h4><span class="kind">Deterministic · rules</span></div>
         <dl>
-          <dt>Job</dt><dd>Decide whether a bike appears as available at all — for <em>this</em> trip.</dd>
-          <dt>Inputs</dt><dd>Lock-state ping, GPS drift, last successful unlock, days since service, predicted range vs. required range.</dd>
-          <dt>Output</dt><dd><code>{ ok, reasons[] }</code> — never a bare boolean. The reasons array exists because the ops dashboard and the failure states both need to explain themselves.</dd>
-          <dt>Why not a model</dt><dd>These are hard signals with clear thresholds. A model here would add latency, cost and non-determinism to a decision that has a correct answer.</dd>
+          <dt>Job</dt><dd>Decide whether a bike appears at all — for <em>this</em> trip — and record why.</dd>
+          <dt>Why not a model</dt><dd>Hard signals with clear thresholds. A model would add latency and unpredictability to a question with a correct answer.</dd>
         </dl>
       </div>
       <div class="agentc">
         <div class="top"><h4>Battery Decay</h4><span class="kind">Predictive · regression</span></div>
         <dl>
-          <dt>Job</dt><dd>Predict whether a bike dies mid-route <em>for this specific trip</em>, not in the abstract.</dd>
-          <dt>Inputs</dt><dd>Charge state, the decay curve for that battery's age and cycle count, trip distance, terrain and load assumptions.</dd>
-          <dt>Output</dt><dd>Predicted range in km, plus a marginal flag when it clears the requirement by a thin margin.</dd>
-          <dt>Why not a model</dt><dd>Battery decay is a physical process with a fitted curve. Asking a language model to do arithmetic over a decay function is the wrong tool wearing a fashionable hat.</dd>
+          <dt>Job</dt><dd>Predict whether this bike dies mid-route <em>on this specific trip.</em></dd>
+          <dt>Why not a model</dt><dd>Battery decay is physics with a fitted curve. A language model doing arithmetic is the wrong tool in a fashionable hat.</dd>
         </dl>
       </div>
       <div class="agentc">
         <div class="top"><h4>Billing Resolution</h4><span class="kind llm">LLM · reasons over evidence</span></div>
         <dl>
-          <dt>Job</dt><dd>Resolve lock- and battery-failure disputes without a human, and explain the resolution to the rider in one sentence she can act on.</dd>
-          <dt>Inputs</dt><dd>The ride's telemetry: GPS trace, lock events, range curve, fare ledger, and any flags the other two agents raised during that ride.</dd>
-          <dt>Output</dt><dd>A structured decision — <code>adjust</code>, <code>no_action</code> or <code>escalate</code> — with an evidence array and a rider-facing message.</dd>
-          <dt>Why a model</dt><dd>This is the one job in the system that is genuinely a judgement: incomplete, sometimes contradictory evidence, an open-ended set of ways a ride can go wrong, and an output that has to be written in human language. It is exactly the shape of problem conventional software handles badly and a rules engine handles by escalating everything to a support queue.</dd>
+          <dt>Job</dt><dd>Resolve lock and battery disputes without a human — adjust, take no action, or escalate — and explain it in one sentence.</dd>
+          <dt>Why a model</dt><dd>The one true judgement: incomplete, sometimes contradictory evidence, open-ended failure modes, and an answer written for a human.</dd>
         </dl>
       </div>
       <div class="agentc">
         <div class="top"><h4>Rebalancing / Dispatch</h4><span class="kind">Ranking + LLM rationale</span></div>
         <dl>
-          <dt>Job</dt><dd>Predict zone under- and oversupply 1–3 hours out, and hand ground staff a ranked task list.</dd>
-          <dt>Inputs</dt><dd>Historical demand by zone and time, live distribution, and Readiness flags — a low-confidence bike gets scheduled for pickup, not just a move.</dd>
-          <dt>Output</dt><dd>Ranked tasks, each carrying a plain-language reason. The ranking is a model in the statistical sense; the sentence explaining it is the LLM.</dd>
-          <dt>Human in the loop</dt><dd>Staff can override — "this bike wasn't actually broken" — and that override feeds back into Readiness confidence for that bike and zone. Visible correction, not a black box.</dd>
+          <dt>Job</dt><dd>Predict zone supply 1–3 hours out and give ground staff a ranked task list, each with a plain-language reason.</dd>
+          <dt>Human in the loop</dt><dd>Staff can override, and overrides feed back into readiness confidence.</dd>
         </dl>
       </div>
     </div>
@@ -2249,7 +2098,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
     <figure class="reveal">
       <div class="svg-figure">
         <svg viewBox="0 0 1000 520" role="img" aria-label="AI product architecture: signals feeding four agents which pass state to each other and to two front-ends">
-          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">ARTEFACT 8 · AI PRODUCT ARCHITECTURE</text>
+          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">AI PRODUCT ARCHITECTURE</text>
 
           <!-- signal column -->
           <text x="0" y="60" font-size="10" font-weight="700" letter-spacing="1.2" class="fill-mute">SIGNALS</text>
@@ -2298,7 +2147,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
           <rect x="236" y="332" width="238" height="70" rx="12" class="fill-accent-soft stroke-accent" stroke-width="1.6"/>
           <text x="254" y="356" font-size="12" font-weight="700" class="fill-ink">Billing Resolution</text>
           <text x="254" y="373" font-size="9.5" class="fill-mute">Reasons over ride telemetry</text>
-          <text x="254" y="387" font-size="9.5" class="fill-mute">adjust · no_action · escalate</text>
+          <text x="254" y="387" font-size="9.5" class="fill-mute">adjust · no action · escalate</text>
           <text x="456" y="351" text-anchor="end" font-size="8" font-weight="700" letter-spacing="0.6" class="fill-accent">LLM</text>
 
           <rect x="236" y="424" width="238" height="62" rx="12" class="fill-card-2 stroke-soft" stroke-width="1.2"/>
@@ -2353,7 +2202,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
           </g>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">FIG 04</span>Artefact 8 — the architecture. The lime arrows between agents are what makes this orchestration rather than four features: Readiness confidence lowers the trust Battery Decay places in its own prediction, both pre-attach flags to the ride so Billing never re-investigates a dispute from scratch, and Readiness flags change what Dispatch asks staff to do with a bike. Remove any one agent and the other three degrade.</figcaption>
+      <figcaption><span class="figcap-num">FIG 04</span>The architecture. The lime arrows make this orchestration rather than four features: agents pass confidence and flags to one another, so billing never re-investigates a dispute from scratch. Remove one agent and the other three degrade.</figcaption>
     </figure>
 
     <div class="art reveal">
@@ -2362,23 +2211,23 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
           <div class="k">The other half of the architecture</div>
           <div class="t">What is deliberately not AI</div>
         </div>
-        <div class="meta">Written down because it is a<br>design decision, not an omission</div>
+        <div class="meta">A design decision,<br>not an omission</div>
       </div>
       <div class="art-body">
         <div class="tbl-scroll">
           <table class="tbl">
             <thead><tr><th style="width:26%">Capability</th><th style="width:22%">Implementation</th><th>Why it stays dumb</th></tr></thead>
             <tbody>
-              <tr><td><strong>Pricing</strong></td><td>Fixed rate table</td><td>₹2.00/min riding, ₹0.50/min paused. A rider must be able to predict her fare before she commits. Dynamic pricing would be the single fastest way to undo everything else this product is doing.</td></tr>
-              <tr><td><strong>Zone geofencing</strong></td><td>Polygon containment</td><td>A bike is inside a zone or it isn't. There is no judgement here, and a probabilistic answer to "can I end my ride" would be a cruelty.</td></tr>
-              <tr><td><strong>Payment state</strong></td><td>Explicit state machine</td><td>Hold placed → capture on ride end → release on unlock failure. Money movement gets a state machine you can audit line by line, not a model you have to interrogate.</td></tr>
-              <tr><td><strong>Fare stop on failure</strong></td><td>Event-triggered rule</td><td>Battery death or an unconfirmed lock stops the meter immediately. The <em>decision to refund</em> is a judgement the LLM makes; the <em>decision to stop charging</em> is not — it fires the instant the event does.</td></tr>
+              <tr><td><strong>Pricing</strong></td><td>Fixed rate table</td><td>A rider must be able to predict her fare before she commits.</td></tr>
+              <tr><td><strong>Zone geofencing</strong></td><td>Polygon containment</td><td>A bike is in a zone or it isn't. A probabilistic answer to "can I end my ride" would be cruel.</td></tr>
+              <tr><td><strong>Payment state</strong></td><td>Explicit state machine</td><td>Money movement should be auditable step by step, not interrogated.</td></tr>
+              <tr><td><strong>Fare stop on failure</strong></td><td>Event-triggered rule</td><td>Battery death or an unconfirmed lock stops the meter instantly. Refunds are judgement; stopping the charge isn't.</td></tr>
             </tbody>
           </table>
         </div>
         <div class="note">
           <span class="who">The rule I applied</span>
-          <p>A capability earns a model when its input is incomplete, its output space is open-ended, and a wrong answer is recoverable. <strong>Billing adjudication meets all three. Pricing, geofencing and payment state meet none of them.</strong> Being able to say why a thing <em>isn't</em> AI is most of what separates an AI-native product from an AI-decorated one.</p>
+          <p>A capability earns a model when its input is incomplete, its output open-ended, and a wrong answer recoverable. <strong>Billing meets all three. Pricing, geofencing and payments meet none.</strong></p>
         </div>
       </div>
     </div>
@@ -2392,16 +2241,16 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
   <div class="container">
     <span class="section-label reveal">08 — The interaction</span>
     <h2 class="section-title reveal">The central question wasn't what the AI knows. <span class="accent-text">It was when the AI should speak.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Three treatments for the same information — how ready a bike is — mocked up side by side and argued out. The one I chose shows the rider nothing.</p>
+    <p class="section-takeaway reveal">Silence is the default. The AI speaks only when a human needs to make the call.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer">Engineering</span>
     </div>
 
     <div class="art reveal reveal-delay-1">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 9 · Interaction treatments</div>
+          <div class="k">Interaction treatments</div>
           <div class="t">How should bike readiness appear on the map?</div>
         </div>
         <div class="meta">Same agent output.<br>Three ways of handing it over.</div>
@@ -2425,7 +2274,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
               <text x="109" y="125" text-anchor="middle" font-size="9" font-weight="700" class="fill-mute">38%</text>
             </svg>
             <h4>Numeric confidence</h4>
-            <p>Precise, honest, and it exports the decision straight back to the rider. She has to translate "71%" into "will this get me to work" while standing on a footpath in traffic.</p>
+            <p>Precise, but it hands the decision back: she has to turn "71%" into "will this get me to work" in traffic.</p>
             <span class="vd no">Rejected — offloads the judgement</span>
           </div>
           <div class="opt">
@@ -2442,7 +2291,7 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
               <g><rect x="90" y="112" width="34" height="18" rx="9" class="fill-danger-soft stroke-danger" stroke-width="0.9"/><circle cx="99" cy="121" r="3" class="fill-danger"/></g>
             </svg>
             <h4>Traffic-light badge</h4>
-            <p>Fast to read. But an amber bike is an invitation — the rider who is late will take it, and the product has just watched her walk toward a failure it predicted.</p>
+            <p>Fast to read, but amber is an invitation. The late rider takes it and walks toward a predicted failure.</p>
             <span class="vd no">Rejected — invites the gamble</span>
           </div>
           <div class="opt win">
@@ -2461,50 +2310,24 @@ SWOT, and a gap list. &lt;corpus&gt;...&lt;/corpus&gt;
               <text x="109" y="125" text-anchor="middle" font-size="8.5" font-style="italic" class="fill-dim">— nothing here —</text>
             </svg>
             <h4>Absence</h4>
-            <p>No score. A bike that can't make this trip simply isn't on the map. The rider's mental model becomes one sentence: <em>if it's here, it can get me there.</em></p>
+            <p>A bike that can't make this trip isn't on the map. The mental model is one sentence: <em>if it's here, it can get me there.</em></p>
             <span class="vd ok">Chosen</span>
           </div>
-        </div>
-
-        <div class="note">
-          <span class="who">The governing principle this produced</span>
-          <p><strong>The AI surfaces only when its confidence is low enough that a human needs to make the call. Silence is the default output.</strong> A confident bike doesn't justify itself with a number — it should just be there.</p>
-          <p>The badge from Treatment B isn't discarded, it's <em>relocated</em>. It reappears inside the marginal-trip notice, at the one moment where a genuine judgement call exists and the rider has already committed her attention to a single bike. Three of seventeen screens ever show an agent speaking. The other fourteen are agents working.</p>
-        </div>
-
-        <div class="note">
-          <span class="who">Where absence gets dangerous, and what pays for it</span>
-          <p>Hiding things is a strong move and it has an obvious failure mode: an empty map reads as a broken app, not as a system exercising care. So absence is paid for in exactly two places. <strong>The empty state names the check out loud</strong> — "There are bikes here, but none have the range for 6.2 km. We'd rather tell you than send you to one that runs out." And <strong>the sheet narrates removals</strong> when the destination changes — "2 bikes dropped off — they can't make the longer trip" — so a pin disappearing reads as a decision rather than a glitch.</p>
-          <p>The cost is measured, not assumed: hide rate and empty-map frequency are two of the metrics in Section 12, and they are the numbers that would tune the thresholds if this ran on a real fleet.</p>
         </div>
       </div>
     </div>
 
-    <div class="prose reveal">
-      <h3>The rule change that made the whole flow move</h3>
-      <p>Designing the interaction surfaced a problem in my own architecture: <strong>a bike is not "ready" in the abstract. It is ready for a specific trip.</strong> A bike with 4 km of range is perfectly ready for a 1 km hop and a liability for a 9 km commute. Any readiness score computed without a destination is either a lie or a lowest-common-denominator guess.</p>
-    </div>
-
-    <div class="code reveal" style="margin: 28px 0 0; max-width: 820px;">
-      <div class="code-bar"><span class="f"><b>readiness.rule</b> · the number the whole product hangs on</span></div>
-<pre><span class="k">required_range</span> = max(trip_distance × 1.5, 2 km)
-
-bike is <span class="k">READY</span>  ⟺  predicted_range ≥ required_range
-                  <span class="c">AND</span> lock state confirmed
-                  <span class="c">AND</span> GPS drift within tolerance
-                  <span class="c">AND</span> last successful unlock within threshold
-                  <span class="c">AND</span> days-since-service within threshold</pre>
-    </div>
-
-    <div class="prose reveal" style="margin-top:26px;">
-      <p>The <strong>1.5× multiplier</strong> covers detours, wrong turns and error in the decay curve itself. The <strong>2 km floor</strong> stops a 400 m hop from clearing a nearly-dead bike that would then strand the next rider. Both are tunable parameters, and I've treated them as the two numbers most worth iterating on — they are the dial that trades availability against reliability.</p>
-      <p>The consequence reshaped the flow: <strong>readiness has to be recomputed whenever the destination changes, which means the destination has to come first.</strong> The search field that would normally be an optional convenience on the map became the entry point of the entire ride flow — and the Battery Decay agent went from a dormant background service to the thing that decides what you see.</p>
+    <div class="insight-grid reveal" style="margin-top:36px;">
+      <div class="insight-card"><h4>Readiness depends on the trip</h4><p>A bike only shows if its predicted range covers 1.5× the trip (never under 2 km) and its lock, GPS and service checks pass.</p></div>
+      <div class="insight-card"><h4>So the destination comes first</h4><p>Readiness recomputes whenever the destination changes, so search became the entry point of the whole ride.</p></div>
+      <div class="insight-card"><h4>Absence has to explain itself</h4><p>An empty map names the check — "none have the range for 6.2 km" — and the sheet narrates removals, so a vanishing pin reads as a decision, not a glitch.</p></div>
+      <div class="insight-card"><h4>The badge wasn't discarded, it moved</h4><p>It reappears only in the marginal-trip notice. Three of seventeen screens show an agent speaking; the other fourteen are agents working.</p></div>
     </div>
 
     <figure class="reveal">
       <div class="svg-figure">
         <svg viewBox="0 0 1000 560" role="img" aria-label="User flow diagram from destination entry through ride end, with five failure branches">
-          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">ARTEFACT 10 · USER FLOW — HAPPY PATH AND ITS FIVE FAILURE BRANCHES</text>
+          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">USER FLOW — HAPPY PATH AND ITS FIVE FAILURE BRANCHES</text>
 
           <!-- happy path spine -->
           <g>
@@ -2600,183 +2423,70 @@ bike is <span class="k">READY</span>  ⟺  predicted_range ≥ required_range
           <text x="24" y="507" font-size="10" class="fill-mute">ambiguity in the company's favour. Hiding a working bike costs a rider forty seconds. Showing a broken one costs the relationship.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">FIG 05</span>Artefact 10 — the user flow. Seventeen screens, of which five are failure states drawn at full fidelity. Most micro-mobility apps invert that ratio and hand failure a generic error toast with a support number; trust is built or destroyed in exactly these five screens, so they got proportionate attention.</figcaption>
+      <figcaption><span class="figcap-num">FIG 05</span>The user flow. Seventeen screens, five of them failure states drawn at full fidelity — because trust is built or destroyed in exactly those five.</figcaption>
     </figure>
   </div>
 </section>
 
 <!-- ============================================================
-     09 — AI BEHAVIOUR + PROMPTS
+     09 — AI BEHAVIOUR
      ============================================================ -->
 <section class="section">
   <div class="container">
     <span class="section-label reveal">09 — Defining AI behaviour</span>
     <h2 class="section-title reveal">A behaviour spec first. <span class="accent-text">Then the prompt that enforces it.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Writing the prompt before writing the spec is how you end up with a well-phrased assistant that behaves unpredictably. The spec is a design document; the prompt is its implementation.</p>
+    <p class="section-takeaway reveal">The spec is the design document. The prompt is its implementation — and it took three versions to match.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer on">Engineering</span>
     </div>
 
     <div class="art reveal reveal-delay-1">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 11 · AI behaviour specification</div>
-          <div class="t">What each agent may do, may never do, and must hand back</div>
+          <div class="k">AI behaviour specification</div>
+          <div class="t">What each agent may do, and may never do</div>
         </div>
         <div class="meta">The contract the prompts implement<br>and the rubric scores against</div>
       </div>
       <div class="art-body">
         <div class="tbl-scroll">
           <table class="tbl wide">
-            <thead><tr><th style="width:15%">Agent</th><th style="width:19%">Fires when</th><th style="width:22%">May do</th><th style="width:22%">May never do</th><th>Output contract</th></tr></thead>
+            <thead><tr><th style="width:20%">Agent</th><th style="width:38%">May do</th><th>May never do</th></tr></thead>
             <tbody>
-              <tr>
-                <td><strong>Bike Readiness</strong></td>
-                <td>Every map render and every destination change; again live at scan.</td>
-                <td>Remove a bike from the map. Flag a bike for ops pickup. Block a ride start until the lock is confirmed open.</td>
-                <td>Show a bike it isn't confident about. Start the fare timer before lock confirmation. Fail silently — every removal produces a reason.</td>
-                <td><code>{ ok: bool, reasons: string[], need_km: float }</code></td>
-              </tr>
-              <tr>
-                <td><strong>Battery Decay</strong></td>
-                <td>Destination entry, bike preview, and continuously during the ride.</td>
-                <td>Suppress a bike below requirement. Raise a marginal-trip notice. Warn mid-ride when decay outpaces prediction.</td>
-                <td>Gate the ride. The marginal notice informs — "Continue" is always available and never penalised.</td>
-                <td><code>{ predicted_km: float, marginal: bool }</code></td>
-              </tr>
-              <tr class="is-chosen">
-                <td><strong>Billing Resolution</strong><br><span style="color:var(--ink-mute);font-size:13px">the LLM</span></td>
-                <td>Ride ends abnormally, or the rider reports an issue.</td>
-                <td>Adjust the fare downward. Escalate to a human. Write one sentence to the rider explaining the outcome.</td>
-                <td>Increase a fare. Cite an event not present in the telemetry. Resolve ambiguity in the company's favour. Apologise, promise, or offer anything not in its action list.</td>
-                <td><code>{ action, amount_inr, evidence[], rider_message }</code></td>
-              </tr>
-              <tr>
-                <td><strong>Dispatch</strong></td>
-                <td>Rolling, 1–3 hours ahead of predicted demand.</td>
-                <td>Rank staff tasks. State the reason for each. Escalate a bike from "move" to "collect".</td>
-                <td>Act without a human. Suppress an override — staff correction always wins and always feeds back.</td>
-                <td><code>{ tasks[]: { bike, action, why, rank } }</code></td>
-              </tr>
+              <tr><td><strong>Bike Readiness</strong></td><td>Hide a bike. Flag it for pickup. Block ride start until the lock opens.</td><td>Show a bike it isn't confident about. Hide one without a reason.</td></tr>
+              <tr><td><strong>Battery Decay</strong></td><td>Hide bikes below requirement. Raise a marginal-trip notice.</td><td>Block the ride — "Continue" is always available.</td></tr>
+              <tr class="is-chosen"><td><strong>Billing Resolution</strong><br><span style="color:var(--ink-mute);font-size:13px">the LLM</span></td><td>Lower a fare. Escalate to a human. Write one sentence to the rider.</td><td>Raise a fare. Cite anything not in the ride data. Offer anything not on its action list.</td></tr>
+              <tr><td><strong>Dispatch</strong></td><td>Rank staff tasks, each with a reason.</td><td>Act without a human, or ignore a staff override.</td></tr>
             </tbody>
           </table>
         </div>
-
-        <div class="note">
-          <span class="who">Three rules every agent shares</span>
-          <p><strong>1 · Asymmetry.</strong> Prefer a false negative over a false positive. Hiding a working bike costs a rider forty seconds; showing a broken one costs the relationship. The two are not equivalent errors and the system is not allowed to treat them as such.</p>
-          <p><strong>2 · Uncertainty never resolves in the company's favour.</strong> Ambiguous billing defaults to not charging. If the system can't prove the rider owes it, the rider doesn't owe it.</p>
-          <p><strong>3 · Every automated decision states its reason in plain language at the moment it becomes visible.</strong> Not in a settings screen, not in a help centre — in the sentence where the rider first encounters the outcome.</p>
-        </div>
       </div>
+    </div>
+
+    <div class="stepper three reveal">
+      <div class="step"><span class="step-day">Rule 1</span><div class="step-name">Asymmetry</div><p class="step-desc">Hiding a working bike costs 40 seconds. Showing a broken one costs the relationship.</p></div>
+      <div class="step"><span class="step-day">Rule 2</span><div class="step-name">Uncertainty favours the rider</div><p class="step-desc">If the system can't prove the rider owes it, she doesn't.</p></div>
+      <div class="step"><span class="step-day">Rule 3</span><div class="step-name">Reasons in plain language</div><p class="step-desc">Every automated decision explains itself the moment it becomes visible.</p></div>
     </div>
 
     <div class="art reveal">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 12 · Prompt iterations</div>
+          <div class="k">Prompt iterations</div>
           <div class="t">Billing Resolution Agent · V1 → V3</div>
         </div>
-        <div class="meta">Each version scored against the rubric<br>in Section 12 · 12 scripted scenarios</div>
+        <div class="meta">Scored against 12 scripted scenarios</div>
       </div>
       <div class="art-body">
-        <div class="pv">
-
-          <div class="pv-item">
-            <div class="pv-top"><span class="v">V1</span><span class="h">"Resolve the dispute fairly."</span><span class="vd no" style="margin-left:auto;">0 / 12 passed</span></div>
-            <div class="pv-body">
-              <span class="lbl">The prompt</span>
-              <div class="code" style="margin-top:0;">
-<pre>You are a billing assistant for a bike-sharing service. A rider has
-reported a problem with their ride. Review the ride data and resolve
-the dispute fairly. Be empathetic and helpful.</pre>
-              </div>
-              <span class="lbl">What it produced</span>
-              <p>Fluent, warm, and unusable. It <strong>invented remedies that do not exist in the product</strong> — a "20% off your next ride" code in two scenarios, a "priority support callback" in another. In four of twelve it asserted facts the telemetry didn't contain: "it looks like the bike had a mechanical fault" when the trace showed only a GPS gap. And when the evidence was genuinely thin it produced a paragraph of apology and no decision at all.</p>
-              <p><strong>The diagnosis:</strong> unbounded action space and no grounding requirement. "Resolve fairly" describes a value, not a behaviour. The model filled the gap with the most statistically plausible customer-service response, which is exactly what a customer-service corpus would predict and exactly not what this product does.</p>
-            </div>
-          </div>
-
-          <div class="pv-item">
-            <div class="pv-top"><span class="v">V2</span><span class="h">Structured output + grounding requirement</span><span class="vd" style="margin-left:auto;">8 / 12 passed</span></div>
-            <div class="pv-body">
-              <span class="lbl">What I added</span>
-              <p>A strict JSON output contract, an enumerated action list, and a rule that every claim must cite an event ID present in the telemetry array. The hallucinated discount codes disappeared immediately — an enumerated action space is the single highest-leverage constraint in this whole prompt.</p>
-              <span class="lbl">What it still got wrong — and this one is a design failure, not a model failure</span>
-              <p><strong>Four scenarios failed on ambiguity.</strong> Given incomplete telemetry, V2 defaulted to <code>no_action</code> — because "I cannot prove a failure occurred" reads, to a model with no other instruction, as "therefore no adjustment." That is silently resolving uncertainty in the company's favour, the exact behaviour my own spec forbids. <em>The rule existed in my document and nowhere in the prompt.</em></p>
-              <p>It also wrote for the wrong reader: <em>"Adjustment applied: lock_state_transition anomaly detected at t=1342 with confidence 0.71."</em> Grounded, accurate, and meaningless to a person standing next to a bike.</p>
-            </div>
-          </div>
-
-          <div class="pv-item" style="border-color: var(--accent);">
-            <div class="pv-top" style="background: var(--accent-soft);"><span class="v">V3</span><span class="h">Asymmetry, escalation, and a style contract</span><span class="vd ok" style="margin-left:auto;">11 / 12 passed</span></div>
-            <div class="pv-body">
-              <span class="lbl">The shipped prompt</span>
-              <div class="code" style="margin-top:0;">
-                <div class="code-bar"><span class="f"><b>billing_resolution.system.txt</b> · v3 — running in the prototype</span></div>
-<pre><span class="c"># ROLE</span>
-You adjudicate fare disputes for a shared e-bike service. You are not
-a support agent. You do not converse. You return one decision per ride.
-
-<span class="c"># WHAT YOU RECEIVE</span>
-A single ride's telemetry: an ordered event array (GPS fixes, lock
-open/close pings, battery readings, fare ticks), the fare ledger, and
-any flags raised by the readiness or battery agents during that ride.
-Nothing else. If a fact is not in that array, you do not know it.
-
-<span class="c"># ACTIONS — you may return exactly one</span>
-  <span class="k">adjust</span>     reduce the fare by a stated amount, in INR
-  <span class="k">no_action</span>  the fare stands as charged
-  <span class="k">escalate</span>   a human reviews this; the rider is not charged meanwhile
-
-<span class="c"># RULES</span>
-1. <span class="k">Ground everything.</span> Every claim in your output must cite the id of
-   an event present in the array. No event, no claim. You may not
-   infer a mechanical cause the telemetry does not record.
-
-2. <span class="k">Asymmetry.</span> Uncertainty never resolves in the company's favour.
-   If the evidence is incomplete, ambiguous, or contradictory, you
-   return <span class="k">escalate</span> — never <span class="k">no_action</span>. no_action is only for rides
-   where the telemetry positively shows a normal ride.
-
-3. <span class="k">Never increase a fare.</span> There is no upward adjustment. If the data
-   suggests the rider was undercharged, return no_action.
-
-4. <span class="k">Bounded remedies.</span> You may adjust the fare. You may not offer
-   credits, discounts, callbacks, priority anything, or future rides.
-   These do not exist. Referring to them is a failure, not a kindness.
-
-5. <span class="k">Stop-the-meter events are already handled.</span> The fare stopped at the
-   failure automatically. You are deciding what happens to the time
-   already charged, not whether to stop charging.
-
-<span class="c"># RIDER MESSAGE — style contract</span>
-- Two sentences maximum. Plain language. No apology.
-- State what happened, then state the correction. In that order.
-- Use the rider's own frame of reference: clock time, not timestamps;
-  minutes, not event ids; rupees, not decimals of a fare unit.
-- Never name an agent, a confidence value, or a system component.
-- Good:  "The lock didn't register when you finished at 2:14 pm, so
-          we've removed the extra 9 minutes from your fare."
-- Bad:   "We're so sorry! Our system detected a lock_state anomaly."
-
-<span class="c"># OUTPUT — JSON only, no prose outside it</span>
-{
-  "action":       "adjust" | "no_action" | "escalate",
-  "amount_inr":   number,            <span class="c">// 0 unless action is adjust</span>
-  "evidence":     [event_id, ...],   <span class="c">// must be non-empty</span>
-  "reason_internal": string,         <span class="c">// for the audit log, not the rider</span>
-  "rider_message":   string          <span class="c">// obeys the style contract above</span>
-}</pre>
-              </div>
-
-              <span class="lbl">The one that still fails, and why I shipped it anyway</span>
-              <p>Scenario 9: telemetry clearly showed a normal ride, and V3 escalated rather than returning <code>no_action</code>. Over-caution — the model reading Rule 2 more strictly than I intended.</p>
-              <p><strong>I accepted it.</strong> An over-escalating billing agent sends a small number of clean rides to a human queue. An under-escalating one silently charges riders for failures it couldn't prove. Those are not symmetrical costs, and the entire product is built on the claim that they aren't. Tightening Rule 2 to eliminate scenario 9 would have moved the failure to the side that costs the rider — which would be the wrong fix, correctly executed.</p>
-            </div>
-          </div>
-
+        <div class="stepper three" style="margin:0 0 24px;">
+          <div class="step"><span class="step-day">V1 · 0 / 12</span><div class="step-name">"Resolve the dispute fairly."</div><p class="step-desc">Fluent and unusable. Invented discounts and callbacks the product doesn't have, asserted faults the data didn't show, and often decided nothing.</p></div>
+          <div class="step"><span class="step-day">V2 · 8 / 12</span><div class="step-name">Fixed actions + cite the evidence</div><p class="step-desc">Invented remedies disappeared. But under ambiguity it quietly sided with the company, and wrote timestamps at riders.</p></div>
+          <div class="step"><span class="step-day">V3 · 11 / 12</span><div class="step-name">Asymmetry, escalation, style rules</div><p class="step-desc">Ambiguity escalates, fares only go down, and messages are two plain sentences in clock time — no apology.</p></div>
+        </div>
+        <div class="note">
+          <span class="who">The one V3 still fails — and why I kept it</span>
+          <p>On one clean ride, V3 escalated instead of closing the case. <strong>I accepted it:</strong> over-escalating costs a reviewer a few minutes; under-escalating charges riders for failures nobody could prove.</p>
         </div>
       </div>
     </div>
@@ -2784,7 +2494,7 @@ Nothing else. If a fact is not in that array, you do not know it.
     <div class="art reveal">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 13 · Context engineering</div>
+          <div class="k">Context engineering</div>
           <div class="t">What the billing agent is told — and what it is deliberately denied</div>
         </div>
         <div class="meta">The denials are the design</div>
@@ -2793,29 +2503,24 @@ Nothing else. If a fact is not in that array, you do not know it.
         <div class="split">
           <div class="split-col is-me">
             <h4>In context</h4>
-            <p class="sub">Everything needed to adjudicate this ride, and nothing that identifies whose ride it is.</p>
             <ul>
-              <li><strong>The ordered event array</strong> — GPS fixes, lock pings, battery readings, fare ticks, each with an id the output must cite.</li>
+              <li><strong>The ride's event log</strong> — GPS, lock, battery and fare events, each citable.</li>
               <li><strong>The fare ledger</strong> for this ride only.</li>
-              <li><strong>Flags raised by the other agents</strong> during this ride — so a dispute is never re-investigated from scratch.</li>
-              <li><strong>The rider's reported issue category</strong>, if she used "Report an issue" — one of four fixed options, attached with telemetry automatically.</li>
+              <li><strong>Flags from the other agents</strong>, so no dispute starts from scratch.</li>
             </ul>
           </div>
           <div class="split-col">
             <h4>Withheld on purpose</h4>
-            <p class="sub">Each of these would make the model's output better calibrated and the product worse.</p>
             <ul>
-              <li><strong>The rider's name.</strong> Nothing about adjudication changes if she's called Ananya. Its only effect would be on the tone of the message.</li>
-              <li><strong>Ride history and lifetime value.</strong> A model that knows this rider has taken 400 rides will resolve differently from one told she has taken two. That is <em>fairness priced by loyalty</em>, and it is indefensible.</li>
-              <li><strong>Prior dispute count.</strong> The fastest way to build a system that punishes people for having had things go wrong before.</li>
-              <li><strong>Wallet balance.</strong> No adjudication should ever be influenced by whether the rider can afford the outcome.</li>
-              <li><strong>Anything about the fleet's margins.</strong> The model has no business knowing what a refund costs.</li>
+              <li><strong>Ride history and lifetime value</strong> — that's fairness priced by loyalty.</li>
+              <li><strong>Prior dispute count</strong> — it punishes people for past bad luck.</li>
+              <li><strong>Wallet balance and fleet margins</strong> — no judgement should depend on either.</li>
             </ul>
           </div>
         </div>
         <div class="note">
-          <span class="who">Why this is the section I'd defend first in a design review</span>
-          <p>Every item on the right would improve a metric. Withholding them is a product decision about what kind of system this is, enforced at the context layer where it can't be quietly undone by a later prompt tweak. <strong>An agent that cannot see who you are cannot treat you differently for being you.</strong></p>
+          <span class="who">The section I'd defend first in a review</span>
+          <p><strong>An agent that cannot see who you are cannot treat you differently for being you.</strong> Enforced at the context layer, where a later prompt tweak can't quietly undo it.</p>
         </div>
       </div>
     </div>
@@ -2829,9 +2534,9 @@ Nothing else. If a fact is not in that array, you do not know it.
   <div class="container">
     <span class="section-label reveal">10 — Design</span>
     <h2 class="section-title reveal">Seventeen screens, five of them failures, <span class="accent-text">all drawn at the same fidelity.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Grayscale first, on purpose: nothing in this product should be decided by colour, and a failure state that only gets designed after the happy path is a failure state nobody designed.</p>
+    <p class="section-takeaway reveal">Grayscale first, so nothing was decided by colour — and failure states designed alongside the happy path, not after it.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer on">Engineering</span>
     </div>
 
@@ -2915,47 +2620,36 @@ Nothing else. If a fact is not in that array, you do not know it.
       </div>
     </div>
 
-    <div class="prose reveal" style="margin-top:36px;">
-      <p>The full annotated set — twelve happy-path screens and five failure states, each carrying its layout, real microcopy, agent state and accessibility treatment — is a standalone document.</p>
-    </div>
-
     <div class="proto reveal" style="margin-top:24px;">
       <div class="proto-bar">
         <div class="lhs">
           <span class="dots"><i></i><i></i><i></i></span>
-          <span class="nm">yulu-wireframes.html · artefact 14</span>
+          <span class="nm">yulu-wireframes.html</span>
         </div>
         <a href="yulu-wireframes.html" target="_blank" rel="noopener">Open the annotated wireframes →</a>
       </div>
-      <div class="proto-note"><b>17 frames, 23 numbered annotations.</b> Every frame carries an agent tag — silent, surfaced, or absent — so the invisible layer is legible at wireframe stage rather than being explained afterwards.</div>
+      <div class="proto-note"><b>17 frames, 23 annotations.</b> Every frame is tagged silent, surfaced or absent, so the invisible AI layer is legible at wireframe stage.</div>
     </div>
 
     <div class="art reveal">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 15 · Design system</div>
+          <div class="k">Design system</div>
           <div class="t">The components, and the rules they encode</div>
         </div>
-        <div class="meta">Small system on purpose — a product<br>this quiet doesn't need many parts</div>
+        <div class="meta">Small on purpose — a product<br>this quiet doesn't need many parts</div>
       </div>
       <div class="art-body">
         <div class="tbl-scroll">
           <table class="tbl">
-            <thead><tr><th style="width:24%">Component / token</th><th style="width:26%">Spec</th><th>The decision inside it</th></tr></thead>
+            <thead><tr><th style="width:24%">Component</th><th style="width:26%">Spec</th><th>The decision inside it</th></tr></thead>
             <tbody>
-              <tr><td><strong>One control height</strong></td><td><code>48px</code> · radius <code>10px</code> · padding <code>12/14</code></td><td>Every button, field and prefix shares one height. Ride-critical controls (Pause, End ride) exceed the WCAG minimum at 44×44 deliberately — they get used one-handed on a moving bike.</td></tr>
-              <tr><td><strong>Notice — four variants</strong></td><td><code>warn</code> <code>bad</code> <code>good</code> <code>info</code></td><td>Every variant pairs colour with an icon <em>and</em> a bold heading. Meaning is never carried by colour alone — a rule that comes from WCAG 1.4.1 and survives contact with Delhi sunlight on a phone screen.</td></tr>
-              <tr><td><strong>Range, never percentage</strong></td><td>"24 km range · trip needs 9.3 km"</td><td>"91%" is a fact the rider has to translate into a decision. A comparison <em>is</em> the decision. The battery agent's output becomes legible without ever being framed as an AI score.</td></tr>
-              <tr><td><strong>The list is not secondary</strong></td><td>Bottom sheet mirrors every map pin</td><td>Name, distance, walk time and predicted range as text for every bike on the map. A map-primary interface whose list view is a reduced version has excluded screen-reader users from the core task.</td></tr>
-              <tr><td><strong>Manual bike-ID entry</strong></td><td>First-class path, not a fallback</td><td>Not a permission-denied consolation prize. Scanning a QR code requires visual targeting and steady motor control that not every rider has, on a bike that isn't always parked considerately.</td></tr>
-              <tr><td><strong>Live regions, throttled</strong></td><td><code>aria-live="polite"</code>, 60s</td><td>Fare and range update continuously; announcing every tick floods a screen reader into uselessness. Announced once a minute, plus at the moments that matter — hold expiry at 60s and 10s, lock confirmation, readiness recomputation.</td></tr>
+              <tr><td><strong>Notice, four variants</strong></td><td>Warning · error · success · info</td><td>Colour always pairs with an icon and a bold heading. Meaning never rides on colour alone.</td></tr>
+              <tr><td><strong>The list is not secondary</strong></td><td>Bottom sheet mirrors every map pin</td><td>Screen-reader users get the full core task, not a reduced version of it.</td></tr>
+              <tr><td><strong>Manual bike-ID entry</strong></td><td>First-class, not a fallback</td><td>Scanning a QR code needs visual targeting and steady motor control that not every rider has.</td></tr>
+              <tr><td><strong>Throttled live updates</strong></td><td>Announced once a minute</td><td>Fare and range change constantly; announcing every tick floods a screen reader.</td></tr>
             </tbody>
           </table>
-        </div>
-        <div class="note">
-          <span class="who">Two accessibility decisions I'd defend in a review</span>
-          <p><strong>Manual bike-ID entry is a first-class path.</strong> Most apps treat it as what you get when the camera permission fails. Here it sits next to the scanner at equal weight, because the population that can't reliably scan a QR code is not the same as the population that denied a permission.</p>
-          <p><strong>The bottom-sheet list is fully equivalent to the map, not a reduced version of it.</strong> This one cost real layout work and it is the difference between an accessible product and a compliant one.</p>
         </div>
       </div>
     </div>
@@ -2963,15 +2657,15 @@ Nothing else. If a fact is not in that array, you do not know it.
 </section>
 
 <!-- ============================================================
-     11 — PROTOTYPE + CODE
+     11 — PROTOTYPE
      ============================================================ -->
 <section class="section">
   <div class="container">
-    <span class="section-label reveal">11 — Prototype and code</span>
+    <span class="section-label reveal">11 — Prototype</span>
     <h2 class="section-title reveal">A prototype you can break <span class="accent-text">on purpose.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Working code, not a clickable flat. Enter a destination and the readiness rule actually runs; toggle a fault and the failure states fire for real. The panel on the right exposes what the agents decided and why — which is the only way to review an invisible system.</p>
+    <p class="section-takeaway reveal">Working code, not a clickable flat — toggle a fault mid-ride and the failure states fire for real.</p>
 
-    <div class="layers reveal reveal-delay-1" style="margin-top:36px;">
+    <div class="layers reveal reveal-delay-1">
       <span class="layer">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer on">Engineering</span>
     </div>
 
@@ -2979,7 +2673,7 @@ Nothing else. If a fact is not in that array, you do not know it.
       <div class="proto-bar">
         <div class="lhs">
           <span class="dots"><i></i><i></i><i></i></span>
-          <span class="nm">yulu-prototype.html · artefact 16 · live</span>
+          <span class="nm">yulu-prototype.html · live</span>
         </div>
         <a href="yulu-prototype.html" target="_blank" rel="noopener">Open full screen →</a>
       </div>
@@ -2987,88 +2681,15 @@ Nothing else. If a fact is not in that array, you do not know it.
       <div class="proto-note"><b>Try this:</b> pick <b>Nehru Place (9.4 km)</b> and watch bikes disappear from the map that were there for a 3 km trip — the readiness rule recomputing against the new requirement. Then toggle <b>"Lock won't confirm at end"</b> and finish a ride: that is Ananya's original bad experience, redesigned so the cost lands on the system instead of on her.</div>
     </div>
 
-    <div class="prose reveal">
-      <h3>The agent inspector is a design decision, not a debug tool</h3>
-      <p>An invisible AI layer has a reviewability problem: if the whole thesis is that the rider never sees the intelligence, how does anyone — a stakeholder, an engineer, a hiring manager — verify it's doing anything at all? The inspector panel is the answer. It sits outside the phone frame, shows each agent's state as <em>silent</em>, <em>surfaced</em> or <em>idle</em>, prints the live readiness arithmetic, and lists every hidden bike with the reason it failed. <strong>The rider's experience stays silent; the system's reasoning stays inspectable.</strong> Those are different audiences and they get different surfaces.</p>
-      <p>The fault-injection panel exists for the same reason. A prototype that only demonstrates the happy path is arguing the easy case. Five toggles, five real failure branches, no scripted demo path.</p>
-    </div>
+    <ul class="mini-list reveal" style="margin-top:40px;">
+      <li><strong>The agent inspector is a design decision, not a debug tool.</strong> If the rider never sees the intelligence, reviewers still need to — so a side panel shows each agent's state, the live readiness maths, and why every hidden bike was hidden.</li>
+      <li><strong>Faults are live.</strong> Five toggles, five real failure branches, flippable mid-ride — because real failures arrive in the middle of things.</li>
+      <li><strong>AI wrote most of the code; I reviewed all of it.</strong> Two corrections changed the product itself:</li>
+    </ul>
 
-    <div class="art reveal">
-      <div class="art-head">
-        <div>
-          <div class="k">Artefact 17 · AI-generated code, and what I changed</div>
-          <div class="t">Four corrections worth showing</div>
-        </div>
-        <div class="meta">The model wrote most of this prototype.<br>None of it shipped unreviewed.</div>
-      </div>
-      <div class="art-body">
-        <p>Working this way is fast and it is not passive. The pattern that held throughout: <strong>the model writes code that satisfies the description; I catch the places where the description wasn't the requirement.</strong> These four are the ones that changed the product rather than the syntax.</p>
-
-        <div class="code">
-          <div class="code-bar"><span class="f"><b>01 · readiness</b> — a boolean is not enough</span><span class="vd mine">My change</span></div>
-<pre><span class="del">- function ready(bike, trip) {</span>
-<span class="del">-   return bike.range &gt;= required(trip) &amp;&amp; bike.lock === 'ok'</span>
-<span class="del">-       &amp;&amp; bike.gps === 'ok' &amp;&amp; bike.svc &lt;= 14;</span>
-<span class="del">- }</span>
-<span class="add">+ function ready(b) {</span>
-<span class="add">+   const need = req(S.dest ? S.dest.km : 0);</span>
-<span class="add">+   const reasons = [];</span>
-<span class="add">+   if (b.range &lt; need)   reasons.push('range ' + b.range.toFixed(1) + ' km &lt; required ' + need.toFixed(1) + ' km');</span>
-<span class="add">+   if (b.lock === 'flaky') reasons.push('lock state unconfirmed on last close');</span>
-<span class="add">+   if (b.gps === 'drift')  reasons.push('GPS drift beyond tolerance');</span>
-<span class="add">+   if (b.svc &gt; 14)         reasons.push('days since service = ' + b.svc);</span>
-<span class="add">+   return { ok: reasons.length === 0, reasons, need };</span>
-<span class="add">+ }</span></pre>
-        </div>
-        <div class="note">
-          <span class="who">Why</span>
-          <p>The boolean is correct code and the wrong shape. Three things downstream need the <em>reason</em>, not the verdict: the inspector panel, the ops dashboard where staff see why a bike was flagged, and the F1 empty state that has to name the check out loud. <strong>A model can't know that a design requirement three screens away dictates a function's return type.</strong> That's the judgement half of the job.</p>
-        </div>
-
-        <div class="code">
-          <div class="code-bar"><span class="f"><b>02 · map render</b> — a correctness bug that broke the core promise</span><span class="vd mine">My change</span></div>
-<pre><span class="c">// AI's version: render the fleet, then remove what fails.</span>
-<span class="del">- FLEET.forEach(b =&gt; drawPin(b));</span>
-<span class="del">- FLEET.filter(b =&gt; !ready(b).ok).forEach(b =&gt; removePin(b));</span>
-
-<span class="c">// Mine: clear first, then render only what survives.</span>
-<span class="add">+ const list = cleared();          <span class="c">// filter, then draw</span></span>
-<span class="add">+ list.forEach(b =&gt; drawPin(b));</span></pre>
-        </div>
-        <div class="note">
-          <span class="who">Why this one mattered more than it looks</span>
-          <p>Functionally identical after one frame. But for that frame the rider sees a bike appear and then vanish — and the entire product promise is <em>"if it's on the map, it can make this trip."</em> A sixteen-millisecond flash of a bike that isn't real is the product contradicting itself. I only caught it because I was watching for that specific promise; a code review looking for bugs would have passed it.</p>
-        </div>
-
-        <div class="code">
-          <div class="code-bar"><span class="f"><b>03 · marginal threshold</b> — a designed state that could never fire</span><span class="vd mine">My change</span></div>
-<pre><span class="del">- const marginal = b =&gt; ready(b).ok &amp;&amp; b.range &lt; ready(b).need * 1.2;</span>
-<span class="add">+ const marginal = b =&gt; { const r = ready(b); return r.ok &amp;&amp; b.range &lt; r.need * 1.6; };</span></pre>
-        </div>
-        <div class="note">
-          <span class="who">Why</span>
-          <p>1.2× was a plausible-looking number and it made the marginal-trip notice unreachable: the readiness rule already requires 1.5× the trip distance, so a bike that clears the gate at 1.5× and fails "marginal" at 1.2× describes an empty set. <strong>A carefully designed screen, specified in the wireframes, that no rider could ever see.</strong> Running the scripted scenarios is what surfaced it — and fixing it meant putting the number into the behaviour spec, not just into the code, so the three layers agree.</p>
-        </div>
-
-        <div class="code">
-          <div class="code-bar"><span class="f"><b>04 · fault injection</b> — a scaffolding decision that became a design one</span><span class="vd mine">My change</span></div>
-<pre><span class="c">// AI's version: read fault flags from the URL at load.</span>
-<span class="del">- const faults = new URLSearchParams(location.search);</span>
-<span class="del">- if (faults.has('unlockFail')) { ... }</span>
-
-<span class="c">// Mine: live togglable state, flipped mid-flow.</span>
-<span class="add">+ S.faults = { noBikes:false, unlockFail:false, dieMidRide:false,</span>
-<span class="add">+              lockStuck:false, gpsGap:false };</span>
-<span class="add">+ document.querySelectorAll('[data-f]').forEach(b =&gt; b.onclick = () =&gt; {</span>
-<span class="add">+   S.faults[b.dataset.f] = !S.faults[b.dataset.f];   <span class="c">// break it mid-ride</span></span>
-<span class="add">+   render();</span>
-<span class="add">+ });</span></pre>
-        </div>
-        <div class="note">
-          <span class="who">Why</span>
-          <p>URL flags mean choosing the failure before the ride starts, which is exactly the wrong ergonomics — real failures arrive in the middle of things. Making faults live-togglable means a reviewer can kill the battery <em>while the ride is running</em> and watch the fare stop, the adjustment pre-apply and the billing agent's state flip in the inspector. <strong>The demo of the failure states became the argument for them.</strong></p>
-        </div>
-      </div>
+    <div class="insight-grid reveal" style="margin-top:32px;">
+      <div class="insight-card"><h4>Correction · readiness returns reasons, not yes/no</h4><p>The inspector, ops dashboard and empty-map screen all have to explain why a bike is hidden. A model can't know a screen three steps away dictates what a function returns.</p></div>
+      <div class="insight-card"><h4>Correction · faults flip mid-ride</h4><p>The model set failures before the ride started. Live toggles let a reviewer kill the battery during a ride and watch the fare stop — the demo of the failure became the argument for it.</p></div>
     </div>
   </div>
 </section>
@@ -3080,20 +2701,15 @@ Nothing else. If a fact is not in that array, you do not know it.
   <div class="container">
     <span class="section-label reveal">12 — Evaluation</span>
     <h2 class="section-title reveal">You can't ship judgement <span class="accent-text">you haven't scored.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">The rubric was written before the prompts, so that "it reads well" could never be the standard. Twelve scripted billing scenarios, six dimensions, scored 1–4.</p>
-
-    <div class="scope reveal reveal-delay-1" style="margin-top:36px;">
-      <h4>What these numbers are, honestly</h4>
-      <p>These are results from <strong>scripted scenarios run against my own prototype and prompt versions</strong> — a structured self-evaluation, not a user study and not fleet data. They are useful for what they are: evidence that the agent's behaviour was tested against a written standard and changed as a result. They are not evidence that riders would trust the product more. <strong>That claim is the hypothesis, and the measurement plan below is what would settle it.</strong></p>
-    </div>
+    <p class="section-takeaway reveal">The rubric came before the prompts, so "it reads well" could never be the standard. Scripted scenarios against my own prototype — not user or fleet data.</p>
 
     <div class="art reveal">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 18 · Evaluation rubric</div>
+          <div class="k">Evaluation rubric</div>
           <div class="t">Billing Resolution Agent · V3 across 12 scenarios</div>
         </div>
-        <div class="meta">Any dimension scoring below 3<br>blocks the version</div>
+        <div class="meta">Any dimension below 3<br>blocks the version</div>
       </div>
       <div class="art-body">
         <div class="rub">
@@ -3103,7 +2719,7 @@ Nothing else. If a fact is not in that array, you do not know it.
             <div class="rv">12 / 12</div>
           </div>
           <div class="rub-row">
-            <div class="rn">Asymmetry compliance<small>Ambiguity resolves to escalate, never to no_action. Uncertainty never favours the company.</small></div>
+            <div class="rn">Asymmetry compliance<small>Ambiguity resolves to escalate, never to "no action". Uncertainty never favours the company.</small></div>
             <div class="rub-track"><div class="rub-fill" style="width:100%"></div></div>
             <div class="rv">12 / 12</div>
           </div>
@@ -3128,121 +2744,80 @@ Nothing else. If a fact is not in that array, you do not know it.
             <div class="rv">12 / 12</div>
           </div>
         </div>
-
-        <div class="note" style="margin-top:26px;">
-          <span class="who">Version comparison — what each fix bought</span>
-          <p><strong>V1 · 0/12.</strong> Failed grounding in 4, bounded remedies in 3, and returned no decision at all in 5. Fluent and unusable.<br>
-          <strong>V2 · 8/12.</strong> Enumerated actions fixed remedies and grounding outright. Failed asymmetry in 4 — silently defaulting to no_action under ambiguity — and message quality in 6, writing timestamps at riders.<br>
-          <strong>V3 · 11/12.</strong> One failure: over-escalation on a clean ride. Accepted deliberately, because the alternative failure mode charges riders for things the system couldn't prove.</p>
-        </div>
       </div>
     </div>
 
     <div class="art reveal">
       <div class="art-head">
         <div>
-          <div class="k">Artefact 19 · Edge-case matrix</div>
+          <div class="k">Edge-case matrix</div>
           <div class="t">31 generated · 9 kept · 1 changed the architecture</div>
         </div>
         <div class="meta">Generated by the model,<br>triaged by me</div>
       </div>
       <div class="art-body">
-        <p>I asked for edge cases in bulk — "you are a hostile QA engineer; list every way this ride can go wrong that the design does not currently handle" — and then triaged them. Bulk generation is a genuine strength of working this way, and triage is genuinely not.</p>
         <div class="tbl-scroll">
           <table class="tbl wide">
-            <thead><tr><th style="width:22%">Edge case</th><th style="width:9%">Source</th><th style="width:24%">System response</th><th style="width:15%">Rider cost</th><th>Verdict</th></tr></thead>
+            <thead><tr><th style="width:22%">Edge case</th><th style="width:9%">Source</th><th style="width:28%">System response</th><th style="width:12%">Rider cost</th><th>Verdict</th></tr></thead>
             <tbody>
               <tr class="is-chosen">
                 <td><strong>Rider's phone dies mid-ride</strong></td>
                 <td>Model</td>
-                <td>The lock-close ping ends the ride server-side; the fare stops at last confirmed movement, not at app reconnection.</td>
+                <td>The bike's lock ends the ride; the fare stops at last confirmed movement.</td>
                 <td>None</td>
-                <td><strong>Kept — and it changed the architecture.</strong> My model assumed the app was the source of truth for ride end. It isn't: the bike is. Without this, a dead phone means a fare running until the battery does.</td>
+                <td><strong>Kept — changed the architecture.</strong> The bike, not the app, is the source of truth for ride end.</td>
               </tr>
               <tr>
-                <td>Two riders scan the same bike within seconds</td>
+                <td>Two riders scan the same bike</td>
                 <td>Model</td>
-                <td>First confirmed unlock wins; the second sees F2 with its hold released and the bike gone from the map.</td>
+                <td>First confirmed unlock wins; the second sees the unlock-failure screen, hold released.</td>
                 <td>Seconds</td>
-                <td>Kept. Reuses an existing failure state rather than inventing one.</td>
+                <td>Kept. Reuses an existing state.</td>
               </tr>
               <tr>
-                <td>Destination changed while a hold is active</td>
+                <td>Ride ends outside every zone</td>
                 <td>Mine</td>
-                <td>Readiness re-runs. If the held bike no longer clears, the hold is released and the sheet says why.</td>
-                <td>One re-pick</td>
-                <td>Kept. Falls straight out of trip-dependent readiness — but only if you go looking for it.</td>
-              </tr>
-              <tr>
-                <td>Clock skew between phone and lock hardware</td>
-                <td>Model</td>
-                <td>Telemetry timestamps are lock-side. The rider-facing message uses phone-local clock time.</td>
-                <td>None</td>
-                <td>Kept. Small, and it prevents a dispute message citing a time the rider doesn't recognise.</td>
-              </tr>
-              <tr>
-                <td>Ride ends outside every zone, battery alive</td>
-                <td>Mine</td>
-                <td>End blocked, direction to the nearest zone shown, any out-of-zone fee stated <em>before</em> she commits.</td>
+                <td>End blocked, nearest zone shown, any fee stated <em>before</em> she commits.</td>
                 <td>A walk</td>
-                <td>Kept. The rule is that a fee is never discovered after the fact.</td>
+                <td>Kept. A fee is never discovered after the fact.</td>
               </tr>
               <tr class="is-out">
-                <td>Rider spoofs GPS to end a ride outside a zone</td>
+                <td>Rider spoofs GPS</td>
                 <td>Model</td>
                 <td>—</td>
                 <td>—</td>
-                <td>Rejected as out of scope. Adversarial-rider defence is a real problem and a different project; designing for it here would pull the whole product toward suspicion of the user.</td>
+                <td>Rejected. A different project, and it would pull the product toward suspicion of the user.</td>
               </tr>
               <tr class="is-out">
-                <td>Fleet-wide connectivity outage</td>
+                <td>Fleet-wide outage</td>
                 <td>Model</td>
                 <td>—</td>
                 <td>—</td>
-                <td>Rejected. Infrastructure failure, not product behaviour. Handling it in the interface would be theatre.</td>
+                <td>Rejected. Infrastructure, not product behaviour.</td>
               </tr>
               <tr class="is-out">
-                <td>Rider is a minor / doesn't meet age requirements</td>
+                <td>Rider is under age</td>
                 <td>Model</td>
                 <td>—</td>
                 <td>—</td>
-                <td>Rejected for this exploration. Legitimate compliance work, unrelated to the trust thesis, and it would have added an identity-verification step the whole product is trying to avoid.</td>
+                <td>Rejected here. Real compliance work, unrelated to the trust thesis.</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="note">
-          <span class="who">What the 22 rejections say about working this way</span>
-          <p>The model generated 31 plausible edge cases in one pass — more than I would have produced in a day, and one of them found a genuine architectural hole. It also produced twenty-two that were out of scope, someone else's problem, or would have quietly changed what the product is about. <strong>The value isn't in the generation and it isn't in the filtering. It's in having a written scope sharp enough to filter against.</strong></p>
+          <span class="who">What 22 rejections say about working this way</span>
+          <p><strong>The value isn't in the generation or the filtering — it's in having a written scope sharp enough to filter against.</strong></p>
         </div>
       </div>
     </div>
 
-    <div class="art reveal">
-      <div class="art-head">
-        <div>
-          <div class="k">Artefact 20 · Measurement plan</div>
-          <div class="t">Defined before testing, so results could be reported against it</div>
-        </div>
-        <div class="meta">The trade-off is instrumented,<br>not asserted</div>
-      </div>
-      <div class="art-body">
-        <div class="tbl-scroll">
-          <table class="tbl">
-            <thead><tr><th style="width:30%">Metric</th><th style="width:22%">Layer</th><th>What it would tell me</th></tr></thead>
-            <tbody>
-              <tr><td><strong>False-positive rate</strong><br><span style="color:var(--ink-mute);font-size:13px">bikes shown that then failed</span></td><td>Agent performance</td><td>F2, F3 and F5 firing. The number that most directly measures the core promise — every one of these is a rider who trusted the map and shouldn't have.</td></tr>
-              <tr><td><strong>False-negative rate</strong><br><span style="color:var(--ink-mute);font-size:13px">bikes hidden that were fine</span></td><td>Agent performance</td><td>Measured through ops-staff overrides in the dispatch dashboard — the feedback loop was designed for this, not retrofitted.</td></tr>
-              <tr><td><strong>Hide rate</strong></td><td>The honest cost</td><td>Percentage of the physical fleet suppressed from the map. This is the price of the promise, and if it climbs the 1.5× multiplier is what moves.</td></tr>
-              <tr><td><strong>F1 frequency</strong></td><td>The honest cost</td><td>How often a rider sees an empty map. Tracked alongside hold rate, since reservations remove live supply and could be making it worse.</td></tr>
-              <tr><td><strong>Override rate on "Continue"</strong></td><td>Interaction</td><td>High override + successful trips means the agent is too conservative. High override + failed trips means the warning isn't trusted. Same number, opposite fixes.</td></tr>
-              <tr><td><strong>Billing auto-resolution rate</strong></td><td>Agent performance</td><td>Share of disputes resolved without escalating to F4. Rising means the agent is getting better at evidence — falling means the telemetry is degrading.</td></tr>
-              <tr><td><strong>Repeat-ride rate at 7 and 30 days</strong></td><td>The actual hypothesis</td><td>The retention claim, stated as a test rather than a finding — because the research corpus was all beginners and cannot support it.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <div class="prose reveal" style="margin-top:48px;"><h3>How the hypothesis would be tested</h3></div>
+    <ul class="mini-list reveal">
+      <li><strong>Does the map keep its promise?</strong> Bikes shown that then failed, and bikes hidden that were fine — the second measured through staff overrides.</li>
+      <li><strong>What does the promise cost?</strong> Share of the fleet hidden, and how often riders see an empty map. If these climb, the 1.5× multiplier moves.</li>
+      <li><strong>Does trust become retention?</strong> Repeat rides at 7 and 30 days — the hypothesis, stated as a test.</li>
+    </ul>
   </div>
 </section>
 
@@ -3253,16 +2828,15 @@ Nothing else. If a fact is not in that array, you do not know it.
   <div class="container">
     <span class="section-label reveal">13 — Where it broke</span>
     <h2 class="section-title reveal">The interesting failures weren't in one layer. <span class="accent-text">They were between them.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Four things broke under testing. Three were contained to a single layer. The fourth is the one worth the section.</p>
+    <p class="section-takeaway reveal">Three failures stayed in one layer. The fourth lived in the gaps between design, spec and code.</p>
 
-    <div class="moves-grid reveal reveal-delay-1" style="margin-top:40px;">
+    <div class="moves-grid reveal reveal-delay-1" style="margin-top:32px;">
       <div class="move-card">
         <div class="move-n">01</div>
         <div class="move-body">
           <div class="move-targets">Broke in: <em>design</em> · Fixed in: <em>design</em></div>
           <h3>Destination-first stranded anyone without a destination</h3>
-          <p>Making the destination the entry point is what gives every downstream screen a real promise instead of a generic one. It also meant that a rider who just wanted to look at what was nearby had nowhere to go — my first flow had no path past that screen.</p>
-          <p><strong>Fixed by adding a "just browsing" mode</strong> that applies the 2 km floor only, with a banner that says exactly that: "Showing bikes with at least 2 km of range. Add a destination for a better match." The rule I held to is that the product never pretends a floor-based check is a trip-based one.</p>
+          <p>A rider who just wanted to browse had nowhere to go. <strong>Fixed with a browsing mode</strong> that applies only the 2 km minimum — and says so, never passing a basic check off as a trip check.</p>
         </div>
       </div>
       <div class="move-card">
@@ -3270,17 +2844,15 @@ Nothing else. If a fact is not in that array, you do not know it.
         <div class="move-body">
           <div class="move-targets">Broke in: <em>the prompt</em> · Fixed in: <em>the prompt</em></div>
           <h3>V2 resolved ambiguity in the company's favour</h3>
-          <p>My behaviour spec had said, since before any prompt existed, that uncertainty must never favour the company. V2 defaulted to <code>no_action</code> on ambiguous telemetry in four of twelve scenarios — because a rule written in a design document has no effect on a model that was never given it.</p>
-          <p><strong>Fixed by writing the asymmetry into the prompt as an explicit branch</strong> with its own action: ambiguity returns <code>escalate</code>, and <code>no_action</code> is reserved for rides the telemetry positively shows were normal. The lesson generalises past this project: <em>a value that isn't in the prompt isn't in the product.</em></p>
+          <p>The spec forbade it; the prompt never said so. <strong>Fixed by making ambiguity escalate explicitly.</strong> <em>A value that isn't in the prompt isn't in the product.</em></p>
         </div>
       </div>
       <div class="move-card">
         <div class="move-n">03</div>
         <div class="move-body">
           <div class="move-targets">Broke in: <em>code</em> · Fixed in: <em>code</em></div>
-          <h3>The map contradicted the product's one promise for a frame</h3>
-          <p>Render-then-remove showed a bike and took it away. Sixteen milliseconds of the system saying something it had spent the entire architecture trying not to say.</p>
-          <p><strong>Fixed by computing the cleared set before drawing anything.</strong> Trivial as a patch, and the only reason it was caught is that I was reviewing against a promise rather than against the spec.</p>
+          <h3>The map contradicted its own promise for a frame</h3>
+          <p>Generated code drew every bike, then removed the failing ones — a one-frame flash of bikes that weren't real. <strong>Fixed by filtering before drawing.</strong></p>
         </div>
       </div>
       <div class="move-card" style="border-color: var(--accent);">
@@ -3288,10 +2860,8 @@ Nothing else. If a fact is not in that array, you do not know it.
         <div class="move-body">
           <div class="move-targets">Broke in: <em>all three at once</em> · Fixed in: <em>design + spec + code</em></div>
           <h3>A designed screen that no rider could ever reach</h3>
-          <p>The marginal-trip notice — the one place the whole product lets an agent speak up about a judgement call — never fired. Not once, in any scenario.</p>
-          <p><strong>The cause was distributed across three layers, and no single layer was wrong.</strong> The wireframes specified the state and described when it should appear in prose. The behaviour specification said "surfaced only when marginal" and gave no number. The code picked 1.2× as a plausible-looking threshold. But readiness already gates at 1.5×, so "clears at 1.5× and is marginal below 1.2×" describes an empty set. Every layer was internally consistent and the product still had a hole in it.</p>
-          <p><strong>The fix had to touch all three:</strong> the threshold moved to 1.6× in the code, the number went into the behaviour specification so the code is no longer its own source of truth, and the inspector panel now prints the marginal calculation so the state is visible during a run instead of being inferred from its absence.</p>
-          <p>This is the failure mode specific to designing AI products, and it is why the three artefacts have to be maintained as one thing. <em>A behaviour spec that describes intent without numbers, and code that supplies numbers without intent, will agree with each other right up until you check.</em></p>
+          <p>The marginal-trip notice — the one place an agent speaks up — never fired. The spec gave no number, the code picked 1.2×, and readiness already required 1.5×, so no bike could ever qualify.</p>
+          <p><strong>The fix touched all three:</strong> 1.6× in the code, the number written into the spec, and the calculation shown in the inspector.</p>
         </div>
       </div>
     </div>
@@ -3299,7 +2869,7 @@ Nothing else. If a fact is not in that array, you do not know it.
     <figure class="reveal">
       <div class="svg-figure">
         <svg viewBox="0 0 1000 440" role="img" aria-label="AI workflow diagram showing the loop between research, design, prompts and code, with ownership marked at each step">
-          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">ARTEFACT 21 · THE WORKFLOW — WHERE THE LOOP ACTUALLY RUNS</text>
+          <text x="0" y="18" font-size="12" font-weight="700" letter-spacing="1.6" class="fill-accent">THE WORKFLOW — WHERE THE LOOP ACTUALLY RUNS</text>
 
           <!-- outer linear -->
           <g>
@@ -3361,7 +2931,7 @@ Nothing else. If a fact is not in that array, you do not know it.
           <text x="24" y="422" font-size="10" class="fill-mute">A failing evaluation can send you to the interface, the prompt, or the code — and failure 04 above sent me to all three at once, because the bug lived in the gaps between them.</text>
         </svg>
       </div>
-      <figcaption><span class="figcap-num">FIG 06</span>Artefact 21 — the workflow. The linear part at the top happened once. Everything inside the dashed boundary ran repeatedly, and the arrow that matters is the one going backwards from evaluation — because where it points is the diagnosis.</figcaption>
+      <figcaption><span class="figcap-num">FIG 06</span>The workflow. The top row happened once; everything inside the dashed loop ran repeatedly — and where a failed evaluation points back to is the diagnosis.</figcaption>
     </figure>
   </div>
 </section>
@@ -3373,9 +2943,9 @@ Nothing else. If a fact is not in that array, you do not know it.
   <div class="container">
     <span class="section-label reveal">14 — The product</span>
     <h2 class="section-title reveal">Three moments where <span class="accent-text">the whole argument lands.</span></h2>
-    <p class="section-deck reveal" style="margin-top:20px;">Out of seventeen screens, these are the three that carry the thesis — one where the AI is invisible, one where it speaks, and one where it admits it was wrong.</p>
+    <p class="section-takeaway reveal">One screen where the AI is invisible, one where it speaks, and one where it admits it was wrong.</p>
 
-    <div class="opts reveal reveal-delay-1" style="margin-top:40px;">
+    <div class="opts reveal reveal-delay-1" style="margin-top:32px;">
       <div class="opt">
         <div class="oi">SILENT</div>
         <svg viewBox="0 0 220 300" role="img" aria-label="Final UI: map screen showing only bikes that can complete the trip">
@@ -3405,7 +2975,7 @@ Nothing else. If a fact is not in that array, you do not know it.
           <text x="204" y="288" text-anchor="end" font-size="8.5" font-weight="600" class="fill-accent">24.0 km</text>
         </svg>
         <h4>The map, saying nothing</h4>
-        <p>Three agents ran to produce this screen and none of them appear on it. Two bikes were removed and the sheet says so in one line, without ever calling it a score.</p>
+        <p>Three agents produced this screen; none appear on it. Two hidden bikes are noted in one line, never as a score.</p>
       </div>
       <div class="opt">
         <div class="oi">SURFACED</div>
@@ -3431,7 +3001,7 @@ Nothing else. If a fact is not in that array, you do not know it.
           <text x="110" y="286" text-anchor="middle" font-size="7.5" class="fill-ink-2">See other bikes</text>
         </svg>
         <h4>The one place it speaks</h4>
-        <p>Marginal, not failing. The notice informs and never gates — "Reserve and walk over" stays primary, unpenalised. Colour is never the only carrier: icon and bold heading both say it too.</p>
+        <p>Marginal, not failing. The notice informs but never blocks, and colour is backed by an icon and a bold heading.</p>
       </div>
       <div class="opt win">
         <div class="oi">ADMITTING FAULT</div>
@@ -3458,33 +3028,18 @@ Nothing else. If a fact is not in that array, you do not know it.
           <text x="110" y="284" text-anchor="middle" font-size="9" font-weight="700" class="fill-accent-ink">Done</text>
         </svg>
         <h4>The trust moment</h4>
-        <p>The system caught its own failure and corrected it before Ananya noticed. Stated as fact, with the reason, without her asking — and written by the agent under a style contract that forbids the apology.</p>
+        <p>The system caught its own failure and fixed the fare before Ananya noticed — stated as fact, with the reason, no apology.</p>
       </div>
     </div>
 
     <div class="pullquote reveal">This is Ananya's original bad ride, rebuilt. <em>The same hardware still fails — the cost of it just moved from her to the system.</em></div>
 
-    <div class="art reveal">
-      <div class="art-head">
-        <div>
-          <div class="k">Still open</div>
-          <div class="t">Things I haven't resolved, and wouldn't pretend to have</div>
-        </div>
-      </div>
-      <div class="art-body">
-        <div class="tbl-scroll">
-          <table class="tbl">
-            <thead><tr><th style="width:34%">Question</th><th>Why it's still open</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Should the empty state predict a wait time?</strong></td><td>"About 8 minutes" is more useful than vagueness right up until it's wrong, at which point it costs more trust than saying nothing would have. This needs testing, not a decision made at a desk.</td></tr>
-              <tr><td><strong>Does absence read as diligence to a first-time rider?</strong></td><td>Ananya has six months of context. Someone opening the app for the first time and seeing three bikes where a competitor shows twelve has no way to read that as care. The counter-persona is where this design is most likely to be wrong.</td></tr>
-              <tr><td><strong>Where do the 1.5× and 2 km land on a real fleet?</strong></td><td>Both are reasoned, neither is empirical. They are the availability/reliability dial, and only hide rate and F1 frequency on live data can set them.</td></tr>
-              <tr><td><strong>Is over-escalation still the right failure at scale?</strong></td><td>I accepted it at twelve scenarios. At ten thousand rides a day it becomes a staffing cost, and the honest answer is that the threshold gets revisited when the queue does — not that the principle changes.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <div class="prose reveal" style="margin-top:48px;"><h3>Still open</h3></div>
+    <ul class="mini-list reveal">
+      <li><strong>Does absence read as diligence to a first-time rider?</strong> Three bikes where a competitor shows twelve may just look broken.</li>
+      <li><strong>Where do 1.5× and 2 km land on a real fleet?</strong> Reasoned, not empirical — only live data can set them.</li>
+      <li><strong>Is over-escalation still right at 10,000 rides a day?</strong> The threshold gets revisited; the principle doesn't.</li>
+    </ul>
   </div>
 </section>
 
@@ -3500,32 +3055,32 @@ Nothing else. If a fact is not in that array, you do not know it.
       <div class="takeaway">
         <span class="n">01</span>
         <h3><em>The restraint is the skill.</em></h3>
-        <p>Four agents, one language model, and a written list of the things that stay deterministic — pricing, geofencing, payment state. Anyone can add a model to a feature. Being able to say <em>why a capability isn't AI</em> is what separates a product from a demo, and it's the first question I'd expect from anyone reviewing this seriously.</p>
+        <p>Being able to say <em>why a capability isn't AI</em> is what separates a product from a demo.</p>
       </div>
       <div class="takeaway">
         <span class="n">02</span>
         <h3><em>A value that isn't in the prompt isn't in the product.</em></h3>
-        <p>"Never resolve ambiguity in the company's favour" sat in my behaviour specification for weeks and had precisely no effect on the system's behaviour until it existed as an explicit branch with its own action. Design documents don't constrain models. <em>Prompts do</em> — which makes prompt-writing a design responsibility, not an implementation detail to hand off.</p>
+        <p>The asymmetry rule sat in my spec with zero effect until it was written into the prompt.</p>
       </div>
       <div class="takeaway">
         <span class="n">03</span>
         <h3><em>The dangerous bugs live between the layers.</em></h3>
-        <p>The marginal-trip notice failed while the wireframe, the spec and the code were each internally correct. Nothing was broken; they simply weren't the same artefact. Working across design, prompts and code means the integration is the deliverable — and the only thing that catches these is running scenarios against a written standard.</p>
+        <p>Wireframe, spec and code were each correct — and the product still had a hole in it.</p>
       </div>
       <div class="takeaway">
         <span class="n">04</span>
         <h3><em>Use AI hardest where it can argue with you.</em></h3>
-        <p>The most valuable thing the model produced wasn't a feature or a screen — it was <em>"you would not draw retention conclusions from this data."</em> It cost me the claim I most wanted to make. I use models for volume, variations and first drafts, but the highest-leverage prompt in this project was the one that made agreement expensive.</p>
+        <p>The most valuable model output was <em>"you would not draw retention conclusions from this data"</em> — it cost me the claim I most wanted to make.</p>
       </div>
       <div class="takeaway">
         <span class="n">05</span>
         <h3><em>Failure states are the product.</em></h3>
-        <p>Five of seventeen screens, designed at the same fidelity as the happy path, because trust is built or destroyed in exactly those five. Most apps hand failure a generic toast and a support number. A product whose entire thesis is reliability cannot treat its own failures as an afterthought.</p>
+        <p>Trust is built or destroyed in five of seventeen screens.</p>
       </div>
       <div class="takeaway">
         <span class="n">06</span>
         <h3><em>Invisible systems still have to be inspectable.</em></h3>
-        <p>The inspector panel started as a debugging convenience and became the thing that makes the work reviewable at all. If the rider never sees the intelligence, someone has to — a stakeholder, an engineer, an auditor. Designing that second surface is part of designing an AI product, not an extra.</p>
+        <p>If the rider never sees the intelligence, someone else has to.</p>
       </div>
     </div>
 
