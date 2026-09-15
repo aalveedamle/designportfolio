@@ -515,6 +515,12 @@ body { padding-top: 64px; }
 .cs-visual--intel   { background: linear-gradient(135deg, #5b1fb0, #d13fd8); }
 .cs-visual--finance { background: linear-gradient(135deg, #92400e, #eab308); }
 
+/* The Sprint, Decision Intelligence and WAM card covers are static copies of a
+   figure from each strategy page. They scale with the card, so drop text that
+   would shrink below a readable size. */
+@media (max-width: 900px) { .cs-cadence-eb, .cs-pyramid-d, .cs-pipeline-d { display: none; } }
+@media (max-width: 560px) { .cs-cadence-labels, .cs-cadence-loop, .cs-pyramid-labels, .cs-pipeline-labels { display: none; } }
+
 .cs-dim { position: absolute; inset: 0; background: rgba(0,0,0,0.25); }
 .cs-sheen {
   position: absolute; inset: 0;
@@ -920,15 +926,35 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
       <!-- 02 — Design Sprint -->
       <a href="aalvee_strategy_02_design_sprint_v1.html" class="cs-card reveal">
         <div class="cs-visual cs-visual--sprint">
-          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-            <circle cx="200" cy="150" r="88" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
-            <path d="M200 62 L200 90 M284 123 L258 137 M252 221 L234 199 M148 221 L166 199 M116 123 L142 137" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-            <circle cx="200" cy="62" r="7" fill="#E9F056"/>
-            <circle cx="284" cy="123" r="6" fill="rgba(255,255,255,0.5)"/>
-            <circle cx="252" cy="221" r="6" fill="rgba(255,255,255,0.5)"/>
-            <circle cx="148" cy="221" r="6" fill="rgba(255,255,255,0.5)"/>
-            <circle cx="116" cy="123" r="6" fill="rgba(255,255,255,0.5)"/>
-            <circle cx="200" cy="150" r="10" fill="rgba(255,255,255,0.5)"/>
+          <!-- Static glimpse of Fig 01 (sprint cadence + design debt loop) from the strategy page -->
+          <svg class="cs-cadence" viewBox="0 0 1200 655" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true">
+            <defs>
+              <marker id="csCadArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#E9F056"/>
+              </marker>
+            </defs>
+            <g transform="translate(0,90)">
+              <!-- Segments stop at each phase circle's edge so the track never shows through the translucent circles -->
+              <path d="M158 240 H352 M388 240 H582 M618 240 H812 M848 240 H1042" stroke="rgba(255,255,255,0.45)" stroke-width="3"/>
+              <line x1="1078" y1="240" x2="1090" y2="240" stroke="#E9F056" stroke-width="3" marker-end="url(#csCadArrow)"/>
+              <path d="M 1060 222 C 1060 90, 140 90, 140 222" stroke="#E9F056" stroke-width="2" stroke-dasharray="8 8" opacity="0.8" marker-end="url(#csCadArrow)"/>
+              <rect class="cs-cadence-loop" x="470" y="40" width="260" height="38" rx="19" fill="rgba(0,0,0,0.28)" stroke="#E9F056" stroke-width="1.5"/>
+              <text class="cs-cadence-loop" x="600" y="65" text-anchor="middle" fill="#E9F056" font-size="14" font-weight="600" letter-spacing="0.08em" style="font-family:var(--font-display)">DESIGN DEBT LOOP</text>
+              <g fill="rgba(0,0,0,0.3)" stroke="#E9F056" stroke-width="3">
+                <circle cx="140" cy="240" r="16"/><circle cx="370" cy="240" r="16"/><circle cx="600" cy="240" r="16"/><circle cx="830" cy="240" r="16"/><circle cx="1060" cy="240" r="16"/>
+              </g>
+              <g fill="#E9F056">
+                <circle cx="140" cy="240" r="5"/><circle cx="370" cy="240" r="5"/><circle cx="600" cy="240" r="5"/><circle cx="830" cy="240" r="5"/><circle cx="1060" cy="240" r="5"/>
+              </g>
+              <g class="cs-cadence-labels" text-anchor="middle" style="font-family:var(--font-display)">
+                <g class="cs-cadence-eb" fill="rgba(255,255,255,0.6)" font-size="13" font-weight="600" letter-spacing="0.08em">
+                  <text x="140" y="298">PHASE 01</text><text x="370" y="298">PHASE 02</text><text x="600" y="298">PHASE 03</text><text x="830" y="298">PHASE 04</text><text x="1060" y="298">PHASE 05</text>
+                </g>
+                <g fill="#fff" font-size="22" font-weight="600" letter-spacing="-0.01em">
+                  <text x="140" y="328">Understand</text><text x="370" y="328">Sketch</text><text x="600" y="328">Decide</text><text x="830" y="328">Prototype</text><text x="1060" y="328">Test</text>
+                </g>
+              </g>
+            </g>
           </svg>
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
@@ -960,14 +986,34 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
       <!-- 03 — Decision Intelligence -->
       <a href="aalvee_strategy_03_integrated_dashboard_v1.html" class="cs-card reveal">
         <div class="cs-visual cs-visual--intel">
-          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-            <circle cx="230" cy="150" r="95" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
-            <circle cx="230" cy="150" r="68" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-            <circle cx="230" cy="150" r="41" stroke="rgba(255,255,255,0.28)" stroke-width="2"/>
-            <circle cx="230" cy="150" r="9" fill="#E9F056"/>
-            <rect x="60" y="210" width="18" height="40" rx="3" fill="rgba(255,255,255,0.14)"/>
-            <rect x="84" y="185" width="18" height="65" rx="3" fill="rgba(255,255,255,0.2)"/>
-            <rect x="108" y="160" width="18" height="90" rx="3" fill="rgba(255,255,255,0.26)"/>
+          <!-- Static glimpse of Fig 01 (the foundational pyramid) from the strategy page -->
+          <svg class="cs-pyramid" viewBox="0 0 1200 655" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true">
+            <g transform="translate(600,96) scale(0.54) translate(-600,-30)">
+              <polygon points="600,30 410,359 790,359" fill="rgba(255,255,255,0.08)"/>
+              <polygon points="410,359 220,688 600,688" fill="rgba(255,255,255,0.08)"/>
+              <polygon points="790,359 600,688 980,688" fill="rgba(255,255,255,0.08)"/>
+              <polygon points="410,359 790,359 600,688" fill="#E9F056" fill-opacity="0.16"/>
+              <polygon points="600,30 980,688 220,688" stroke="#E9F056" stroke-width="4" stroke-linejoin="round" opacity="0.85"/>
+              <g stroke="rgba(255,255,255,0.4)" stroke-width="2.5">
+                <line x1="410" y1="359" x2="790" y2="359"/>
+                <line x1="410" y1="359" x2="600" y2="688"/>
+                <line x1="790" y1="359" x2="600" y2="688"/>
+              </g>
+              <g class="cs-pyramid-labels" text-anchor="middle" style="font-family:var(--font-display)">
+                <g fill="#fff" font-size="30" font-weight="600" letter-spacing="-0.01em">
+                  <text x="600" y="262">Technology</text>
+                  <text x="600" y="446">Vision &amp; Strategy</text>
+                  <text x="410" y="590">People</text>
+                  <text x="790" y="590">Business</text>
+                </g>
+                <g class="cs-pyramid-d" fill="rgba(255,255,255,0.65)" font-size="20" font-weight="500">
+                  <text x="600" y="294">Functional capability</text>
+                  <text x="600" y="476">Translation layer</text>
+                  <text x="410" y="622">Who decides &amp; owns</text>
+                  <text x="790" y="622">Commercial context</text>
+                </g>
+              </g>
+            </g>
           </svg>
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
@@ -999,10 +1045,27 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
       <!-- 04 — WAM GTM -->
       <a href="aalvee_strategy_04_wam_gtm_v1.html" class="cs-card reveal">
         <div class="cs-visual cs-visual--finance">
-          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-            <path d="M70 230 L140 190 L200 210 L260 140 L330 100" stroke="rgba(255,255,255,0.22)" stroke-width="3"/>
-            <path d="M200 70 L272 100 L272 156 C272 196 240 226 200 244 C160 226 128 196 128 156 L128 100 Z" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            <path d="M170 158 L192 182 L234 132" stroke="#E9F056" stroke-width="4"/>
+          <!-- Static glimpse of Fig 02's CX strategy pipeline from the strategy page -->
+          <svg class="cs-pipeline" viewBox="0 0 1200 655" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true">
+            <!-- Segments stop at each station's edge so the line never shows through the translucent circles -->
+            <path d="M150 270 H282 M342 270 H474 M534 270 H666 M726 270 H858 M918 270 H1050" stroke="rgba(255,255,255,0.45)" stroke-width="3"/>
+            <circle cx="120" cy="270" r="28" fill="#E9F056"/>
+            <g fill="rgba(0,0,0,0.3)" stroke="#E9F056" stroke-width="3">
+              <circle cx="312" cy="270" r="28"/><circle cx="504" cy="270" r="28"/><circle cx="696" cy="270" r="28"/><circle cx="888" cy="270" r="28"/><circle cx="1080" cy="270" r="28"/>
+            </g>
+            <g class="cs-pipeline-labels" text-anchor="middle" style="font-family:var(--font-display)">
+              <text x="600" y="190" fill="rgba(255,255,255,0.6)" font-size="14" font-weight="600" letter-spacing="0.08em">CX STRATEGY PIPELINE</text>
+              <g font-size="16" font-weight="600">
+                <text x="120" y="276" fill="#1d1d1f">01</text>
+                <g fill="#E9F056"><text x="312" y="276">02</text><text x="504" y="276">03</text><text x="696" y="276">04</text><text x="888" y="276">05</text><text x="1080" y="276">06</text></g>
+              </g>
+              <g fill="#fff" font-size="22" font-weight="600" letter-spacing="-0.01em">
+                <text x="120" y="338">CX Strategy</text><text x="312" y="338">Customer</text><text x="504" y="338">Experience design</text><text x="696" y="338">Metrics &amp;</text><text x="888" y="338">Org. adoption</text><text x="1080" y="338">Culture</text>
+              </g>
+              <g class="cs-pipeline-d" fill="rgba(255,255,255,0.65)" font-size="18" font-weight="500">
+                <text x="312" y="366">understanding</text><text x="504" y="366">&amp; innovation</text><text x="696" y="366">measurement</text><text x="888" y="366">&amp; accountability</text>
+              </g>
+            </g>
           </svg>
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
