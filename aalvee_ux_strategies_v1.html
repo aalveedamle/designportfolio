@@ -384,15 +384,17 @@ body { padding-top: 64px; }
   max-width: 720px;
   margin-bottom: 40px;
 }
-/* Desktop: tighten the hero and the gap above the framework cards so the top
-   of the first card shows above the fold, even on a 768px-tall screen. The
-   hero's top padding stays >= 96px so the badge clears the 64px fixed nav. */
+/* Desktop: size the hero by viewport height as well as width, so at least 10%
+   of the first card (62px of 620px) shows above the fold even in short browser
+   windows such as a 1366x768 laptop (~657px of page). The headline only
+   shrinks when the window is short. The hero already starts below the 64px
+   fixed nav, so its top padding is pure breathing room above the badge. */
 @media (min-width: 721px) {
-  .hero { padding: clamp(96px, 7vw, 112px) 0 clamp(32px, 3vw, 56px); }
+  .hero { padding: clamp(56px, 9vh, 96px) 0 clamp(32px, 5vh, 56px); }
   .hero-status { margin-bottom: 20px; }
-  .hero-title { margin-bottom: 24px; }
+  .hero-title { font-size: clamp(48px, min(8vw, 11vh), 112px); margin-bottom: 24px; }
   .hero-deck { margin-bottom: 0; }
-  .hero + .section { padding-top: clamp(32px, 3vw, 56px); }
+  .hero + .section { padding-top: clamp(32px, 5vh, 56px); }
   .hero + .section .section-head { margin-bottom: 28px; }
 }
 
