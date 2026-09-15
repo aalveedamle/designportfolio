@@ -1062,13 +1062,14 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
 
     <figure class="reveal">
       <div class="svg-figure">
-        <svg viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The strategic shift — old internally-focused model vs new customer-centric model, with mobile-first as the forcing function">
+        <svg viewBox="0 0 1300 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The strategic shift — old internally-focused model vs new customer-centric model, with mobile-first as the forcing function">
 
           <!--
-            Two-panel before/after diagram on a 1200×620 viewBox.
+            Two-panel before/after diagram on a 1300×620 viewBox.
             Old panel: x = 40 to 560 (520 wide)
-            Arrow:     x = 580 to 620 (centered between panels)
-            New panel: x = 640 to 1160 (520 wide)
+            Arrow:     centred at x = 650 in a 180-wide gap, so the "forces" pill and
+                       the mechanism label clear both panels
+            New panel: x = 740 to 1260 (drawn at 640–1160, shifted +100)
             Both panels share the same vertical structure for direct comparison.
           -->
 
@@ -1115,7 +1116,7 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
             </g>
 
             <!-- Mini desktop illustration at bottom -->
-            <g transform="translate(300,480)" opacity="0.6">
+            <g transform="translate(300,446)" opacity="0.6">
               <!-- Desktop monitor -->
               <rect x="-110" y="-40" width="220" height="140" rx="6" class="fill-bg-svg stroke-old" stroke-width="1.5"/>
               <rect x="-100" y="-30" width="200" height="120" rx="3" class="fill-old-bg"/>
@@ -1139,7 +1140,7 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
           </g>
 
           <!-- ===== TRANSFORMATION ARROW (center) ===== -->
-          <g transform="translate(600,310)">
+          <g transform="translate(650,310)">
             <!-- Vertical track behind the arrow -->
             <line x1="0" y1="-180" x2="0" y2="180" class="stroke-accent" stroke-width="1" opacity="0.25" stroke-dasharray="2 6"/>
 
@@ -1166,7 +1167,7 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
           </g>
 
           <!-- ===== NEW MODEL (right panel) ===== -->
-          <g>
+          <g transform="translate(100,0)">
             <rect x="640" y="40" width="520" height="540" rx="18"
                   fill="var(--accent)" fill-opacity="0.06"
                   class="stroke-accent" stroke-width="1.5"/>
@@ -1208,7 +1209,7 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
             </g>
 
             <!-- Mini phone illustration at bottom -->
-            <g transform="translate(900,500)">
+            <g transform="translate(900,465)">
               <!-- Phone frame -->
               <rect x="-46" y="-60" width="92" height="160" rx="14"
                     class="fill-bg-svg stroke-accent" stroke-width="2"/>

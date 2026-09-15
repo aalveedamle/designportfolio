@@ -498,8 +498,6 @@ body { padding-top: 64px; }
   border-color: var(--line);
   box-shadow: 0 24px 70px rgba(0,0,0,0.35);
 }
-.cs-card--soon { cursor: default; }
-.cs-card--soon:hover { transform: none; box-shadow: none; }
 
 /* Full-bleed illustration + overlays */
 .cs-visual { position: absolute; inset: 0; overflow: hidden; }
@@ -515,11 +513,11 @@ body { padding-top: 64px; }
 .cs-visual--intel   { background: linear-gradient(135deg, #5b1fb0, #d13fd8); }
 .cs-visual--finance { background: linear-gradient(135deg, #92400e, #eab308); }
 
-/* The Sprint, Decision Intelligence and WAM card covers are static copies of a
-   figure from each strategy page. They scale with the card, so drop text that
-   would shrink below a readable size. */
-@media (max-width: 900px) { .cs-cadence-eb, .cs-pyramid-d, .cs-pipeline-d { display: none; } }
-@media (max-width: 560px) { .cs-cadence-labels, .cs-cadence-loop, .cs-pyramid-labels, .cs-pipeline-labels { display: none; } }
+/* Every framework card cover is a static copy of a figure from its strategy
+   page. They scale with the card, so drop text that would shrink below a
+   readable size. */
+@media (max-width: 900px) { .cs-cadence-eb, .cs-pyramid-d, .cs-pipeline-d, .cs-diamond-d { display: none; } }
+@media (max-width: 560px) { .cs-cadence-labels, .cs-cadence-loop, .cs-pyramid-labels, .cs-pipeline-labels, .cs-diamond-labels { display: none; } }
 
 .cs-dim { position: absolute; inset: 0; background: rgba(0,0,0,0.25); }
 .cs-sheen {
@@ -748,7 +746,6 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
    comes later, so it was cancelling their hover lift and replacing their own transitions. */
 .cs-card.reveal.in { transition: opacity .8s var(--ease-out), transform .6s var(--ease-out), box-shadow .6s var(--ease-out), border-color .6s var(--ease-out); }
 .cs-card.reveal.in:hover { transform: translateY(-6px) scale(1.01); }
-.cs-card--soon.reveal.in:hover { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -879,19 +876,40 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
 
     <div class="cs-grid">
 
-      <!-- 01 — Coming soon placeholder -->
-      <article class="cs-card cs-card--soon reveal">
+      <!-- 01 — Mobile-First -->
+      <a href="aalvee_strategy_01_mobile_first_v1.html" class="cs-card reveal">
         <div class="cs-visual cs-visual--mobile">
-          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-            <rect x="60" y="190" width="24" height="60" rx="4" fill="rgba(255,255,255,0.10)"/>
-            <rect x="94" y="160" width="24" height="90" rx="4" fill="rgba(255,255,255,0.14)"/>
-            <rect x="128" y="120" width="24" height="130" rx="4" fill="rgba(255,255,255,0.18)"/>
-            <rect x="190" y="50" width="120" height="210" rx="18" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
-            <rect x="208" y="76" width="84" height="10" rx="5" fill="rgba(255,255,255,0.25)"/>
-            <rect x="208" y="96" width="60" height="8" rx="4" fill="rgba(255,255,255,0.16)"/>
-            <rect x="208" y="140" width="84" height="46" rx="8" fill="rgba(255,255,255,0.08)"/>
-            <rect x="208" y="196" width="84" height="10" rx="5" fill="rgba(255,255,255,0.16)"/>
-            <circle cx="250" cy="234" r="4" fill="#E9F056"/>
+          <!-- Static glimpse of Fig 03 (the constrained double diamond) from the strategy page -->
+          <svg class="cs-diamond" viewBox="0 0 1200 655" preserveAspectRatio="xMidYMid meet" fill="none" aria-hidden="true">
+            <defs>
+              <!-- Cuts the diamond outlines where they meet a dot, so no line shows through the translucent dots -->
+              <mask id="csDdMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="655">
+                <rect width="1200" height="655" fill="#fff"/>
+                <circle cx="90" cy="270" r="12" fill="#000"/><circle cx="600" cy="270" r="12" fill="#000"/><circle cx="1110" cy="270" r="12" fill="#000"/>
+              </mask>
+            </defs>
+            <g mask="url(#csDdMask)" fill="#E9F056" fill-opacity="0.12" stroke="#E9F056" stroke-width="2.5" stroke-linejoin="round">
+              <polygon points="90,270 345,180 600,270 345,360"/>
+              <polygon points="600,270 855,180 1110,270 855,360"/>
+            </g>
+            <g fill="rgba(0,0,0,0.3)" stroke="#E9F056" stroke-width="3">
+              <circle cx="90" cy="270" r="10"/><circle cx="345" cy="270" r="10"/><circle cx="855" cy="270" r="10"/><circle cx="1110" cy="270" r="10"/>
+            </g>
+            <circle cx="600" cy="270" r="11.5" fill="#E9F056"/>
+            <g class="cs-diamond-labels" text-anchor="middle" style="font-family:var(--font-display)">
+              <g class="cs-diamond-d" fill="rgba(255,255,255,0.65)" font-size="16" font-style="italic">
+                <text x="218" y="275">diverge</text><text x="472" y="275">converge</text><text x="728" y="275">diverge</text><text x="982" y="275">converge</text>
+              </g>
+              <g fill="#E9F056" font-size="15" font-weight="600" letter-spacing="0.08em">
+                <text x="90" y="150">01</text><text x="345" y="150">02</text><text x="600" y="150">03</text><text x="855" y="150">04</text><text x="1110" y="150">05</text>
+              </g>
+              <g fill="#fff" font-size="24" font-weight="600" letter-spacing="-0.01em">
+                <text x="90" y="410">Discover</text><text x="345" y="410">Define</text><text x="600" y="410">Ideate</text><text x="855" y="410">Prototype</text><text x="1110" y="410">Validate</text>
+              </g>
+              <g class="cs-diamond-d" fill="rgba(255,255,255,0.65)" font-size="17" font-weight="500">
+                <text x="90" y="438">Context audit</text><text x="345" y="438">Constraints + workshops</text><text x="600" y="438">Start at 375px</text><text x="855" y="438">Test on real devices</text><text x="1110" y="438">Usability + a11y</text>
+              </g>
+            </g>
           </svg>
           <div class="cs-dim"></div>
           <div class="cs-sheen"></div>
@@ -899,7 +917,8 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
         <div class="cs-top">
           <div class="cs-eyebrow">Framework 01 — Strategy</div>
           <div class="cs-tags">
-            <span class="cs-tag">Coming soon</span>
+            <span class="cs-tag">Mobile Strategy</span>
+            <span class="cs-tag">Financial Services</span>
           </div>
         </div>
         <div class="cs-card-body">
@@ -910,18 +929,14 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
             <div class="cs-meta">
               <div class="cs-meta-inner">
                 <div class="cs-meta-row">
-                  <span class="cs-meta-label">Status</span>
-                  <span class="cs-meta-value">In progress, publishing 2026</span>
-                </div>
-                <div class="cs-meta-row">
-                  <span class="cs-meta-label">Format</span>
-                  <span class="cs-meta-value">~ 12 min read</span>
+                  <span class="cs-meta-label">Context</span>
+                  <span class="cs-meta-value">Financial Services</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </article>
+      </a>
 
       <!-- 02 — Design Sprint -->
       <a href="aalvee_strategy_02_design_sprint_v1.html" class="cs-card reveal">
