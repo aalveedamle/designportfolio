@@ -16,7 +16,7 @@
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>UX Strategies — Aalvee Damle</title>
-<meta name="description" content="UX strategy frameworks by Aalvee Damle — domain-agnostic, repeatable, and connected to business outcomes. Coming soon." />
+<meta name="description" content="The UX frameworks Aalvee Damle built at EY to help enterprise teams ship products people trust, from banking apps to BI dashboards." />
 <style>
 /* ============================================================
    AALVEE DAMLE · UX STRATEGIES INDEX
@@ -475,7 +475,7 @@ body { padding-top: 64px; }
   gap: 20px;
 }
 @media (min-width: 720px) {
-  .cs-grid { grid-template-columns: 1fr 1fr; }
+  .cs-grid { gap: 28px; }
 }
 
 .cs-card {
@@ -490,7 +490,7 @@ body { padding-top: 64px; }
   transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out), border-color .6s var(--ease-out);
 }
 @media (min-width: 720px) {
-  .cs-card { height: 410px; }
+  .cs-card { height: clamp(460px, 50vw, 620px); }
 }
 .cs-card:hover {
   color: inherit;
@@ -622,6 +622,15 @@ body { padding-top: 64px; }
   transition: transform .6s var(--ease-out), color .5s ease;
 }
 .cs-card:hover .cs-blurb { color: rgba(255,255,255,0.85); transform: translateY(-2px); }
+
+/* Full-width framework cards: keep the glass panel a readable measure, centred
+   in the card, instead of stretching it across (66px = 28px inset + pill row + gap) */
+@media (min-width: 721px) {
+  .cs-top { top: 28px; left: 28px; right: 28px; }
+  .cs-card-body { max-width: 640px; margin-inline: auto; padding: 28px; max-height: calc(100% - 66px); }
+  .cs-title { font-size: 26px; }
+  .cs-blurb { font-size: 14px; }
+}
 
 /* Expanding accordion — revealed on hover */
 .cs-meta {
@@ -839,12 +848,14 @@ footer { background: var(--bg); border-top: 1px solid var(--line-soft); padding:
      ============================================================ -->
 <section class="hero">
   <div class="wrap">
+    <div class="hero-status"><span class="pulse" aria-hidden="true"></span>Built and tested at EY</div>
+
     <h1 class="hero-title">
-      The systems behind <span class="accent-text">the work.</span>
+      Craft doesn’t scale.<br> <span class="accent-text">Systems do.</span>
     </h1>
 
     <p class="hero-deck">
-      A working set of frameworks I've developed and run inside enterprise teams — domain-agnostic, repeatable, and connected to business outcomes. Currently being written up.
+      I built these frameworks to help enterprise teams ship products people trust, from banking apps to BI dashboards.
     </p>
   </div>
 </section>
