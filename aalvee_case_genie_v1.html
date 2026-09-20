@@ -548,6 +548,28 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
 .reflect-card { background: var(--bg-card); border: 1px solid var(--line-soft); border-radius: 16px; padding: 20px 22px; margin-bottom: 14px; }
 .reflect-card p { margin-bottom: 0 !important; }
 .reflect-card:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   CARD HOVER — accent rail + lift.
+   Same treatment as .insight-card: a 3px accent bar fades in along the
+   top edge (clipped to the radius by overflow:hidden), the border tints
+   toward the accent, a soft accent shadow appears, the card lifts 3px.
+   ============================================================ */
+.theme-card, .layer-card, .compare-card, .reflect-card {
+  position: relative; overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s var(--ease), background-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.theme-card::before, .layer-card::before, .compare-card::before, .reflect-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  opacity: 0; transition: opacity .3s var(--ease);
+}
+.theme-card:hover::before, .layer-card:hover::before, .compare-card:hover::before, .reflect-card:hover::before { opacity: 1; }
+.theme-card:hover, .layer-card:hover, .compare-card:hover, .reflect-card:hover {
+  transform: translateY(-3px); background: var(--bg-card-hover);
+  border-color: rgba(233,240,86,0.28); box-shadow: 0 6px 20px rgba(233,240,86,0.10);
+}
+[data-theme="light"] .theme-card:hover, [data-theme="light"] .layer-card:hover, [data-theme="light"] .compare-card:hover, [data-theme="light"] .reflect-card:hover { border-color: rgba(255,92,52,0.30); box-shadow: 0 6px 20px rgba(255,92,52,0.12); }
 </style>
 </head>
 <body>

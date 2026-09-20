@@ -831,6 +831,32 @@ footer {
   font-weight: 500;
   border-left-color: var(--accent);
 }
+
+/* ============================================================
+   CARD HOVER — accent rail + lift.
+   Same treatment as .insight-card: a 3px accent bar fades in along the
+   top edge (clipped to the radius by overflow:hidden), the border tints
+   toward the accent, a soft accent shadow appears, the card lifts 3px.
+   ============================================================ */
+.takeaway, .move-card {
+  position: relative; overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s var(--ease), background-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.takeaway::before, .move-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  opacity: 0; transition: opacity .3s var(--ease);
+}
+.takeaway:hover::before, .move-card:hover::before { opacity: 1; }
+.takeaway:hover, .move-card:hover {
+  transform: translateY(-3px); background: var(--bg-card-hover);
+  border-color: rgba(233,240,86,0.28); box-shadow: 0 6px 20px rgba(233,240,86,0.10);
+}
+[data-theme="light"] .takeaway:hover, [data-theme="light"] .move-card:hover { border-color: rgba(255,92,52,0.30); box-shadow: 0 6px 20px rgba(255,92,52,0.12); }
+
+/* These are also .reveal — .reveal.in's transform:none cancels the lift without this. */
+.takeaway.reveal.in, .move-card.reveal.in { transition: opacity .8s var(--ease-out), transform .3s var(--ease), border-color .3s var(--ease), background-color .3s var(--ease), box-shadow .3s var(--ease); }
+.takeaway.reveal.in:hover, .move-card.reveal.in:hover { transform: translateY(-3px); }
 </style>
 </head>
 <body>
