@@ -6,13 +6,21 @@
   /* Apply the saved theme before first paint — otherwise light-mode visitors see a dark flash */
   (function () { try { var t = localStorage.getItem('aalvee-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
 </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82"></script>
+<!-- Google tag (gtag.js) — fetched after the page loads so its ~180 KB doesn't compete with
+     first paint or early taps. Calls queue in dataLayer until it arrives. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-Y8BQNW0S82');
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82';
+      document.head.appendChild(s);
+    }, 0);
+  });
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Decision Intelligence — Design Strategy 03 · Aalvee Damle</title>

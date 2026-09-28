@@ -6,13 +6,21 @@
   /* Apply the saved theme before first paint — otherwise light-mode visitors see a dark flash */
   (function () { try { var t = localStorage.getItem('aalvee-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
 </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82"></script>
+<!-- Google tag (gtag.js) — fetched after the page loads so its ~180 KB doesn't compete with
+     first paint or early taps. Calls queue in dataLayer until it arrives. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-Y8BQNW0S82');
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82';
+      document.head.appendChild(s);
+    }, 0);
+  });
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Case Studies — Aalvee Damle</title>
@@ -756,7 +764,7 @@ footer {
             <span class="cs-cta">Read case study →</span>
           </div>
           <div class="cs-visual">
-            <img src="homepage%20card%20images/geniaus-cover.jpg" decoding="async" alt="Geniaus case study preview" loading="lazy" />
+            <img src="homepage%20card%20images/geniaus-cover.jpg" decoding="async" alt="Geniaus case study preview" fetchpriority="high" />
           </div>
         </a>
 
@@ -787,7 +795,7 @@ footer {
             <span class="cs-cta">Read case study →</span>
           </div>
           <div class="cs-visual">
-            <img src="homepage%20card%20images/genie-cover-2.jpg" decoding="async" alt="Genie case study preview" loading="lazy" />
+            <img src="homepage%20card%20images/genie-cover-2.jpg" decoding="async" alt="Genie case study preview" />
           </div>
         </a>
 
@@ -849,7 +857,7 @@ footer {
             <span class="cs-cta">Read case study →</span>
           </div>
           <div class="cs-visual">
-            <img src="homepage%20card%20images/resolve-now-cover.jpg" decoding="async" alt="ResolveNow case study cover" style="width:100%;height:100%;object-fit:cover;">
+            <img src="homepage%20card%20images/resolve-now-cover.jpg" decoding="async" loading="lazy" alt="ResolveNow case study cover" style="width:100%;height:100%;object-fit:cover;">
           </div>
         </a>
 
@@ -879,7 +887,7 @@ footer {
             <span class="cs-cta">Read case study →</span>
           </div>
           <div class="cs-visual">
-            <img src="homepage%20card%20images/rap.jpg" decoding="async" alt="RAP case study cover" style="width:100%;height:100%;object-fit:cover;">
+            <img src="homepage%20card%20images/rap.jpg" decoding="async" loading="lazy" alt="RAP case study cover" style="width:100%;height:100%;object-fit:cover;">
           </div>
         </a>
 
@@ -909,7 +917,7 @@ footer {
             <span class="cs-cta">Read case study →</span>
           </div>
           <div class="cs-visual">
-            <img src="homepage card images/yulu cover.svg" alt="Yulu case study cover" style="width:100%;height:100%;object-fit:cover;">
+            <img src="homepage card images/yulu cover.svg" loading="lazy" decoding="async" alt="Yulu case study cover" style="width:100%;height:100%;object-fit:cover;">
           </div>
         </a>
 

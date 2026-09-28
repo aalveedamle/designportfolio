@@ -6,13 +6,21 @@
   /* Apply the saved theme before first paint — otherwise light-mode visitors see a dark flash */
   (function () { try { var t = localStorage.getItem('aalvee-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
 </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82"></script>
+<!-- Google tag (gtag.js) — fetched after the page loads so its ~180 KB doesn't compete with
+     first paint or early taps. Calls queue in dataLayer until it arrives. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-Y8BQNW0S82');
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y8BQNW0S82';
+      document.head.appendChild(s);
+    }, 0);
+  });
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>GenIAus — Case Study · Aalvee Damle</title>
@@ -855,7 +863,7 @@ a.ref:hover { border-bottom-color: var(--ink); }
       <div class="hero-tablet">
         <div class="hero-tablet-cam" aria-hidden="true"></div>
         <div class="hero-tablet-screen">
-          <img src="HERO IMAGES /GenIAUs.png" alt="GenIAus — Virtual Internal Auditor home screen" />
+          <img src="images/geniaus/hero.jpg" width="2000" height="1343" fetchpriority="high" decoding="async" alt="GenIAus — Virtual Internal Auditor home screen" />
         </div>
       </div>
       <div class="hero-tablet-shadow" aria-hidden="true"></div>
