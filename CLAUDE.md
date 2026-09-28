@@ -11,7 +11,7 @@ This is a personal portfolio website for Aalvee Damle (Senior Product Designer).
 | File | Purpose |
 |---|---|
 | `index.html` | Main landing page — hero, case study grid, testimonials, contact |
-| `work.html` | Work index — the case-study card list linked from every nav |
+| `case-studies.html` | Work index — the case-study card list linked from every nav |
 | `aalvee_about_v3.html` | About page |
 | `aalvee_case_geniaus_v2.html` | Geniaus case study (GenAI copilot for auditors, EY) |
 | `aalvee_case_genie_v1.html` | Genie case study (wealth platform, US bank) |
@@ -21,7 +21,7 @@ This is a personal portfolio website for Aalvee Damle (Senior Product Designer).
 | `aalvee_case_yulu_v1.html` | Yulu case study (AI-native micro-mobility) — embeds the two files below |
 | `yulu-prototype.html` | Standalone interactive prototype for the Yulu case study (self-contained, own design system) |
 | `yulu-wireframes.html` | Standalone annotated wireframe set for the Yulu case study |
-| `aalvee_ux_strategies_v1.html`, `aalvee_strategy_0*.html` | UX strategy index and write-ups |
+| `design-strategy.html`, `aalvee_strategy_0*.html` | UX strategy index and write-ups |
 | `404.html` | Served by Cloudflare for any URL that doesn't exist (`not_found_handling = "404-page"`) |
 | `case study page.html` | Stale — nothing links to it |
 
@@ -42,7 +42,7 @@ All pages share an identical token set defined in `:root` and a `[data-theme="li
 
 When editing tokens, **update every file** — there is no single source of truth for the design system.
 
-`work.html` and `index.html` each carry a `.cs-card` per case study, and every case study's "next case study" strip links to the next one in a loop (geniaus → genie → peepal → resolvenow → rap → yulu → geniaus). **Adding a case study means touching four places**: the new file, both card lists, and the previous case study's next-strip.
+`case-studies.html` and `index.html` each carry a `.cs-card` per case study, and every case study's "next case study" strip links to the next one in a loop (geniaus → genie → peepal → resolvenow → rap → yulu → geniaus). **Adding a case study means touching four places**: the new file, both card lists, and the previous case study's next-strip.
 
 `case study page.html` is stale — nothing links to it. Leave it alone or delete it; don't add to it.
 
@@ -77,4 +77,4 @@ The About page loads **Google Fonts "Caveat"** for handwritten annotation stylin
 - `prefers-reduced-motion` is respected: animations and the cursor dot are disabled via media query blocks near the bottom of each `<style>` section.
 - Responsive breakpoints are `720px` (mobile nav, padding) and `900px` (two-column grids).
 - Section padding uses `clamp()` for fluid spacing.
-- The `.reveal` / `.in` animation pattern is the standard way to add scroll-triggered entrance animations. **Gotcha:** `.reveal.in { transform: none }` has the same specificity as `.card:hover` and comes later, so it silently cancels hover transforms (and replaces the element's own `transition`). An element that is both `.reveal` and has a hover lift needs a `.card.reveal.in:hover { transform: … }` rule placed after `.reveal.in` — see the existing ones in `index.html`, `work.html`, and the strategy pages.
+- The `.reveal` / `.in` animation pattern is the standard way to add scroll-triggered entrance animations. **Gotcha:** `.reveal.in { transform: none }` has the same specificity as `.card:hover` and comes later, so it silently cancels hover transforms (and replaces the element's own `transition`). An element that is both `.reveal` and has a hover lift needs a `.card.reveal.in:hover { transform: … }` rule placed after `.reveal.in` — see the existing ones in `index.html`, `case-studies.html`, and the strategy pages.

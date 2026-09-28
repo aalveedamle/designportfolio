@@ -17,7 +17,7 @@ That's a deliberate constraint, not laziness. A portfolio is six or seven pages 
 | File | |
 |---|---|
 | `index.html` | Landing page — hero, case study grid, testimonials, contact |
-| `work.html` | Case study index |
+| `case-studies.html` | Case study index |
 | `aalvee_about_v3.html` | About |
 | `aalvee_case_*.html` | One file per case study (GenIAus, Genie, Peepal, ResolveNow, RAP, Yulu) |
 | `aalvee_strategy_*.html` | UX strategy write-ups |
