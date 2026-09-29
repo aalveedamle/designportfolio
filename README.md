@@ -8,11 +8,13 @@ The source for my portfolio — case studies in designing trust into high-stakes
 
 ## Why it looks like this
 
-No framework, no bundler, no package manager. Every page is a single self-contained `.html` file with its CSS in a `<style>` block and its JS at the bottom. You can open any file directly in a browser and it works.
+No framework, no bundler, no package manager. Every page is a single self-contained `.html` file with its CSS in a `<style>` block and its JS at the bottom. You can open any file in `public/` directly in a browser and it works.
 
 That's a deliberate constraint, not laziness. A portfolio is six or seven pages that change a few times a year. A build step would add a dependency graph to maintain, a thing to break at deploy time, and nothing a visitor would ever notice. The cost of duplicating the nav across files is lower than the cost of a toolchain.
 
 ## Structure
+
+Everything the site serves is in `public/`:
 
 | File | |
 |---|---|
@@ -49,18 +51,18 @@ All of it is disabled under `prefers-reduced-motion`, and the cursor dot is skip
 ## Running it
 
 ```bash
-open index.html
+open public/index.html
 ```
 
 That's it. For a local server:
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000 --directory public
 ```
 
 ## Deploying
 
-Pushing to `main` triggers a Cloudflare Workers build, which publishes to aalveedamle.com. Static assets are served from the repo root via the `ASSETS` binding in `wrangler.toml`; `.assetsignore` keeps repo files that aren't part of the site (config, notes, raw media) from being published. Unknown URLs get `404.html`.
+Pushing to `main` triggers a Cloudflare Pages build, which publishes the `public/` folder to aalveedamle.com. Nothing outside `public/` (notes, config, original media in `source media/`) is published. `public/_redirects` keeps old page addresses working, and unknown URLs get `404.html`.
 
 ---
 

@@ -4,9 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a personal portfolio website for Aalvee Damle (Senior Product Designer). It is a collection of standalone, self-contained HTML files — no build system, bundler, package manager, or framework. Open any file directly in a browser to view it.
+This is a personal portfolio website for Aalvee Damle (Senior Product Designer). It is a collection of standalone, self-contained HTML files — no build system, bundler, package manager, or framework. **Everything the website serves lives in `public/`**; open any file there directly in a browser to view it.
 
 ## File Map
+
+All site files below are in `public/`.
 
 | File | Purpose |
 |---|---|
@@ -22,8 +24,10 @@ This is a personal portfolio website for Aalvee Damle (Senior Product Designer).
 | `yulu-prototype.html` | Standalone interactive prototype for the Yulu case study (self-contained, own design system) |
 | `yulu-wireframes.html` | Standalone annotated wireframe set for the Yulu case study |
 | `design-strategy.html`, `aalvee_strategy_0*.html` | UX strategy index and write-ups |
-| `404.html` | Served by Cloudflare for any URL that doesn't exist (`not_found_handling = "404-page"`) |
-| `case study page.html` | Stale — nothing links to it |
+| `404.html` | Served by Cloudflare for any URL that doesn't exist |
+| `_redirects` | 301s from old page addresses (`work.html`, `aalvee_ux_strategies_v1.html`) |
+
+Outside `public/` (never published): `case study page.html` (stale — nothing links to it), `preview-case-study-card.html` (design preview), `source media/` (original PNGs), notes and config.
 
 ## Architecture
 
@@ -51,12 +55,14 @@ The Yulu case study embeds `yulu-prototype.html` in an iframe. That file deliber
 ### Images and media
 
 - **Never inline images as base64 `data:` URIs.** That is what made the Genie and GenIAus pages 2–2.5MB: the photos couldn't be cached, lazy-loaded, or decoded off the main thread. Case-study images live in `images/<page>/` (e.g. `images/genie/`); reference them with `loading="lazy" decoding="async"`.
-- Card covers are 1200px JPEGs in `homepage card images/` (the 1920px PNGs are originals, kept off the live site).
+- Card covers are 1200px JPEGs in `homepage card images/`. Case-study heroes are 2000px JPEGs at `images/<page>/hero.jpg`, loaded with `fetchpriority="high"` (never lazy — they're the first thing on screen). Originals (PNGs, raw exports) go in `source media/` at the repo root, not in `public/`.
 - Video must be `.mp4` (H.264). Chrome and Edge refuse `video/quicktime`, so `.mov` files don't play.
 
 ### Deployment
 
-Cloudflare serves the whole repo root as static assets (`wrangler.toml`). **`.assetsignore` keeps non-site files off aalveedamle.com** — tooling, `*.md`, `wrangler.toml`, raw source media. Add any new file that isn't part of the website there, or it becomes publicly downloadable.
+The live site is a **Cloudflare Pages** project (`designportfolio`, connected to this GitHub repo) whose build output directory is `public/`. Pushing to `main` publishes it. **Only `public/` is published** — anything outside it (notes, config, source media) can never go live, so keep non-site files out of `public/`.
+
+Pages doesn't read `wrangler.toml` or `index.js`; those belong to an older, unused `designportfolio` Worker (it only has a workers.dev address and gets no traffic). `.assetsignore` was removed because Pages ignored it — every repo file used to be public.
 
 ### JavaScript Behaviors (shared pattern)
 
