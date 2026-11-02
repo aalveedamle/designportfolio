@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yulu — information architecture</title>
+<meta name="description" content="Information architecture for the Yulu rider app: launch routing, the twelve-step ride funnel, twelve branch states, the server-authoritative ride state machine, and the cross-cutting layers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A1A1A; --ink-2:#5A5A5A; --ink-3:#8C8C8C;
+  --paper:#FAFAF8; --card:#FFFFFF;
+  --line:#D6D6D2; --line-2:#B4B4AE; --fill:#EDEDE9; --fill-2:#E2E2DD;
+  --note:#7A6A1F; --note-bg:#FBF7E4; --note-line:#D8C97F;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:40px; --s7:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+  line-height:1.55;padding:var(--s6) var(--s5) var(--s7);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto}
+
+header{max-width:66ch;margin-bottom:var(--s6);border-bottom:1px solid var(--line);padding-bottom:var(--s5)}
+header h1{font-size:26px;font-weight:600;letter-spacing:-.02em}
+header p{color:var(--ink-2);font-size:14.5px;margin-top:var(--s2)}
+header .meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-3);margin-top:var(--s3)}
+header .back{font-size:13px;color:var(--note);text-decoration:none;border-bottom:1px solid currentColor;
+  display:inline-block;margin-bottom:var(--s4)}
+
+h2.sec{font-size:18px;font-weight:600;margin:var(--s7) 0 var(--s2);padding-bottom:var(--s2);
+  border-bottom:1px solid var(--line-2)}
+h2.sec:first-of-type{margin-top:var(--s6)}
+h2.sec .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-3);
+  font-weight:500;margin-right:var(--s3);letter-spacing:1px}
+p.secnote{font-size:14px;color:var(--ink-2);max-width:66ch;margin-bottom:var(--s5)}
+p.secnote + p.secnote{margin-top:calc(-1 * var(--s4))}
+p.secnote b{color:var(--ink);font-weight:600}
+p.secnote code,td code,li code{font-family:'IBM Plex Mono',monospace;font-size:.88em;
+  background:var(--fill);border-radius:4px;padding:1px 5px}
+
+/* decision cards */
+.decisions{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-bottom:var(--s5)}
+@media(max-width:900px){.decisions{grid-template-columns:1fr}}
+.dec{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:var(--s4)}
+.dec .k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.2px;
+  color:var(--note);font-weight:500}
+.dec h3{font-size:14.5px;font-weight:600;margin:var(--s2) 0 var(--s2);line-height:1.35}
+.dec p{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5);font-size:12.5px;color:var(--ink-2);
+  border:1px solid var(--line);border-radius:8px;padding:var(--s3) var(--s4);background:var(--card);
+  margin-bottom:var(--s5)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend b{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;
+  border:1px solid var(--line-2);border-radius:3px;padding:2px 6px;color:var(--ink);background:var(--fill)}
+.legend b.br{background:var(--note-bg);border-color:var(--note-line);color:var(--note)}
+
+/* figure */
+figure{margin:0 0 var(--s6)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:var(--s5);overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto;min-width:860px}
+figcaption{font-size:12.5px;color:var(--ink-3);margin-top:var(--s3);line-height:1.6;max-width:72ch}
+figcaption b{color:var(--ink-2);font-weight:600}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;
+  border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+table.wide{min-width:1040px}
+th{text-align:left;vertical-align:bottom;font-family:'IBM Plex Mono',monospace;
+  font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);
+  padding:var(--s4) var(--s3) var(--s2);border-bottom:1px solid var(--line-2);white-space:nowrap}
+td{vertical-align:top;padding:var(--s3);border-bottom:1px solid var(--line);color:var(--ink-2);line-height:1.5}
+tr:last-child td{border-bottom:0}
+td b,td strong{color:var(--ink);font-weight:600}
+td.id{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink);white-space:nowrap}
+td.id.br{color:var(--note)}
+th:first-child,td:first-child{padding-left:var(--s4)}
+th:last-child,td:last-child{padding-right:var(--s4)}
+tr.phase td{background:var(--fill);font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-3);padding:var(--s2) var(--s4)}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;
+  border:1px solid var(--line-2);border-radius:3px;padding:2px 6px;color:var(--ink-3);white-space:nowrap}
+.tag.silent{border-color:var(--line-2);color:var(--ink-3)}
+.tag.surf{background:var(--note-bg);border-color:var(--note-line);color:var(--note)}
+
+/* layer cards */
+.layers{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s4)}
+@media(max-width:900px){.layers{grid-template-columns:1fr}}
+.layer{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:var(--s4)}
+.layer h3{font-size:14px;font-weight:600;margin-bottom:var(--s1)}
+.layer h3 span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-3);
+  font-weight:500;margin-right:var(--s2)}
+.layer p{font-size:12.5px;color:var(--ink-2);margin-bottom:var(--s3)}
+.layer dl{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);font-size:12px}
+.layer dt{font-family:'IBM Plex Mono',monospace;color:var(--ink-3);white-space:nowrap}
+.layer dd{color:var(--ink-2)}
+
+/* note block */
+.note{border-left:3px solid var(--note-line);background:var(--note-bg);border-radius:0 8px 8px 0;
+  padding:var(--s4);margin:var(--s5) 0;max-width:80ch}
+.note .who{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--note);display:block;margin-bottom:var(--s2)}
+.note p{font-size:13px;color:var(--ink-2);line-height:1.6}
+.note p + p{margin-top:var(--s2)}
+.note p b{color:var(--ink);font-weight:600}
+
+/* omissions */
+ul.omit{list-style:none;max-width:76ch}
+ul.omit li{position:relative;padding-left:var(--s5);font-size:13.5px;color:var(--ink-2);
+  margin-bottom:var(--s3);line-height:1.6}
+ul.omit li::before{content:"×";position:absolute;left:0;color:var(--note);font-weight:600}
+ul.omit li b{color:var(--ink);font-weight:600}
+
+footer.end{margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-3);display:flex;gap:var(--s5);flex-wrap:wrap}
+footer.end a{color:var(--note)}
+</style>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yo1dsawkpi");
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="back" href="aalvee_case_yulu_v1.html">← Back to the Yulu case study</a>
+  <h1>yulu — information architecture</h1>
+  <p>Every state the rider app can be in between opening it and finishing a ride, what each one holds, and where it goes when things fail. Built from the same readiness rule the product runs on: <code>required = max(trip × 1.5, 2 km)</code>.</p>
+  <p class="meta">5 phases · 12 steps · 12 branch states · 4 cross-cutting layers · 5 persistent surfaces</p>
+</header>
+
+<h2 class="sec"><span class="n">00</span>Three decisions the whole structure rests on</h2>
+<p class="secnote">An IA is mostly the consequences of a few early choices. These are the three that produced everything below — and the third one is the reason this document exists at all.</p>
+
+<div class="decisions">
+  <div class="dec">
+    <div class="k">DECISION 01</div>
+    <h3>Destination is the root of the ride funnel — not the map.</h3>
+    <p>Readiness is trip-dependent, so a bike that clears 3 km does not clear 9 km. That makes the map a <b>result</b>, not a place. If the map were the root, the first screen could only promise a 2 km floor — a weaker guarantee than the product is built to make.</p>
+  </div>
+  <div class="dec">
+    <div class="k">DECISION 02</div>
+    <h3>The funnel is modal, not navigable.</h3>
+    <p>No tab bar once a destination is set. From A7 onward the rider is inside a task holding a payment authorisation and possibly a reserved bike; letting her wander into Account mid-funnel creates states nobody designed. Persistent surfaces hang off A5/A6 only.</p>
+  </div>
+  <div class="dec">
+    <div class="k">DECISION 03</div>
+    <h3>Ride state lives on the server. The app is a view onto it.</h3>
+    <p>The lock's open and close pings define when a ride starts and ends — not the app's buttons. Every entry point is therefore resumable, and a dead phone can't run a fare. This is the single most load-bearing choice in the architecture.</p>
+  </div>
+</div>
+
+<div class="note">
+  <span class="who">Where decision 03 came from</span>
+  <p>It wasn't a principle I started with. It came out of one edge case — <b>what happens if the rider's phone dies mid-ride</b> — which exposed an assumption buried in my first model: that the app was the source of truth for when a ride ends. It isn't, and it can't be. If the app owns ride state, a dead battery means a fare running until the bike's does.</p>
+  <p>Moving authority to the lock pings fixed that, and then paid for itself three more times: it is why <b>F12</b> needs no on-device screen, why <b>L4</b> can expire a session mid-ride without interrupting anything, and why <b>going offline at A11 is survivable</b> — the rider locks the bike and walks away, and the receipt catches up when the phone reconnects.</p>
+</div>
+
+<h2 class="sec"><span class="n">01</span>How to read this</h2>
+<div class="legend">
+  <span><b>STEP</b> a required node on the spine</span>
+  <span><b>STATE</b> a variant of a step, not its own destination</span>
+  <span><b class="br">BRANCH</b> a failure node with a defined return path</span>
+  <span><b>LAYER</b> a condition that can apply at many steps</span>
+  <span><b>SURFACE</b> a persistent destination outside the funnel</span>
+  <span><b>SILENT</b> agent work with no screen at all</span>
+</div>
+<p class="secnote">The distinction between <b>branch</b> and <b>layer</b> is the one that does the most work here. A branch is somewhere the rider lands; it has a screen and an exit. A layer is a condition — offline, permission denied, session expired — that changes how several steps behave without being a place you can be. Treating connectivity as a branch is how apps end up with a dead-end error screen at every step.</p>
+
+<h2 class="sec"><span class="n">02</span>Launch routing — the question asked before anything renders</h2>
+<p class="secnote">Because ride state is server-side, a cold start can't assume it is starting at the beginning. It resolves identity, then <b>an active ride, then an active hold</b> — in that order — and routes past the funnel entirely if either exists. The rider who force-quits mid-ride and reopens the app lands back on her ride, not on a map.</p>
+
+<figure>
+  <div class="fig">
+    <svg viewBox="0 0 1100 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Launch routing: session check, then active ride check, then active hold check, each routing to a different entry node">
+      <style>.n{font-family:"IBM Plex Sans",system-ui,sans-serif}.m{font-family:"IBM Plex Mono",monospace}</style>
+
+      <rect x="0" y="128" width="150" height="48" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text class="n" x="75" y="150" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1A1A1A">App opens</text>
+      <text class="n" x="75" y="166" text-anchor="middle" font-size="10.5" fill="#8C8C8C">cold or resumed</text>
+
+      <line x1="150" y1="152" x2="196" y2="152" stroke="#1A1A1A" stroke-width="1.4"/>
+      <path d="M 196 147 L 206 152 L 196 157 Z" fill="#1A1A1A"/>
+
+      <rect x="206" y="126" width="152" height="52" rx="9" fill="#EDEDE9" stroke="#B4B4AE" stroke-width="1.3"/>
+      <text class="n" x="282" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#1A1A1A">Session valid?</text>
+      <text class="m" x="282" y="165" text-anchor="middle" font-size="10" fill="#8C8C8C">token check</text>
+
+      <path d="M 282 178 V 268 H 356" fill="none" stroke="#B4B4AE" stroke-width="1.3"/>
+      <path d="M 356 263 L 366 268 L 356 273 Z" fill="#B4B4AE"/>
+      <text class="m" x="292" y="250" font-size="10" fill="#8C8C8C">no</text>
+      <rect x="366" y="246" width="186" height="44" rx="8" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text class="m" x="380" y="265" font-size="10.5" font-weight="500" fill="#8C8C8C">E1</text>
+      <text class="n" x="404" y="265.5" font-size="12" font-weight="600" fill="#1A1A1A">→ A1 Phone number</text>
+      <text class="n" x="380" y="280" font-size="10.5" fill="#5A5A5A">first run, or signed out</text>
+
+      <line x1="358" y1="152" x2="400" y2="152" stroke="#1A1A1A" stroke-width="1.4"/>
+      <path d="M 400 147 L 410 152 L 400 157 Z" fill="#1A1A1A"/>
+      <text class="m" x="364" y="144" font-size="10" fill="#8C8C8C">yes</text>
+
+      <rect x="410" y="126" width="160" height="52" rx="9" fill="#EDEDE9" stroke="#B4B4AE" stroke-width="1.3"/>
+      <text class="n" x="490" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#1A1A1A">Active ride?</text>
+      <text class="m" x="490" y="165" text-anchor="middle" font-size="10" fill="#8C8C8C">server, not device</text>
+
+      <path d="M 490 126 V 72 H 592" fill="none" stroke="#1A1A1A" stroke-width="1.4"/>
+      <path d="M 592 67 L 602 72 L 592 77 Z" fill="#1A1A1A"/>
+      <text class="m" x="500" y="92" font-size="10" fill="#8C8C8C">yes</text>
+      <rect x="602" y="50" width="200" height="44" rx="8" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text class="m" x="616" y="69" font-size="10.5" font-weight="500" fill="#8C8C8C">E2</text>
+      <text class="n" x="640" y="69.5" font-size="12" font-weight="600" fill="#1A1A1A">→ A10 Live ride</text>
+      <text class="n" x="616" y="84" font-size="10.5" fill="#5A5A5A">skips the funnel entirely</text>
+
+      <line x1="570" y1="152" x2="612" y2="152" stroke="#1A1A1A" stroke-width="1.4"/>
+      <path d="M 612 147 L 622 152 L 612 157 Z" fill="#1A1A1A"/>
+      <text class="m" x="576" y="144" font-size="10" fill="#8C8C8C">no</text>
+
+      <rect x="622" y="126" width="160" height="52" rx="9" fill="#EDEDE9" stroke="#B4B4AE" stroke-width="1.3"/>
+      <text class="n" x="702" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#1A1A1A">Active hold?</text>
+      <text class="m" x="702" y="165" text-anchor="middle" font-size="10" fill="#8C8C8C">5-minute window</text>
+
+      <path d="M 702 178 V 268 H 806" fill="none" stroke="#B4B4AE" stroke-width="1.3"/>
+      <path d="M 806 263 L 816 268 L 806 273 Z" fill="#B4B4AE"/>
+      <text class="m" x="712" y="250" font-size="10" fill="#8C8C8C">yes</text>
+      <rect x="816" y="246" width="200" height="44" rx="8" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text class="m" x="830" y="265" font-size="10.5" font-weight="500" fill="#8C8C8C">E3</text>
+      <text class="n" x="854" y="265.5" font-size="12" font-weight="600" fill="#1A1A1A">→ A7 Preview</text>
+      <text class="n" x="830" y="280" font-size="10.5" fill="#5A5A5A">countdown still running</text>
+
+      <line x1="782" y1="152" x2="824" y2="152" stroke="#1A1A1A" stroke-width="1.4"/>
+      <path d="M 824 147 L 834 152 L 824 157 Z" fill="#1A1A1A"/>
+      <text class="m" x="788" y="144" font-size="10" fill="#8C8C8C">no</text>
+      <rect x="834" y="130" width="200" height="44" rx="8" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+      <text class="m" x="848" y="149" font-size="10.5" font-weight="500" fill="#8C8C8C">E4</text>
+      <text class="n" x="872" y="149.5" font-size="12" font-weight="600" fill="#1A1A1A">→ A5 Destination</text>
+      <text class="n" x="848" y="164" font-size="10.5" fill="#5A5A5A">the normal entry</text>
+
+      <line x1="0" y1="306" x2="1100" y2="306" stroke="#D6D6D2" stroke-width="1"/>
+      <text class="m" x="0" y="326" font-size="10" letter-spacing="1" fill="#8C8C8C">ALSO ENTERS HERE —</text>
+      <text class="n" x="166" y="326" font-size="11" fill="#5A5A5A">E5 hold-expiring push → A7   ·   E6 ride ended while the app was dead → A12 receipt   ·   E7 deep link with a destination → A5, prefilled</text>
+    </svg>
+  </div>
+  <figcaption><b>Launch routing.</b> The order of the two checks is deliberate: ride before hold, because a rider with both is mid-ride and the hold is stale. E6 is the return path for F12 — the rider whose phone died learns the ride ended correctly by being handed the receipt, not by discovering it in a history screen.</figcaption>
+</figure>
+
+<h2 class="sec"><span class="n">03</span>The map — twelve steps and everything that hangs off them</h2>
+<p class="secnote">The spine is linear on purpose. The only genuine fork in the whole product is at A5, where a rider without a destination can fall back to a floor-only browse — and that is labelled as the weaker guarantee it is, not offered as an equal path.</p>
+<p class="secnote">Branches sit to the right of the step that produces them. Every one has a stated return path; none is a dead end, and none requires the rider to start over.</p>
+
+<figure>
+  <div class="fig">
+<svg viewBox="0 0 1180 1172" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Information architecture map: five phases, twelve steps, twelve branch states">
+<style>.n{font-family:"IBM Plex Sans",system-ui,sans-serif}.m{font-family:"IBM Plex Mono",monospace}</style>
+<line x1="306" y1="74" x2="306" y2="354" stroke="#B4B4AE" stroke-width="1.5"/>
+<text class="m" x="16" y="89" font-size="11.5" font-weight="500" letter-spacing="1.4" fill="#1A1A1A">SESSION</text>
+<text class="n" x="16" y="108" font-size="11.5" fill="#8C8C8C">Identity only. No trip exists yet.</text>
+<line x1="306" y1="408" x2="306" y2="612" stroke="#B4B4AE" stroke-width="1.5"/>
+<text class="m" x="16" y="423" font-size="11.5" font-weight="500" letter-spacing="1.4" fill="#1A1A1A">TRIP</text>
+<text class="n" x="16" y="442" font-size="11.5" fill="#8C8C8C">Destination known, so readiness is computable.</text>
+<line x1="306" y1="666" x2="306" y2="794" stroke="#B4B4AE" stroke-width="1.5"/>
+<text class="m" x="16" y="681" font-size="11.5" font-weight="500" letter-spacing="1.4" fill="#1A1A1A">START</text>
+<text class="n" x="16" y="700" font-size="11.5" fill="#8C8C8C">Money authorised. Bike not yet open.</text>
+<line x1="306" y1="848" x2="306" y2="900" stroke="#B4B4AE" stroke-width="1.5"/>
+<text class="m" x="16" y="863" font-size="11.5" font-weight="500" letter-spacing="1.4" fill="#1A1A1A">RIDE</text>
+<text class="n" x="16" y="882" font-size="11.5" fill="#8C8C8C">Live and server-owned.</text>
+<line x1="306" y1="954" x2="306" y2="1082" stroke="#B4B4AE" stroke-width="1.5"/>
+<text class="m" x="16" y="969" font-size="11.5" font-weight="500" letter-spacing="1.4" fill="#1A1A1A">CLOSE</text>
+<text class="n" x="16" y="988" font-size="11.5" fill="#8C8C8C">Bike returned. Fare settles.</text>
+<path d="M 560 510.0 H 592 V 510.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 505.5 L 650 510.0 L 640 514.5 Z" fill="#B4B4AE"/>
+<path d="M 560 586.0 H 592 V 586.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 581.5 L 650 586.0 L 640 590.5 Z" fill="#B4B4AE"/>
+<path d="M 560 586.0 H 592 V 634.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 629.5 L 650 634.0 L 640 638.5 Z" fill="#B4B4AE"/>
+<path d="M 560 692.0 H 592 V 692.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 687.5 L 650 692.0 L 640 696.5 Z" fill="#B4B4AE"/>
+<path d="M 560 768.0 H 592 V 768.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 763.5 L 650 768.0 L 640 772.5 Z" fill="#B4B4AE"/>
+<path d="M 560 768.0 H 592 V 816.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 811.5 L 650 816.0 L 640 820.5 Z" fill="#B4B4AE"/>
+<path d="M 560 874.0 H 592 V 874.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 869.5 L 650 874.0 L 640 878.5 Z" fill="#B4B4AE"/>
+<path d="M 560 874.0 H 592 V 922.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 917.5 L 650 922.0 L 640 926.5 Z" fill="#B4B4AE"/>
+<path d="M 560 874.0 H 592 V 970.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 965.5 L 650 970.0 L 640 974.5 Z" fill="#B4B4AE"/>
+<path d="M 560 980.0 H 592 V 1018.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 1013.5 L 650 1018.0 L 640 1022.5 Z" fill="#B4B4AE"/>
+<path d="M 560 980.0 H 592 V 1066.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 1061.5 L 650 1066.0 L 640 1070.5 Z" fill="#B4B4AE"/>
+<path d="M 560 1056.0 H 592 V 1114.0 H 640" fill="none" stroke="#B4B4AE" stroke-width="1.2" stroke-dasharray="4 3"/>
+<path d="M 640 1109.5 L 650 1114.0 L 640 1118.5 Z" fill="#B4B4AE"/>
+<line x1="445.0" y1="126" x2="445.0" y2="141" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 141 L 445.0 150 L 450.0 141 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="202" x2="445.0" y2="217" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 217 L 445.0 226 L 450.0 217 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="278" x2="445.0" y2="293" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 293 L 445.0 302 L 450.0 293 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="354" x2="445.0" y2="399" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 399 L 445.0 408 L 450.0 399 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="460" x2="445.0" y2="475" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 475 L 445.0 484 L 450.0 475 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="536" x2="445.0" y2="551" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 551 L 445.0 560 L 450.0 551 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="612" x2="445.0" y2="657" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 657 L 445.0 666 L 450.0 657 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="718" x2="445.0" y2="733" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 733 L 445.0 742 L 450.0 733 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="794" x2="445.0" y2="839" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 839 L 445.0 848 L 450.0 839 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="900" x2="445.0" y2="945" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 945 L 445.0 954 L 450.0 945 Z" fill="#1A1A1A"/>
+<line x1="445.0" y1="1006" x2="445.0" y2="1021" stroke="#1A1A1A" stroke-width="1.4"/>
+<path d="M 440.0 1021 L 445.0 1030 L 450.0 1021 Z" fill="#1A1A1A"/>
+<rect x="330" y="74" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="94" font-size="10.5" font-weight="500" fill="#8C8C8C">A1</text>
+<text class="n" x="374" y="95" font-size="13" font-weight="600" fill="#1A1A1A">Phone number</text>
+<text class="n" x="344" y="113" font-size="11" fill="#5A5A5A">one field</text>
+<rect x="330" y="150" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="170" font-size="10.5" font-weight="500" fill="#8C8C8C">A2</text>
+<text class="n" x="374" y="171" font-size="13" font-weight="600" fill="#1A1A1A">Verification</text>
+<text class="n" x="344" y="189" font-size="11" fill="#5A5A5A">6-digit code</text>
+<rect x="330" y="226" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="246" font-size="10.5" font-weight="500" fill="#8C8C8C">A3</text>
+<text class="n" x="374" y="247" font-size="13" font-weight="600" fill="#1A1A1A">First name</text>
+<text class="n" x="344" y="265" font-size="11" fill="#5A5A5A">nothing else asked</text>
+<rect x="330" y="302" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="322" font-size="10.5" font-weight="500" fill="#8C8C8C">A4</text>
+<text class="n" x="374" y="323" font-size="13" font-weight="600" fill="#1A1A1A">Wallet</text>
+<text class="n" x="344" y="341" font-size="11" fill="#5A5A5A">skippable — payment moves to A8</text>
+<rect x="330" y="408" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="428" font-size="10.5" font-weight="500" fill="#8C8C8C">A5</text>
+<text class="n" x="374" y="429" font-size="13" font-weight="600" fill="#1A1A1A">Destination</text>
+<text class="n" x="344" y="447" font-size="11" fill="#5A5A5A">the root of the funnel</text>
+<rect x="330" y="484" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="504" font-size="10.5" font-weight="500" fill="#8C8C8C">A6</text>
+<text class="n" x="374" y="505" font-size="13" font-weight="600" fill="#1A1A1A">Map + list</text>
+<text class="n" x="344" y="523" font-size="11" fill="#5A5A5A">only bikes that clear this trip</text>
+<rect x="330" y="560" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="580" font-size="10.5" font-weight="500" fill="#8C8C8C">A7</text>
+<text class="n" x="374" y="581" font-size="13" font-weight="600" fill="#1A1A1A">Preview + hold</text>
+<text class="n" x="344" y="599" font-size="11" fill="#5A5A5A">range vs. requirement · 5 min</text>
+<rect x="330" y="666" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="686" font-size="10.5" font-weight="500" fill="#8C8C8C">A8</text>
+<text class="n" x="374" y="687" font-size="13" font-weight="600" fill="#1A1A1A">Pay at the bike</text>
+<text class="n" x="344" y="705" font-size="11" fill="#5A5A5A">hold, not capture</text>
+<rect x="330" y="742" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="762" font-size="10.5" font-weight="500" fill="#8C8C8C">A9</text>
+<text class="n" x="374" y="763" font-size="13" font-weight="600" fill="#1A1A1A">Unlock</text>
+<text class="n" x="344" y="781" font-size="11" fill="#5A5A5A">timer waits for the lock ping</text>
+<rect x="330" y="848" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="868" font-size="10.5" font-weight="500" fill="#8C8C8C">A10</text>
+<text class="n" x="374" y="869" font-size="13" font-weight="600" fill="#1A1A1A">Live ride  ⇄  Paused</text>
+<text class="n" x="344" y="887" font-size="11" fill="#5A5A5A">fare · range · report an issue</text>
+<rect x="330" y="954" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="974" font-size="10.5" font-weight="500" fill="#8C8C8C">A11</text>
+<text class="n" x="374" y="975" font-size="13" font-weight="600" fill="#1A1A1A">Park + lock</text>
+<text class="n" x="344" y="993" font-size="11" fill="#5A5A5A">system confirms, not the rider</text>
+<rect x="330" y="1030" width="230" height="52" rx="9" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5"/>
+<text class="m" x="344" y="1050" font-size="10.5" font-weight="500" fill="#8C8C8C">A12</text>
+<text class="n" x="374" y="1051" font-size="13" font-weight="600" fill="#1A1A1A">Receipt</text>
+<text class="n" x="344" y="1069" font-size="11" fill="#5A5A5A">adjusted before she asks</text>
+<rect x="650" y="490" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="507" font-size="10" font-weight="500" fill="#7A6A1F">F1</text>
+<text class="n" x="694" y="507.5" font-size="11.5" font-weight="600" fill="#1A1A1A">No bike can make this trip</text>
+<text class="n" x="662" y="523" font-size="10.5" fill="#7A6A1F">→ A5 shorter trip · notify · new area</text>
+<rect x="650" y="566" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="583" font-size="10" font-weight="500" fill="#7A6A1F">F6</text>
+<text class="n" x="694" y="583.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Hold expired — bike taken</text>
+<text class="n" x="662" y="599" font-size="10.5" fill="#7A6A1F">→ A6</text>
+<rect x="650" y="614" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="631" font-size="10" font-weight="500" fill="#7A6A1F">F7</text>
+<text class="n" x="694" y="631.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Destination changed, bike drops</text>
+<text class="n" x="662" y="647" font-size="10.5" fill="#7A6A1F">→ A6, with the reason stated</text>
+<rect x="650" y="672" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="689" font-size="10" font-weight="500" fill="#7A6A1F">F8</text>
+<text class="n" x="694" y="689.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Payment method declined</text>
+<text class="n" x="662" y="705" font-size="10.5" fill="#7A6A1F">→ A8, another method</text>
+<rect x="650" y="748" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="765" font-size="10" font-weight="500" fill="#7A6A1F">F2</text>
+<text class="n" x="694" y="765.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Lock won't open</text>
+<text class="n" x="662" y="781" font-size="10.5" fill="#7A6A1F">→ retry ×2 → A6</text>
+<rect x="650" y="796" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="813" font-size="10" font-weight="500" fill="#7A6A1F">F10</text>
+<text class="n" x="694" y="813.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Two riders, same bike</text>
+<text class="n" x="662" y="829" font-size="10.5" fill="#7A6A1F">→ F2 for the second rider</text>
+<rect x="650" y="854" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="871" font-size="10" font-weight="500" fill="#7A6A1F">F3</text>
+<text class="n" x="694" y="871.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Battery dies mid-ride</text>
+<text class="n" x="662" y="887" font-size="10.5" fill="#7A6A1F">→ A11 on foot, fare already stopped</text>
+<rect x="650" y="902" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="919" font-size="10" font-weight="500" fill="#7A6A1F">F13</text>
+<text class="n" x="694" y="919.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Pause cap reached (40 min)</text>
+<text class="n" x="662" y="935" font-size="10.5" fill="#7A6A1F">→ A12, bike released</text>
+<rect x="650" y="950" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="967" font-size="10" font-weight="500" fill="#7A6A1F">F12</text>
+<text class="n" x="694" y="967.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Phone dies / app killed</text>
+<text class="n" x="662" y="983" font-size="10.5" fill="#7A6A1F">→ ends server-side, E6 on return</text>
+<rect x="650" y="998" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="1015" font-size="10" font-weight="500" fill="#7A6A1F">F11</text>
+<text class="n" x="694" y="1015.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Ended outside a zone</text>
+<text class="n" x="662" y="1031" font-size="10.5" fill="#7A6A1F">→ A11, fee stated before committing</text>
+<rect x="650" y="1046" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="1063" font-size="10" font-weight="500" fill="#7A6A1F">F5</text>
+<text class="n" x="694" y="1063.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Lock won't confirm</text>
+<text class="n" x="662" y="1079" font-size="10.5" fill="#7A6A1F">→ 'End ride anyway' → A12</text>
+<rect x="650" y="1094" width="300" height="40" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+<text class="m" x="662" y="1111" font-size="10" font-weight="500" fill="#7A6A1F">F4</text>
+<text class="n" x="694" y="1111.5" font-size="11.5" font-weight="600" fill="#1A1A1A">Billing evidence ambiguous</text>
+<text class="n" x="662" y="1127" font-size="10.5" fill="#7A6A1F">→ review ≤24h, not charged</text>
+</svg>
+  </div>
+  <figcaption><b>The ride funnel.</b> Twelve steps, twelve branch states. Note the density: four branches hang off A9–A10, the window between authorising money and the bike being safely returned. That is where the rider is most exposed and where the most design went — and it is also the stretch where the product has least control over the hardware.</figcaption>
+</figure>
+
+<h2 class="sec"><span class="n">04</span>Screen inventory</h2>
+<p class="secnote">What each node holds, which agent is working behind it, and where it can go. <b>Silent</b> means the agent is acting with no screen; <b>surfaced</b> means it has become visible because confidence dropped low enough that a human should decide.</p>
+
+<div class="tbl-scroll">
+<table class="wide">
+  <thead><tr>
+    <th style="width:5%">ID</th><th style="width:15%">Node</th><th style="width:7%">Type</th>
+    <th style="width:24%">What the rider sees</th><th style="width:23%">What the system holds</th>
+    <th style="width:11%">Agent</th><th style="width:15%">Exits</th>
+  </tr></thead>
+  <tbody>
+    <tr class="phase"><td colspan="7">Phase 1 — Session · identity only, no trip exists yet</td></tr>
+    <tr><td class="id">A1</td><td><b>Phone number</b></td><td>Step</td><td>One field, numeric keypad open. Errors resolve on blur, never per keystroke.</td><td>Nothing yet. No account is created until A2 succeeds.</td><td><span class="tag">absent</span></td><td>→ A2</td></tr>
+    <tr><td class="id">A2</td><td><b>Verification</b></td><td>Step</td><td>Six boxes, one labelled field to assistive tech. Resend reads "Resend in 30s".</td><td>Session token on success.</td><td><span class="tag">absent</span></td><td>→ A3 · wrong/expired code stays here</td></tr>
+    <tr><td class="id">A3</td><td><b>First name</b></td><td>Step</td><td>One field. No surname, email or gender — nothing else is needed to complete a ride.</td><td>Display name.</td><td><span class="tag">absent</span></td><td>→ A4</td></tr>
+    <tr><td class="id">A4</td><td><b>Wallet</b></td><td>Step</td><td>UPI or card, plus "Skip for now". "No deposit, no cash" stated up front.</td><td>Payment method, or a null that A8 will ask for.</td><td><span class="tag">absent</span></td><td>→ A5 · skip also → A5</td></tr>
+
+    <tr class="phase"><td colspan="7">Phase 2 — Trip · destination known, so readiness becomes computable</td></tr>
+    <tr><td class="id">A5</td><td><b>Destination</b></td><td>Step <i>(funnel root)</i></td><td>Search, recents, saved places. Required range shown per destination before she commits.</td><td>Trip distance → <code>required = max(trip × 1.5, 2 km)</code>.</td><td><span class="tag silent">readiness · battery</span></td><td>→ A6 · browse fallback → A6 on the 2 km floor</td></tr>
+    <tr><td class="id">A6</td><td><b>Map + list</b></td><td>Step</td><td>Only bikes that clear this trip. Range in km on each pin, never a battery percentage. The list mirrors the map exactly.</td><td>Cleared set, and the reason every hidden bike was hidden.</td><td><span class="tag silent">readiness</span></td><td>→ A7 · zero cleared → <b>F1</b> · edit → A5</td></tr>
+    <tr><td class="id">A7</td><td><b>Preview + hold</b></td><td>Step</td><td>"24 km on this bike · your trip needs 9.3 km". Marginal notice if it clears by a thin margin. 5-minute hold.</td><td>Held bike ID, countdown, marginal flag.</td><td><span class="tag surf">battery · surfaced when marginal</span></td><td>→ A8 · <b>F6</b> expiry · <b>F7</b> destination change</td></tr>
+
+    <tr class="phase"><td colspan="7">Phase 3 — Start · money authorised, bike not yet open</td></tr>
+    <tr><td class="id">A8</td><td><b>Pay at the bike</b></td><td>Step</td><td>Saved method or entry if skipped at A4. Rates stated. "We place a hold now and charge the actual fare when you finish."</td><td>Authorisation — a hold, not a capture.</td><td><span class="tag">absent</span></td><td>→ A9 · declined → <b>F8</b></td></tr>
+    <tr><td class="id">A9</td><td><b>Unlock</b></td><td>Step</td><td>Scanner, with manual bike-ID entry at equal weight beside it. "Unlocking…" → "Unlocked. Ride started."</td><td>Live readiness re-check. <b>The fare timer does not start until the lock confirms open.</b></td><td><span class="tag silent">readiness · live re-check</span></td><td>→ A10 · <b>F2</b> no open ping · <b>F10</b> taken · F9 wrong bike (silent)</td></tr>
+
+    <tr class="phase"><td colspan="7">Phase 4 — Ride · live, and owned by the server</td></tr>
+    <tr><td class="id">A10</td><td><b>Live ride</b></td><td>Step</td><td>Running fare always visible, live range, ETA. One exit: "Report an issue".</td><td>Telemetry recording — GPS trace, lock events, range curve.</td><td><span class="tag silent">battery · billing</span></td><td>→ A11 · <b>F3</b> · <b>F12</b></td></tr>
+    <tr><td class="id">A10p</td><td><b>Paused</b></td><td>State of A10</td><td>"₹0.50/min · Yulu #4471 held for you." Lower rate, stated before she commits.</td><td>Pause clock. Auto-prompt at 20 min, auto-end at 40.</td><td><span class="tag silent">battery</span></td><td>→ A10 resume · <b>F13</b> at the cap</td></tr>
+    <tr><td class="id">A10r</td><td><b>Report an issue</b></td><td>State of A10</td><td>Four fixed options. She describes nothing.</td><td>Full telemetry attached automatically — this is the billing agent's evidence, gathered without an interrogation.</td><td><span class="tag silent">billing</span></td><td>→ A10</td></tr>
+
+    <tr class="phase"><td colspan="7">Phase 5 — Close · bike returned, fare settles</td></tr>
+    <tr><td class="id">A11</td><td><b>Park + lock</b></td><td>Step</td><td>Position against the zone boundary. "Confirming the lock…" — the app does not take her word for it.</td><td>Geofence containment, then the close ping.</td><td><span class="tag silent">readiness · verifying close</span></td><td>→ A12 · <b>F11</b> outside zone · <b>F5</b> no close ping</td></tr>
+    <tr><td class="id">A12</td><td><b>Receipt</b></td><td>Step</td><td>Itemised fare, pause time, adjustment with its reason, skippable rating.</td><td>Capture against the authorisation. Billing agent's decision recorded with its evidence.</td><td><span class="tag surf">billing · surfaced when adjusted</span></td><td>→ A5 · ambiguous → <b>F4</b></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="sec"><span class="n">05</span>Ride state machine — and who is allowed to change it</h2>
+<p class="secnote">The screen inventory describes what the rider is looking at. This describes what is <b>true</b>, which is a different thing and the one that money depends on. Two transitions in here cannot be made by the app at all: the bike has to agree.</p>
+
+<figure>
+  <div class="fig">
+    <svg viewBox="0 0 1100 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ride state machine: none, reserved, authorised, riding, paused, closing, settled, plus voided and review">
+      <style>.n{font-family:"IBM Plex Sans",system-ui,sans-serif}.m{font-family:"IBM Plex Mono",monospace}</style>
+
+      <text class="m" x="0" y="16" font-size="10.5" letter-spacing="1.3" fill="#8C8C8C">PRIMARY PATH</text>
+
+      <g>
+        <rect x="0" y="36" width="118" height="44" rx="8" fill="#FFFFFF" stroke="#B4B4AE" stroke-width="1.3"/>
+        <text class="m" x="59" y="56" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">none</text>
+        <text class="n" x="59" y="71" text-anchor="middle" font-size="9.5" fill="#8C8C8C">no obligation</text>
+
+        <rect x="162" y="36" width="118" height="44" rx="8" fill="#FFFFFF" stroke="#B4B4AE" stroke-width="1.3"/>
+        <text class="m" x="221" y="56" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">reserved</text>
+        <text class="n" x="221" y="71" text-anchor="middle" font-size="9.5" fill="#8C8C8C">5 min, no money</text>
+
+        <rect x="324" y="36" width="118" height="44" rx="8" fill="#FFFFFF" stroke="#B4B4AE" stroke-width="1.3"/>
+        <text class="m" x="383" y="56" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">authorised</text>
+        <text class="n" x="383" y="71" text-anchor="middle" font-size="9.5" fill="#8C8C8C">hold placed</text>
+
+        <rect x="486" y="36" width="118" height="44" rx="8" fill="#FBF7E4" stroke="#7A6A1F" stroke-width="1.6"/>
+        <text class="m" x="545" y="56" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">riding</text>
+        <text class="n" x="545" y="71" text-anchor="middle" font-size="9.5" fill="#7A6A1F">fare accrues</text>
+
+        <rect x="648" y="36" width="118" height="44" rx="8" fill="#FFFFFF" stroke="#B4B4AE" stroke-width="1.3"/>
+        <text class="m" x="707" y="56" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">closing</text>
+        <text class="n" x="707" y="71" text-anchor="middle" font-size="9.5" fill="#8C8C8C">awaiting close ping</text>
+
+        <rect x="810" y="36" width="118" height="44" rx="8" fill="#FFFFFF" stroke="#B4B4AE" stroke-width="1.3"/>
+        <text class="m" x="869" y="56" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">settled</text>
+        <text class="n" x="869" y="71" text-anchor="middle" font-size="9.5" fill="#8C8C8C">captured</text>
+      </g>
+
+      <g stroke="#1A1A1A" stroke-width="1.4" fill="none">
+        <path d="M 118 58 H 152"/><path d="M 152 53 L 162 58 L 152 63 Z" fill="#1A1A1A" stroke="none"/>
+        <path d="M 280 58 H 314"/><path d="M 314 53 L 324 58 L 314 63 Z" fill="#1A1A1A" stroke="none"/>
+        <path d="M 442 58 H 476"/><path d="M 476 53 L 486 58 L 476 63 Z" fill="#1A1A1A" stroke="none"/>
+        <path d="M 604 58 H 638"/><path d="M 638 53 L 648 58 L 638 63 Z" fill="#1A1A1A" stroke="none"/>
+        <path d="M 766 58 H 800"/><path d="M 800 53 L 810 58 L 800 63 Z" fill="#1A1A1A" stroke="none"/>
+      </g>
+
+      <text class="n" x="135" y="104" text-anchor="middle" font-size="9.5" fill="#5A5A5A">A7</text>
+      <text class="n" x="297" y="104" text-anchor="middle" font-size="9.5" fill="#5A5A5A">A8</text>
+      <text class="n" x="459" y="104" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7A6A1F">lock-open ping</text>
+      <text class="n" x="621" y="104" text-anchor="middle" font-size="9.5" fill="#5A5A5A">A11</text>
+      <text class="n" x="783" y="104" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7A6A1F">lock-close ping</text>
+
+      <rect x="486" y="138" width="118" height="42" rx="8" fill="#FFFFFF" stroke="#B4B4AE" stroke-width="1.3"/>
+      <text class="m" x="545" y="157" text-anchor="middle" font-size="12" font-weight="500" fill="#1A1A1A">paused</text>
+      <text class="n" x="545" y="171" text-anchor="middle" font-size="9.5" fill="#8C8C8C">₹0.50/min</text>
+      <g stroke="#B4B4AE" stroke-width="1.3" fill="none">
+        <path d="M 530 80 V 132"/><path d="M 525 132 L 530 138 L 535 132 Z" fill="#B4B4AE" stroke="none"/>
+        <path d="M 560 138 V 86"/><path d="M 555 86 L 560 80 L 565 86 Z" fill="#B4B4AE" stroke="none"/>
+      </g>
+      <text class="n" x="614" y="163" font-size="9.5" fill="#5A5A5A">auto-ends at 40 min → F13 → settled</text>
+
+      <text class="m" x="0" y="226" font-size="10.5" letter-spacing="1.3" fill="#8C8C8C">TERMINAL EXCEPTIONS</text>
+
+      <rect x="324" y="244" width="140" height="44" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+      <text class="m" x="394" y="264" text-anchor="middle" font-size="12" font-weight="500" fill="#7A6A1F">voided</text>
+      <text class="n" x="394" y="279" text-anchor="middle" font-size="9.5" fill="#7A6A1F">hold released, ₹0</text>
+      <g stroke="#D8C97F" stroke-width="1.3" fill="none" stroke-dasharray="4 3">
+        <path d="M 383 80 V 238"/><path d="M 378 238 L 383 244 L 388 238 Z" fill="#D8C97F" stroke="none"/>
+      </g>
+      <text class="n" x="392" y="160" font-size="9.5" fill="#7A6A1F">F2 / F10 — no open ping</text>
+
+      <rect x="810" y="244" width="140" height="44" rx="8" fill="#FBF7E4" stroke="#D8C97F" stroke-width="1.3"/>
+      <text class="m" x="880" y="264" text-anchor="middle" font-size="12" font-weight="500" fill="#7A6A1F">review</text>
+      <text class="n" x="880" y="279" text-anchor="middle" font-size="9.5" fill="#7A6A1F">not charged meanwhile</text>
+      <g stroke="#D8C97F" stroke-width="1.3" fill="none" stroke-dasharray="4 3">
+        <path d="M 869 80 V 238"/><path d="M 864 238 L 869 244 L 874 238 Z" fill="#D8C97F" stroke="none"/>
+      </g>
+      <text class="n" x="878" y="160" font-size="9.5" fill="#7A6A1F">F4 — evidence ambiguous</text>
+
+      <line x1="0" y1="318" x2="1100" y2="318" stroke="#D6D6D2" stroke-width="1"/>
+      <text class="m" x="0" y="338" font-size="10" letter-spacing="1" fill="#8C8C8C">THE APP CANNOT MAKE —</text>
+      <text class="n" x="196" y="338" font-size="11" fill="#5A5A5A">authorised → riding, or closing → settled. Both need the bike. Every button that looks like it does one of these is really a request.</text>
+      <text class="n" x="0" y="356" font-size="11" fill="#5A5A5A">Fare accrues in <tspan font-weight="600" fill="#1A1A1A">riding</tspan> and <tspan font-weight="600" fill="#1A1A1A">paused</tspan> only — and stops the instant a failure event fires, not when the ride is formally closed.</text>
+    </svg>
+  </div>
+  <figcaption><b>Ride state machine.</b> "I've locked it" is a request, not a transition — the state changes when the bike says so. That single rule is what makes F5 survivable: if the close ping never arrives, the rider can still end the ride, the fare stops immediately, and the bike is flagged for pickup rather than the rider being held hostage to hardware.</figcaption>
+</figure>
+
+<h2 class="sec"><span class="n">06</span>Edge cases</h2>
+<p class="secnote">Twelve branch states. Read the last two columns together: <b>every one of them resolves in the rider's favour by default</b>, which isn't generosity — it's the behavioural rule from the product spec ("prefer a false negative over a false positive; never resolve ambiguity in the company's favour") expressed as structure rather than asserted in a document.</p>
+
+<div class="tbl-scroll">
+<table class="wide">
+  <thead><tr>
+    <th style="width:5%">ID</th><th style="width:15%">Trigger</th><th style="width:12%">Detected by</th>
+    <th style="width:22%">What the rider gets</th><th style="width:17%">Return path</th>
+    <th style="width:14%">State effect</th><th style="width:15%">Cost to the rider</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="id br">F1</td><td>Destination set; nothing in range clears it</td><td>Readiness, <i>by absence</i></td><td>An empty map that names the check out loud — "There are bikes here, but none have the range for 6.2&nbsp;km."</td><td>Notify me · try a shorter trip · search another area</td><td><code>none</code></td><td>None. This is the product working.</td></tr>
+    <tr><td class="id br">F2</td><td>QR scans but no lock-open ping within the timeout</td><td>Readiness, live re-check</td><td>"We haven't started your ride, and your payment hold has been released." Bike drops off the map for everyone.</td><td>Retry ×2, then A6</td><td><code>authorised → voided</code></td><td>₹0, stated explicitly — the fear here is being billed for a bike she can't use.</td></tr>
+    <tr><td class="id br">F3</td><td>Range exhausted before arrival — the prediction was wrong</td><td>Battery Decay, <i>missed</i></td><td>Nearest zone distance and walking directions. Adjustment pre-applied and announced here, not deferred to the receipt.</td><td>→ A11 on foot</td><td><code>riding → closing</code>, pre-flagged</td><td>A walk. Fare stopped at battery death, not at ride end.</td></tr>
+    <tr><td class="id br">F4</td><td>Gap in telemetry across the disputed window</td><td>Billing Resolution → <code>escalate</code></td><td>"There's a gap in the ride data around 2:14 pm, so we're checking it manually. You haven't been charged for the disputed time while we look."</td><td>Human review ≤24h; lands in G3</td><td><code>settled → review</code></td><td>₹0 pending. The company absorbs the ambiguity, not her.</td></tr>
+    <tr><td class="id br">F5</td><td>No lock-close ping within ~10s at ride end</td><td>Readiness</td><td>Push the lock and retry — then "End ride anyway", which stops the fare immediately and flags the bike for pickup.</td><td>→ A12</td><td><code>closing → settled</code>, flagged</td><td>₹0 extra. This is Ananya's original bad ride, redesigned.</td></tr>
+    <tr><td class="id br">F6</td><td>5-minute hold elapses before she reaches the bike</td><td>Hold timer</td><td>Toast on return to the map: "Your hold expired. The bike is available again."</td><td>→ A6</td><td><code>reserved → none</code></td><td>A wasted walk — the reason hold rate is a tracked metric.</td></tr>
+    <tr><td class="id br">F7</td><td>Destination edited while a hold is active; the held bike no longer clears</td><td>Readiness, recomputed</td><td>The sheet explains the removal rather than letting it read as a bug: "2 bikes dropped off — they can't make the longer trip."</td><td>→ A6</td><td><code>reserved → none</code></td><td>One re-pick.</td></tr>
+    <tr><td class="id br">F8</td><td>Authorisation declined at the bike</td><td>Payment service</td><td>"That didn't go through. Try another method." Never blames a specific bank — we don't know.</td><td>→ A8</td><td><code>none</code> — nothing held</td><td>₹0. Previously entered values persist; no re-typing.</td></tr>
+    <tr><td class="id br">F9</td><td>She scans a different bike than the one she held</td><td>Client-side ID compare</td><td><b>Nothing.</b> The scan is accepted and the old hold released silently.</td><td>→ A10</td><td>hold transfers</td><td>None — designed to be a non-event. Don't punish a decision that costs nothing.</td></tr>
+    <tr><td class="id br">F10</td><td>Two riders scan the same bike within seconds</td><td>Lock state — first confirmed unlock wins</td><td>The second rider gets F2: hold released, bike gone from the map.</td><td>→ F2 → A6</td><td><code>authorised → voided</code></td><td>Seconds. Reuses an existing failure state rather than inventing one.</td></tr>
+    <tr><td class="id br">F11</td><td>End attempted outside every valid zone</td><td>Polygon containment <i>(deterministic — never a model)</i></td><td>End blocked, direction to the nearest zone, and any out-of-zone fee stated <b>before</b> she commits.</td><td>→ A11</td><td>stays <code>riding</code></td><td>A walk, or a fee she agreed to in advance — never discovered afterwards.</td></tr>
+    <tr><td class="id br">F12</td><td>Phone dies, or the app is force-quit mid-ride</td><td>Server — device heartbeat lost</td><td>Nothing on the device, because there is no device. She locks the bike and walks; the close ping ends the ride. E6 hands her the receipt when she's back.</td><td>→ E6 → A12</td><td><code>riding → settled</code>, server-side</td><td>₹0 extra. Fare stops at last confirmed movement, not at app reconnection.</td></tr>
+    <tr><td class="id br">F13</td><td>Pause exceeds the 40-minute cap</td><td>Pause timer</td><td>Prompt at 20 minutes, auto-end at 40, with a push explaining it. A held bike is a bike removed from supply.</td><td>→ A12</td><td><code>paused → settled</code></td><td>Ride ended for her. A supply decision, communicated — not a punishment.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="who">The pattern worth noticing across the table</span>
+  <p>Six of the twelve branches cost the rider <b>nothing at all</b>, and the remaining six cost her a walk or a re-pick. <b>None of them cost her money she didn't agree to.</b> That is not twelve separate acts of generosity — it falls out of two structural choices made once: the fare only accrues in <code>riding</code> and <code>paused</code>, and it stops on the failure <i>event</i> rather than when the ride formally closes.</p>
+  <p>Get those two right and the kind interface writes itself. Get them wrong and no amount of apologetic microcopy saves it.</p>
+</div>
+
+<h2 class="sec"><span class="n">07</span>Cross-cutting layers</h2>
+<p class="secnote">Conditions, not places. Each one changes how several steps behave without ever becoming a screen the rider is stuck on — which is the trap: treat connectivity as a branch and you end up with a dead-end error page at every step of the funnel.</p>
+
+<div class="layers">
+  <div class="layer">
+    <h3><span>L1</span>Location permission</h3>
+    <p>Denied is a <b>degraded</b> state, not a blocked one — and barely degraded at that.</p>
+    <dl>
+      <dt>A5</dt><dd>Unaffected. A destination is typed, not sensed.</dd>
+      <dt>A6</dt><dd>Falls back to manual area search. <b>Readiness still works</b> — it needs the destination and the bikes' positions, not hers.</dd>
+      <dt>A7</dt><dd>Walk time and distance degrade to approximate. Range framing is untouched.</dd>
+      <dt>A11</dt><dd>Zone confirmation uses the <i>bike's</i> GPS, so ending a ride is unaffected.</dd>
+    </dl>
+  </div>
+
+  <div class="layer">
+    <h3><span>L2</span>Camera permission</h3>
+    <p>Barely a layer at all, because the alternative was never a fallback.</p>
+    <dl>
+      <dt>A9</dt><dd>Manual bike-ID entry sits beside the scanner at equal weight, permission or not. QR scanning needs visual targeting and steady motor control not every rider has.</dd>
+      <dt>Everywhere</dt><dd>No blocked screen exists anywhere in the product for a denied camera.</dd>
+    </dl>
+  </div>
+
+  <div class="layer">
+    <h3><span>L3</span>Connectivity</h3>
+    <p>The phase you lose signal in decides what happens — and the back half is survivable because the bike holds the truth.</p>
+    <dl>
+      <dt>A1–A4</dt><dd>Blocked with retry. Nothing to cache; no account exists yet.</dd>
+      <dt>A5–A6</dt><dd>Last-known map with an honest banner, and <b>reservation disabled</b> — readiness can't be verified, so the product won't pretend.</dd>
+      <dt>A8–A9</dt><dd>Can't authorise or confirm a lock → F2 path. Nothing charged.</dd>
+      <dt>A10</dt><dd>Ride continues; the bike holds lock state. "Reconnecting…", fare accrues server-side, reconciled on return.</dd>
+      <dt>A11</dt><dd><b>Lock it and walk away.</b> The close ping ends the ride; the receipt catches up.</dd>
+      <dt>A12</dt><dd>Queued. Appears in G3 when the phone reconnects.</dd>
+    </dl>
+  </div>
+
+  <div class="layer">
+    <h3><span>L4</span>Session expiry</h3>
+    <p>Re-auth returns her to the node she was on — never dumped to home, and never mid-ride.</p>
+    <dl>
+      <dt>A1–A9</dt><dd>Re-auth, then resume at the same step with form state intact.</dd>
+      <dt>A10</dt><dd><b>The ride is untouched.</b> It lives on the server; expiry is a viewing problem, not a riding problem. Re-auth lands on E2 → A10.</dd>
+      <dt>A11–A12</dt><dd>Lock-close still ends the ride. The receipt waits in G3.</dd>
+    </dl>
+  </div>
+</div>
+
+<h2 class="sec"><span class="n">08</span>Persistent surfaces</h2>
+<p class="secnote">Everything outside the ride funnel. All five hang off A5/A6 only — <b>never reachable from A7 onward</b>, which is Decision 02 enforced structurally rather than by hiding a tab bar. The single exception is the ride screen's "Report an issue", and that returns to the ride rather than leaving it.</p>
+
+<div class="tbl-scroll">
+<table>
+  <thead><tr><th style="width:6%">ID</th><th style="width:20%">Surface</th><th style="width:16%">Reachable from</th><th>What it holds, and why it exists here</th></tr></thead>
+  <tbody>
+    <tr><td class="id">G1</td><td><b>Account</b></td><td>A5 · A6</td><td>Phone, first name, delete account. Deliberately thin — nothing was collected that would need managing.</td></tr>
+    <tr><td class="id">G2</td><td><b>Payment methods</b></td><td>A5 · A6</td><td>Add, replace, remove. Separate from A8 because A8 is a step in a task and this is maintenance; collapsing them is how riders end up editing cards while a hold is live.</td></tr>
+    <tr><td class="id">G3</td><td><b>Ride history + receipts</b></td><td>A5 · A6 · push</td><td>Every past ride, including anything in <code>review</code> from F4 and anything settled while the phone was dead from F12. <b>This is the landing place for every asynchronous outcome in the system</b> — without it, F4 and F12 have nowhere to resolve.</td></tr>
+    <tr><td class="id">G4</td><td><b>Saved places</b></td><td>A5</td><td>Home and Work. Text labels, never icon-only. Feeds the destination-first root so the commute case is two taps.</td></tr>
+    <tr><td class="id">G5</td><td><b>Help</b></td><td>A5 · A6 · G3</td><td>Report a past ride, contact. Notably <i>not</i> reachable mid-ride: during a ride the relevant control is "Report an issue", which attaches telemetry automatically instead of asking her to explain.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="sec"><span class="n">09</span>What this architecture deliberately doesn't have</h2>
+<p class="secnote">An IA is defined as much by its omissions, and each of these was a live option that got rejected for a reason.</p>
+
+<ul class="omit">
+  <li><b>No bottom tab bar.</b> The ride is a task, not a hierarchy. Tabs would invite the rider out of a funnel holding a payment authorisation and a reserved bike.</li>
+  <li><b>No onboarding carousel.</b> The design target is a returning category user who rides three or four times a day. Slides are friction for her — a deliberate trade against the first-time rider, and the one most worth testing.</li>
+  <li><b>No in-app assistant or chat surface.</b> This is the product thesis, not an omission of convenience: a conversational layer is a well-designed apology for a failure that should have been prevented.</li>
+  <li><b>No confidence score anywhere in the rider app.</b> Readiness, battery decay and billing all produce confidence internally. None of it is shown. A bike that is confident doesn't justify itself with a number — it just appears.</li>
+  <li><b>No browse-without-a-destination as a first-class root.</b> It exists as a labelled fallback on the 2&nbsp;km floor, with a banner saying exactly that. The product never pretends a floor-based check is a trip-based one.</li>
+  <li><b>No rating gate.</b> The star rating on A12 is skippable. Trapping a rider behind a rating to see her own receipt would undo the screen it sits on.</li>
+  <li><b>No dead ends.</b> Every one of the twelve branches names an exit. If a node has no onward path, it isn't finished.</li>
+</ul>
+
+<div class="note">
+  <span class="who">The one I'd still argue about</span>
+  <p>Hiding bikes is a strong move with an obvious failure mode: an empty map can read as a broken app rather than a system exercising care. Absence is paid for in two places — F1 naming the check out loud, and A6 narrating removals when the destination changes — but <b>whether that reads as diligence to a first-time rider is untested</b>, and she is exactly the person with no prior trust to draw on.</p>
+  <p><b>Hide rate</b> and <b>F1 frequency</b> are the two numbers that would settle it. They're instrumented for that reason, and they're the dial that would move the 1.5× multiplier if it turned out I'd set it too conservatively.</p>
+</div>
+
+<footer class="end">
+  <span>Yulu — information architecture</span>
+  <a href="aalvee_case_yulu_v1.html">Case study</a>
+  <a href="yulu-wireframes.html">Annotated wireframes</a>
+  <a href="yulu-rider-prototype.html">Interactive prototype</a>
+</footer>
+
+</div>
+</body>
+</html>

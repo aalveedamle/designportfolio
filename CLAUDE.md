@@ -16,12 +16,14 @@ All site files below are in `public/`.
 | `case-studies.html` | Work index — the case-study card list linked from every nav |
 | `aalvee_about_v3.html` | About page |
 | `aalvee_case_geniaus_v2.html` | Geniaus case study (GenAI copilot for auditors, EY) |
-| `aalvee_case_genie_v1.html` | Genie case study (wealth platform, US bank) |
+| `aalvee_case_genie_v1.html` | Genie case study (AI assistant embedded in the risk workflow, EY) |
 | `aalvee_case_peepal_v2.html` | Peepal case study (AgriTech for World Bank) |
 | `aalvee_case_resolvenow_v1.html` | ResolveNow case study (citizen complaint platform, Indian municipalities) |
 | `aalvee_case_rap_v1.html` | RAP case study (AI digital twin for risk analytics, EY) — plays `RAP.mp4` |
-| `aalvee_case_yulu_v1.html` | Yulu case study (AI-native micro-mobility) — embeds the two files below |
-| `yulu-prototype.html` | Standalone interactive prototype for the Yulu case study (self-contained, own design system) |
+| `aalvee_case_yulu_v1.html` | Yulu case study (AI-native micro-mobility) — links/embeds the three files below |
+| `yulu-ia.html` | Standalone information architecture for the Yulu case study (launch routing, ride funnel, state machine, edge cases) |
+| `yulu-rider-prototype.html` | Interactive rider prototype linked from the Yulu case study (source of its hero video and key-screen stills) — exported from Claude Design; runs on `js/dc-runtime.js` (loads React from unpkg), images in `images/yulu-rider/` |
+| `yulu-prototype.html` | Earlier Yulu prototype (agent inspector, own design system) — no longer linked from the case study |
 | `yulu-wireframes.html` | Standalone annotated wireframe set for the Yulu case study |
 | `design-strategy.html`, `aalvee_strategy_0*.html` | UX strategy index and write-ups |
 | `404.html` | Served by Cloudflare for any URL that doesn't exist |
@@ -50,13 +52,15 @@ When editing tokens, **update every file** — there is no single source of trut
 
 `case study page.html` is stale — nothing links to it. Leave it alone or delete it; don't add to it.
 
-The Yulu case study embeds `yulu-prototype.html` in an iframe. That file deliberately uses its own product design system (IBM Plex, Yulu blue) rather than the portfolio tokens — it is the product's UI, not site chrome.
+The Yulu case study no longer embeds a prototype: its hero plays a recording of `yulu-rider-prototype.html` and section 11 (Key screens) shows ten stills of it in `images/yulu/screens/` (PNG originals in `source media/yulu-rider/screens/`); the prototype is only linked. `yulu-rider-prototype.html` is a Claude Design `.dc.html` export: the `<x-dc>` template and `data-dc-script` class are rendered by `js/dc-runtime.js` — edit the template/script, not the runtime. It deliberately uses its own product design system (Jost, Yulu cyan) rather than the portfolio tokens — it is the product's UI, not site chrome. `yulu-wireframes.html` and `yulu-ia.html` are documentation artefacts sharing a third system (IBM Plex on warm paper, grayscale + one note colour) — keep those two consistent with each other, not with the portfolio.
 
 ### Images and media
 
 - **Never inline images as base64 `data:` URIs.** That is what made the Genie and GenIAus pages 2–2.5MB: the photos couldn't be cached, lazy-loaded, or decoded off the main thread. Case-study images live in `images/<page>/` (e.g. `images/genie/`); reference them with `loading="lazy" decoding="async"`.
 - Card covers are 1200px JPEGs in `homepage card images/`. Case-study heroes are 2000px JPEGs at `images/<page>/hero.jpg`, loaded with `fetchpriority="high"` (never lazy — they're the first thing on screen). Originals (PNGs, raw exports) go in `source media/` at the repo root, not in `public/`.
 - Video must be `.mp4` (H.264). Chrome and Edge refuse `video/quicktime`, so `.mov` files don't play.
+- The Yulu hero plays `video/yulu-hero.mp4` (poster `video/yulu-hero-poster.jpg`): a 44 s screen-only recording of `yulu-rider-prototype.html` autoplaying the happy path, 590×1278, ~900 kbps, inside a CSS phone bezel. Re-record it if the prototype changes.
+- Muted autoplay loops (e.g. the About hero) carry no audio track, are ~900 kbps at 720p, and are fast-start (`moov` before `mdat`). The About hero went 6.7 MB → 3.3 MB this way; the original is in `source media/video/`.
 
 ### Deployment
 

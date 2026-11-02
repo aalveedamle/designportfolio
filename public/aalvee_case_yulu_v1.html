@@ -353,22 +353,17 @@ body.mmenu-open { overflow: hidden; }
 .meta-item .value { font-family: var(--font-display); font-size: 16px; font-weight: 500;
   color: var(--ink); letter-spacing: -0.012em; line-height: 1.35; }
 .hero-image-wrap { margin: clamp(48px, 6vw, 72px) auto 0; }
-.hero-phone { width: min(280px, 70vw); margin: 0 auto; }
-.hero-phone svg { width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.45)) drop-shadow(0 0 30px rgba(233,240,86,0.1)); }
-[data-theme="light"] .hero-phone svg { filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) drop-shadow(0 0 30px rgba(255,92,52,0.1)); }
-.hero-phone .stroke-accent  { stroke: var(--accent); }
-.hero-phone .stroke-soft    { stroke: var(--line); }
-.hero-phone .fill-ink       { fill: var(--ink); }
-.hero-phone .fill-mute      { fill: var(--ink-mute); }
-.hero-phone .fill-ink-mute  { fill: var(--ink-mute); }
-.hero-phone .stroke-ink-mute{ stroke: var(--ink-mute); }
-.hero-phone .fill-accent    { fill: var(--accent); }
-.hero-phone .fill-accent-soft { fill: var(--accent-soft); }
-.hero-phone .fill-danger    { fill: var(--danger); }
-.hero-phone .fill-card-2    { fill: var(--bg-2); }
-.hero-phone .fill-card      { fill: var(--bg-elev); }
-.hero-phone .fill-chip      { fill: var(--chip); }
+.hero-phone {
+  /* Bezel around the recorded prototype screen (393 × 852) */
+  width: min(280px, 70vw); margin: 0 auto;
+  padding: calc(min(280px, 70vw) * 0.032); border-radius: 16% / 7.4%; background: #1c1c1e;
+  box-shadow: 0 0 0 1px #000, 0 30px 60px rgba(0,0,0,0.45), 0 0 30px rgba(233,240,86,0.1);
+}
+[data-theme="light"] .hero-phone { box-shadow: 0 0 0 1px #000, 0 30px 60px rgba(0,0,0,0.15), 0 0 30px rgba(255,92,52,0.1); }
+.hero-phone-screen {
+  display: block; width: 100%; height: auto; aspect-ratio: 393 / 852;
+  border-radius: 13.2% / 6.1%; background: #CFFFFE; object-fit: cover;
+}
 .hero-phone-shadow { width: 40%; height: 20px; margin: 18px auto 0; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(0,0,0,0.3), rgba(0,0,0,0) 75%); }
 .impact-strip-section { padding: clamp(48px, 6vw, 72px) 0; }
@@ -1198,13 +1193,6 @@ table.tbl tr.is-out td { opacity: 0.62; }
   transition: gap .25s var(--ease);
 }
 .proto-bar a:hover { gap: 12px; }
-.proto iframe {
-  display: block; width: 100%; height: 1160px; border: 0; background: #F4F8FA;
-}
-/* On narrow screens the prototype stacks phone-over-inspector. Give the
-   frame the full stacked height so it never nest-scrolls under a thumb —
-   a scrollable iframe inside a scrolling page is a trap on touch. */
-@media (max-width: 900px) { .proto iframe { height: 2130px; } }
 .proto-note {
   padding: 16px clamp(18px, 2.5vw, 26px);
   border-top: 1px solid var(--line-soft);
@@ -1301,6 +1289,34 @@ table.tbl tr.is-out td { opacity: 0.62; }
   text-transform: uppercase; color: var(--ink-mute); margin-top: 12px;
 }
 .wire .cap b { color: var(--ink-2); font-weight: 600; }
+/* ---------- Key screens (section 11) ---------- */
+.screens-group { margin-top: clamp(32px, 4vw, 48px); }
+.screens-head {
+  display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 20px;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute);
+}
+.screens-head span:first-child { color: var(--ink-2); font-weight: 600; }
+.screens { display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(14px, 1.6vw, 22px); }
+@media (max-width: 1000px) { .screens { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px)  { .screens { grid-template-columns: 1fr 1fr; } }
+.screen { margin: 0; }
+.screen-img {
+  border-radius: 18px; overflow: hidden; border: 1px solid var(--line-soft);
+  background: var(--bg-2); box-shadow: var(--shadow-lg);
+}
+.screen-img img { display: block; width: 100%; height: auto; }
+.screen figcaption { padding-top: 14px; }
+.screen-tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.07em; color: var(--accent); }
+.screen h4 { font-family: var(--font-display); font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--ink); margin: 4px 0 8px; }
+.screen p { font-size: 13px; line-height: 1.5; color: var(--ink-mute); margin: 0; }
+.screen p.screen-pain { color: var(--ink-2); margin-bottom: 6px; }
+.screen-pain span {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--danger); margin-right: 6px;
+}
+.screens-link { margin-top: 28px; font-size: 14px; color: var(--ink-mute); }
+.screens-link a { color: var(--accent); border-bottom: 1px solid currentColor; }
 /* ---------- Scan-optimization components (same system as GenIAus / Genie) ---------- */
 .glance-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 28px; }
 @media (min-width: 720px) { .glance-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
@@ -1462,91 +1478,11 @@ table.tbl tr.is-out td { opacity: 0.62; }
 
     <div class="hero-image-wrap">
       <div class="hero-phone">
-        <svg viewBox="28 38 284 604" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Yulu map screen — only bikes that can complete this trip are shown">
-          <rect x="28" y="38" width="284" height="604" rx="44" fill="#1c1c1e"/>
-          <rect x="28" y="38" width="284" height="604" rx="44" fill="none" stroke="#000" stroke-width="1"/>
-          <rect x="40" y="50" width="260" height="580" rx="34" class="fill-card-2 stroke-soft" stroke-width="1.5"/>
-          <rect x="155" y="64" width="30" height="9" rx="4.5" class="fill-ink"/>
-          <text x="64" y="84" font-size="10" font-weight="700" class="fill-ink">9:41</text>
-          <g class="fill-ink">
-            <rect x="244" y="80" width="2" height="3" rx="0.5"/>
-            <rect x="247" y="78" width="2" height="5" rx="0.5"/>
-            <rect x="250" y="76" width="2" height="7" rx="0.5"/>
-            <rect x="253" y="74" width="2" height="9" rx="0.5"/>
-          </g>
-          <g transform="translate(259 76)" class="stroke-ink" fill="none" stroke-width="0.9" stroke-linecap="round">
-            <path d="M 0 3 a 6 6 0 0 1 8 0"/>
-            <path d="M 1.5 5 a 4 4 0 0 1 5 0"/>
-            <path d="M 3 7 a 2 2 0 0 1 2 0"/>
-            <circle cx="4" cy="8.5" r="0.6" class="fill-ink stroke-none"/>
-          </g>
-          <g transform="translate(272 75)">
-            <rect x="0" y="0" width="16" height="8" rx="2" class="fill-none stroke-ink" stroke-width="0.8"/>
-            <rect x="16.5" y="2.5" width="1.4" height="3" rx="0.6" class="fill-ink"/>
-            <rect x="1.2" y="1.2" width="12" height="5.6" rx="1" class="fill-ink"/>
-          </g>
-          <rect x="140" y="612" width="60" height="3" rx="1.5" class="fill-ink-mute"/>
-
-          <!-- destination chip -->
-          <rect x="56" y="104" width="228" height="34" rx="17" class="fill-chip stroke-soft" stroke-width="0.7"/>
-          <circle cx="74" cy="121" r="4" class="fill-accent"/>
-          <text x="86" y="125" font-size="10.5" font-weight="600" letter-spacing="-0.1" class="fill-ink">To Connaught Place · 6.2 km</text>
-
-          <!-- map field -->
-          <rect x="40" y="148" width="260" height="330" class="fill-card"/>
-          <g class="stroke-soft" stroke-width="0.6" opacity="0.7">
-            <line x1="40" y1="196" x2="300" y2="196"/><line x1="40" y1="244" x2="300" y2="244"/>
-            <line x1="40" y1="292" x2="300" y2="292"/><line x1="40" y1="340" x2="300" y2="340"/>
-            <line x1="40" y1="388" x2="300" y2="388"/><line x1="40" y1="436" x2="300" y2="436"/>
-            <line x1="88"  y1="148" x2="88"  y2="478"/><line x1="136" y1="148" x2="136" y2="478"/>
-            <line x1="184" y1="148" x2="184" y2="478"/><line x1="232" y1="148" x2="232" y2="478"/>
-            <line x1="280" y1="148" x2="280" y2="478"/>
-          </g>
-          <rect x="40" y="286" width="260" height="12" class="fill-card-2"/>
-          <rect x="152" y="148" width="12" height="330" class="fill-card-2"/>
-          <rect x="70"  y="316" width="72" height="52" rx="8" class="fill-accent-soft stroke-accent" stroke-width="0.8" stroke-dasharray="3 3"/>
-          <text x="76" y="362" font-size="7" letter-spacing="0.4" class="fill-accent">YULU ZONE</text>
-          <rect x="196" y="206" width="72" height="50" rx="8" class="fill-accent-soft stroke-accent" stroke-width="0.8" stroke-dasharray="3 3"/>
-          <text x="202" y="250" font-size="7" letter-spacing="0.4" class="fill-accent">YULU ZONE</text>
-
-          <!-- rider -->
-          <circle cx="162" cy="330" r="7" class="fill-accent"/>
-          <circle cx="162" cy="330" r="11" class="fill-none stroke-accent" stroke-width="1" opacity="0.45"/>
-
-          <!-- cleared bikes only -->
-          <g>
-            <rect x="94"  y="256" width="46" height="20" rx="7" class="fill-card stroke-accent" stroke-width="1"/>
-            <text x="117" y="270" text-anchor="middle" font-size="9" font-weight="700" class="fill-ink">24 km</text>
-            <path d="M 113 276 L 117 281 L 121 276 Z" class="fill-accent"/>
-          </g>
-          <g>
-            <rect x="212" y="182" width="46" height="20" rx="7" class="fill-card stroke-accent" stroke-width="1"/>
-            <text x="235" y="196" text-anchor="middle" font-size="9" font-weight="700" class="fill-ink">19 km</text>
-            <path d="M 231 202 L 235 207 L 239 202 Z" class="fill-accent"/>
-          </g>
-          <g>
-            <rect x="182" y="392" width="46" height="20" rx="7" class="fill-card stroke-accent" stroke-width="1"/>
-            <text x="205" y="406" text-anchor="middle" font-size="9" font-weight="700" class="fill-ink">11 km</text>
-            <path d="M 201 412 L 205 417 L 209 412 Z" class="fill-accent"/>
-          </g>
-
-          <!-- bottom sheet -->
-          <rect x="40" y="478" width="260" height="152" rx="0" class="fill-card-2"/>
-          <line x1="40" y1="478" x2="300" y2="478" class="stroke-soft" stroke-width="0.8"/>
-          <rect x="153" y="488" width="34" height="4" rx="2" class="fill-chip"/>
-          <text x="56" y="514" font-size="12.5" font-weight="600" letter-spacing="-0.2" class="fill-ink">3 bikes can make this trip</text>
-          <text x="56" y="530" font-size="9.5" class="fill-mute">Needs 9.3 km of range · 2 bikes hidden</text>
-
-          <line x1="56" y1="542" x2="284" y2="542" class="stroke-soft" stroke-width="0.6"/>
-          <text x="56" y="562" font-size="11" font-weight="600" class="fill-ink">Yulu 4471</text>
-          <text x="56" y="575" font-size="9" class="fill-mute">120 m · 4 min walk</text>
-          <text x="284" y="566" text-anchor="end" font-size="9.5" font-weight="600" class="fill-accent">24.0 km range</text>
-
-          <line x1="56" y1="586" x2="284" y2="586" class="stroke-soft" stroke-width="0.6"/>
-          <text x="56" y="606" font-size="11" font-weight="600" class="fill-ink">Yulu 6135</text>
-          <text x="56" y="619" font-size="9" class="fill-mute">340 m · 9 min walk</text>
-          <text x="284" y="610" text-anchor="end" font-size="9.5" font-weight="600" class="fill-accent">19.5 km range</text>
-        </svg>
+        <video id="heroProtoVideo" class="hero-phone-screen" autoplay muted loop playsinline preload="auto"
+               poster="video/yulu-hero-poster.jpg"
+               aria-label="Recording of the Yulu rider prototype: sign-up, choosing a destination, picking a bike that can make the trip, unlocking, riding and the receipt">
+          <source src="video/yulu-hero.mp4" type="video/mp4" />
+        </video>
       </div>
       <div class="hero-phone-shadow"></div>
     </div>
@@ -2353,7 +2289,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
               <rect x="34" y="30" width="46" height="19" rx="7" class="fill-card-2 stroke-accent" stroke-width="1"/>
               <text x="57" y="43.5" text-anchor="middle" font-size="9" font-weight="700" class="fill-ink">24 km</text>
               <rect x="148" y="52" width="46" height="19" rx="7" class="fill-card-2 stroke-accent" stroke-width="1"/>
-              <text x="171" y="65.5" text-anchor="middle" font-size="9" font-weight="700" class="fill-ink">19 km</text>
+              <text x="171" y="65.5" text-anchor="middle" font-size="9" font-weight="700" class="fill-ink">18 km</text>
               <text x="109" y="125" text-anchor="middle" font-size="8.5" font-style="italic" class="fill-dim">— nothing here —</text>
             </svg>
             <h4>Absence</h4>
@@ -2368,7 +2304,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
       <div class="insight-card"><h4>Readiness depends on the trip</h4><p>A bike only shows if its predicted range covers 1.5× the trip (never under 2 km) and its lock, GPS and service checks pass.</p></div>
       <div class="insight-card"><h4>So the destination comes first</h4><p>Readiness recomputes whenever the destination changes, so search became the entry point of the whole ride.</p></div>
       <div class="insight-card"><h4>Absence has to explain itself</h4><p>An empty map names the check — "none have the range for 6.2 km" — and the sheet narrates removals, so a vanishing pin reads as a decision, not a glitch.</p></div>
-      <div class="insight-card"><h4>The badge wasn't discarded, it moved</h4><p>It reappears only in the marginal-trip notice. Three of seventeen screens show an agent speaking; the other fourteen are agents working.</p></div>
+      <div class="insight-card"><h4>The badge wasn't discarded, it moved</h4><p>It reappears only as the thin-margin tag and notice. Three of seventeen screens show an agent speaking; the other fourteen are agents working.</p></div>
     </div>
 
     <figure class="reveal">
@@ -2435,7 +2371,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
             <text x="220" y="342" font-size="10" font-weight="700" letter-spacing="0.6" class="fill-danger">F2 · UNLOCK FAILS</text>
             <text x="220" y="362" font-size="9.5" class="fill-ink-2">Hold released, stated explicitly.</text>
             <text x="220" y="376" font-size="9.5" class="fill-ink-2">Bike drops off the map for all.</text>
-            <text x="220" y="400" font-size="9" font-style="italic" class="fill-mute">Retry capped at two</text>
+            <text x="220" y="400" font-size="9" font-style="italic" class="fill-mute">Retry capped at three</text>
 
             <rect x="408" y="318" width="190" height="98" rx="10" class="fill-card-2 stroke-danger" stroke-width="1"/>
             <text x="424" y="342" font-size="10" font-weight="700" letter-spacing="0.6" class="fill-danger">F3 · BATTERY DIES</text>
@@ -2445,12 +2381,12 @@ table.tbl tr.is-out td { opacity: 0.62; }
 
             <rect x="612" y="318" width="190" height="98" rx="10" class="fill-card-2 stroke-danger" stroke-width="1"/>
             <text x="628" y="342" font-size="10" font-weight="700" letter-spacing="0.6" class="fill-danger">F4 · EVIDENCE AMBIGUOUS</text>
-            <text x="628" y="362" font-size="9.5" class="fill-ink-2">GPS gap across the window.</text>
+            <text x="628" y="362" font-size="9.5" class="fill-ink-2">Ride data gap across the window.</text>
             <text x="628" y="376" font-size="9.5" class="fill-ink-2">Not charged while it's reviewed.</text>
             <text x="628" y="400" font-size="9" font-style="italic" class="fill-mute">Billing · escalated to a human</text>
 
             <rect x="816" y="318" width="184" height="98" rx="10" class="fill-card-2 stroke-danger" stroke-width="1"/>
-            <text x="832" y="342" font-size="10" font-weight="700" letter-spacing="0.6" class="fill-danger">F5 · LOCK WON'T CLOSE</text>
+            <text x="832" y="342" font-size="10" font-weight="700" letter-spacing="0.6" class="fill-danger">F5 · LOCK WON'T CONFIRM</text>
             <text x="832" y="362" font-size="9.5" class="fill-ink-2">"End ride anyway" stops the fare</text>
             <text x="832" y="376" font-size="9.5" class="fill-ink-2">immediately. Bike flagged.</text>
             <text x="832" y="400" font-size="9" font-style="italic" class="fill-mute">Ananya's original bad ride, fixed</text>
@@ -2596,7 +2532,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <rect x="14" y="34" width="120" height="10" rx="2" class="fill-chip"/>
           <rect x="14" y="50" width="150" height="5" rx="2" class="fill-chip"/>
           <rect x="14" y="66" width="172" height="24" rx="5" class="fill-none stroke-soft" stroke-width="1"/>
-          <text x="22" y="81" font-size="6.5" class="fill-dim">Where are you going?</text>
+          <text x="22" y="81" font-size="6.5" class="fill-dim">Where are you riding to?</text>
           <g>
             <line x1="14" y1="104" x2="186" y2="104" class="stroke-soft" stroke-width="0.8"/>
             <rect x="14" y="112" width="70" height="5" rx="2" class="fill-chip"/><rect x="14" y="121" width="40" height="4" rx="2" class="fill-chip"/>
@@ -2606,7 +2542,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
             <text x="186" y="151" text-anchor="end" font-size="6" class="fill-accent">needs 4.7</text>
             <line x1="14" y1="168" x2="186" y2="168" class="stroke-soft" stroke-width="0.8"/>
             <rect x="14" y="176" width="66" height="5" rx="2" class="fill-chip"/><rect x="14" y="185" width="40" height="4" rx="2" class="fill-chip"/>
-            <text x="186" y="183" text-anchor="end" font-size="6" class="fill-accent">needs 14.1</text>
+            <text x="186" y="183" text-anchor="end" font-size="6" class="fill-accent">needs 6</text>
             <line x1="14" y1="200" x2="186" y2="200" class="stroke-soft" stroke-width="0.8"/>
           </g>
           <rect x="52" y="272" width="96" height="6" rx="3" class="fill-chip"/>
@@ -2620,7 +2556,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <text x="10" y="14" font-size="6" class="fill-dim">9:41</text><text x="190" y="14" text-anchor="end" font-size="6" class="fill-dim">yulu</text>
           <rect x="14" y="30" width="172" height="18" rx="9" class="fill-none stroke-soft" stroke-width="1"/>
           <rect x="24" y="36" width="86" height="5" rx="2" class="fill-chip"/>
-          <text x="176" y="42" text-anchor="end" font-size="6" class="fill-dim">Change</text>
+          <text x="176" y="42" text-anchor="end" font-size="6" class="fill-dim">Edit</text>
           <rect x="14" y="56" width="172" height="130" rx="5" class="fill-card-2 stroke-soft" stroke-width="1"/>
           <g class="stroke-soft" stroke-width="0.5" opacity="0.8">
             <line x1="14" y1="90" x2="186" y2="90"/><line x1="14" y1="124" x2="186" y2="124"/><line x1="14" y1="158" x2="186" y2="158"/>
@@ -2630,16 +2566,16 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <rect x="120" y="72" width="42" height="22" rx="4" class="fill-none stroke-soft" stroke-width="0.8" stroke-dasharray="2 2"/>
           <circle cx="100" cy="126" r="4" class="fill-ink"/>
           <g><rect x="48" y="96" width="26" height="11" rx="3" class="fill-card stroke-ink" stroke-width="1"/><text x="61" y="104" text-anchor="middle" font-size="5.5" font-weight="700" class="fill-ink">24 km</text></g>
-          <g><rect x="132" y="106" width="26" height="11" rx="3" class="fill-card stroke-ink" stroke-width="1"/><text x="145" y="114" text-anchor="middle" font-size="5.5" font-weight="700" class="fill-ink">19 km</text></g>
+          <g><rect x="132" y="106" width="26" height="11" rx="3" class="fill-card stroke-ink" stroke-width="1"/><text x="145" y="114" text-anchor="middle" font-size="5.5" font-weight="700" class="fill-ink">18 km</text></g>
           <g><rect x="86" y="164" width="26" height="11" rx="3" class="fill-card stroke-ink" stroke-width="1"/><text x="99" y="172" text-anchor="middle" font-size="5.5" font-weight="700" class="fill-ink">11 km</text></g>
           <line x1="0" y1="196" x2="200" y2="196" class="stroke-soft" stroke-width="1"/>
           <rect x="90" y="202" width="20" height="3" rx="1.5" class="fill-chip"/>
           <rect x="14" y="214" width="94" height="6" rx="2" class="fill-chip"/>
           <rect x="14" y="226" width="120" height="4" rx="2" class="fill-chip"/>
           <line x1="14" y1="240" x2="186" y2="240" class="stroke-soft" stroke-width="0.8"/>
-          <rect x="14" y="250" width="58" height="5" rx="2" class="fill-chip"/><text x="186" y="255" text-anchor="end" font-size="6" class="fill-dim">24.0 km</text>
+          <rect x="14" y="250" width="58" height="5" rx="2" class="fill-chip"/><text x="186" y="255" text-anchor="end" font-size="6" class="fill-dim">24 km</text>
           <line x1="14" y1="266" x2="186" y2="266" class="stroke-soft" stroke-width="0.8"/>
-          <rect x="14" y="276" width="50" height="5" rx="2" class="fill-chip"/><text x="186" y="281" text-anchor="end" font-size="6" class="fill-dim">19.5 km</text>
+          <rect x="14" y="276" width="50" height="5" rx="2" class="fill-chip"/><text x="186" y="281" text-anchor="end" font-size="6" class="fill-dim">11 km</text>
         </svg>
         <div class="cap"><b>A6 · Map</b><br>Failing bikes don't render at all</div>
       </div>
@@ -2650,14 +2586,14 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <text x="10" y="14" font-size="6" class="fill-dim">9:41</text><text x="190" y="14" text-anchor="end" font-size="6" class="fill-dim">yulu</text>
           <rect x="14" y="30" width="172" height="18" rx="9" class="fill-none stroke-soft" stroke-width="1"/>
           <rect x="24" y="36" width="86" height="5" rx="2" class="fill-chip"/>
-          <text x="176" y="42" text-anchor="end" font-size="6" class="fill-dim">Change</text>
+          <text x="176" y="42" text-anchor="end" font-size="6" class="fill-dim">Edit</text>
           <rect x="14" y="58" width="172" height="62" rx="6" class="fill-none stroke-danger" stroke-width="1.4" stroke-dasharray="3 2"/>
           <rect x="24" y="70" width="120" height="7" rx="2" class="fill-danger-soft"/>
           <rect x="24" y="84" width="150" height="4" rx="2" class="fill-chip"/>
           <rect x="24" y="93" width="150" height="4" rx="2" class="fill-chip"/>
           <rect x="24" y="102" width="86" height="4" rx="2" class="fill-chip"/>
           <rect x="14" y="132" width="172" height="20" rx="5" class="fill-none stroke-soft" stroke-width="1"/>
-          <text x="100" y="145" text-anchor="middle" font-size="6.5" class="fill-ink-2">Notify me when one's ready</text>
+          <text x="100" y="145" text-anchor="middle" font-size="6.5" class="fill-ink-2">Notify me when one can</text>
           <rect x="14" y="158" width="172" height="20" rx="5" class="fill-none stroke-soft" stroke-width="1"/>
           <text x="100" y="171" text-anchor="middle" font-size="6.5" class="fill-ink-2">Try a shorter trip</text>
           <rect x="14" y="184" width="172" height="20" rx="5" class="fill-none stroke-soft" stroke-width="1"/>
@@ -2678,6 +2614,17 @@ table.tbl tr.is-out td { opacity: 0.62; }
       <div class="proto-note"><b>17 frames, 23 annotations.</b> Every frame is tagged silent, surfaced or absent, so the invisible AI layer is legible at wireframe stage.</div>
     </div>
 
+    <div class="proto reveal" style="margin-top:20px;">
+      <div class="proto-bar">
+        <div class="lhs">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="nm">yulu-ia.html</span>
+        </div>
+        <a href="yulu-ia.html" target="_blank" rel="noopener">Open the information architecture →</a>
+      </div>
+      <div class="proto-note"><b>12 steps, 12 branch states, 4 cross-cutting layers.</b> The structural document behind the screens — launch routing, the ride state machine, and which transitions the app isn't allowed to make on its own.</div>
+    </div>
+
     <div class="art reveal">
       <div class="art-head">
         <div>
@@ -2691,7 +2638,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <table class="tbl">
             <thead><tr><th style="width:24%">Component</th><th style="width:26%">Spec</th><th>The decision inside it</th></tr></thead>
             <tbody>
-              <tr><td><strong>Notice, four variants</strong></td><td>Warning · error · success · info</td><td>Colour always pairs with an icon and a bold heading. Meaning never rides on colour alone.</td></tr>
+              <tr><td><strong>Notices, two weights</strong></td><td>Failure screen · inline note</td><td>Failure screens lead with an icon and a bold heading; inline notes (thin margin, under review) are a tinted box whose words carry the whole meaning. Meaning never rides on colour alone.</td></tr>
               <tr><td><strong>The list is not secondary</strong></td><td>Bottom sheet mirrors every map pin</td><td>Screen-reader users get the full core task, not a reduced version of it.</td></tr>
               <tr><td><strong>Manual bike-ID entry</strong></td><td>First-class, not a fallback</td><td>Scanning a QR code needs visual targeting and steady motor control that not every rider has.</td></tr>
               <tr><td><strong>Throttled live updates</strong></td><td>Announced once a minute</td><td>Fare and range change constantly; announcing every tick floods a screen reader.</td></tr>
@@ -2704,40 +2651,121 @@ table.tbl tr.is-out td { opacity: 0.62; }
 </section>
 
 <!-- ============================================================
-     11 — PROTOTYPE
+     11 — KEY SCREENS
      ============================================================ -->
 <section class="section">
   <div class="container">
-    <span class="section-label reveal">11 — Prototype</span>
-    <h2 class="section-title reveal">A prototype you can break <span class="accent-text">on purpose.</span></h2>
-    <p class="section-takeaway reveal">Working code, not a clickable flat — toggle a fault mid-ride and the failure states fire for real.</p>
+    <span class="section-label reveal">11 — Key screens</span>
+    <h2 class="section-title reveal">Ten screens, each one answering <span class="accent-text">a ride that went wrong.</span></h2>
+    <p class="section-takeaway reveal">Five stop a bad ride before it starts. Five handle the failures the hardware still causes, so the cost lands on the system instead of on Ananya.</p>
 
     <div class="layers reveal reveal-delay-1">
-      <span class="layer">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer on">Engineering</span>
+      <span class="layer">Product</span><span class="layer on">Design</span><span class="layer on">AI</span><span class="layer">Engineering</span>
     </div>
 
-    <div class="proto reveal reveal-delay-1">
-      <div class="proto-bar">
-        <div class="lhs">
-          <span class="dots"><i></i><i></i><i></i></span>
-          <span class="nm">yulu-prototype.html · live</span>
-        </div>
-        <a href="yulu-prototype.html" target="_blank" rel="noopener">Open full screen →</a>
+    <div class="screens-group reveal">
+      <div class="screens-head"><span>Before she commits</span><span>Prevention</span></div>
+      <div class="screens">
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/a5-destination.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Destination screen listing saved and recent places, each with its distance and the range it needs"></div>
+          <figcaption>
+            <span class="screen-tag">A5</span>
+            <h4>Destination first</h4>
+            <p class="screen-pain"><span>Pain</span>A bike that died 2 km from her office.</p>
+            <p>She says where she&rsquo;s going before she sees a bike, and every saved trip shows the range it needs.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/a6-map.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Map and list showing three bikes that can make a 6.2 km trip, with two hidden bikes noted"></div>
+          <figcaption>
+            <span class="screen-tag">A6</span>
+            <h4>A map that only offers bikes that can finish</h4>
+            <p class="screen-pain"><span>Pain</span>The map offered bikes that couldn&rsquo;t make the trip.</p>
+            <p>Only bikes that clear the trip appear. The two that don&rsquo;t get one line, never a score.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/f1-empty.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Empty map explaining that nearby bikes lack the range for the trip, with notify, shorter trip and search options"></div>
+          <figcaption>
+            <span class="screen-tag">F1</span>
+            <h4>No bike can make this trip</h4>
+            <p class="screen-pain"><span>Pain</span>An empty map reads as a broken app.</p>
+            <p>The screen names the check it ran and gives her three ways forward.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/a7-preview.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Bike preview showing 24 km of range against a 9.3 km trip, held for five minutes"></div>
+          <figcaption>
+            <span class="screen-tag">A7</span>
+            <h4>Bike state before she commits</h4>
+            <p class="screen-pain"><span>Pain</span>She couldn&rsquo;t tell what state the bike was in.</p>
+            <p>Range on this bike against what the trip needs, the margin to spare, and a five-minute hold.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/a8-pay.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Payment screen with per-minute pricing, UPI selected and a ₹50 hold button"></div>
+          <figcaption>
+            <span class="screen-tag">A8</span>
+            <h4>Pay at the bike</h4>
+            <p class="screen-pain"><span>Pain</span>A ₹250 deposit and a cash step before riding.</p>
+            <p>No deposit. A ₹50 hold, and the real fare charged when she finishes.</p>
+          </figcaption>
+        </figure>
       </div>
-      <iframe src="yulu-prototype.html" title="Yulu AI-native rider prototype — interactive" loading="lazy"></iframe>
-      <div class="proto-note"><b>Try this:</b> pick <b>Nehru Place (9.4 km)</b> and watch bikes disappear from the map that were there for a 3 km trip — the readiness rule recomputing against the new requirement. Then toggle <b>"Lock won't confirm at end"</b> and finish a ride: that is Ananya's original bad experience, redesigned so the cost lands on the system instead of on her.</div>
     </div>
 
-    <ul class="mini-list reveal" style="margin-top:40px;">
-      <li><strong>The agent inspector is a design decision, not a debug tool.</strong> If the rider never sees the intelligence, reviewers still need to — so a side panel shows each agent's state, the live readiness maths, and why every hidden bike was hidden.</li>
-      <li><strong>Faults are live.</strong> Five toggles, five real failure branches, flippable mid-ride — because real failures arrive in the middle of things.</li>
-      <li><strong>AI wrote most of the code; I reviewed all of it.</strong> Two corrections changed the product itself:</li>
-    </ul>
-
-    <div class="insight-grid reveal" style="margin-top:32px;">
-      <div class="insight-card"><h4>Correction · readiness returns reasons, not yes/no</h4><p>The inspector, ops dashboard and empty-map screen all have to explain why a bike is hidden. A model can't know a screen three steps away dictates what a function returns.</p></div>
-      <div class="insight-card"><h4>Correction · faults flip mid-ride</h4><p>The model set failures before the ride started. Live toggles let a reviewer kill the battery during a ride and watch the fare stop — the demo of the failure became the argument for it.</p></div>
+    <div class="screens-group reveal">
+      <div class="screens-head"><span>When the hardware still fails</span><span>Recovery</span></div>
+      <div class="screens">
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/f2-voided.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Unlock failure screen showing nothing charged and the ₹50 hold released"></div>
+          <figcaption>
+            <span class="screen-tag">F2</span>
+            <h4>This bike didn&rsquo;t open</h4>
+            <p class="screen-pain"><span>Pain</span>A failed unlock that still costs money.</p>
+            <p>The ride never starts, she&rsquo;s charged ₹0, the hold is released and the bike leaves the map.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/f3-battery.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Ride stopped because the battery ran out, with the fare stopped and the nearest Yulu Zone shown"></div>
+          <figcaption>
+            <span class="screen-tag">F3</span>
+            <h4>The battery ran out</h4>
+            <p class="screen-pain"><span>Pain</span>The bike died mid-trip, and she paid for the walk.</p>
+            <p>The fare stops the moment power is lost, and the nearest zone is one tap away.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/f3-receipt.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Receipt with an automatic ₹10 adjustment because the battery ran out before her stop"></div>
+          <figcaption>
+            <span class="screen-tag">F3</span>
+            <h4>The fare fixes itself</h4>
+            <p class="screen-pain"><span>Pain</span>When the system failed, she carried the cost.</p>
+            <p>The adjustment is already on the receipt, stated as fact with the reason, and without an apology.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/f5-lock.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Lock confirmation failure with options to try again or end the ride anyway"></div>
+          <figcaption>
+            <span class="screen-tag">F5</span>
+            <h4>We can&rsquo;t hear the lock yet</h4>
+            <p class="screen-pain"><span>Pain</span>A lock that read &ldquo;locked&rdquo; but wasn&rsquo;t.</p>
+            <p>The app says it can&rsquo;t confirm. Ending anyway stops the fare and flags the bike for pickup.</p>
+          </figcaption>
+        </figure>
+        <figure class="screen">
+          <div class="screen-img"><img src="images/yulu/screens/f4-review.jpg" width="600" height="1301" loading="lazy" decoding="async" alt="Receipt flagging a ride data gap, with the disputed portion under review and not charged"></div>
+          <figcaption>
+            <span class="screen-tag">F4</span>
+            <h4>Under review, not charged</h4>
+            <p class="screen-pain"><span>Pain</span>A billing dispute nobody could evidence.</p>
+            <p>The data gap is named, and that part of the ride isn&rsquo;t charged while it&rsquo;s checked.</p>
+          </figcaption>
+        </figure>
+      </div>
     </div>
+
+    <p class="screens-link reveal">Screens from the working prototype. <a href="yulu-rider-prototype.html" target="_blank" rel="noopener">Try it full screen →</a></p>
   </div>
 </section>
 
@@ -2908,7 +2936,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <div class="move-targets">Broke in: <em>all three at once</em> · Fixed in: <em>design + spec + code</em></div>
           <h3>A designed screen that no rider could ever reach</h3>
           <p>The marginal-trip notice — the one place an agent speaks up — never fired. The spec gave no number, the code picked 1.2×, and readiness already required 1.5×, so no bike could ever qualify.</p>
-          <p><strong>The fix touched all three:</strong> 1.6× in the code, the number written into the spec, and the calculation shown in the inspector.</p>
+          <p><strong>The fix touched all three:</strong> a thin margin defined as under 1.25× the requirement in the code, the number written into the spec, and the margin shown on the bike preview.</p>
         </div>
       </div>
     </div>
@@ -2999,7 +3027,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <rect x="0" y="0" width="220" height="300" rx="16" class="fill-card-2 stroke-soft" stroke-width="1"/>
           <rect x="14" y="14" width="192" height="26" rx="13" class="fill-chip stroke-soft" stroke-width="0.7"/>
           <circle cx="28" cy="27" r="3.4" class="fill-accent"/>
-          <text x="38" y="30.5" font-size="8.5" font-weight="600" class="fill-ink">To Connaught Place · 6.2 km</text>
+          <text x="38" y="30.5" font-size="8.5" font-weight="600" class="fill-ink">To Home · 6.2 km</text>
           <rect x="0" y="50" width="220" height="164" class="fill-card"/>
           <g class="stroke-soft" stroke-width="0.5" opacity="0.7">
             <line x1="0" y1="88" x2="220" y2="88"/><line x1="0" y1="126" x2="220" y2="126"/><line x1="0" y1="164" x2="220" y2="164"/>
@@ -3011,71 +3039,77 @@ table.tbl tr.is-out td { opacity: 0.62; }
           <rect x="140" y="72" width="54" height="36" rx="6" class="fill-accent-soft stroke-accent" stroke-width="0.7" stroke-dasharray="2.5 2.5"/>
           <circle cx="112" cy="146" r="5.5" class="fill-accent"/>
           <g><rect x="56" y="96" width="36" height="16" rx="6" class="fill-card stroke-accent" stroke-width="0.9"/><text x="74" y="107" text-anchor="middle" font-size="7.5" font-weight="700" class="fill-ink">24 km</text></g>
-          <g><rect x="150" y="112" width="36" height="16" rx="6" class="fill-card stroke-accent" stroke-width="0.9"/><text x="168" y="123" text-anchor="middle" font-size="7.5" font-weight="700" class="fill-ink">19 km</text></g>
+          <g><rect x="150" y="112" width="36" height="16" rx="6" class="fill-card stroke-accent" stroke-width="0.9"/><text x="168" y="123" text-anchor="middle" font-size="7.5" font-weight="700" class="fill-ink">18 km</text></g>
           <g><rect x="88" y="180" width="36" height="16" rx="6" class="fill-card stroke-accent" stroke-width="0.9"/><text x="106" y="191" text-anchor="middle" font-size="7.5" font-weight="700" class="fill-ink">11 km</text></g>
           <line x1="0" y1="214" x2="220" y2="214" class="stroke-soft" stroke-width="0.8"/>
           <rect x="100" y="222" width="20" height="3" rx="1.5" class="fill-chip"/>
           <text x="16" y="246" font-size="10" font-weight="700" class="fill-ink">3 bikes can make this trip</text>
-          <text x="16" y="261" font-size="8" class="fill-mute">Needs 9.3 km of range · 2 bikes hidden</text>
+          <text x="16" y="261" font-size="8" class="fill-mute">At least 9.3 km of range · 2 bikes hidden</text>
           <line x1="16" y1="272" x2="204" y2="272" class="stroke-soft" stroke-width="0.6"/>
-          <text x="16" y="288" font-size="8.5" font-weight="600" class="fill-ink">Yulu 4471 · 120 m</text>
-          <text x="204" y="288" text-anchor="end" font-size="8.5" font-weight="600" class="fill-accent">24.0 km</text>
+          <text x="16" y="288" font-size="8.5" font-weight="600" class="fill-ink">Yulu Miracle #4471 · 3 min walk</text>
+          <text x="204" y="288" text-anchor="end" font-size="8.5" font-weight="600" class="fill-accent">24 km</text>
         </svg>
         <h4>The map, saying nothing</h4>
         <p>Three agents produced this screen; none appear on it. Two hidden bikes are noted in one line, never as a score.</p>
       </div>
       <div class="opt">
         <div class="oi">SURFACED</div>
-        <svg viewBox="0 0 220 300" role="img" aria-label="Final UI: bike preview with marginal trip notice">
+        <svg viewBox="0 0 220 300" role="img" aria-label="Final UI: bike preview with a thin-margin notice">
           <rect x="0" y="0" width="220" height="300" rx="16" class="fill-card-2 stroke-soft" stroke-width="1"/>
           <text x="16" y="32" font-size="8" class="fill-accent">← Back to map</text>
-          <text x="16" y="58" font-size="14" font-weight="700" letter-spacing="-0.3" class="fill-ink">Yulu 2210</text>
-          <text x="16" y="74" font-size="8.5" class="fill-mute">210 m away · 6 min walk</text>
+          <text x="16" y="58" font-size="12.5" font-weight="700" letter-spacing="-0.3" class="fill-ink">Yulu Miracle #2210</text>
+          <rect x="150" y="46" width="54" height="16" rx="8" class="fill-accent-soft"/>
+          <text x="177" y="57" text-anchor="middle" font-size="7.5" font-weight="600" class="fill-ink">Held · 5:00</text>
+          <text x="16" y="74" font-size="8.5" class="fill-mute">5 min walk · 380 m</text>
           <rect x="16" y="88" width="188" height="56" rx="10" class="fill-chip"/>
           <text x="28" y="110" font-size="8.5" class="fill-ink-2">Range on this bike</text>
-          <text x="192" y="110" text-anchor="end" font-size="11" font-weight="700" class="fill-ink">11.2 km</text>
+          <text x="192" y="110" text-anchor="end" font-size="11" font-weight="700" class="fill-ink">11 km</text>
           <line x1="28" y1="118" x2="192" y2="118" class="stroke-soft" stroke-width="0.6"/>
           <text x="28" y="134" font-size="8.5" class="fill-ink-2">Your trip needs</text>
           <text x="192" y="134" text-anchor="end" font-size="9.5" font-weight="600" class="fill-ink">9.3 km</text>
-          <rect x="16" y="156" width="188" height="72" rx="10" class="fill-danger-soft stroke-danger" stroke-width="1"/>
-          <text x="28" y="176" font-size="9.5" font-weight="700" class="fill-danger">⚠ Tighter than usual</text>
-          <text x="28" y="194" font-size="8" class="fill-ink-2">This bike clears your trip, but with less</text>
-          <text x="28" y="206" font-size="8" class="fill-ink-2">spare range than most. If you're planning</text>
-          <text x="28" y="218" font-size="8" class="fill-ink-2">stops along the way, pick another.</text>
+          <text x="16" y="160" font-size="7.5" class="fill-mute">Trip to Home</text>
+          <text x="204" y="160" text-anchor="end" font-size="7.5" class="fill-mute">1.7 km to spare</text>
+          <rect x="16" y="172" width="188" height="56" rx="10" class="fill-danger-soft"/>
+          <text x="28" y="192" font-size="8.5" class="fill-ink">This bike clears your trip by a thin</text>
+          <text x="28" y="205" font-size="8.5" class="fill-ink">margin. Your live range stays on</text>
+          <text x="28" y="218" font-size="8.5" class="fill-ink">screen for the whole ride.</text>
           <rect x="16" y="244" width="188" height="26" rx="8" class="fill-accent"/>
-          <text x="110" y="261" text-anchor="middle" font-size="9" font-weight="700" class="fill-accent-ink">Reserve and walk over</text>
-          <rect x="16" y="276" width="188" height="14" rx="7" class="fill-none stroke-soft" stroke-width="0.8"/>
-          <text x="110" y="286" text-anchor="middle" font-size="7.5" class="fill-ink-2">See other bikes</text>
+          <text x="110" y="261" text-anchor="middle" font-size="9" font-weight="700" class="fill-accent-ink">I'm at the bike</text>
+          <text x="110" y="287" text-anchor="middle" font-size="7.5" class="fill-ink-2">₹2.50/min + ₹5 unlock</text>
         </svg>
         <h4>The one place it speaks</h4>
-        <p>Marginal, not failing. The notice informs but never blocks, and colour is backed by an icon and a bold heading.</p>
+        <p>Marginal, not failing. The bike stays bookable, the notice says why it&rsquo;s tight in words, and her live range stays on screen for the whole ride.</p>
       </div>
       <div class="opt win">
         <div class="oi">ADMITTING FAULT</div>
         <svg viewBox="0 0 220 300" role="img" aria-label="Final UI: receipt with an automatic billing adjustment and its reason">
           <rect x="0" y="0" width="220" height="300" rx="16" class="fill-card-2 stroke-soft" stroke-width="1"/>
-          <text x="16" y="36" font-size="14" font-weight="700" letter-spacing="-0.3" class="fill-ink">Ride complete</text>
-          <text x="16" y="52" font-size="8.5" class="fill-mute">27 min · Yulu 4471</text>
-          <rect x="16" y="66" width="188" height="84" rx="10" class="fill-chip"/>
-          <text x="28" y="88" font-size="8.5" class="fill-ink-2">Riding (27 min)</text>
-          <text x="192" y="88" text-anchor="end" font-size="9" class="fill-ink">₹54.00</text>
-          <line x1="28" y1="96" x2="192" y2="96" class="stroke-soft" stroke-width="0.6"/>
-          <text x="28" y="112" font-size="8.5" class="fill-ink-2">Adjustment</text>
-          <text x="192" y="112" text-anchor="end" font-size="9" font-weight="700" class="fill-accent">−₹18.00</text>
-          <line x1="28" y1="120" x2="192" y2="120" class="stroke-soft" stroke-width="0.6"/>
-          <text x="28" y="139" font-size="10" font-weight="700" class="fill-ink">Total</text>
-          <text x="192" y="139" text-anchor="end" font-size="12" font-weight="700" class="fill-ink">₹36.00</text>
-          <rect x="16" y="164" width="188" height="76" rx="10" class="fill-accent-soft stroke-accent" stroke-width="1"/>
-          <text x="28" y="185" font-size="9.5" font-weight="700" class="fill-accent">Adjusted — ₹18 refunded</text>
-          <text x="28" y="204" font-size="8" class="fill-ink-2">The lock didn't register when you</text>
-          <text x="28" y="216" font-size="8" class="fill-ink-2">finished at 2:14 pm, so we've removed</text>
-          <text x="28" y="228" font-size="8" class="fill-ink-2">the extra 9 minutes from your fare.</text>
+          <text x="16" y="34" font-size="14" font-weight="700" letter-spacing="-0.3" class="fill-ink">Ride complete.</text>
+          <text x="16" y="50" font-size="8.5" class="fill-mute">Home · 2:02 pm – 2:16 pm</text>
+          <rect x="16" y="62" width="188" height="104" rx="10" class="fill-chip"/>
+          <text x="28" y="80" font-size="8.5" class="fill-ink-2">Unlock</text>
+          <text x="192" y="80" text-anchor="end" font-size="9" class="fill-ink">₹5.00</text>
+          <line x1="28" y1="87" x2="192" y2="87" class="stroke-soft" stroke-width="0.6"/>
+          <text x="28" y="101" font-size="8.5" class="fill-ink-2">Riding · 14 min</text>
+          <text x="192" y="101" text-anchor="end" font-size="9" class="fill-ink">₹35.00</text>
+          <line x1="28" y1="108" x2="192" y2="108" class="stroke-soft" stroke-width="0.6"/>
+          <text x="28" y="122" font-size="8.5" font-weight="600" class="fill-accent">Adjustment</text>
+          <text x="28" y="132" font-size="6.5" class="fill-mute">Battery ran out before your stop</text>
+          <text x="192" y="122" text-anchor="end" font-size="9" font-weight="700" class="fill-accent">−₹10.00</text>
+          <line x1="28" y1="139" x2="192" y2="139" class="stroke-soft" stroke-width="0.6"/>
+          <text x="28" y="157" font-size="10" font-weight="700" class="fill-ink">Total</text>
+          <text x="192" y="157" text-anchor="end" font-size="12" font-weight="700" class="fill-ink">₹30.00</text>
+          <rect x="16" y="176" width="188" height="62" rx="10" class="fill-accent-soft stroke-accent" stroke-width="1"/>
+          <text x="28" y="194" font-size="9.5" font-weight="700" class="fill-accent">Adjusted −₹10.00</text>
+          <text x="28" y="208" font-size="8" class="fill-ink-2">Your fare stopped at 2:16 pm, when the</text>
+          <text x="28" y="219" font-size="8" class="fill-ink-2">bike lost power. We've taken off the</text>
+          <text x="28" y="230" font-size="8" class="fill-ink-2">unlock fee and your last 2 minutes.</text>
           <text x="110" y="258" text-anchor="middle" font-size="12" class="fill-ink-mute">☆ ☆ ☆ ☆ ☆</text>
-          <rect x="16" y="270" width="188" height="20" rx="8" class="fill-accent"/>
-          <text x="110" y="284" text-anchor="middle" font-size="9" font-weight="700" class="fill-accent-ink">Done</text>
+          <rect x="16" y="268" width="188" height="20" rx="8" class="fill-accent"/>
+          <text x="110" y="282" text-anchor="middle" font-size="9" font-weight="700" class="fill-accent-ink">Done</text>
         </svg>
         <h4>The trust moment</h4>
-        <p>The system caught its own failure and fixed the fare before Ananya noticed — stated as fact, with the reason, no apology.</p>
+        <p>The battery died before her stop. The system stopped the fare at that moment and took the unlock fee and her last two minutes off before she had to ask — stated as fact, with the reason, no apology.</p>
       </div>
     </div>
 
@@ -3142,7 +3176,7 @@ table.tbl tr.is-out td { opacity: 0.62; }
       </div>
       <div class="meta-row">
         <dt>Artefacts</dt>
-        <dd><a href="yulu-wireframes.html" target="_blank" rel="noopener">Annotated wireframes</a> · <a href="yulu-prototype.html" target="_blank" rel="noopener">Interactive prototype</a> — both standalone and openable full screen.</dd>
+        <dd><a href="yulu-ia.html" target="_blank" rel="noopener">Information architecture</a> · <a href="yulu-wireframes.html" target="_blank" rel="noopener">Annotated wireframes</a> · <a href="yulu-rider-prototype.html" target="_blank" rel="noopener">Interactive prototype</a> — all three standalone and openable full screen.</dd>
       </div>
       <div class="meta-row">
         <dt>Status</dt>
@@ -3494,6 +3528,17 @@ table.tbl tr.is-out td { opacity: 0.62; }
   if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
   else window.addEventListener('resize', measure);
   measure();
+})();
+</script>
+<script>
+/* Hero prototype recording: hold on the poster frame for reduced-motion visitors */
+(function(){
+  var v = document.getElementById('heroProtoVideo');
+  if (!v || !window.matchMedia) return;
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function apply(){ if (rm.matches) { v.removeAttribute('autoplay'); v.pause(); } else { v.play().catch(function(){}); } }
+  apply();
+  if (rm.addEventListener) rm.addEventListener('change', apply);
 })();
 </script>
 </body>

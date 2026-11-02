@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=[];var B=false;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECECE8;font-family:Jost,system-ui,sans-serif;color:#1F1F1F;-webkit-font-smoothing:antialiased}
+button,input{font-family:inherit;color:inherit}
+input::placeholder{color:#B4B4B4}
+a{color:#2A7FF0;text-decoration:none}
+a:hover{color:#1A5FC0}
+@keyframes yspin{to{transform:rotate(360deg)}}
+@keyframes ypulse{0%,100%{opacity:.35}50%{opacity:1}}
+*::-webkit-scrollbar{width:0;height:0}
+</style>
+</helmet>
+
+<div style="min-height:100vh; display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:48px; padding:40px 24px; box-sizing:border-box;">
+
+<sc-if value="{{ showRail }}" hint-placeholder-val="{{ true }}">
+<div style="width:280px; display:flex; flex-direction:column; gap:28px; padding-top:12px;">
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <div style="font-size:28px; font-weight:500; letter-spacing:-0.3px;">Yulu</div>
+    <div style="font-size:15px; color:#6B6B6B;">Rider prototype · onboarding to receipt</div>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <div style="font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:#8A8A8A;">Scenario</div>
+    <sc-for list="{{ scenarios }}" as="sc" hint-placeholder-count="6">
+      <button onClick="{{ sc.start }}" style="text-align:left; display:flex; flex-direction:column; gap:2px; padding:12px 14px; border-radius:14px; cursor:pointer; background:{{ sc.bg }}; border:1.5px solid {{ sc.border }};">
+        <span style="display:flex; gap:8px; align-items:baseline;"><span style="font-size:13px; color:#8A8A8A; min-width:20px;">{{ sc.id }}</span><span style="font-size:16px; font-weight:500;">{{ sc.label }}</span></span>
+        <span style="font-size:13px; color:#6B6B6B; padding-left:28px;">{{ sc.desc }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="display:flex; flex-direction:column; gap:8px;">
+    <div style="font-size:12px; letter-spacing:1.6px; text-transform:uppercase; color:#8A8A8A;">Where you are</div>
+    <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px;">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="12">
+        <div style="font-size:13px; text-align:center; padding:6px 0; border-radius:8px; background:{{ st.bg }}; color:{{ st.color }};">{{ st.id }}</div>
+      </sc-for>
+    </div>
+    <div style="font-size:14px; color:#1F1F1F;">{{ stepName }}</div>
+  </div>
+  <div style="font-size:13px; color:#8A8A8A; line-height:1.5;">Any 6-digit code works; 000000 shows the wrong-code state. Ride time runs fast so fares move.</div>
+</div>
+</sc-if>
+
+<div style="width:417px; height:876px; border-radius:64px; background:#121212; padding:12px; box-sizing:border-box; box-shadow:0 30px 80px rgba(0,0,0,0.18); flex-shrink:0;">
+<div style="position:relative; width:393px; height:852px; border-radius:52px; overflow:hidden; background:#fff;">
+
+<!-- MAP LAYER -->
+<sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; left:0; top:0; width:393px; height:560px; overflow:hidden; background:#F2EFE6;">
+  <div style="position:absolute; left:-194px; top:0; width:781px; height:560px;">
+    <img src="assets/map.png" alt="" style="width:100%; height:100%; display:block;">
+    <svg width="781" height="560" style="position:absolute; left:0; top:0; overflow:visible;">
+      <sc-if value="{{ map.walk }}" hint-placeholder-val="{{ false }}">
+        <line x1="390" y1="341" x2="{{ map.walkX }}" y2="{{ map.walkY }}" stroke="#1F1F1F" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"></line>
+      </sc-if>
+      <sc-if value="{{ map.route }}" hint-placeholder-val="{{ false }}">
+        <polyline points="390,341 362,262 300,205 262,120" fill="none" stroke="#2FCDF5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      </sc-if>
+      <sc-if value="{{ map.zone }}" hint-placeholder-val="{{ false }}">
+        <circle cx="{{ map.zoneX }}" cy="{{ map.zoneY }}" r="62" fill="rgba(47,205,245,0.18)" stroke="#2FCDF5" stroke-width="2" stroke-dasharray="6 5"></circle>
+      </sc-if>
+      <sc-if value="{{ map.zoneWalk }}" hint-placeholder-val="{{ false }}">
+        <line x1="390" y1="341" x2="300" y2="200" stroke="#1F1F1F" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"></line>
+      </sc-if>
+    </svg>
+    <sc-if value="{{ map.zone }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; left:{{ map.zoneX }}px; top:{{ map.zoneLabelY }}px; transform:translate(-50%,0); background:#fff; border-radius:12px; padding:4px 10px; font-size:13px; font-weight:500; color:#0B7FA6; box-shadow:0 2px 8px rgba(0,0,0,0.12); white-space:nowrap;">Yulu Zone</div>
+    </sc-if>
+    <sc-if value="{{ map.route }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; left:262px; top:120px; transform:translate(-50%,-100%); background:#1F1F1F; color:#fff; border-radius:14px; padding:5px 11px; font-size:13px; font-weight:500; white-space:nowrap;">{{ destLabel }}</div>
+    </sc-if>
+    <sc-for list="{{ map.pins }}" as="p" hint-placeholder-count="0">
+      <button onClick="{{ p.pick }}" style="position:absolute; left:{{ p.x }}px; top:{{ p.y }}px; transform:translate(-50%,-100%); background:{{ p.bg }}; color:{{ p.color }}; border:2px solid #fff; border-radius:16px; padding:5px 11px; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap; box-shadow:0 3px 10px rgba(0,0,0,0.18);">{{ p.label }}</button>
+    </sc-for>
+    <sc-if value="{{ map.rider }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; left:390px; top:341px; width:26px; height:26px; transform:translate(-50%,-50%); border-radius:50%; background:#2FCDF5; border:4px solid #fff; box-shadow:0 2px 10px rgba(0,0,0,0.25);"></div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- WELCOME -->
+<sc-if value="{{ s.welcome }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute; inset:0; background:#CFFFFE url(assets/welcome-bg.png) center top / 393px auto no-repeat;">
+  <div style="position:absolute; top:124px; left:0; right:0; text-align:center; font-size:22px; font-weight:500; letter-spacing:0.62em; padding-left:0.62em; color:#78A6B4;">HELLO</div>
+  <div style="position:absolute; top:160px; left:0; right:0; display:flex; justify-content:center;">
+    <div style="position:relative; font-size:86px; font-weight:500; letter-spacing:-1px; color:#78A6B4; line-height:1.1;">welcome<svg width="28" height="28" viewBox="0 0 24 24" style="position:absolute; right:-14px; top:6px;"><path d="M12 0C12.8 7 17 11.2 24 12C17 12.8 12.8 17 12 24C11.2 17 7 12.8 0 12C7 11.2 11.2 7 12 0Z" fill="#78A6B4"></path></svg></div>
+  </div>
+  <div style="position:absolute; top:268px; left:0; right:0; text-align:center; font-size:17px; color:#78A6B4;">India's favourite in shared electric mobility</div>
+  <button onClick="{{ go.A1 }}" aria-label="Get started" style="position:absolute; left:164px; top:723px; width:66px; height:66px; border-radius:50%; border:none; background:transparent; cursor:pointer;"></button>
+</div>
+</sc-if>
+
+<!-- A1 PHONE -->
+<sc-if value="{{ s.A1 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 28px 40px; box-sizing:border-box;">
+  <button onClick="{{ go.welcome }}" aria-label="Back" style="width:44px; height:44px; margin:10px 0 0 -10px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="margin-top:40px; font-size:40px; font-weight:500; letter-spacing:-0.6px; line-height:1.1;">Your number.</div>
+  <div style="margin-top:14px; font-size:18px; color:#6B6B6B;">We'll text you a code to sign in</div>
+  <label style="margin-top:48px; display:flex; align-items:center; gap:14px; border-bottom:1.5px solid {{ a1.line }}; padding-bottom:10px;">
+    <span style="font-size:26px; color:#6B6B6B;">+91</span>
+    <input value="{{ phone }}" onChange="{{ onPhone }}" onBlur="{{ onPhoneBlur }}" inputMode="numeric" autoFocus="{{ true }}" placeholder="10-digit mobile" aria-label="Mobile number" style="flex:1; min-width:0; border:none; outline:none; font-size:26px; letter-spacing:1px; background:none; padding:0;">
+  </label>
+  <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="margin-top:10px; font-size:15px; color:#C2414B;">{{ phoneErr }}</div></sc-if>
+  <button onClick="{{ a1.next }}" style="margin-top:auto; height:58px; border-radius:29px; border:none; font-size:19px; font-weight:500; cursor:pointer; background:{{ a1.bg }}; color:{{ a1.color }};">Continue</button>
+</div>
+</sc-if>
+
+<!-- A2 OTP -->
+<sc-if value="{{ s.A2 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 28px 40px; box-sizing:border-box;">
+  <button onClick="{{ go.A1 }}" aria-label="Back" style="width:44px; height:44px; margin:10px 0 0 -10px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="margin-top:40px; font-size:40px; font-weight:500; letter-spacing:-0.6px; line-height:1.1;">Enter the code.</div>
+  <div style="margin-top:14px; font-size:18px; color:#6B6B6B;">Sent to +91 {{ phoneFmt }}</div>
+  <div style="position:relative; margin-top:44px; display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px;">
+    <sc-for list="{{ otpBoxes }}" as="b" hint-placeholder-count="6">
+      <div style="height:60px; border-radius:16px; background:#F6F6F6; border:1.5px solid {{ b.border }}; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:500;">{{ b.ch }}</div>
+    </sc-for>
+    <input value="{{ otp }}" onChange="{{ onOtp }}" inputMode="numeric" autoComplete="one-time-code" autoFocus="{{ true }}" aria-label="6-digit verification code" style="position:absolute; inset:0; opacity:0; font-size:16px; cursor:text;">
+  </div>
+  <sc-if value="{{ otpErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="margin-top:14px; font-size:15px; color:#C2414B;">{{ otpErr }}</div></sc-if>
+  <div style="margin-top:22px; font-size:16px;">
+    <sc-if value="{{ canResend }}" hint-placeholder-val="{{ false }}"><button onClick="{{ resend }}" style="border:none; background:none; padding:0; font-size:16px; color:#2A7FF0; cursor:pointer;">Resend code</button></sc-if>
+    <sc-if value="{{ resendWaiting }}" hint-placeholder-val="{{ true }}"><span style="color:#8A8A8A;">Resend in {{ resendLeft }}s</span></sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- A3 NAME -->
+<sc-if value="{{ s.A3 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 28px 40px; box-sizing:border-box;">
+  <div style="height:54px;"></div>
+  <div style="margin-top:40px; font-size:40px; font-weight:500; letter-spacing:-0.6px; line-height:1.1;">What should we call you?</div>
+  <div style="margin-top:14px; font-size:18px; color:#6B6B6B;">First name is all we need</div>
+  <input value="{{ name }}" onChange="{{ onName }}" autoFocus="{{ true }}" placeholder="First name" aria-label="First name" style="margin-top:48px; border:none; border-bottom:1.5px solid #1F1F1F; outline:none; font-size:26px; padding:0 0 10px; background:none;">
+  <button onClick="{{ a3.next }}" style="margin-top:auto; height:58px; border-radius:29px; border:none; font-size:19px; font-weight:500; cursor:pointer; background:{{ a3.bg }}; color:{{ a3.color }};">Continue</button>
+</div>
+</sc-if>
+
+<!-- A4 WALLET -->
+<sc-if value="{{ s.A4 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 28px 32px; box-sizing:border-box;">
+  <button onClick="{{ go.A3 }}" aria-label="Back" style="width:44px; height:44px; margin:10px 0 0 -10px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="margin-top:40px; font-size:40px; font-weight:500; letter-spacing:-0.6px; line-height:1.1;">How will you pay?</div>
+  <div style="margin-top:14px; font-size:18px; color:#6B6B6B; text-wrap:pretty;">No deposit, no cash. You pay for the minutes you ride.</div>
+  <div style="margin-top:36px; display:flex; flex-direction:column; gap:12px;">
+    <sc-for list="{{ payOptions }}" as="o" hint-placeholder-count="2">
+      <button onClick="{{ o.pick }}" style="display:flex; align-items:center; gap:16px; padding:18px; border-radius:20px; background:#F6F6F6; border:1.5px solid {{ o.border }}; cursor:pointer; text-align:left;">
+        <span style="width:48px; height:48px; border-radius:14px; background:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:600; color:#1F1F1F;">{{ o.mark }}</span>
+        <span style="display:flex; flex-direction:column; gap:2px; flex:1;"><span style="font-size:18px; font-weight:500;">{{ o.title }}</span><span style="font-size:15px; color:#6B6B6B;">{{ o.sub }}</span></span>
+        <span style="width:22px; height:22px; border-radius:50%; border:1.5px solid {{ o.ring }}; display:flex; align-items:center; justify-content:center;"><span style="width:12px; height:12px; border-radius:50%; background:{{ o.dot }};"></span></span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="margin-top:auto; display:flex; flex-direction:column; gap:6px;">
+    <button onClick="{{ a4.next }}" style="height:58px; border-radius:29px; border:none; font-size:19px; font-weight:500; cursor:pointer; background:{{ a4.bg }}; color:{{ a4.color }};">Continue</button>
+    <button onClick="{{ a4.skip }}" style="height:48px; border:none; background:none; font-size:17px; color:#1F1F1F; cursor:pointer;">Skip for now</button>
+    <div style="text-align:center; font-size:14px; color:#8A8A8A;">You can add it at the bike instead</div>
+  </div>
+</div>
+</sc-if>
+
+<!-- PERMISSIONS -->
+<sc-if value="{{ s.perms }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 28px 40px; box-sizing:border-box;">
+  <div style="margin-top:76px; font-size:44px; font-weight:500; letter-spacing:-0.6px;">Almost done.</div>
+  <div style="margin-top:14px; font-size:19px; color:#6B6B6B;">We need permissions to serve you better</div>
+  <div style="margin-top:56px; display:flex; flex-direction:column; gap:36px;">
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="1.6" fill="#3A3A3A"></circle></svg>
+      <div style="font-size:22px; font-weight:500;">Location</div>
+      <div style="font-size:17px; color:#6B6B6B;">To help us find vehicles near you</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+      <div style="font-size:22px; font-weight:500;">Camera</div>
+      <div style="font-size:17px; color:#6B6B6B; text-wrap:pretty;">To scan the bike's QR code. You can always type the bike ID instead.</div>
+    </div>
+  </div>
+  <button onClick="{{ openLoc }}" style="margin-top:auto; height:58px; border-radius:29px; border:none; font-size:19px; font-weight:500; cursor:pointer; background:#1F1F1F; color:#fff;">Continue</button>
+</div>
+</sc-if>
+
+<!-- A5 DESTINATION -->
+<sc-if value="{{ s.A5 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; overflow-y:auto; background:#fff;">
+  <div style="position:relative; height:300px; background:url(assets/bolt.png) center top / cover no-repeat;">
+    <button onClick="{{ openMenu }}" aria-label="Account and history" style="position:absolute; right:22px; top:62px; width:46px; height:46px; border-radius:50%; border:none; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.08); cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F1F1F" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle><circle cx="12" cy="10" r="3.2"></circle><path d="M6 18.5c1.5-2.4 3.6-3.5 6-3.5s4.5 1.1 6 3.5"></path></svg></button>
+    <div style="position:absolute; left:28px; right:28px; bottom:24px;">
+      <div style="font-size:18px; color:#6B6B6B;">Hi {{ name }},</div>
+      <div style="margin-top:4px; font-size:34px; font-weight:500; letter-spacing:-0.4px; line-height:1.1;">Where are you riding to?</div>
+    </div>
+  </div>
+  <div style="padding:0 24px 32px; display:flex; flex-direction:column; gap:26px;">
+    <label style="display:flex; align-items:center; gap:12px; height:58px; padding:0 18px; border:1.5px solid #EDEDED; border-radius:18px; background:#fff;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+      <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="Search a place" aria-label="Search destination" style="flex:1; min-width:0; border:none; outline:none; font-size:18px; background:none;">
+    </label>
+    <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <div style="font-size:14px; letter-spacing:1px; text-transform:uppercase; color:#8A8A8A;">Results</div>
+        <sc-for list="{{ resultRows }}" as="r" hint-placeholder-count="2">
+          <button onClick="{{ r.pick }}" style="display:flex; align-items:center; gap:14px; padding:12px 0; border:none; background:none; cursor:pointer; text-align:left; border-bottom:1px solid #F1F1F1;">
+            <span style="width:46px; height:46px; border-radius:14px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2"></circle></svg></span>
+            <span style="flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;"><span style="font-size:18px; font-weight:500;">{{ r.label }}</span><span style="font-size:14px; color:#8A8A8A;">{{ r.addr }}</span></span>
+            <span style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;"><span style="font-size:16px;">{{ r.kmTxt }}</span><span style="font-size:13px; color:#8A8A8A; white-space:nowrap;">{{ r.needTxt }}</span></span>
+          </button>
+        </sc-for>
+        <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="padding:12px 0; font-size:16px; color:#8A8A8A;">No places match. Try Forum Mall or MG Road.</div></sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ noQuery }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <div style="font-size:14px; letter-spacing:1px; text-transform:uppercase; color:#8A8A8A;">Saved</div>
+        <sc-for list="{{ savedRows }}" as="r" hint-placeholder-count="2">
+          <button onClick="{{ r.pick }}" style="display:flex; align-items:center; gap:14px; padding:12px 0; border:none; background:none; cursor:pointer; text-align:left; border-bottom:1px solid #F1F1F1;">
+            <span style="width:46px; height:46px; border-radius:14px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <sc-if value="{{ r.isHome }}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6" stroke-linejoin="round"><path d="M4 11l8-6.5 8 6.5V20h-5v-5h-6v5H4z"></path></svg></sc-if>
+              <sc-if value="{{ r.isWork }}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="2"></rect><path d="M9 7.5V5h6v2.5"></path></svg></sc-if>
+            </span>
+            <span style="flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;"><span style="font-size:18px; font-weight:500;">{{ r.label }}</span><span style="font-size:14px; color:#8A8A8A;">{{ r.addr }}</span></span>
+            <span style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;"><span style="font-size:16px;">{{ r.kmTxt }}</span><span style="font-size:13px; color:#8A8A8A; white-space:nowrap;">{{ r.needTxt }}</span></span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <div style="font-size:14px; letter-spacing:1px; text-transform:uppercase; color:#8A8A8A;">Recent</div>
+        <sc-for list="{{ recentRows }}" as="r" hint-placeholder-count="2">
+          <button onClick="{{ r.pick }}" style="display:flex; align-items:center; gap:14px; padding:12px 0; border:none; background:none; cursor:pointer; text-align:left; border-bottom:1px solid #F1F1F1;">
+            <span style="width:46px; height:46px; border-radius:14px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg></span>
+            <span style="flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;"><span style="font-size:18px; font-weight:500;">{{ r.label }}</span><span style="font-size:14px; color:#8A8A8A;">{{ r.addr }}</span></span>
+            <span style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;"><span style="font-size:16px;">{{ r.kmTxt }}</span><span style="font-size:13px; color:#8A8A8A; white-space:nowrap;">{{ r.needTxt }}</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+    <button onClick="{{ browse }}" style="display:flex; align-items:center; gap:14px; padding:16px 18px; border-radius:18px; background:#F6F6F6; border:none; cursor:pointer; text-align:left;">
+      <span style="flex:1; display:flex; flex-direction:column; gap:2px;"><span style="font-size:17px; font-weight:500;">Just browse bikes nearby</span><span style="font-size:14px; color:#6B6B6B;">Only checks a 2 km minimum, not your trip</span></span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg>
+    </button>
+  </div>
+</div>
+</sc-if>
+
+<!-- A6 MAP + LIST -->
+<sc-if value="{{ s.A6 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; pointer-events:none;">
+  <div style="position:absolute; top:62px; left:20px; right:20px; display:flex; gap:12px; align-items:center; pointer-events:auto;">
+    <button onClick="{{ go.A5 }}" aria-label="Back" style="width:50px; height:50px; border-radius:50%; border:none; background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.12); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <button onClick="{{ go.A5 }}" style="flex:1; min-width:0; height:50px; border-radius:25px; border:none; background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.12); cursor:pointer; display:flex; align-items:center; gap:8px; padding:0 18px; font-size:16px;">
+      <span style="flex:1; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ chipTxt }}</span>
+      <span style="color:#2A7FF0; font-size:15px;">Edit</span>
+    </button>
+  </div>
+  <sc-if value="{{ locDenied }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; top:124px; left:20px; right:20px; background:#fff; border-radius:16px; padding:10px 14px; font-size:14px; color:#3A3A3A; box-shadow:0 2px 12px rgba(0,0,0,0.1);">Location is off, so we're showing bikes around Koramangala. Range checks still work.</div>
+  </sc-if>
+  <div style="position:absolute; left:0; right:0; bottom:0; max-height:470px; overflow-y:auto; background:#fff; border-radius:30px 30px 0 0; box-shadow:0 -6px 24px rgba(0,0,0,0.08); padding:12px 24px 30px; box-sizing:border-box; pointer-events:auto;">
+    <div style="width:40px; height:5px; border-radius:3px; background:#E2E2E2; margin:0 auto 18px;"></div>
+    <sc-if value="{{ a6.list }}" hint-placeholder-val="{{ true }}">
+      <div style="font-size:22px; font-weight:500;">{{ a6.title }}</div>
+      <div style="margin-top:4px; font-size:15px; color:#6B6B6B;">{{ a6.sub }}</div>
+      <sc-if value="{{ a6.hiddenNote }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px; padding:12px 14px; border-radius:14px; background:#F6F6F6; font-size:14px; color:#3A3A3A;">{{ a6.hiddenNote }}</div>
+      </sc-if>
+      <sc-if value="{{ browseMode }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px; padding:12px 14px; border-radius:14px; background:#F8E1E4; font-size:14px; color:#3A2A2C; display:flex; gap:10px; align-items:center;"><span style="flex:1;">No destination set, so these bikes only clear a 2 km floor. They might not make your trip.</span><button onClick="{{ go.A5 }}" style="border:none; background:none; color:#1F1F1F; font-weight:600; font-size:14px; cursor:pointer; padding:0;">Set one</button></div>
+      </sc-if>
+      <div style="margin-top:10px; display:flex; flex-direction:column;">
+        <sc-for list="{{ a6.rows }}" as="b" hint-placeholder-count="3">
+          <button onClick="{{ b.pick }}" style="display:flex; align-items:center; gap:14px; padding:12px 0; border:none; border-bottom:1px solid #F1F1F1; background:none; cursor:pointer; text-align:left;">
+            <span style="width:64px; height:56px; border-radius:16px; background:#F7F7F7; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><img src="assets/scooter.png" alt="" style="width:52px;"></span>
+            <span style="flex:1; display:flex; flex-direction:column; gap:2px;"><span style="font-size:17px; font-weight:500;">Yulu Miracle #{{ b.id }}</span><span style="font-size:14px; color:#6B6B6B;">{{ b.rangeTxt }} · {{ b.walkTxt }}</span></span>
+            <sc-if value="{{ b.marginal }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px; padding:3px 8px; border-radius:10px; background:#F8E1E4; color:#3A2A2C;">Thin margin</span></sc-if>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ a6.empty }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+        <img src="assets/zone-grey.png" alt="" style="width:150px; display:block;">
+        <div style="margin-top:6px; font-size:22px; font-weight:500;">No bike can make this trip</div>
+        <div style="margin-top:6px; font-size:16px; color:#6B6B6B; text-wrap:pretty; max-width:300px;">There are bikes here, but none have the range for {{ tripKm }}.</div>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+        <button onClick="{{ notifyMe }}" style="height:56px; border-radius:28px; border:none; background:#1F1F1F; color:#fff; font-size:18px; font-weight:500; cursor:pointer;">{{ notifyLabel }}</button>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <button onClick="{{ go.A5 }}" style="height:52px; border-radius:26px; border:1.5px solid #E2E2E2; background:#fff; font-size:16px; cursor:pointer;">Try a shorter trip</button>
+          <button onClick="{{ searchArea }}" style="height:52px; border-radius:26px; border:1.5px solid #E2E2E2; background:#fff; font-size:16px; cursor:pointer;">Search another area</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- A7 PREVIEW + HOLD -->
+<sc-if value="{{ s.A7 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; pointer-events:none;">
+  <button onClick="{{ releaseHold }}" aria-label="Release hold and go back" style="position:absolute; top:62px; left:20px; width:50px; height:50px; border-radius:50%; border:none; background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.12); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="position:absolute; left:0; right:0; bottom:0; background:#fff; border-radius:30px 30px 0 0; box-shadow:0 -6px 24px rgba(0,0,0,0.08); padding:22px 24px 30px; box-sizing:border-box; pointer-events:auto; display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <div style="font-size:22px; font-weight:500;">Yulu Miracle #{{ bike.id }}</div>
+      <div style="display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:16px; background:#E3F8FD; color:#0B6F92; font-size:15px; font-weight:500;"><span style="width:7px; height:7px; border-radius:50%; background:#1CA9D9;"></span>Held · {{ holdTxt }}</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:16px; background:#F7F7F7; border-radius:24px; padding:18px 20px;">
+      <img src="assets/scooter.png" alt="" style="width:118px; display:block;">
+      <div style="display:flex; flex-direction:column; gap:2px;">
+        <div style="font-size:36px; font-weight:500; letter-spacing:-0.5px;">{{ bike.rangeTxt }}</div>
+        <div style="font-size:16px; color:#6B6B6B;">on this bike</div>
+        <div style="margin-top:6px; font-size:16px;">Your trip needs {{ reqTxt }}</div>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:6px;">
+      <div style="position:relative; height:8px; border-radius:4px; background:#E9E9E9;">
+        <div style="position:absolute; left:0; top:0; bottom:0; width:{{ bike.needPct }}%; border-radius:4px; background:#1F1F1F;"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:13px; color:#8A8A8A;"><span>Trip to {{ destLabel }}</span><span>{{ bike.spareTxt }}</span></div>
+    </div>
+    <sc-if value="{{ bike.marginal }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px 14px; border-radius:14px; background:#F8E1E4; font-size:14px; color:#3A2A2C; text-wrap:pretty;">This bike clears your trip by a thin margin. Your live range stays on screen for the whole ride.</div>
+    </sc-if>
+    <div style="display:flex; justify-content:space-between; font-size:15px; color:#3A3A3A;"><span>{{ bike.walkTxt }} · {{ bike.mTxt }}</span><span>₹2.5/min + ₹5</span></div>
+    <button onClick="{{ go.A8 }}" style="height:58px; border-radius:29px; border:none; background:#1F1F1F; color:#fff; font-size:19px; font-weight:500; cursor:pointer;">I'm at the bike</button>
+  </div>
+</div>
+</sc-if>
+
+<!-- A8 PAY AT THE BIKE -->
+<sc-if value="{{ s.A8 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 24px 32px; box-sizing:border-box; overflow-y:auto;">
+  <button onClick="{{ go.A7 }}" aria-label="Back" style="width:44px; height:44px; margin:10px 0 0 -6px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="margin-top:22px; font-size:38px; font-weight:500; letter-spacing:-0.5px;">Pay at the bike.</div>
+  <div style="margin-top:8px; font-size:17px; color:#6B6B6B;">Yulu Miracle #{{ bike.id }} · to {{ destLabel }}</div>
+  <div style="margin-top:28px; background:#F6F6F6; border-radius:22px; padding:6px 18px;">
+    <div style="display:flex; justify-content:space-between; padding:13px 0; font-size:17px; border-bottom:1px solid #EAEAEA;"><span>Unlock</span><span>₹5</span></div>
+    <div style="display:flex; justify-content:space-between; padding:13px 0; font-size:17px; border-bottom:1px solid #EAEAEA;"><span>Riding</span><span>₹2.50/min</span></div>
+    <div style="display:flex; justify-content:space-between; padding:13px 0; font-size:17px;"><span>Paused</span><span>₹0.50/min</span></div>
+  </div>
+  <div style="margin-top:26px; font-size:14px; letter-spacing:1px; text-transform:uppercase; color:#8A8A8A;">Pay with</div>
+  <div style="margin-top:10px; display:flex; flex-direction:column; gap:10px;">
+    <sc-for list="{{ payOptions }}" as="o" hint-placeholder-count="2">
+      <button onClick="{{ o.pick }}" style="display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:18px; background:#fff; border:1.5px solid {{ o.border8 }}; cursor:pointer; text-align:left;">
+        <span style="width:42px; height:42px; border-radius:12px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;">{{ o.mark }}</span>
+        <span style="flex:1; display:flex; flex-direction:column;"><span style="font-size:17px; font-weight:500;">{{ o.title8 }}</span><span style="font-size:14px; color:#6B6B6B;">{{ o.sub8 }}</span></span>
+        <span style="width:22px; height:22px; border-radius:50%; border:1.5px solid {{ o.ring }}; display:flex; align-items:center; justify-content:center;"><span style="width:12px; height:12px; border-radius:50%; background:{{ o.dot }};"></span></span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="margin-top:20px; font-size:15px; color:#6B6B6B; text-wrap:pretty;">We place a hold now and charge the actual fare when you finish.</div>
+  <button onClick="{{ a8.next }}" style="margin-top:auto; height:58px; border-radius:29px; border:none; font-size:19px; font-weight:500; cursor:pointer; background:{{ a8.bg }}; color:{{ a8.color }}; flex-shrink:0;">{{ a8.label }}</button>
+</div>
+</sc-if>
+
+<!-- A9 UNLOCK -->
+<sc-if value="{{ s.A9 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; background:#121416; color:#fff; display:flex; flex-direction:column; padding:54px 24px 32px; box-sizing:border-box;">
+  <button onClick="{{ go.A8 }}" aria-label="Back" style="width:44px; height:44px; margin:10px 0 0 -6px; border:none; background:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="margin-top:12px; font-size:28px; font-weight:500;">Unlock Yulu #{{ bike.id }}</div>
+  <div style="margin-top:6px; font-size:16px; color:#A9B0B4;">Scan the QR on the handlebar, or type the ID</div>
+  <button onClick="{{ scan }}" aria-label="Scan QR code" style="position:relative; margin:28px auto 0; width:250px; height:250px; border-radius:28px; border:none; cursor:pointer; background:radial-gradient(circle at 50% 45%,#3A4246 0%,#22282B 70%); color:#fff;">
+    <span style="position:absolute; left:18px; top:18px; width:38px; height:38px; border-left:4px solid #2FCDF5; border-top:4px solid #2FCDF5; border-radius:12px 0 0 0;"></span>
+    <span style="position:absolute; right:18px; top:18px; width:38px; height:38px; border-right:4px solid #2FCDF5; border-top:4px solid #2FCDF5; border-radius:0 12px 0 0;"></span>
+    <span style="position:absolute; left:18px; bottom:18px; width:38px; height:38px; border-left:4px solid #2FCDF5; border-bottom:4px solid #2FCDF5; border-radius:0 0 0 12px;"></span>
+    <span style="position:absolute; right:18px; bottom:18px; width:38px; height:38px; border-right:4px solid #2FCDF5; border-bottom:4px solid #2FCDF5; border-radius:0 0 12px 0;"></span>
+    <span style="font-size:15px; color:#A9B0B4;">Tap to scan</span>
+  </button>
+  <div style="margin-top:26px; display:flex; flex-direction:column; gap:10px;">
+    <div style="display:flex; gap:10px;">
+      <input value="{{ manualId }}" onChange="{{ onManual }}" inputMode="numeric" placeholder="Bike ID, e.g. {{ bike.id }}" aria-label="Bike ID" style="flex:1; min-width:0; height:56px; border-radius:18px; border:1.5px solid #343A3E; background:#1C2124; color:#fff; padding:0 18px; font-size:18px; outline:none;">
+      <button onClick="{{ unlockManual }}" style="height:56px; padding:0 24px; border-radius:28px; border:none; background:#fff; color:#121416; font-size:17px; font-weight:500; cursor:pointer;">Unlock</button>
+    </div>
+    <div style="font-size:14px; color:#A9B0B4;">Your fare starts only once the lock confirms it's open.</div>
+  </div>
+  <sc-if value="{{ unlockSheet }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.45);"></div>
+    <div style="position:absolute; left:0; right:0; bottom:0; background:#fff; color:#1F1F1F; border-radius:30px 30px 0 0; padding:30px 26px 44px; display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center;">
+      <sc-if value="{{ u.busy }}" hint-placeholder-val="{{ true }}">{{ spinner }}</sc-if>
+      <sc-if value="{{ u.done }}" hint-placeholder-val="{{ false }}"><div style="width:56px; height:56px; border-radius:50%; background:#2FCDF5; display:flex; align-items:center; justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div></sc-if>
+      <div style="font-size:26px; font-weight:500;">{{ u.title }}</div>
+      <div style="font-size:16px; color:#6B6B6B; text-wrap:pretty; max-width:300px;">{{ u.sub }}</div>
+    </div>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- F2 FAILED UNLOCK -->
+<sc-if value="{{ s.F2 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; display:flex; flex-direction:column; padding:54px 24px 36px; box-sizing:border-box;">
+  <div style="margin-top:80px; width:64px; height:64px; border-radius:20px; background:#F8E1E4; display:flex; align-items:center; justify-content:center;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3A2A2C" stroke-width="1.7" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path></svg></div>
+  <div style="margin-top:26px; font-size:36px; font-weight:500; letter-spacing:-0.5px; line-height:1.1;">This bike didn't open.</div>
+  <div style="margin-top:14px; font-size:18px; color:#3A3A3A; text-wrap:pretty;">We haven't started your ride, and your payment hold has been released.</div>
+  <div style="margin-top:28px; background:#F6F6F6; border-radius:22px; padding:6px 18px;">
+    <div style="display:flex; justify-content:space-between; padding:14px 0; font-size:17px; border-bottom:1px solid #EAEAEA;"><span>Charged</span><span style="font-weight:500;">₹0.00</span></div>
+    <div style="display:flex; justify-content:space-between; padding:14px 0; font-size:17px;"><span>₹50 hold</span><span>Released</span></div>
+  </div>
+  <div style="margin-top:18px; font-size:15px; color:#6B6B6B; text-wrap:pretty;">Yulu #{{ bike.id }} is off the map for everyone until our team checks it.</div>
+  <button onClick="{{ afterF2 }}" style="margin-top:auto; height:58px; border-radius:29px; border:none; background:#1F1F1F; color:#fff; font-size:19px; font-weight:500; cursor:pointer;">Find another bike</button>
+</div>
+</sc-if>
+
+<!-- A10 LIVE RIDE -->
+<sc-if value="{{ s.A10 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; pointer-events:none;">
+  <div style="position:absolute; top:62px; left:0; right:0; display:flex; justify-content:center;">
+    <div style="display:flex; align-items:center; gap:8px; padding:10px 18px; border-radius:22px; background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.12); font-size:15px; font-weight:500;"><span style="width:8px; height:8px; border-radius:50%; background:{{ ride.dot }};"></span>{{ ride.pill }}</div>
+  </div>
+  <div style="position:absolute; left:0; right:0; bottom:0; background:#fff; border-radius:30px 30px 0 0; box-shadow:0 -6px 24px rgba(0,0,0,0.08); padding:24px 24px 30px; box-sizing:border-box; pointer-events:auto; display:flex; flex-direction:column; gap:18px;">
+    <sc-if value="{{ ride.riding }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+        <div><div style="font-size:15px; color:#6B6B6B;">Fare so far</div><div style="font-size:44px; font-weight:500; letter-spacing:-0.8px; line-height:1.05;">{{ ride.fare }}</div><div style="font-size:15px; color:#6B6B6B;">{{ ride.mins }} · ₹2.50/min</div></div>
+        <div style="text-align:right;"><div style="font-size:15px; color:#6B6B6B;">To {{ destLabel }}</div><div style="font-size:24px; font-weight:500;">{{ ride.eta }}</div></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; background:#F7F7F7; border-radius:20px; padding:12px 16px;">
+        <img src="assets/scooter.png" alt="" style="width:56px;">
+        <div style="flex:1;"><div style="font-size:18px; font-weight:500;">{{ ride.range }} range left</div><div style="font-size:14px; color:#6B6B6B;">{{ destLabel }} is {{ ride.left }} away</div></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1.4fr; gap:10px;">
+        <button onClick="{{ pause }}" style="height:56px; border-radius:28px; border:1.5px solid #E2E2E2; background:#fff; font-size:17px; font-weight:500; cursor:pointer;">Pause</button>
+        <button onClick="{{ endRide }}" style="height:56px; border-radius:28px; border:none; background:#1F1F1F; color:#fff; font-size:17px; font-weight:500; cursor:pointer;">End ride</button>
+      </div>
+      <button onClick="{{ openReport }}" style="border:none; background:none; font-size:16px; color:#2A7FF0; cursor:pointer; padding:0;">Report an issue</button>
+    </sc-if>
+    <sc-if value="{{ ride.isPaused }}" hint-placeholder-val="{{ false }}">
+      <div><div style="font-size:15px; color:#6B6B6B;">Paused · {{ ride.pauseMins }}</div><div style="margin-top:2px; font-size:26px; font-weight:500; line-height:1.2; text-wrap:pretty;">₹0.50/min · Yulu #{{ bike.id }} held for you.</div></div>
+      <div style="display:flex; justify-content:space-between; background:#F7F7F7; border-radius:18px; padding:14px 16px; font-size:16px;"><span>Fare so far</span><span style="font-weight:500;">{{ ride.fare }}</span></div>
+      <div style="font-size:14px; color:#6B6B6B; text-wrap:pretty;">We'll check in at 20 minutes. Pauses end the ride automatically at 40 minutes.</div>
+      <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:10px;">
+        <button onClick="{{ resume }}" style="height:56px; border-radius:28px; border:none; background:#1F1F1F; color:#fff; font-size:17px; font-weight:500; cursor:pointer;">Resume ride</button>
+        <button onClick="{{ endRide }}" style="height:56px; border-radius:28px; border:1.5px solid #E2E2E2; background:#fff; font-size:17px; font-weight:500; cursor:pointer;">End ride</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ ride.battery }}" hint-placeholder-val="{{ false }}">
+      <div style="width:52px; height:52px; border-radius:16px; background:#F8E1E4; display:flex; align-items:center; justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2A2C" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="7.5" width="16" height="9" rx="2"></rect><path d="M21 10.5v3"></path><path d="M6 10.5v3"></path></svg></div>
+      <div style="font-size:28px; font-weight:500; line-height:1.15;">The battery ran out before {{ destLabel }}.</div>
+      <div style="font-size:16px; color:#3A3A3A; text-wrap:pretty;">Your fare stopped at {{ ride.stopTime }}, when the bike lost power. We've taken {{ adjTxt }} off: the unlock fee and your last 2 minutes.</div>
+      <div style="display:flex; align-items:center; gap:14px; background:#F7F7F7; border-radius:20px; padding:14px 16px;">
+        <img src="assets/zone.png" alt="" style="width:54px;">
+        <div style="flex:1;"><div style="font-size:17px; font-weight:500;">Nearest Yulu Zone</div><div style="font-size:14px; color:#6B6B6B;">27th Main, HSR · 450 m · 6 min walk</div></div>
+      </div>
+      <button onClick="{{ walkToZone }}" style="height:56px; border-radius:28px; border:none; background:#1F1F1F; color:#fff; font-size:18px; font-weight:500; cursor:pointer;">Walk it to the zone</button>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- A11 PARK + LOCK -->
+<sc-if value="{{ s.A11 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; pointer-events:none;">
+  <sc-if value="{{ lockIdleRiding }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ backToRide }}" aria-label="Back to ride" style="position:absolute; top:62px; left:20px; width:50px; height:50px; border-radius:50%; border:none; background:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.12); cursor:pointer; display:flex; align-items:center; justify-content:center; pointer-events:auto;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  </sc-if>
+  <div style="position:absolute; left:0; right:0; bottom:0; background:#fff; border-radius:30px 30px 0 0; box-shadow:0 -6px 24px rgba(0,0,0,0.08); padding:22px 24px 30px; box-sizing:border-box; pointer-events:auto; display:flex; flex-direction:column; gap:16px;">
+    <sc-if value="{{ onFoot }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px 14px; border-radius:14px; background:#E3F8FD; font-size:14px; color:#0B4F68; text-wrap:pretty;">Fare stopped at {{ ride.fare }}. You're not being charged for the walk.</div>
+    </sc-if>
+    <sc-if value="{{ l.idle }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <img src="assets/zone.png" alt="" style="width:92px; display:block;">
+        <div><div style="font-size:24px; font-weight:500; line-height:1.15;">{{ l.zoneTitle }}</div><div style="margin-top:4px; font-size:15px; color:#6B6B6B;">27th Main, HSR Layout</div></div>
+      </div>
+      <div style="font-size:16px; color:#3A3A3A; text-wrap:pretty;">Park inside the zone and push the lock down until it clicks. The ride ends when the bike confirms it's locked.</div>
+      <button onClick="{{ lockIt }}" style="height:58px; border-radius:29px; border:none; background:#1F1F1F; color:#fff; font-size:19px; font-weight:500; cursor:pointer;">I've locked it</button>
+    </sc-if>
+    <sc-if value="{{ l.confirming }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:18px 0 22px; text-align:center;">
+        {{ spinner }}
+        <div style="font-size:26px; font-weight:500;">Confirming the lock…</div>
+        <div style="font-size:16px; color:#6B6B6B;">Waiting for Yulu #{{ bike.id }} to report it's locked</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ l.confirmed }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:18px 0 22px; text-align:center;">
+        <div style="width:56px; height:56px; border-radius:50%; background:#2FCDF5; display:flex; align-items:center; justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+        <div style="font-size:26px; font-weight:500;">Locked. Ride ended.</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ l.noping }}" hint-placeholder-val="{{ false }}">
+      <div style="width:52px; height:52px; border-radius:16px; background:#F8E1E4; display:flex; align-items:center; justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3A2A2C" stroke-width="1.7" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path></svg></div>
+      <div style="font-size:26px; font-weight:500; line-height:1.15;">We can't hear the lock yet.</div>
+      <div style="font-size:16px; color:#3A3A3A; text-wrap:pretty;">Push the lock down firmly and try again. If it still won't confirm, end the ride now. The fare stops immediately and we'll flag the bike for pickup.</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <button onClick="{{ lockIt }}" style="height:56px; border-radius:28px; border:1.5px solid #E2E2E2; background:#fff; font-size:17px; font-weight:500; cursor:pointer;">Try again</button>
+        <button onClick="{{ endAnyway }}" style="height:56px; border-radius:28px; border:none; background:#1F1F1F; color:#fff; font-size:17px; font-weight:500; cursor:pointer;">End ride anyway</button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<!-- A12 RECEIPT -->
+<sc-if value="{{ s.A12 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; overflow-y:auto; padding:54px 24px 32px; box-sizing:border-box; display:flex; flex-direction:column;">
+  <div style="margin-top:34px; width:52px; height:52px; border-radius:50%; background:#2FCDF5; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+  <div style="margin-top:18px; font-size:36px; font-weight:500; letter-spacing:-0.5px;">Ride complete.</div>
+  <div style="margin-top:6px; font-size:16px; color:#6B6B6B;">{{ rc.where }} · {{ rc.when }}</div>
+  <div style="margin-top:22px; display:flex; align-items:baseline; gap:10px;"><span style="font-size:48px; font-weight:500; letter-spacing:-1px;">{{ rc.total }}</span><span style="font-size:16px; color:#6B6B6B;">{{ rc.payNote }}</span></div>
+  <sc-if value="{{ rc.review }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:16px; padding:14px 16px; border-radius:16px; background:#F8E1E4; font-size:15px; color:#3A2A2C; line-height:1.45; text-wrap:pretty;">There's a gap in the ride data around 2:14 pm, so we're checking it manually. You haven't been charged for the disputed time while we look. We'll update this ride in your history within 24 hours.</div>
+  </sc-if>
+  <sc-if value="{{ endedAnyway }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:16px; padding:14px 16px; border-radius:16px; background:#E3F8FD; font-size:15px; color:#0B4F68; line-height:1.45;">The lock didn't confirm, so the fare stopped when you ended the ride. No extra charge. We've flagged the bike for pickup.</div>
+  </sc-if>
+  <div style="margin-top:20px; background:#F6F6F6; border-radius:22px; padding:6px 18px; flex-shrink:0;">
+    <sc-for list="{{ rc.lines }}" as="ln" hint-placeholder-count="3">
+      <div style="display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid #EAEAEA;">
+        <span style="display:flex; flex-direction:column;"><span style="font-size:16px; color:{{ ln.color }};">{{ ln.label }}</span><sc-if value="{{ ln.note }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px; color:#6B6B6B;">{{ ln.note }}</span></sc-if></span>
+        <span style="font-size:16px; color:{{ ln.color }}; white-space:nowrap;">{{ ln.amt }}</span>
+      </div>
+    </sc-for>
+    <div style="display:flex; justify-content:space-between; padding:14px 0; font-size:17px; font-weight:500;"><span>Total</span><span>{{ rc.total }}</span></div>
+  </div>
+  <div style="margin-top:12px; font-size:14px; color:#6B6B6B;">Your ₹50 hold has been released.</div>
+  <div style="margin-top:26px; display:flex; flex-direction:column; align-items:center; gap:10px;">
+    <div style="font-size:16px;">How was the ride? <span style="color:#8A8A8A;">(optional)</span></div>
+    <div style="display:flex; gap:8px;">
+      <sc-for list="{{ stars }}" as="st" hint-placeholder-count="5">
+        <button onClick="{{ st.set }}" aria-label="{{ st.aria }}" style="border:none; background:none; padding:2px; cursor:pointer;"><svg width="34" height="34" viewBox="0 0 24 24" fill="{{ st.fill }}" stroke="{{ st.stroke }}" stroke-width="1.4" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"></path></svg></button>
+      </sc-for>
+    </div>
+  </div>
+  <button onClick="{{ done }}" style="margin-top:auto; height:58px; border-radius:29px; border:none; background:#1F1F1F; color:#fff; font-size:19px; font-weight:500; cursor:pointer; flex-shrink:0;">Done</button>
+</div>
+</sc-if>
+
+<!-- SURFACES G1–G5 -->
+<sc-if value="{{ s.G }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; overflow-y:auto; padding:54px 24px 32px; box-sizing:border-box;">
+  <button onClick="{{ go.A5 }}" aria-label="Back" style="width:44px; height:44px; margin:10px 0 0 -6px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+  <div style="margin-top:16px; font-size:34px; font-weight:500; letter-spacing:-0.4px;">{{ surfaceTitle }}</div>
+  <div style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+    <sc-for list="{{ surfaceRows }}" as="r" hint-placeholder-count="3">
+      <button onClick="{{ r.tap }}" style="display:flex; align-items:center; gap:14px; padding:16px; border-radius:18px; border:1.5px solid #EFEFEF; background:#fff; text-align:left; cursor:pointer;">
+        <span style="flex:1; display:flex; flex-direction:column; gap:3px;"><span style="font-size:17px; font-weight:500; color:{{ r.color }};">{{ r.title }}</span><sc-if value="{{ r.sub }}" hint-placeholder-val="{{ true }}"><span style="font-size:14px; color:#6B6B6B;">{{ r.sub }}</span></sc-if></span>
+        <sc-if value="{{ r.right }}" hint-placeholder-val="{{ false }}"><span style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;"><span style="font-size:17px;">{{ r.right }}</span><sc-if value="{{ r.tag }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px; padding:3px 8px; border-radius:10px; background:{{ r.tagBg }}; color:#1F1F1F; white-space:nowrap;">{{ r.tag }}</span></sc-if></span></sc-if>
+      </button>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- MENU SHEET -->
+<sc-if value="{{ menu }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeMenu }}" style="position:absolute; inset:0; background:rgba(0,0,0,0.35);"></div>
+<div style="position:absolute; left:0; right:0; bottom:0; background:#fff; border-radius:30px 30px 0 0; padding:14px 24px 36px;">
+  <div style="width:40px; height:5px; border-radius:3px; background:#E2E2E2; margin:0 auto 18px;"></div>
+  <div style="display:flex; flex-direction:column; gap:6px;">
+    <sc-for list="{{ menuRows }}" as="m" hint-placeholder-count="4">
+      <button onClick="{{ m.tap }}" style="display:flex; align-items:center; gap:18px; padding:8px 0; border:none; background:none; cursor:pointer; text-align:left;">
+        <span style="width:52px; height:52px; border-radius:14px; background:#F3F4F6; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; color:#3A3A3A;">{{ m.mark }}</span>
+        <span style="font-size:19px;">{{ m.label }}</span>
+      </button>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<!-- REPORT AN ISSUE -->
+<sc-if value="{{ report }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeReport }}" style="position:absolute; inset:0; background:rgba(0,0,0,0.35);"></div>
+<div style="position:absolute; left:0; right:0; bottom:0; background:#fff; border-radius:30px 30px 0 0; padding:24px 24px 36px; display:flex; flex-direction:column; gap:10px;">
+  <div style="font-size:24px; font-weight:500;">Report an issue</div>
+  <div style="font-size:15px; color:#6B6B6B; margin-bottom:6px;">Your ride data is attached automatically. Just pick one.</div>
+  <sc-for list="{{ reportRows }}" as="r" hint-placeholder-count="4">
+    <button onClick="{{ r.tap }}" style="height:56px; border-radius:18px; border:1.5px solid #EFEFEF; background:#fff; font-size:17px; text-align:left; padding:0 18px; cursor:pointer;">{{ r.label }}</button>
+  </sc-for>
+</div>
+</sc-if>
+
+<!-- iOS LOCATION DIALOG -->
+<sc-if value="{{ locDialog }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute; inset:0; background:rgba(120,120,120,0.45);"></div>
+<div style="position:absolute; left:46px; right:46px; top:150px; background:#EFEFEF; border-radius:34px; padding:18px 14px 14px; font-family:-apple-system,system-ui,sans-serif; box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+  <div style="margin-left:10px; width:56px; height:56px; border-radius:14px; background:linear-gradient(180deg,#2A9BFF,#0A72F0); display:flex; align-items:center; justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z" fill="#fff"></path></svg></div>
+  <div style="margin:14px 10px 0; font-size:17px; font-weight:600; line-height:1.3;">Allow "Yulu" to use your location?</div>
+  <div style="margin:6px 10px 0; font-size:14px; color:#6B6B6B; line-height:1.4;">To locate bicycles nearby, to calculate the journey distance, and estimate the travel cost</div>
+  <div style="margin-top:12px; height:120px; border-radius:18px; background:url(assets/map.png) center / cover;"></div>
+  <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+    <button onClick="{{ allowLoc }}" style="height:46px; border-radius:23px; border:none; background:#D6D6D6; font-size:16px; cursor:pointer; font-family:inherit;">Allow Once</button>
+    <button onClick="{{ allowLoc }}" style="height:46px; border-radius:23px; border:none; background:#D6D6D6; font-size:16px; cursor:pointer; font-family:inherit;">Allow While Using App</button>
+    <button onClick="{{ denyLoc }}" style="height:46px; border-radius:23px; border:none; background:#D6D6D6; font-size:16px; cursor:pointer; font-family:inherit;">Don't Allow</button>
+  </div>
+</div>
+</sc-if>
+
+<!-- TOAST -->
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="position:absolute; left:20px; right:20px; top:124px; background:#1F1F1F; color:#fff; border-radius:18px; padding:14px 16px; font-size:15px; line-height:1.35; box-shadow:0 8px 24px rgba(0,0,0,0.2);">{{ toast }}</div>
+</sc-if>
+
+<!-- STATUS BAR -->
+<div style="position:absolute; top:0; left:0; right:0; height:54px; padding:0 34px 0 44px; display:flex; align-items:center; justify-content:space-between; color:{{ sbColor }}; pointer-events:none; font-family:-apple-system,system-ui,sans-serif;">
+  <span style="font-size:17px; font-weight:600;">5:19</span>
+  <span style="display:flex; align-items:center; gap:6px;">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"></rect><rect x="5" y="5.5" width="3" height="6.5" rx="1"></rect><rect x="10" y="3" width="3" height="9" rx="1" opacity="0.35"></rect><rect x="15" y="0" width="3" height="12" rx="1" opacity="0.35"></rect></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.3-1.3A10.3 10.3 0 0 0 8 .3 10.3 10.3 0 0 0 .7 3.3L2 4.6a8.5 8.5 0 0 1 6-2.4zm0 3.6c1.3 0 2.6.5 3.5 1.4l1.3-1.3A6.8 6.8 0 0 0 8 3.9a6.8 6.8 0 0 0-4.8 2l1.3 1.3c.9-.9 2.2-1.4 3.5-1.4zM8 9.4l-2.1-2.1a3 3 0 0 1 4.2 0z"></path></svg>
+    <svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" fill="none" stroke="currentColor" opacity="0.4"></rect><rect x="2" y="2" width="12" height="8" rx="2" fill="currentColor"></rect><rect x="23.5" y="4" width="1.8" height="4" rx="0.9" fill="currentColor" opacity="0.4"></rect></svg>
+  </span>
+</div>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;failure&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;F1&quot;,&quot;F2&quot;,&quot;F3&quot;,&quot;F4&quot;,&quot;F5&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scenario&quot;},&quot;showRail&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scenario&quot;},&quot;rideSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:5,&quot;default&quot;:20,&quot;unit&quot;:&quot;x&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scenario&quot;}}">
+const DEST=[
+ {id:'home',label:'Home',addr:'HSR Layout, Sector 2',km:6.2,saved:true},
+ {id:'work',label:'Work',addr:'Koramangala 5th Block',km:3.1,saved:true},
+ {id:'metro',label:'Indiranagar Metro',addr:'100 Feet Road, Indiranagar',km:4.0,recent:true},
+ {id:'cubbon',label:'Cubbon Park',addr:'Kasturba Road',km:8.4,recent:true},
+ {id:'mg',label:'MG Road Metro',addr:'MG Road',km:7.1},
+ {id:'forum',label:'Forum Mall',addr:'Hosur Road, Koramangala',km:2.4},
+ {id:'ecity',label:'Electronic City',addr:'Phase 1',km:14.2},
+];
+const BIKES=[
+ {id:'4471',range:24,f1:8,walk:3,m:220,x:330,y:262},
+ {id:'2210',range:11,f1:6,walk:5,m:380,x:500,y:400},
+ {id:'1893',range:18,f1:7,walk:7,m:520,x:250,y:385},
+ {id:'3307',range:6,f1:5,walk:2,m:150,x:480,y:230},
+ {id:'5120',range:4,f1:3,walk:4,m:300,x:300,y:170},
+];
+const SCEN=[
+ {id:'none',short:'—',label:'Happy path',desc:'Full flow from the welcome screen'},
+ {id:'F1',label:'No bike can make this trip',desc:'Shows on A6 after a destination'},
+ {id:'F2',label:"Lock won't open",desc:'Starts at A8, fails at unlock'},
+ {id:'F3',label:'Battery dies mid-ride',desc:'Starts on A10, a few seconds in'},
+ {id:'F4',label:'Billing evidence ambiguous',desc:'Starts on A10, lands on receipt'},
+ {id:'F5',label:"Lock won't confirm",desc:'Starts on A10, fails at A11'},
+];
+const STEPS=['A1','A2','A3','A4','A5','A6','A7','A8','A9','A10','A11','A12'];
+const NAMES={welcome:'Welcome',A1:'A1 · Phone number',A2:'A2 · Verification',A3:'A3 · First name',A4:'A4 · Wallet',perms:'Permissions · L1 location, L2 camera',A5:'A5 · Destination (funnel root)',A6:'A6 · Map + list',A7:'A7 · Preview + hold',A8:'A8 · Pay at the bike',A9:'A9 · Unlock',F2:'F2 · Lock won\'t open → voided',A10:'A10 · Live ride',A11:'A11 · Park + lock',A12:'A12 · Receipt',G:'Persistent surface (G1–G5)'};
+const money=n=>'₹'+n.toFixed(2);
+const km=n=>{const r=Math.round(n*10)/10;return (r%1===0?r.toFixed(0):r.toFixed(1))+' km';};
+const clock=m=>{const t=14*60+2+m;let h=Math.floor(t/60)%24;const mm=t%60;const ap=h>=12?'pm':'am';h=h%12||12;return h+':'+String(mm).padStart(2,'0')+' '+ap;};
+
+class Component extends DCLogic {
+  state = this.initial();
+  initial(){ return {screen:'welcome',phone:'',phoneErr:'',otp:'',otpErr:'',resend:30,name:'',pay:null,locDialog:false,locDenied:false,dest:null,browse:false,query:'',bikeId:null,holdLeft:300,toast:'',unlock:'idle',tries:1,f2Done:false,manualId:'',rideSec:0,pauseSec:0,paused:false,rideEvent:null,onFoot:false,report:false,lock:'idle',endedAnyway:false,rating:0,menu:false,surface:null,removed:[],notified:false,scenario:null,
+    history:[{title:'Work → Home',when:'Yesterday, 6:40 pm',amount:'₹36.50',status:'Settled'},{title:'Home → Work',when:'Yesterday, 9:12 am',amount:'₹31.00',status:'Settled'}]}; }
+  timers=[];
+  componentWillUnmount(){ this.clearT(); }
+  clearT(){ this.timers.forEach(clearTimeout); this.timers=[]; }
+  t(ms,fn){ this.timers.push(setTimeout(fn,ms)); }
+  sc(){ return this.state.scenario ?? this.props.failure ?? 'none'; }
+  speed(){ return this.props.rideSpeed ?? 20; }
+  toast(msg){ this.setState({toast:msg}); clearTimeout(this.tt); this.tt=setTimeout(()=>this.setState({toast:''}),3800); }
+  tick(){
+    const sp=this.speed(), f3=this.sc()==='F3';
+    let expired=false;
+    this.setState(s=>{
+      if(s.screen==='A2'&&s.resend>0) return {resend:s.resend-1};
+      if(s.screen==='A7'){ if(s.holdLeft<=1){ expired=true; return {screen:'A6',bikeId:null,holdLeft:300}; } return {holdLeft:s.holdLeft-1}; }
+      if(s.screen==='A10'&&!s.rideEvent&&!s.report){
+        if(s.paused) return {pauseSec:s.pauseSec+sp};
+        const r=s.rideSec+sp; return (f3&&r>=160)?{rideSec:r,rideEvent:'battery'}:{rideSec:r};
+      }
+      return null;
+    }, ()=>{ if(expired) this.toast('Your hold expired. The bike is available again.'); });
+  }
+  go(screen,extra){ this.setState({screen,menu:false,...(extra||{})}); }
+  startScenario(id){
+    this.clearT();
+    const base={...this.initial(),scenario:id};
+    if(id==='none') return this.setState(base);
+    const ready={...base,name:'Aalvee',phone:'9971806352',pay:'upi'};
+    if(id==='F1') this.setState({...ready,screen:'A5'});
+    else if(id==='F2') this.setState({...ready,screen:'A8',dest:DEST[0],bikeId:'4471'});
+    else this.setState({...ready,screen:'A10',dest:DEST[0],bikeId:'4471'});
+  }
+  req(){ const d=this.state.browse?null:this.state.dest; return d?Math.max(Math.round(d.km*15)/10,2):2; }
+  bikes(){ const f1=this.sc()==='F1'; return BIKES.filter(b=>!this.state.removed.includes(b.id)).map(b=>({...b,r:f1?b.f1:b.range})); }
+  pickDest(d){ this.setState({dest:d,browse:false,query:'',notified:false,screen:'A6'}); }
+  pickBike(id){ this.setState({bikeId:id,holdLeft:300,screen:'A7',manualId:''}); }
+  fare(){ const s=this.state; const rm=Math.max(1,Math.ceil(s.rideSec/60)); const pm=Math.ceil(s.pauseSec/60); return {rm,pm,riding:2.5*rm,paused:0.5*pm,sub:5+2.5*rm+0.5*pm}; }
+  startUnlock(){
+    const f2=this.sc()==='F2'&&!this.state.f2Done;
+    this.setState({unlock:'unlocking',tries:1});
+    if(!f2){ this.t(1800,()=>this.setState({unlock:'unlocked'})); this.t(3200,()=>this.setState({screen:'A10',unlock:'idle',rideSec:0,pauseSec:0,paused:false,rideEvent:null,onFoot:false})); }
+    else { this.t(1800,()=>this.setState({unlock:'retry',tries:2})); this.t(3600,()=>this.setState({tries:3})); this.t(5400,()=>this.setState({unlock:'idle',screen:'F2',f2Done:true})); }
+  }
+  lockIt(){
+    this.setState({lock:'confirming'});
+    if(this.sc()==='F5') this.t(2600,()=>this.setState({lock:'noping'}));
+    else { this.t(2200,()=>this.setState({lock:'confirmed'})); this.t(3300,()=>this.setState({screen:'A12',lock:'idle',endedAnyway:false})); }
+  }
+  receipt(){
+    const s=this.state, f=this.fare(), sc=this.sc();
+    const lines=[{label:'Unlock',amt:money(5),color:'#1F1F1F'},{label:'Riding · '+f.rm+' min',amt:money(f.riding),color:'#1F1F1F'}];
+    if(f.pm>0) lines.push({label:'Paused · '+f.pm+' min',amt:money(f.paused),color:'#1F1F1F'});
+    let total=f.sub, status='Settled', review=false;
+    if(s.onFoot){ const adj=5+2.5*Math.min(2,f.rm); total-=adj; lines.push({label:'Adjustment',note:'Battery ran out before your stop',amt:'−'+money(adj),color:'#0B6F92'}); status='Adjusted −'+money(adj); }
+    if(sc==='F4'){ const rv=Math.min(7.5,f.riding); total-=rv; review=true; lines.push({label:'Under review · not charged',note:'Ride data gap around 2:14 pm',amt:money(rv),color:'#8A8A8A'}); status='In review · '+money(rv)+' not charged'; }
+    if(s.endedAnyway) status='Settled · bike flagged';
+    return {lines,total:money(total),review,status,where:(s.dest?s.dest.label:'Nearby'),when:clock(0)+' – '+clock(f.rm+f.pm),payNote:(s.pay==='card'?'charged to card':'charged to UPI')};
+  }
+  renderVals(){
+    window.__yuluTick=()=>this.tick();
+    if(!window.__yuluIv){ window.__yuluIv=setInterval(()=>{ try{ window.__yuluTick&&window.__yuluTick(); }catch(e){ console.warn(e); } },1000); }
+    const s=this.state, sc=this.sc(), req=this.req();
+    const S=k=>s.screen===k;
+    const screens={}; ['welcome','A1','A2','A3','A4','perms','A5','A6','A7','A8','A9','F2','A10','A11','A12','G'].forEach(k=>screens[k]=S(k));
+    const go={}; ['welcome','A1','A3','A5','A7','A8'].forEach(k=>go[k]=()=>this.go(k));
+    const btn=(on)=>({bg:on?'#1F1F1F':'#E2E2E2',color:on?'#fff':'#A8A8A8'});
+    const phoneOk=s.phone.length===10;
+    const dLabel=s.dest?s.dest.label:'your stop';
+    const row=d=>({label:d.label,addr:d.addr,kmTxt:km(d.km),needTxt:'needs '+km(Math.max(d.km*1.5,2)),isHome:d.id==='home',isWork:d.id==='work',pick:()=>this.pickDest(d)});
+    const q=s.query.trim().toLowerCase();
+    const results=q?DEST.filter(d=>(d.label+' '+d.addr).toLowerCase().includes(q)):[];
+    const all=this.bikes(); const cleared=all.filter(b=>b.r>=req); const hidden=all.length-cleared.length;
+    const destMode=!!s.dest&&!s.browse;
+    const bike=all.find(b=>b.id===s.bikeId)||BIKES.find(b=>b.id===s.bikeId)||BIKES[0];
+    const br=bike.r??bike.range;
+    const f=this.fare();
+    const fareNow=(s.rideEvent==='battery'||s.onFoot)?f.sub:f.sub;
+    const rangeLeft=Math.max(0,br-(s.rideSec/60)*0.45);
+    const left=Math.max(0.1,(s.dest?s.dest.km:3)-(s.rideSec/60)*0.32);
+    const isMap=['A6','A7','A10','A11'].includes(s.screen);
+    const pins = S('A6') ? cleared.map(b=>({x:b.x,y:b.y,label:km(b.r),bg:'#1F1F1F',color:'#fff',pick:()=>this.pickBike(b.id)}))
+               : S('A7') ? [{x:bike.x,y:bike.y,label:km(br),bg:'#2FCDF5',color:'#0B2530',pick:()=>{}}] : [];
+    const zoneAtRider=S('A11')&&!s.onFoot;
+    const zoneF3=(S('A10')&&s.rideEvent==='battery')||(S('A11')&&s.onFoot);
+    const map={pins,walk:S('A7'),walkX:bike.x,walkY:bike.y,route:S('A10')&&!s.rideEvent,rider:S('A10')||S('A11'),
+      zone:zoneAtRider||zoneF3,zoneX:zoneF3?300:390,zoneY:zoneF3?200:341,zoneLabelY:(zoneF3?200:341)+68,zoneWalk:S('A10')&&s.rideEvent==='battery'};
+    const a6={list:!(destMode&&cleared.length===0),empty:destMode&&cleared.length===0,
+      title:destMode?(cleared.length===1?'1 bike can make this trip':cleared.length+' bikes can make this trip'):'Bikes nearby',
+      sub:destMode?('Each has at least '+km(req)+' of range for your '+km(s.dest.km)+' trip.'):'Range shown on each bike.',
+      hiddenNote:destMode&&hidden>0?(hidden+(hidden===1?' bike nearby is':' bikes nearby are')+" hidden. They don't have the range for "+km(s.dest.km)+'.'):'',
+      rows:cleared.map(b=>({id:b.id,rangeTxt:km(b.r)+' range',walkTxt:b.walk+' min walk',marginal:destMode&&b.r<req*1.25,pick:()=>this.pickBike(b.id)}))};
+    const payDefs=[{id:'upi',mark:'UPI',title:'UPI',sub:'Pay with any UPI app',title8:'UPI',sub8:(s.name||'you').toLowerCase()+'@okaxis'},{id:'card',mark:'CARD',title:'Card',sub:'Debit or credit',title8:'Card',sub8:'Debit or credit card'}];
+    const payOptions=payDefs.map(o=>({...o,border:s.pay===o.id?'#1F1F1F':'transparent',border8:s.pay===o.id?'#1F1F1F':'#EFEFEF',ring:s.pay===o.id?'#1F1F1F':'#C8C8C8',dot:s.pay===o.id?'#1F1F1F':'transparent',pick:()=>this.setState({pay:o.id})}));
+    const u = s.unlock==='unlocked'
+      ? {busy:false,done:true,title:'Unlocked. Ride started.',sub:'Have a good ride, '+(s.name||'there')+'.'}
+      : s.unlock==='retry'
+      ? {busy:true,done:false,title:'No response from the lock yet',sub:'Trying again · attempt '+s.tries+' of 3. Your fare hasn\'t started.'}
+      : {busy:true,done:false,title:'Unlocking…',sub:'Waiting for Yulu #'+bike.id+' to confirm it\'s open. Your fare hasn\'t started.'};
+    const ride={riding:!s.paused&&!s.rideEvent,isPaused:s.paused&&!s.rideEvent,battery:s.rideEvent==='battery',
+      pill:s.rideEvent==='battery'?'Ride stopped · battery out':s.paused?'Ride paused':'Ride in progress',dot:s.rideEvent?'#E0606A':s.paused?'#C8C8C8':'#2FCDF5',
+      fare:money(fareNow),mins:f.rm+' min',pauseMins:f.pm+' min',eta:Math.max(1,Math.round(left*2.6))+' min',range:km(rangeLeft),left:km(left),stopTime:clock(f.rm)};
+    const l={idle:s.lock==='idle',confirming:s.lock==='confirming',confirmed:s.lock==='confirmed',noping:s.lock==='noping',zoneTitle:"You're inside a Yulu Zone"};
+    const rc=S('A12')?this.receipt():{lines:[],total:'',review:false};
+    const surfaces={
+      history:{title:'Ride history',rows:s.history.map(h=>({title:h.title,sub:h.when,right:h.amount,tag:h.status,tagBg:h.status.startsWith('In review')?'#F8E1E4':'#F3F4F6',color:'#1F1F1F',tap:()=>{}}))},
+      payment:{title:'Payment methods',rows:[...(s.pay?[{title:s.pay==='upi'?'UPI':'Card',sub:s.pay==='upi'?(s.name||'you').toLowerCase()+'@okaxis':'Debit or credit card',right:'Default',color:'#1F1F1F',tap:()=>{}}]:[]),{title:s.pay==='card'?'Add UPI':'Add a card',sub:'',color:'#2A7FF0',tap:()=>this.setState({pay:s.pay||'card'})}]},
+      account:{title:'Account',rows:[{title:'Phone',sub:'+91 '+(s.phone||'9971806352'),color:'#1F1F1F',tap:()=>{}},{title:'First name',sub:s.name||'—',color:'#1F1F1F',tap:()=>{}},{title:'Delete account',sub:'',color:'#C2414B',tap:()=>{}}]},
+      help:{title:'Help',rows:[{title:'Report a past ride',sub:'Pick a ride from your history',color:'#1F1F1F',tap:()=>this.setState({surface:'history'})},{title:'Contact support',sub:'Call or message the Yulu team',color:'#1F1F1F',tap:()=>{}}]},
+    };
+    const surf=surfaces[s.surface]||surfaces.history;
+    const sb=S('A9')?'#fff':'#000';
+    return {
+      showRail:this.props.showRail ?? true,
+      scenarios:SCEN.map(x=>({id:x.id==='none'?'·':x.id,label:x.label,desc:x.desc,bg:sc===x.id?'#fff':'transparent',border:sc===x.id?'#1F1F1F':'#DADAD5',start:()=>this.startScenario(x.id)})),
+      steps:STEPS.map(id=>({id,bg:s.screen===id||(id==='A9'&&S('F2'))?'#1F1F1F':'#E2E2DD',color:s.screen===id||(id==='A9'&&S('F2'))?'#fff':'#6B6B6B'})),
+      stepName:NAMES[s.screen]+(sc!=='none'?' · scenario '+sc:''),
+      s:screens, go, showMap:isMap, map, sbColor:sb, destLabel:dLabel,
+      phone:s.phone, phoneErr:s.phoneErr,
+      onPhone:e=>this.setState({phone:e.target.value.replace(/\D/g,'').slice(0,10),phoneErr:''}),
+      onPhoneBlur:()=>{ if(s.phone.length>0&&s.phone.length<10) this.setState({phoneErr:'Enter all 10 digits of your mobile number'}); },
+      a1:{...btn(phoneOk),line:s.phoneErr?'#C2414B':'#1F1F1F',next:()=>{ if(phoneOk) this.go('A2',{otp:'',otpErr:'',resend:30}); else this.setState({phoneErr:'Enter all 10 digits of your mobile number'}); }},
+      phoneFmt:s.phone.slice(0,5)+' '+s.phone.slice(5),
+      otp:s.otp, otpErr:s.otpErr,
+      otpBoxes:[0,1,2,3,4,5].map(i=>({ch:s.otp[i]||'',border:s.otpErr?'#C2414B':(i===Math.min(s.otp.length,5)?'#1F1F1F':'transparent')})),
+      onOtp:e=>{ const v=e.target.value.replace(/\D/g,'').slice(0,6); this.setState({otp:v,otpErr:''}); if(v.length===6){ if(v==='000000') this.setState({otpErr:"That code didn't match. Check the SMS or resend."}); else this.t(350,()=>this.go('A3')); } },
+      canResend:s.resend===0, resendWaiting:s.resend>0, resendLeft:s.resend,
+      resend:()=>{ this.setState({resend:30,otp:'',otpErr:''}); this.toast('New code sent to +91 '+s.phone.slice(0,5)+' '+s.phone.slice(5)); },
+      name:s.name, onName:e=>this.setState({name:e.target.value.slice(0,24)}),
+      a3:{...btn(s.name.trim().length>0),next:()=>{ if(s.name.trim()) this.go('A4'); }},
+      payOptions,
+      a4:{...btn(!!s.pay),next:()=>{ if(s.pay) this.go('perms'); },skip:()=>this.go('perms',{pay:null})},
+      openLoc:()=>this.setState({locDialog:true}),
+      locDialog:s.locDialog,
+      allowLoc:()=>this.go('A5',{locDialog:false,locDenied:false}),
+      denyLoc:()=>this.go('A5',{locDialog:false,locDenied:true}),
+      locDenied:s.locDenied&&S('A6'),
+      query:s.query, onQuery:e=>this.setState({query:e.target.value}),
+      hasQuery:!!q, noQuery:!q, noResults:!!q&&results.length===0,
+      resultRows:results.map(row), savedRows:DEST.filter(d=>d.saved).map(row), recentRows:DEST.filter(d=>d.recent).map(row),
+      browse:()=>this.setState({browse:true,screen:'A6'}),
+      browseMode:!destMode,
+      chipTxt:destMode?('To '+s.dest.label+' · '+km(s.dest.km)):'No destination · 2 km floor',
+      a6, tripKm:s.dest?km(s.dest.km):'',
+      notifyLabel:s.notified?"We'll let you know":'Notify me when one can',
+      notifyMe:()=>{ this.setState({notified:true}); this.toast("We'll tell you when a bike with "+km(req)+' of range is nearby.'); },
+      searchArea:()=>this.go('A5',{query:''}),
+      bike:{id:bike.id,rangeTxt:km(br),needPct:Math.min(100,Math.round(req/br*100)),spareTxt:km(Math.max(0,br-req))+' to spare',marginal:destMode&&br<req*1.25&&br>=req,walkTxt:bike.walk+' min walk',mTxt:bike.m+' m'},
+      reqTxt:km(req),
+      holdTxt:Math.floor(s.holdLeft/60)+':'+String(s.holdLeft%60).padStart(2,'0'),
+      releaseHold:()=>{ this.go('A6',{bikeId:null}); this.toast('Hold released. Nothing was charged.'); },
+      a8:{...btn(!!s.pay&&s.unlock!=='hold'),label:s.unlock==='hold'?'Placing hold…':'Place ₹50 hold',next:()=>{ if(!s.pay||s.unlock==='hold') return; this.setState({unlock:'hold'}); this.t(1200,()=>this.setState({unlock:'idle',screen:'A9',manualId:''})); }},
+      manualId:s.manualId, onManual:e=>this.setState({manualId:e.target.value.replace(/\D/g,'').slice(0,4)}),
+      scan:()=>this.startUnlock(),
+      unlockManual:()=>{ const id=s.manualId; if(id.length<4){ this.toast('Bike IDs are 4 digits, printed under the QR.'); return; } const known=BIKES.find(b=>b.id===id); if(known&&id!==s.bikeId) this.setState({bikeId:id}); this.startUnlock(); },
+      unlockSheet:S('A9')&&s.unlock!=='idle', u,
+      spinner:React.createElement('div',{style:{width:34,height:34,borderRadius:'50%',border:'3px solid #E3F8FD',borderTopColor:'#2FCDF5',animation:'yspin 0.9s linear infinite'}}),
+      afterF2:()=>{ this.go('A6',{removed:[...s.removed,s.bikeId],bikeId:null}); },
+      ride, adjTxt:money(5+2.5*Math.min(2,f.rm)),
+      pause:()=>this.setState({paused:true}), resume:()=>this.setState({paused:false}),
+      endRide:()=>this.go('A11',{lock:'idle',paused:false}),
+      openReport:()=>this.setState({report:true}), closeReport:()=>this.setState({report:false}), report:s.report,
+      reportRows:['Bike feels unsafe','Battery dropping fast','Brakes or lights not working','Something else'].map(label=>({label,tap:()=>{ this.setState({report:false}); this.toast('Reported. Your ride data is attached, and your fare is protected if this affected the ride.'); }})),
+      walkToZone:()=>this.go('A11',{onFoot:true,lock:'idle'}),
+      onFoot:s.onFoot&&S('A11'),
+      lockIdleRiding:s.lock==='idle'&&!s.onFoot,
+      backToRide:()=>this.go('A10'),
+      l, lockIt:()=>this.lockIt(), endAnyway:()=>this.setState({screen:'A12',lock:'idle',endedAnyway:true}),
+      endedAnyway:s.endedAnyway, rc,
+      stars:[1,2,3,4,5].map(n=>({fill:n<=s.rating?'#1F1F1F':'none',stroke:n<=s.rating?'#1F1F1F':'#BDBDBD',aria:n+' star'+(n>1?'s':''),set:()=>this.setState({rating:n===s.rating?0:n})})),
+      done:()=>{ const r=this.receipt(); this.go('A5',{history:[{title:'Ride to '+r.where,when:'Today, '+r.when,amount:r.total,status:r.status},...s.history],dest:null,bikeId:null,rideSec:0,pauseSec:0,paused:false,rideEvent:null,onFoot:false,endedAnyway:false,rating:0,lock:'idle',scenario:sc==='none'?s.scenario:'none'}); if(r.review) this.toast('Ride saved. The review result will appear in Ride history.'); },
+      menu:s.menu, openMenu:()=>this.setState({menu:true}), closeMenu:()=>this.setState({menu:false}),
+      menuRows:[['history','Ride history','≡'],['payment','Payment methods','₹'],['account','Account','●'],['help','Help','?']].map(([id,label,mark])=>({label,mark,tap:()=>this.go('G',{surface:id})})),
+      surfaceTitle:surf.title, surfaceRows:surf.rows,
+      toast:s.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>
