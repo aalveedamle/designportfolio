@@ -60,6 +60,7 @@ The Yulu case study no longer embeds a prototype: its hero plays a recording of 
 - Card covers are 1200px JPEGs in `homepage card images/`. Case-study heroes are 2000px JPEGs at `images/<page>/hero.jpg`, loaded with `fetchpriority="high"` (never lazy — they're the first thing on screen). Originals (PNGs, raw exports) go in `source media/` at the repo root, not in `public/`.
 - Video must be `.mp4` (H.264). Chrome and Edge refuse `video/quicktime`, so `.mov` files don't play.
 - The Yulu hero plays `video/yulu-hero.mp4` (poster `video/yulu-hero-poster.jpg`): a 44 s screen-only recording of `yulu-rider-prototype.html` autoplaying the happy path, 590×1278, ~900 kbps, inside a CSS phone bezel. Re-record it if the prototype changes.
+- The Genie hero plays `video/genie-hero.mp4` (poster `video/genie-hero-poster.jpg`, preloaded): a 42 s recording of the Claude Design Genie prototype's own "Play happy path" walkthrough, 1200×750, ~230 kbps, 1.2 MB, keyframes every 12 s. It is kept light on purpose: only the poster loads with the page — a script at the bottom sets the video's `src` from `data-src` after `load`, and skips it entirely under `prefers-reduced-motion`. The prototype source is in `source media/genie-prototype/`.
 - Muted autoplay loops (e.g. the About hero) carry no audio track, are ~900 kbps at 720p, and are fast-start (`moov` before `mdat`). The About hero went 6.7 MB → 3.3 MB this way; the original is in `source media/video/`.
 
 ### Deployment

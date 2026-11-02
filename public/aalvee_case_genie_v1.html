@@ -23,6 +23,7 @@
   });
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preload" as="image" href="video/genie-hero-poster.jpg" fetchpriority="high" />
 <title>Genie — Case Study · Aalvee Damle</title>
 <meta name="description" content="Embedding AI into the workflow, not beside it. A case study by Aalvee Damle on the design of Genie, the contextual AI widget inside EY's Virtual Internal Auditor platform." />
 <style>
@@ -269,7 +270,7 @@ body { padding-top: 64px; }
 [data-theme="light"] .hero-tablet { box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 0 44px rgba(255,92,52,0.1); }
 .hero-tablet-cam { width: 6px; height: 6px; border-radius: 50%; background: #3a3a3c; margin: 0 auto 12px; }
 .hero-tablet-screen { border-radius: 14px; overflow: hidden; background: var(--bg-alt); line-height: 0; }
-.hero-tablet-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.hero-tablet-screen video { width: 100%; height: auto; aspect-ratio: 1200 / 750; object-fit: cover; display: block; }
 .hero-tablet-shadow { width: 70%; height: 28px; margin: 18px auto 0; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(0,0,0,0.35), rgba(0,0,0,0) 75%); }
 .impact-strip-section { padding: clamp(48px, 6vw, 72px) 0; }
@@ -664,7 +665,7 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
       <div class="hero-tablet">
         <div class="hero-tablet-cam" aria-hidden="true"></div>
         <div class="hero-tablet-screen">
-          <img src="images/genie/hero.jpg" width="2000" height="1343" fetchpriority="high" decoding="async" alt="Genie — embedded AI widget inside the VIA platform" />
+          <video id="heroProtoVideo" width="1200" height="750" muted loop playsinline preload="none" poster="video/genie-hero-poster.jpg" data-src="video/genie-hero.mp4" aria-label="Recording of the Genie prototype inside VIA: the auditor asks which locations drive the very high risks, picks sources, turns on Page Awareness, watches live progress, opens a citation and changes source mid-chat"></video>
         </div>
       </div>
       <div class="hero-tablet-shadow" aria-hidden="true"></div>
@@ -1757,6 +1758,15 @@ footer { background: var(--bg); color: var(--ink-mute); padding: 48px 0 32px;
   if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
   else window.addEventListener('resize', measure);
   measure();
+})();
+</script>
+<script>
+/* Hero recording: only the poster loads with the page; the video is fetched after load, and never with reduced motion */
+(function(){
+  var v = document.getElementById('heroProtoVideo');
+  if (!v || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  function start(){ v.src = v.getAttribute('data-src'); v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+  if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
 })();
 </script>
 </body>

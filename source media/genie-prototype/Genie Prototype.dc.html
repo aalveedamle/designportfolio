@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=[];var B=false;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/tokens/colors.css">
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/tokens/typography.css">
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/tokens/icons.css">
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/tokens/fig-tokens.css">
+<link rel="stylesheet" href="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/styles.css">
+<script src="_ds/geniaus-design-system-df584ed3-a4bc-4960-8314-11355a7e412e/_ds_bundle.js"></script>
+<style>
+html,body{margin:0;height:100%;overflow:hidden}
+body{font-family:var(--font-sans);color:#2E2E38;-webkit-font-smoothing:antialiased}
+a{color:#155CB4}a:hover{color:#2E2E38}
+button,textarea{font-family:inherit;color:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid #155CB4;outline-offset:2px}
+@keyframes gspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition-duration:0ms!important;animation-duration:2s!important}}
+</style>
+</helmet>
+<div style="display:flex;height:100vh;background:#E1E1E6;font-family:var(--font-sans);">
+
+  <aside aria-label="Scenario" style="width:268px;flex-shrink:0;background:#FFFFFF;border-right:1px solid #E1E1E6;display:flex;flex-direction:column;min-height:0;">
+    <div style="padding:20px 18px 14px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid #EAEAF2;">
+      <div style="font-size:11px;letter-spacing:1px;font-weight:700;color:#747480;">SCENARIO</div>
+      <div style="font-size:16px;font-weight:700;color:#2E2E38;">Genie in VIA</div>
+      <div style="font-size:12px;line-height:1.45;color:#585860;text-wrap:pretty;">JB, senior internal auditor, prepares a risk review of Southwest Financial.</div>
+      <button onClick="{{ togglePlay }}" style="margin-top:10px;height:36px;border:none;border-radius:4px;background:#2E2E38;color:#FFFFFF;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;">
+        <span class="material-symbols-rounded" style="font-size:18px;font-variation-settings:'FILL' 1;">{{ playIcon }}</span>{{ playLabel }}
+      </button>
+      <div style="font-size:11px;color:#747480;line-height:1.4;">Steps with an orange dot are in the happy-path recording.</div>
+    </div>
+    <nav style="flex:1;overflow-y:auto;padding:8px 8px 16px;display:flex;flex-direction:column;gap:2px;">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="19">
+        <button onClick="{{ s.go }}" aria-current="{{ s.current }}" style="display:grid;grid-template-columns:24px minmax(0,1fr) 8px;align-items:center;gap:10px;padding:7px 10px;border:none;border-radius:4px;background:{{ s.bg }};text-align:left;cursor:pointer;">
+          <span style="width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:{{ s.numBg }};color:{{ s.numFg }};">{{ s.n }}</span>
+          <span style="display:flex;flex-direction:column;gap:1px;min-width:0;">
+            <span style="font-size:12.5px;line-height:1.3;color:#2E2E38;font-weight:{{ s.fw }};">{{ s.title }}</span>
+            <sc-if value="{{ s.edge }}" hint-placeholder-val="{{ false }}"><span style="font-size:10.5px;color:#747480;">Edge case</span></sc-if>
+          </span>
+          <span style="width:7px;height:7px;border-radius:50%;background:{{ s.dot }};"></span>
+        </button>
+      </sc-for>
+    </nav>
+  </aside>
+
+  <main ref="{{ stageRef }}" style="flex:1;min-width:0;position:relative;overflow:hidden;">
+    <div data-screen-label="VIA frame" style="position:absolute;left:50%;top:50%;width:1440px;height:900px;transform:translate(-50%,-50%) scale({{ scale }});background:#F6F6F8;overflow:hidden;box-shadow:0 12px 40px rgba(26,26,36,0.18);">
+
+      <header style="position:absolute;left:0;top:0;width:1440px;height:44px;background:#2E2E38;display:flex;align-items:center;color:#FFFFFF;">
+        <span class="material-symbols-rounded" style="font-size:22px;margin-left:15px;color:#FFFFFF;">menu</span>
+        <span style="margin-left:15px;font-weight:700;font-size:17px;letter-spacing:1.5px;">VIA</span>
+        <span style="margin-left:14px;font-size:17px;font-weight:300;">Virtual Internal Auditor</span>
+        <div style="margin-left:auto;width:273px;height:44px;background:#23232F;display:flex;align-items:center;justify-content:space-between;padding:0 18px 0 22px;box-sizing:border-box;">
+          <span style="font-size:14px;color:#FFFFFF;">Search...</span>
+          <span class="material-symbols-rounded" style="font-size:22px;">search</span>
+        </div>
+        <span style="margin-left:26px;width:28px;height:28px;border-radius:50%;background:#1777CF;display:flex;align-items:center;justify-content:center;font-size:12.5px;">JB</span>
+        <span class="material-symbols-rounded" style="margin:0 16px 0 24px;font-size:24px;font-variation-settings:'FILL' 1;">apps</span>
+      </header>
+
+      <nav aria-label="VIA modules" style="position:absolute;left:0;top:44px;width:53px;bottom:0;background:#2E2E38;display:flex;flex-direction:column;padding-top:9px;">
+        <sc-for list="{{ railIcons }}" as="r" hint-placeholder-count="11">
+          <div style="height:49px;display:flex;align-items:center;justify-content:center;position:relative;background:{{ r.bg }};color:#FFFFFF;">
+            <span style="position:absolute;left:0;top:0;bottom:0;width:5px;background:{{ r.bar }};"></span>
+            <span class="material-symbols-rounded" style="font-size:22px;font-variation-settings:'FILL' 1;">{{ r.icon }}</span>
+          </div>
+        </sc-for>
+        <div style="margin-top:auto;height:49px;display:flex;align-items:center;justify-content:center;color:#FFFFFF;">
+          <span class="material-symbols-rounded" style="font-size:22px;font-variation-settings:'FILL' 1;">help</span>
+        </div>
+      </nav>
+
+      <div style="position:absolute;left:53px;top:44px;right:0;bottom:0;overflow-y:auto;">
+        <div style="background:#FFFFFF;height:104px;position:relative;padding:0 22px;box-sizing:border-box;box-shadow:0 1px 3px rgba(35,35,47,0.06);">
+          <div style="position:absolute;top:12px;left:22px;font-size:9px;font-weight:700;letter-spacing:1.2px;color:#747480;display:flex;align-items:center;gap:3px;">HOME <span class="material-symbols-rounded" style="font-size:11px;">chevron_right</span> RISK MONITORING</div>
+          <h1 style="position:absolute;top:28px;left:22px;margin:0;font-size:20px;font-weight:400;color:#2E2E38;letter-spacing:0.2px;">Southwest Financial</h1>
+          <div style="position:absolute;right:22px;top:22px;display:flex;gap:7px;">
+            <button style="height:34px;padding:0 13px;border:1px solid #EAEAF2;background:#FFFFFF;border-radius:2px;font-size:13px;color:#2E2E38;display:flex;align-items:center;gap:5px;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:16px;">swap_horiz</span>Manage scopes</button>
+            <div style="display:flex;height:34px;">
+              <button style="padding:0 12px;border:none;background:#747480;color:#FFFFFF;font-size:13px;border-radius:2px 0 0 2px;cursor:pointer;">Take action</button>
+              <button aria-label="More actions" style="width:34px;border:none;border-left:1px solid #5F5F6A;background:#747480;color:#FFFFFF;border-radius:0 2px 2px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:20px;">expand_more</span></button>
+            </div>
+          </div>
+          <div role="tablist" style="position:absolute;left:22px;bottom:0;display:flex;gap:24px;">
+            <button role="tab" aria-selected="{{ isOverview }}" onClick="{{ goOverview }}" style="height:40px;padding:0;border:none;background:none;font-size:13.5px;cursor:pointer;color:{{ ovColor }};font-weight:{{ ovWeight }};box-shadow:inset 0 -3px 0 {{ ovLine }};">Overview</button>
+            <button role="tab" aria-selected="{{ isRisks }}" onClick="{{ goRisks }}" style="height:40px;padding:0;border:none;background:none;font-size:13.5px;cursor:pointer;color:{{ rkColor }};font-weight:{{ rkWeight }};box-shadow:inset 0 -3px 0 {{ rkLine }};">Risks</button>
+            <span style="height:40px;display:flex;align-items:center;font-size:13.5px;color:#747480;">Scope details</span>
+            <span style="height:40px;display:flex;align-items:center;font-size:13.5px;color:#747480;">Actions</span>
+          </div>
+        </div>
+
+        <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:24px 22px 32px;display:flex;flex-direction:column;gap:24px;">
+            <div style="display:grid;grid-template-columns:437px 884px;gap:22px;">
+              <section style="background:#FFFFFF;height:591px;padding:26px 23px;box-sizing:border-box;box-shadow:0 1px 2px rgba(35,35,47,0.07);border-radius:2px;">
+                <h2 style="margin:0;font-size:17px;font-weight:500;">Risks summary</h2>
+                <p style="margin:12px 0 0;font-size:13px;color:#3A3A44;">Overview of risks monitored by their risk indicators</p>
+                <div style="position:relative;width:180px;height:180px;margin:30px auto 0;">
+                  <svg width="180" height="180" viewBox="0 0 180 180" aria-hidden="true">
+                    <sc-for list="{{ donut }}" as="d" hint-placeholder-count="7">
+                      <circle cx="90" cy="90" r="76" fill="none" stroke="{{ d.color }}" stroke-width="13" stroke-dasharray="{{ d.dash }}" stroke-dashoffset="{{ d.off }}" transform="rotate(-90 90 90)"></circle>
+                    </sc-for>
+                  </svg>
+                  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                    <span style="font-size:34px;font-weight:400;line-height:1;">851</span>
+                    <span style="font-size:11px;letter-spacing:0.5px;color:#585860;margin-top:4px;">TOTAL RISKS</span>
+                  </div>
+                </div>
+                <div style="margin-top:44px;padding-right:13px;display:flex;flex-direction:column;">
+                  <sc-for list="{{ legend }}" as="l" hint-placeholder-count="7">
+                    <div style="height:31px;display:flex;align-items:center;gap:10px;font-size:12px;">
+                      <span style="width:9px;height:9px;border-radius:50%;background:{{ l.color }};box-shadow:{{ l.ring }};"></span>
+                      <span style="flex:1;">{{ l.label }}</span>
+                      <span style="font-variant-numeric:tabular-nums;">{{ l.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+
+              <section style="background:#FFFFFF;height:591px;padding:26px 23px 0;box-sizing:border-box;box-shadow:0 1px 2px rgba(35,35,47,0.07);border-radius:2px;position:relative;">
+                <h2 style="margin:0;font-size:17px;font-weight:500;">Risk overview by in scope locations</h2>
+                <p style="margin:12px 0 0;font-size:13px;line-height:21px;color:#3A3A44;max-width:660px;">Rolled up risk indicators by geographic locations covered. The number represents the count of legal entities for that location and the colour represents the overall rolled up risk indicator score for that location</p>
+                <div style="margin-top:18px;display:flex;align-items:center;border-bottom:1px solid #EAEAF2;">
+                  <button onClick="{{ mapLoc }}" style="height:40px;padding:0 20px;border:none;background:none;display:flex;align-items:center;gap:8px;font-size:13.5px;cursor:pointer;font-weight:{{ locW }};color:#2E2E38;box-shadow:inset 0 -3px 0 {{ locLine }};">Locations <span style="font-size:12px;background:#EAEAF2;border-radius:10px;padding:1px 7px;font-weight:400;">3</span></button>
+                  <button onClick="{{ mapEnt }}" style="height:40px;padding:0 20px;border:none;background:none;display:flex;align-items:center;gap:8px;font-size:13.5px;cursor:pointer;font-weight:{{ entW }};color:#2E2E38;box-shadow:inset 0 -3px 0 {{ entLine }};">Legal entities <span style="font-size:12px;background:#EAEAF2;border-radius:10px;padding:1px 7px;font-weight:400;">10</span></button>
+                  <button onClick="{{ mapReset }}" style="margin-left:auto;margin-right:18px;border:none;background:none;font-size:12px;color:#585860;display:flex;align-items:center;gap:4px;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:15px;">sync</span>Reset selection</button>
+                </div>
+                <div style="position:relative;height:420px;overflow:hidden;">
+                  <svg width="800" height="420" viewBox="0 0 800 420" style="position:absolute;left:50px;top:6px;" aria-label="World map of in-scope locations">
+                    <g transform="{{ mapTransform }}" style="transition:transform 250ms ease-out;">
+                      <sc-for list="{{ mapPaths }}" as="p" hint-placeholder-count="0">
+                        <path d="{{ p.d }}" fill="{{ p.fill }}" stroke="#FFFFFF" stroke-width="0.6" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ mapLeave }}"></path>
+                      </sc-for>
+                    </g>
+                  </svg>
+                  <sc-if value="{{ hasMapTip }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;left:{{ mapTipX }}px;top:{{ mapTipY }}px;transform:translate(-50%,-110%);background:#1A1A24;color:#FFFFFF;font-size:12px;line-height:1.4;padding:6px 9px;border-radius:4px;pointer-events:none;white-space:nowrap;">
+                      <div style="font-weight:700;">{{ mapTipTitle }}</div>
+                      <div>{{ mapTipText }}</div>
+                    </div>
+                  </sc-if>
+                  <div style="position:absolute;left:4px;bottom:34px;display:flex;flex-direction:column;gap:8px;">
+                    <button aria-label="Zoom in" onClick="{{ zoomIn }}" style="width:34px;height:34px;background:#FFFFFF;border:1px solid #C4C4CD;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:22px;">add</span></button>
+                    <button aria-label="Zoom out" onClick="{{ zoomOut }}" style="width:34px;height:34px;background:#FFFFFF;border:1px solid #C4C4CD;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:22px;">remove</span></button>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;">
+              <section style="background:#FFFFFF;padding:26px 23px;box-shadow:0 1px 2px rgba(35,35,47,0.07);border-radius:2px;">
+                <h2 style="margin:0;font-size:17px;font-weight:500;">Top risks</h2>
+                <p style="margin:12px 0 0;font-size:13px;color:#3A3A44;">This is a summary of the risks with the highest risk indicators</p>
+                <div style="margin-top:28px;display:grid;grid-template-columns:120px 1fr;row-gap:14px;font-size:11.5px;align-items:center;">
+                  <span style="font-weight:700;">Risk indicator</span><span style="font-weight:700;">Risk name</span>
+                  <span><span style="background:#B9251C;color:#FFFFFF;border-radius:999px;padding:3px 12px;font-size:11.5px;">Very high</span></span><span>Actual versus budget comparisons are not routinely prepared and analyzed.</span>
+                  <span><span style="background:#B9251C;color:#FFFFFF;border-radius:999px;padding:3px 12px;font-size:11.5px;">Very high</span></span><span>Treasury payments can be created and released by the same user.</span>
+                  <span><span style="background:#B9251C;color:#FFFFFF;border-radius:999px;padding:3px 12px;font-size:11.5px;">Very high</span></span><span>Vendor master data changes are not independently reviewed.</span>
+                </div>
+              </section>
+              <section style="background:#FFFFFF;padding:26px 23px;box-shadow:0 1px 2px rgba(35,35,47,0.07);border-radius:2px;">
+                <h2 style="margin:0;font-size:17px;font-weight:500;">Accepted risks</h2>
+                <p style="margin:12px 0 0;font-size:13px;line-height:21px;color:#3A3A44;">This is a summary of accepted risks in all locations. In order to view specific location's risk, please see Risks tab</p>
+                <div style="margin-top:20px;display:grid;grid-template-columns:120px 1fr;row-gap:14px;font-size:11.5px;align-items:center;">
+                  <span style="font-weight:700;">Risk indicator</span><span style="font-weight:700;">Risk name</span>
+                  <span><span style="background:#FFB46A;color:#1A1A24;border-radius:999px;padding:3px 12px;">Medium</span></span><span>Physical access logs at the São Paulo office are reviewed quarterly, not monthly.</span>
+                  <span><span style="background:#8CE8A3;color:#1A1A24;border-radius:999px;padding:3px 12px;">Low</span></span><span>Petty cash counts are not evidenced for the London branch.</span>
+                </div>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isRisks }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:24px 22px 32px;">
+            <section style="background:#FFFFFF;padding:26px 23px;box-shadow:0 1px 2px rgba(35,35,47,0.07);border-radius:2px;max-width:1343px;">
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
+                <div>
+                  <h2 style="margin:0;font-size:17px;font-weight:500;">All risks</h2>
+                  <p style="margin:12px 0 0;font-size:13px;color:#3A3A44;">851 risks across 3 locations and 10 legal entities, sorted by risk indicator</p>
+                </div>
+                <span style="font-size:12px;color:#585860;">Showing 1–10 of 851</span>
+              </div>
+              <div style="margin-top:20px;display:grid;grid-template-columns:72px minmax(0,1fr) 120px 150px 100px 100px 110px 80px;font-size:12px;">
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">ID</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Risk name</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Location</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Legal entity</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Risk indicator</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Owner</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Due date</span>
+                <span style="padding:10px 8px;background:#F3F3F5;font-weight:700;">Status</span>
+                <sc-for list="{{ riskRows }}" as="r" hint-placeholder-count="10">
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;color:#585860;">{{ r.id }}</span>
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;">{{ r.name }}</span>
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;">{{ r.loc }}</span>
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;">{{ r.ent }}</span>
+                  <span style="padding:10px 8px;border-bottom:1px solid #EAEAF2;"><span style="display:inline-block;border-radius:999px;padding:2px 10px;background:{{ r.pillBg }};color:{{ r.pillFg }};">{{ r.ind }}</span></span>
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;">{{ r.owner }}</span>
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;">{{ r.due }}</span>
+                  <span style="padding:12px 8px;border-bottom:1px solid #EAEAF2;font-weight:{{ r.stW }};color:{{ r.stC }};">{{ r.status }}</span>
+                </sc-for>
+              </div>
+            </section>
+          </div>
+        </sc-if>
+      </div>
+
+      <button onClick="{{ openFromTab }}" aria-label="{{ tabAria }}" style="position:absolute;right:0;top:389px;width:46px;height:122px;border:none;border-radius:10px 0 0 10px;background:linear-gradient(180deg,#FF4B3A 0%,#FF7A2A 50%,#FF9E1B 100%);color:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;z-index:15;opacity:{{ tabOpacity }};visibility:{{ tabVis }};transition:opacity 200ms ease-out, visibility 200ms;box-shadow:-2px 2px 8px rgba(26,26,36,0.15);">
+        <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:13px;font-weight:500;letter-spacing:0.3px;">Genie</span>
+        <span style="position:relative;width:26px;height:26px;display:flex;align-items:center;justify-content:center;">
+          <sc-if value="{{ tabRing }}" hint-placeholder-val="{{ false }}">
+            <svg width="26" height="26" viewBox="0 0 26 26" style="position:absolute;inset:0;transform:rotate(-90deg);" aria-hidden="true">
+              <circle cx="13" cy="13" r="11" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"></circle>
+              <circle cx="13" cy="13" r="11" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-dasharray="69.1" stroke-dashoffset="{{ ringOffset }}"></circle>
+            </svg>
+          </sc-if>
+          <span class="material-symbols-rounded" style="font-size:18px;font-variation-settings:'FILL' 1;">auto_awesome</span>
+        </span>
+        <sc-if value="{{ answerReady }}" hint-placeholder-val="{{ false }}">
+          <span style="position:absolute;top:8px;left:8px;width:10px;height:10px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px #C70117;"></span>
+        </sc-if>
+      </button>
+      <sc-if value="{{ tabLabel }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="position:absolute;right:56px;top:432px;background:#1A1A24;color:#FFFFFF;font-size:12px;padding:7px 11px;border-radius:4px;display:flex;align-items:center;gap:7px;z-index:15;box-shadow:0 4px 12px rgba(26,26,36,0.2);">
+          <span style="width:7px;height:7px;border-radius:50%;background:{{ tabLabelDot }};"></span>{{ tabLabelText }}
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPopped }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;right:0;top:395px;width:196px;background:#FFFFFF;border:1px solid #E1E1E6;border-right:none;border-radius:8px 0 0 8px;box-shadow:0 4px 14px rgba(35,35,47,0.14);padding:12px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;z-index:14;">
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.4;">
+            <span class="material-symbols-rounded" style="font-size:18px;color:#FF7A2A;font-variation-settings:'FILL' 1;">auto_awesome</span>
+            <span>Genie is open in a separate window</span>
+          </div>
+          <button onClick="{{ bringBack }}" style="align-self:flex-start;margin-left:26px;height:30px;padding:0 12px;border:none;border-radius:2px;background:#2E2E38;color:#FFFFFF;font-size:12.5px;cursor:pointer;">Bring back</button>
+        </div>
+        <div style="position:absolute;left:740px;top:62px;width:520px;height:806px;background:#FFFFFF;border:1px solid #C4C4CD;border-radius:8px;overflow:hidden;box-shadow:0 24px 60px rgba(26,26,36,0.35);z-index:19;">
+          <div style="height:38px;background:#E7E7EA;display:flex;align-items:center;gap:10px;padding:0 12px;">
+            <span style="display:flex;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#C4C4CD;"></span><span style="width:10px;height:10px;border-radius:50%;background:#C4C4CD;"></span><span style="width:10px;height:10px;border-radius:50%;background:#C4C4CD;"></span></span>
+            <span style="flex:1;height:24px;background:#FFFFFF;border-radius:4px;font-size:11.5px;color:#585860;display:flex;align-items:center;gap:6px;padding:0 10px;"><span class="material-symbols-rounded" style="font-size:14px;">lock</span>via.app/genie · Southwest Financial</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <aside aria-label="Genie" aria-hidden="{{ panelHidden }}" style="position:absolute;top:{{ pTop }}px;right:{{ pRight }}px;width:{{ pWidth }}px;height:{{ pHeight }}px;transform:{{ pTransform }};visibility:{{ pVis }};z-index:20;background:#F6F6F8;display:flex;flex-direction:column;border-left:1px solid #2E2E38;box-shadow:-6px 0 18px rgba(26,26,36,0.12);transition:width 250ms cubic-bezier(0.2,0,0,1), transform 250ms cubic-bezier(0.2,0,0,1), top 250ms ease-out, right 250ms ease-out, height 250ms ease-out, visibility 250ms;">
+
+        <div style="height:46px;flex-shrink:0;background:linear-gradient(90deg,#FF9E1B 0%,#FF7A2A 55%,#FF4B3A 100%);display:flex;align-items:center;padding:0 10px 0 16px;color:#FFFFFF;">
+          <span class="material-symbols-rounded" style="font-size:22px;font-variation-settings:'FILL' 1;">auto_awesome</span>
+          <span style="margin-left:14px;font-size:13.5px;font-weight:500;">Genie</span>
+          <div style="margin-left:auto;display:flex;gap:2px;">
+            <div style="position:relative;">
+              <button onClick="{{ onPop }}" aria-label="{{ popLabel }}" onMouseEnter="{{ tipPopOn }}" onMouseLeave="{{ tipOff }}" onFocus="{{ tipPopOn }}" onBlur="{{ tipOff }}" style="width:30px;height:30px;border:none;background:transparent;border-radius:4px;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,255,255,0.2);"><span class="material-symbols-rounded" style="font-size:21px;">{{ popIcon }}</span></button>
+              <sc-if value="{{ tipPop }}" hint-placeholder-val="{{ false }}"><span role="tooltip" style="position:absolute;top:36px;right:-40px;background:#1A1A24;color:#FFFFFF;font-size:11.5px;padding:5px 8px;border-radius:4px;white-space:nowrap;z-index:5;">{{ popLabel }}</span></sc-if>
+            </div>
+            <div style="position:relative;">
+              <button onClick="{{ onClose }}" aria-label="Close" onMouseEnter="{{ tipCloseOn }}" onMouseLeave="{{ tipOff }}" onFocus="{{ tipCloseOn }}" onBlur="{{ tipOff }}" style="width:30px;height:30px;border:none;background:transparent;border-radius:4px;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,255,255,0.2);"><span class="material-symbols-rounded" style="font-size:22px;">close</span></button>
+              <sc-if value="{{ tipClose }}" hint-placeholder-val="{{ false }}"><span role="tooltip" style="position:absolute;top:36px;right:-6px;background:#1A1A24;color:#FFFFFF;font-size:11.5px;padding:5px 8px;border-radius:4px;white-space:nowrap;z-index:5;">Close</span></sc-if>
+            </div>
+            <sc-if value="{{ showExpandBtn }}" hint-placeholder-val="{{ true }}">
+              <div style="position:relative;">
+                <button onClick="{{ toggleExpand }}" aria-label="{{ expandLabel }}" aria-pressed="{{ isExpanded }}" onMouseEnter="{{ tipExpOn }}" onMouseLeave="{{ tipOff }}" onFocus="{{ tipExpOn }}" onBlur="{{ tipOff }}" style="width:30px;height:30px;border:none;background:transparent;border-radius:4px;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:rgba(255,255,255,0.2);"><span class="material-symbols-rounded" style="font-size:22px;">{{ expandIcon }}</span></button>
+                <sc-if value="{{ tipExp }}" hint-placeholder-val="{{ false }}"><span role="tooltip" style="position:absolute;top:36px;right:0;background:#1A1A24;color:#FFFFFF;font-size:11.5px;padding:5px 8px;border-radius:4px;white-space:nowrap;z-index:5;">{{ expandLabel }}</span></sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="flex-shrink:0;background:#FFFFFF;box-shadow:0 2px 4px rgba(26,26,36,0.08);position:relative;z-index:3;">
+          <div style="height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 15px;">
+            <button onClick="{{ togglePicker }}" aria-expanded="{{ pickerOpen }}" style="border:none;background:none;padding:4px 0;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:500;color:#1A1A24;cursor:pointer;">{{ sourceLabel }}<span class="material-symbols-rounded" style="font-size:18px;transform:rotate({{ chevRot }}deg);transition:transform 150ms ease;">expand_more</span></button>
+            <div style="display:flex;gap:14px;">
+              <button onClick="{{ newChat }}" style="border:none;background:none;padding:4px 0;display:flex;align-items:center;gap:4px;font-size:11.5px;color:#1A1A24;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:17px;">add</span>New Chat</button>
+              <button onClick="{{ toggleHistory }}" aria-expanded="{{ historyOpen }}" style="border:none;background:none;padding:4px 0;display:flex;align-items:center;gap:4px;font-size:11.5px;color:#1A1A24;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:17px;">history</span>History</button>
+            </div>
+          </div>
+          <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:4px 15px 14px;display:flex;flex-direction:column;gap:2px;border-top:1px solid #EAEAF2;">
+              <sc-for list="{{ pickerRows }}" as="o" hint-placeholder-count="4">
+                <button role="checkbox" aria-checked="{{ o.on }}" onClick="{{ o.toggle }}" style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px;align-items:start;padding:7px 0;border:none;background:none;text-align:left;cursor:pointer;">
+                  <span style="width:14px;height:14px;margin-top:1px;border:1.5px solid #2E2E38;border-radius:1px;background:{{ o.boxBg }};display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-sizing:border-box;"><span class="material-symbols-rounded" style="font-size:12px;font-weight:700;opacity:{{ o.checkOp }};">check</span></span>
+                  <span style="display:flex;flex-direction:column;gap:2px;">
+                    <span style="display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:#1A1A24;">{{ o.name }}<span style="font-size:9px;letter-spacing:0.6px;font-weight:700;padding:1px 5px;border-radius:2px;background:{{ o.tagBg }};color:{{ o.tagFg }};">{{ o.tag }}</span></span>
+                    <span style="font-size:11px;line-height:1.4;color:#585860;">{{ o.desc }}</span>
+                  </span>
+                </button>
+              </sc-for>
+              <button role="checkbox" aria-checked="{{ allOn }}" onClick="{{ toggleAll }}" style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px;align-items:center;padding:7px 0;border:none;background:none;text-align:left;cursor:pointer;">
+                <span style="width:14px;height:14px;border:1.5px solid #2E2E38;border-radius:1px;background:{{ allBg }};display:flex;align-items:center;justify-content:center;color:#FFFFFF;box-sizing:border-box;"><span class="material-symbols-rounded" style="font-size:12px;opacity:{{ allOp }};">check</span></span>
+                <span style="font-size:12px;font-weight:500;color:#1A1A24;">Select all</span>
+              </button>
+              <sc-if value="{{ pickerMid }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:11px;color:#585860;line-height:1.4;">Applies to new answers. Earlier answers keep their sources.</span>
+              </sc-if>
+              <button onClick="{{ applySources }}" aria-disabled="{{ applyDisabled }}" style="margin-top:6px;align-self:flex-start;height:34px;padding:0 16px;border:none;border-radius:2px;background:#2E2E38;color:#FFFFFF;font-size:14.5px;cursor:pointer;opacity:{{ applyOp }};">Apply</button>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="flex:1;min-height:0;position:relative;">
+          <div ref="{{ threadRef }}" aria-live="polite" aria-label="Conversation" style="position:absolute;inset:0;overflow-y:auto;padding:15px 15px 12px;box-sizing:border-box;">
+            <div style="display:flex;flex-direction:column;gap:12px;min-height:100%;"><div style="flex:1 0 0px;margin-bottom:-12px;"></div>
+              <sc-for list="{{ thread }}" as="m" hint-placeholder-count="1">
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <sc-if value="{{ m.isDivider }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 0;">
+                      <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <span style="flex:1;height:1px;background:#C4C4CD;"></span>
+                        <span style="font-size:11.5px;color:#585860;display:flex;align-items:center;gap:6px;text-align:center;">
+                          <sc-if value="{{ m.dot }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;border-radius:50%;background:#168736;flex-shrink:0;"></span></sc-if>{{ m.text }}
+                        </span>
+                        <span style="flex:1;height:1px;background:#C4C4CD;"></span>
+                      </div>
+                      <sc-if value="{{ m.hasNote }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:11px;color:#585860;display:flex;align-items:center;gap:6px;text-align:center;max-width:90%;line-height:1.4;"><span style="font-size:9px;letter-spacing:0.6px;font-weight:700;padding:1px 5px;border-radius:2px;background:#FFF6E0;color:#7A4E00;">EXTERNAL</span>{{ m.noteText }}</span>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isUser }}" hint-placeholder-val="{{ false }}">
+                    <div style="background:#F3F3F5;border:1px solid #E1E1E6;padding:13px 16px 15px 13px;">
+                      <div style="display:flex;align-items:center;gap:12px;">
+                        <span style="position:relative;width:36px;height:36px;border-radius:50%;border:1px solid #C4C4CD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:14px;box-sizing:border-box;">JB<span style="position:absolute;left:28px;bottom:-1px;width:8px;height:8px;border-radius:50%;background:#168736;border:1.5px solid #FFFFFF;"></span></span>
+                        <span style="font-size:14px;">You</span>
+                        <sc-if value="{{ m.hasTag }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:#585860;background:#FFFFFF;border:1px solid #E1E1E6;border-radius:999px;padding:1px 8px;display:flex;align-items:center;gap:3px;"><span class="material-symbols-rounded" style="font-size:13px;">terminal</span>{{ m.tag }}</span></sc-if>
+                      </div>
+                      <div style="margin:4px 0 0 48px;font-size:16px;line-height:1.42;word-break:break-word;">{{ m.text }}</div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ m.isAi }}" hint-placeholder-val="{{ true }}">
+                    <div style="background:#FFFFFF;padding:13px 16px 16px 13px;box-shadow:0 1px 2px rgba(35,35,47,0.06);">
+                      <div style="display:flex;align-items:center;gap:10px;">
+                        <span style="position:relative;width:30px;height:30px;flex-shrink:0;">
+                          <x-import component-from-global-scope="DesignSystem_df584e.GenIAusMark" size="{{ 30 }}" hint-size="30px,30px"></x-import>
+                          <span style="position:absolute;right:-2px;bottom:-2px;width:8px;height:8px;border-radius:50%;background:#168736;border:1.5px solid #FFFFFF;"></span>
+                        </span>
+                        <span style="font-size:14px;">GenIAus</span>
+                        <sc-if value="{{ m.hasLabel }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:500;padding:1px 8px;border-radius:999px;background:#FFF6E0;color:#2E2E38;border:1px solid #FFB81C;">{{ m.label }}</span></sc-if>
+                        <sc-if value="{{ m.answer }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;font-size:11px;color:#585860;display:flex;align-items:center;gap:3px;"><span class="material-symbols-rounded" style="font-size:14px;color:#FF7A2A;font-variation-settings:'FILL' 1;">auto_awesome</span>AI-generated</span></sc-if>
+                      </div>
+                      <div style="margin:8px 0 0 41px;display:flex;flex-direction:column;gap:10px;font-size:16px;line-height:1.42;text-wrap:pretty;">
+                        <sc-if value="{{ m.hasWarn }}" hint-placeholder-val="{{ false }}">
+                          <div role="alert" style="background:#FFF6E0;border:1px solid #FFB81C;border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;font-size:13px;line-height:1.4;">
+                            <span style="display:flex;gap:7px;align-items:flex-start;"><span class="material-symbols-rounded" style="font-size:18px;color:#B37400;font-variation-settings:'FILL' 1;">warning</span>{{ m.warnText }}</span>
+                            <button onClick="{{ m.onWarn }}" style="align-self:flex-start;margin-left:25px;height:28px;padding:0 10px;border:1px solid #2E2E38;background:#FFFFFF;border-radius:2px;font-size:12.5px;cursor:pointer;display:flex;align-items:center;gap:4px;"><span class="material-symbols-rounded" style="font-size:16px;">refresh</span>{{ m.warnBtn }}</button>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ m.hasTitle }}" hint-placeholder-val="{{ false }}"><div style="font-weight:700;">{{ m.title }}</div></sc-if>
+                        <sc-for list="{{ m.paras }}" as="p" hint-placeholder-count="1"><p style="margin:0;">{{ p }}</p></sc-for>
+                        <sc-if value="{{ m.hasList }}" hint-placeholder-val="{{ false }}">
+                          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14.5px;">
+                            <sc-for list="{{ m.list }}" as="li" hint-placeholder-count="3"><li>{{ li }}</li></sc-for>
+                          </ul>
+                        </sc-if>
+                        <sc-if value="{{ m.table }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:relative;overflow:hidden;border:1px solid #E1E1E6;">
+                            <table style="border-collapse:collapse;font-size:12.5px;line-height:1.35;width:100%;min-width:{{ tableMinW }};">
+                              <thead><tr style="background:#F3F3F5;text-align:left;">
+                                <th style="padding:8px 10px;font-weight:700;">Location</th>
+                                <th style="padding:8px 10px;font-weight:700;">Legal entities</th>
+                                <th style="padding:8px 10px;font-weight:700;">Very high</th>
+                                <th style="padding:8px 10px;font-weight:700;">High</th>
+                                <th style="padding:8px 10px;font-weight:700;">Top risk</th>
+                              </tr></thead>
+                              <tbody>
+                                <sc-for list="{{ ansRows }}" as="r" hint-placeholder-count="3">
+                                  <tr style="border-top:1px solid #E1E1E6;vertical-align:top;">
+                                    <td style="padding:8px 10px;white-space:nowrap;">{{ r.loc }}</td>
+                                    <td style="padding:8px 10px;">{{ r.ent }}</td>
+                                    <td style="padding:8px 10px;font-weight:700;color:#B9251C;">{{ r.vh }}</td>
+                                    <td style="padding:8px 10px;">{{ r.h }}</td>
+                                    <td style="padding:8px 10px;">{{ r.top }}</td>
+                                  </tr>
+                                </sc-for>
+                              </tbody>
+                            </table>
+                            <sc-if value="{{ m.showFade }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:0;right:0;bottom:0;width:72px;background:linear-gradient(90deg,rgba(255,255,255,0),#FFFFFF 85%);pointer-events:none;"></span></sc-if>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ m.showExpandHint }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#585860;flex-wrap:wrap;">
+                            <span class="material-symbols-rounded" style="font-size:16px;">zoom_out_map</span>This answer reads better wider —
+                            <button onClick="{{ toggleExpand }}" style="border:none;background:none;padding:0;font-size:12.5px;font-weight:700;color:#155CB4;text-decoration:underline;cursor:pointer;">Expand</button>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ m.hasFixes }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <sc-for list="{{ m.fixList }}" as="f" hint-placeholder-count="2">
+                              <button onClick="{{ f.onClick }}" style="height:32px;padding:0 12px;border:1px solid #2E2E38;background:#FFFFFF;border-radius:2px;font-size:13px;cursor:pointer;" style-hover="background:#F3F3F5;">{{ f.label }}</button>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+                    <sc-if value="{{ m.answer }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:8px;padding:0 2px;">
+                        <div style="display:flex;align-items:center;gap:2px;">
+                          <button onClick="{{ m.onCopy }}" aria-label="Copy" title="Copy" style="width:24px;height:24px;border:none;background:none;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:#E7E7EA;"><span class="material-symbols-rounded" style="font-size:16px;">content_copy</span></button>
+                          <button aria-label="Give feedback" title="Give feedback" style="width:24px;height:24px;border:none;background:none;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:#E7E7EA;"><span class="material-symbols-rounded" style="font-size:16px;">feedback</span></button>
+                          <button aria-label="Regenerate" title="Regenerate" style="width:24px;height:24px;border:none;background:none;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:#E7E7EA;"><span class="material-symbols-rounded" style="font-size:16px;">autorenew</span></button>
+                          <button aria-label="Compare with sources" title="Compare with sources" style="width:24px;height:24px;border:none;background:none;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:#E7E7EA;"><span class="material-symbols-rounded" style="font-size:16px;">manage_search</span></button>
+                          <button aria-label="Export" title="Export" style="width:24px;height:24px;border:none;background:none;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;" style-hover="background:#E7E7EA;"><span class="material-symbols-rounded" style="font-size:16px;">article</span></button>
+                          <span style="font-size:11px;color:#168736;margin-left:6px;">{{ m.copiedTxt }}</span>
+                        </div>
+                        <sc-if value="{{ m.hasCites }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;flex-direction:column;gap:7px;">
+                            <span style="font-size:11.5px;display:flex;align-items:center;gap:4px;"><b>Citations:</b> {{ m.citeLabel }}<span class="material-symbols-rounded" style="font-size:16px;">expand_more</span></span>
+                            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                              <sc-for list="{{ m.citeChips }}" as="c" hint-placeholder-count="3">
+                                <button onClick="{{ c.onClick }}" aria-expanded="{{ c.active }}" style="height:23px;padding:0 9px;border:1px solid #2E2E38;border-radius:999px;font-size:11.5px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};">{{ c.label }}</button>
+                              </sc-for>
+                              <sc-if value="{{ m.hasMore }}" hint-placeholder-val="{{ false }}">
+                                <button onClick="{{ m.onMore }}" style="height:23px;padding:0 9px;border:1px solid #2E2E38;border-radius:999px;font-size:11.5px;cursor:pointer;background:#FFFFFF;">{{ m.moreLabel }}</button>
+                              </sc-if>
+                            </div>
+                            <sc-if value="{{ m.hasPreview }}" hint-placeholder-val="{{ false }}">
+                              <div role="dialog" aria-label="Citation preview" style="background:#FFFFFF;border:1px solid #E1E1E6;border-radius:4px;box-shadow:0 6px 16px rgba(35,35,47,0.12);padding:12px;display:flex;flex-direction:column;gap:9px;">
+                                <div style="display:flex;align-items:center;gap:7px;">
+                                  <span class="material-symbols-rounded" style="font-size:18px;color:#585860;">{{ m.pvIcon }}</span>
+                                  <span style="font-size:12.5px;font-weight:700;">{{ m.pvFile }}</span>
+                                  <span style="font-size:11.5px;color:#585860;">{{ m.pvPage }}</span>
+                                  <button onClick="{{ m.pvClose }}" aria-label="Close preview" style="margin-left:auto;width:22px;height:22px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:17px;">close</span></button>
+                                </div>
+                                <div style="background:#F6F6FA;padding:9px 11px;font-size:13px;line-height:1.45;">“{{ m.pvQuote }}”</div>
+                                <button onClick="{{ m.pvClose }}" style="align-self:flex-start;border:none;background:none;padding:0;font-size:12.5px;color:#155CB4;display:flex;align-items:center;gap:4px;cursor:pointer;">{{ m.pvOpen }}<span class="material-symbols-rounded" style="font-size:15px;">open_in_new</span></button>
+                              </div>
+                            </sc-if>
+                            <sc-if value="{{ m.hasCiteNote }}" hint-placeholder-val="{{ false }}">
+                              <span style="font-size:11.5px;color:#585860;display:flex;align-items:center;gap:5px;"><span class="material-symbols-rounded" style="font-size:15px;color:#B37400;">error</span>{{ m.citeNote }}</span>
+                            </sc-if>
+                          </div>
+                        </sc-if>
+                        <div style="display:flex;flex-direction:column;gap:4px;">
+                          <span style="font-size:11.5px;font-weight:700;">Data Source</span>
+                          <span style="font-size:12px;line-height:1.45;color:#585860;">This response has been generated from the following resources: {{ m.dataSource }}</span>
+                          <button onClick="{{ openPicker }}" style="margin-top:6px;align-self:flex-start;height:34px;padding:0 13px;border:none;border-radius:2px;background:#2E2E38;color:#FFFFFF;font-size:14px;cursor:pointer;">Change Source</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </sc-if>
+                </div>
+              </sc-for>
+
+              <sc-if value="{{ hasGen }}" hint-placeholder-val="{{ false }}">
+                <div role="status" style="background:#FFFFFF;padding:13px 16px 16px 13px;box-shadow:0 1px 2px rgba(35,35,47,0.06);">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:30px;height:30px;flex-shrink:0;"><x-import component-from-global-scope="DesignSystem_df584e.GenIAusMark" size="{{ 30 }}" hint-size="30px,30px"></x-import></span>
+                    <span style="font-size:14px;">GenIAus</span>
+                    <span style="margin-left:auto;font-size:12px;color:#585860;font-variant-numeric:tabular-nums;">{{ genElapsed }}</span>
+                  </div>
+                  <div style="margin:10px 0 0 41px;display:flex;flex-direction:column;gap:8px;">
+                    <sc-for list="{{ genRows }}" as="g" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:{{ g.color }};">
+                        <span style="width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                          <sc-if value="{{ g.spin }}" hint-placeholder-val="{{ false }}"><span style="width:13px;height:13px;border:2px solid #E1E1E6;border-top-color:#FF7A2A;border-radius:50%;animation:gspin 0.7s linear infinite;box-sizing:border-box;"></span></sc-if>
+                          <sc-if value="{{ g.hasIcon }}" hint-placeholder-val="{{ true }}"><span class="material-symbols-rounded" style="font-size:16px;color:{{ g.iconColor }};font-variation-settings:'FILL' {{ g.fill }};">{{ g.icon }}</span></sc-if>
+                        </span>
+                        {{ g.label }}
+                      </div>
+                    </sc-for>
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+                      <button onClick="{{ stopGen }}" style="height:30px;padding:0 12px;border:1px solid #2E2E38;background:#FFFFFF;border-radius:2px;font-size:12.5px;display:flex;align-items:center;gap:4px;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:16px;font-variation-settings:'FILL' 1;">stop_circle</span>Stop</button>
+                      <span style="font-size:11.5px;color:#585860;line-height:1.35;">You can close Genie and keep working. I'll tell you when it's ready.</span>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+          <sc-if value="{{ showWelcome }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;overflow-y:auto;padding:15px;box-sizing:border-box;background:#F6F6F8;">
+              <div role="dialog" aria-label="Welcome to Genie" style="background:#FFFFFF;padding:16px;box-shadow:0 1px 2px rgba(35,35,47,0.06);display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <x-import component-from-global-scope="DesignSystem_df584e.GenIAusMark" size="{{ 30 }}" hint-size="30px,30px"></x-import>
+                  <span style="font-size:16px;font-weight:700;">Welcome to Genie</span>
+                </div>
+                <p style="margin:0;font-size:14px;line-height:1.45;">GenIAus now works inside VIA. Ask questions about the page you're on without leaving it.</p>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <span style="font-size:12px;font-weight:700;">What I can do</span>
+                  <span style="display:flex;gap:8px;font-size:13px;line-height:1.4;"><span class="material-symbols-rounded" style="font-size:17px;">description</span>Answer questions from your audit documents, with citations</span>
+                  <span style="display:flex;gap:8px;font-size:13px;line-height:1.4;"><span class="material-symbols-rounded" style="font-size:17px;">visibility</span>Read this page when you turn on Page Awareness</span>
+                  <span style="display:flex;gap:8px;font-size:13px;line-height:1.4;"><span class="material-symbols-rounded" style="font-size:17px;">terminal</span>Shorten, spell check or find similar text from the Prompt Menu</span>
+                  <span style="display:flex;gap:8px;font-size:12px;line-height:1.4;color:#747480;"><span class="material-symbols-rounded" style="font-size:17px;">schedule</span>Coming later: help filling in forms and tasks</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:9px;">
+                  <span style="font-size:12px;font-weight:700;">Where I look</span>
+                  <sc-for list="{{ welcomeSources }}" as="o" hint-placeholder-count="4">
+                    <div style="display:flex;flex-direction:column;gap:2px;">
+                      <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;">{{ o.name }}<span style="font-size:9px;letter-spacing:0.6px;font-weight:700;padding:1px 5px;border-radius:2px;background:{{ o.tagBg }};color:{{ o.tagFg }};">{{ o.tag }}</span></span>
+                      <span style="font-size:11.5px;line-height:1.4;color:#585860;">{{ o.desc }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:8px;font-size:12.5px;line-height:1.45;background:#F3F3F5;padding:10px;">
+                  <span class="material-symbols-rounded" style="font-size:17px;">lock</span>
+                  <span>Your conversations are private to you. Audit data isn't shared with other users or used to train models.</span>
+                </div>
+                <span style="font-size:11.5px;color:#585860;line-height:1.4;">GenIAus can make mistakes. Check important results against the cited source.</span>
+                <button onClick="{{ gotIt }}" style="align-self:flex-start;height:34px;padding:0 18px;border:none;border-radius:2px;background:#2E2E38;color:#FFFFFF;font-size:14px;cursor:pointer;">Got it</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ historyOpen }}" hint-placeholder-val="{{ false }}">
+            <div role="dialog" aria-label="History" style="position:absolute;inset:0;overflow-y:auto;background:#FFFFFF;z-index:4;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px 15px;">
+                <span style="font-size:14px;font-weight:700;">History</span>
+                <button onClick="{{ toggleHistory }}" aria-label="Close history" style="width:28px;height:28px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:20px;">close</span></button>
+              </div>
+              <sc-for list="{{ historyGroups }}" as="hg" hint-placeholder-count="3">
+                <div style="padding:6px 0 8px;">
+                  <div style="padding:4px 15px;font-size:11px;font-weight:700;color:#747480;">{{ hg.label }}</div>
+                  <sc-for list="{{ hg.items }}" as="h" hint-placeholder-count="2">
+                    <button onClick="{{ toggleHistory }}" style="width:100%;border:none;text-align:left;padding:9px 15px;display:flex;flex-direction:column;gap:3px;cursor:pointer;background:{{ h.bg }};" style-hover="background:#F3F3F5;">
+                      <span style="font-size:13px;line-height:1.35;display:flex;gap:6px;align-items:baseline;">{{ h.q }}<sc-if value="{{ h.current }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px;background:#2E2E38;color:#FFFFFF;">Current</span></sc-if></span>
+                      <span style="font-size:11px;color:#747480;display:flex;align-items:center;gap:4px;"><span class="material-symbols-rounded" style="font-size:13px;">web_asset</span>{{ h.page }} · {{ h.time }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="flex-shrink:0;padding:0 15px 14px;display:flex;flex-direction:column;">
+          <sc-if value="{{ promptOpen }}" hint-placeholder-val="{{ false }}">
+            <div role="dialog" aria-label="Prompt Menu" style="background:#E7E7EA;margin:0 -1px;">
+              <div style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 15px;border-bottom:1px solid #C4C4CD;">
+                <span style="font-size:16px;">Prompt Menu</span>
+                <button onClick="{{ togglePrompt }}" aria-label="Close Prompt Menu" style="width:30px;height:30px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span class="material-symbols-rounded" style="font-size:22px;">close</span></button>
+              </div>
+              <div style="padding:10px 15px 15px;display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{ promptItems }}" as="pi" hint-placeholder-count="3">
+                  <button onClick="{{ pi.onClick }}" style="background:#FFFFFF;border:none;border-radius:2px;padding:11px 15px;text-align:left;display:flex;flex-direction:column;gap:2px;cursor:pointer;" style-hover="box-shadow:inset 0 0 0 1px #2E2E38;">
+                    <span style="font-size:16px;">{{ pi.title }}</span>
+                    <span style="font-size:12px;line-height:1.75;color:#2E2E38;">{{ pi.desc }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showChips }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;margin-right:-15px;padding-right:15px;">
+              <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="3">
+                <button onClick="{{ ch.onClick }}" style="flex-shrink:0;height:37px;padding:0 10px;border:none;border-radius:2px;background:#E7E7EA;font-size:15px;white-space:nowrap;cursor:pointer;" style-hover="background:#E1E1E6;">{{ ch.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="display:flex;gap:8px;margin-top:12px;align-items:stretch;">
+            <button onClick="{{ togglePrompt }}" aria-label="Prompt Menu" aria-expanded="{{ promptOpen }}" style="width:38px;min-height:57px;flex-shrink:0;border:1px solid #2E2E38;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:{{ pmBg }};color:{{ pmFg }};"><span class="material-symbols-rounded" style="font-size:22px;">terminal</span></button>
+            <div style="flex:1;min-width:0;min-height:57px;border:1px solid {{ inputBorder }};border-radius:2px;background:#FFFFFF;display:flex;align-items:center;padding:0 8px 0 14px;gap:6px;box-sizing:border-box;">
+              <textarea aria-label="Message GenIAus" value="{{ input }}" onChange="{{ onInput }}" onKeyDown="{{ onKey }}" placeholder="Let me know what you want me to find" rows="1" style="flex:1;min-width:0;border:none;resize:none;background:transparent;font-size:14.5px;line-height:1.4;height:{{ taH }}px;padding:0;overflow:hidden;"></textarea>
+              <button onClick="{{ send }}" aria-label="Send" aria-disabled="{{ sendDisabled }}" style="width:32px;height:32px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:{{ sendCursor }};opacity:{{ sendOp }};"><span class="material-symbols-rounded" style="font-size:26px;color:#FF7A2A;font-variation-settings:'FILL' 1;">send</span></button>
+            </div>
+          </div>
+          <div style="margin-top:8px;display:flex;flex-direction:column;gap:2px;">
+            <span aria-live="polite" style="font-size:12px;color:{{ counterColor }};font-weight:{{ counterW }};">{{ counter }}</span>
+            <sc-if value="{{ overLimit }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#C70117;">Shorten your message or attach the document instead.</span></sc-if>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const SRC = {
+  doc: { name: 'Document store', tag: 'INTERNAL', desc: 'Audit files in this engagement: reports, workpapers and risk registers.' },
+  help: { name: 'Help Center', tag: 'INTERNAL', desc: 'VIA guides and how-to articles.' },
+  web: { name: 'Internet', tag: 'EXTERNAL', desc: 'Public web, general knowledge up to March 2026. Not audit evidence.' },
+  page: { name: 'Page Awareness', tag: 'INTERNAL', desc: 'Reads the page you are on, only while this is ticked.' },
+};
+const ORDER = ['doc', 'help', 'web', 'page'];
+const CITES = {
+  alpha: { file: 'Alpha Rep.pdf', page: 14, quote: 'Budget-to-actual variance reviews were not evidenced for 4 of the 6 months sampled across the US legal entities.' },
+  y: { file: 'Y_Report.pdf', page: 3, quote: 'In the UK, one treasury user can both create and release outgoing payments above £250,000.' },
+  d2020: { file: '2020data_risk.pdf', page: 22, quote: 'A location is rated by the highest-rated risk among its legal entities.' },
+  q3: { file: 'Q3_controls_testing.xlsx', loc: 'Sheet US-FIN, row 41', quote: 'JE-07: 3 of 25 manual journals sampled lacked independent approval.' },
+  walk: { file: 'Walkthrough_US_close.docx', page: 6, quote: 'Variance analysis is prepared quarterly, not monthly as the finance policy requires.' },
+  reg: { file: 'Risk-register_FY26.pdf', page: 9, quote: 'R-0168 Vendor master data changes are not independently reviewed. Owner: unassigned.' },
+  pageTop: { file: 'This page · Top risks', loc: 'Southwest Financial › Overview', onPage: true, quote: 'Very high · Actual versus budget comparisons are not routinely prepared and analyzed.' },
+  pageRisks: { file: 'This page · Risks table', loc: 'Southwest Financial › Risks', onPage: true, quote: 'R-0142, R-0157 and R-0168 show status Overdue.' },
+  helpAccept: { file: 'Help Center · Accepting a risk', loc: 'Help Center article', quote: 'Accepted risks need an approver sign-off and an expiry date before they leave the open queue.' },
+};
+const Q1 = 'Which locations drive the very high risks?';
+const Q2 = 'Where do I record sign-off for an accepted risk?';
+const Q3 = 'Which very high risks have no owner assigned?';
+const Q4 = 'Which of the very high risks here are past due?';
+const U = (text, tag) => ({ kind: 'user', text, tag });
+const M = {
+  greet: { id: 'greet', kind: 'ai', paras: ['Hi there, I am GenIAus, a GenAI powered chat interface for VIA. How can I help you today?'] },
+  ask: { id: 'ask', kind: 'ai', title: 'Where should I look?', paras: ["I won't guess. Choose one or more sources and I'll answer your question from them."], fixes: [{ label: 'Choose sources', act: 'pick' }] },
+  a1: { id: 'a1', kind: 'ai', answer: true, step: 9, paras: ['Two of your three locations hold 11 of the 12 very high risks. The United States has 7 across 5 legal entities, mostly in budget review and journal approval. The United Kingdom has 4, concentrated in treasury payments. Brazil has 1.'], table: true, cites: ['alpha', 'y', 'd2020', 'q3', 'walk', 'reg'], citeLabel: 'Document Store', dataSource: 'Document store, Page Awareness' },
+  short: { id: 'short', kind: 'ai', answer: true, step: 11, label: 'Shortened', paras: ['United States (7) and United Kingdom (4) hold 11 of the 12 very high risks; Brazil has 1. The most common top risk is missing budget-to-actual review in the US.'], cites: ['alpha', 'd2020'], citeLabel: 'Document Store', dataSource: 'Document store, Page Awareness' },
+  nf: { id: 'nf', kind: 'ai', answer: true, step: 13, title: "I couldn't find this in Document store or on this page.", paras: ["Internet results don't describe how sign-off works in VIA, so I haven't used them."], fixes: [{ label: 'Also search Help Center', act: 'help' }, { label: 'Rephrase', act: 'rephrase' }], dataSource: 'Document store, Page Awareness, Internet' },
+  err: { id: 'err', kind: 'ai', answer: true, step: 14, failDoc: true, warn: { text: "Document store didn't respond. This answer uses Page Awareness only.", btn: 'Retry with Document store', act: 'retry' }, paras: ["This page shows 12 very high risks, but the Overview doesn't show owners, so I can't confirm which are unassigned. The Risks tab lists owners."], cites: ['pageTop'], citeLabel: 'Page Awareness only', citeNote: 'Document store unavailable. No document citations for this answer.', dataSource: 'Page Awareness. Not used: Document store (no response), Internet (not relevant).' },
+  retry: { id: 'retry', kind: 'ai', answer: true, step: 14, paras: ['With Document store back: 1 of the 12 very high risks has no owner. R-0168, “Vendor master data changes are not independently reviewed.” (Brazil, SWF Brasil Ltda), has been unassigned since 12 Aug 2026.'], cites: ['reg'], citeLabel: 'Document Store', dataSource: 'Document store, Page Awareness, Internet' },
+  risk: { id: 'risk', kind: 'ai', answer: true, step: 15, paras: ['3 of the 12 very high risks in this table are past their due date:'], list: ['R-0142 · United States · due 30 Sep 2026', 'R-0157 · United Kingdom · due 15 Oct 2026', 'R-0168 · Brazil · due 31 Oct 2026 · no owner'], cites: ['pageRisks', 'reg'], citeLabel: 'Page Awareness, Document Store', dataSource: 'Document store, Page Awareness, Internet' },
+  helpAns: { id: 'helpAns', kind: 'ai', answer: true, step: 13, paras: ["Open the risk, choose Take action › Accept risk, then attach the approver's sign-off and an expiry date. The sign-off is stored on the risk's Actions tab."], cites: ['helpAccept'], citeLabel: 'Help Center' },
+  generic: { kind: 'ai', answer: true, paras: ['Southwest Financial has 851 monitored risks: 12 very high and 67 high, across 3 locations and 10 legal entities. Ask about a location, legal entity or specific risk to go deeper.'], cites: ['d2020'], citeLabel: 'Document Store' },
+};
+const divPA = (tab) => ({ kind: 'divider', dot: true, text: 'Page Awareness enabled · Southwest Financial › ' + (tab === 'risks' ? 'Risks' : 'Overview') });
+const paConfirm = (tab) => ({ id: 'pa', kind: 'ai', paras: [tab === 'risks' ? 'I can now see the Risks tab: a table of 851 risks, 12 rated very high, across 3 locations and 10 legal entities.' : 'I can now see this dashboard: 851 risks, 12 rated very high, across 3 locations and 10 legal entities.'] });
+const WEB_NOTE = 'General knowledge up to March 2026; may not reflect current events.';
+const divWeb = { kind: 'divider', text: 'Sources changed: + Internet', note: WEB_NOTE };
+const divRisks = { kind: 'divider', dot: true, text: 'Now reading: Southwest Financial › Risks' };
+const BASE = 'Walkthrough notes, US financial close. Management stated that monthly variance analysis is prepared by FP&A and reviewed by the regional controller before the close call. Evidence of review was requested for January to June.'.split(' ');
+const HUGE = Array.from({ length: 6412 }, (_, i) => BASE[i % BASE.length]).join(' ');
+const STEPS = [
+  [1, 'Dashboard, Genie collapsed', 0, 1], [2, 'First open: welcome card', 1, 0], [3, 'Empty panel with greeting', 0, 1],
+  [4, 'Send with no source selected', 1, 0], [5, 'Source picker', 0, 1], [6, 'Page Awareness on', 0, 1],
+  [7, 'Long wait: live progress', 0, 1], [8, 'Keep working while it thinks', 1, 0], [9, 'Long answer, then Expand', 0, 1],
+  [10, 'Citations and data source', 0, 1], [11, 'Prompt Menu: Shorten', 0, 0], [12, 'Change source mid-chat', 0, 1],
+  [13, 'Nothing found', 1, 0], [14, 'Source error', 1, 0], [15, 'Page changed', 1, 0], [16, 'Word limit', 1, 0],
+  [17, 'Pop-out window', 0, 0], [18, 'History and New Chat', 0, 0], [19, 'Close back to the tab', 0, 1],
+];
+const PLAY = [[1, 2600], [3, 3000], [5, 3600], [6, 3600], [7, 7600], [9, 3200], ['9x', 4200], [10, 4800], ['12p', 3200], [12, 4200], [19, 3000]];
+const RISKS = [
+  ['R-0142', 'Actual versus budget comparisons are not routinely prepared and analyzed.', 'United States', 'SWF Holdings Inc.', 'Very high', 'M. Ortiz', '30 Sep 2026', 'Overdue'],
+  ['R-0157', 'Treasury payments can be created and released by the same user.', 'United Kingdom', 'SWF Markets Ltd', 'Very high', 'A. Clarke', '15 Oct 2026', 'Overdue'],
+  ['R-0168', 'Vendor master data changes are not independently reviewed.', 'Brazil', 'SWF Brasil Ltda', 'Very high', '—', '31 Oct 2026', 'Overdue'],
+  ['R-0131', 'Manual journal entries lack independent approval.', 'United States', 'SWF Lending LLC', 'Very high', 'M. Ortiz', '30 Nov 2026', 'Open'],
+  ['R-0175', 'User access reviews for the core banking system are incomplete.', 'United States', 'SWF Holdings Inc.', 'Very high', 'K. Patel', '15 Dec 2026', 'Open'],
+  ['R-0119', 'Suspense account reconciliations are not performed monthly.', 'United Kingdom', 'SWF Markets Ltd', 'Very high', 'A. Clarke', '31 Dec 2026', 'Open'],
+  ['R-0188', 'Loan loss provisioning model has not been independently validated.', 'United States', 'SWF Lending LLC', 'High', 'J. Reyes', '31 Jan 2027', 'Open'],
+  ['R-0193', 'Third-party vendor due diligence is not refreshed annually.', 'United Kingdom', 'SWF Services Ltd', 'High', '—', '28 Feb 2027', 'Open'],
+  ['R-0204', 'Tax provision workpapers are not reviewed before filing.', 'Brazil', 'SWF Brasil Ltda', 'High', 'L. Souza', '31 Mar 2027', 'Open'],
+  ['R-0210', 'Fixed asset additions are capitalised without approval evidence.', 'United States', 'SWF Realty LLC', 'High', 'J. Reyes', '30 Apr 2027', 'Open'],
+];
+const LOCS = { 840: ['United States', '5 legal entities · 7 very high'], 826: ['United Kingdom', '3 legal entities · 4 very high'], 76: ['Brazil', '2 legal entities · 1 very high'] };
+
+class Component extends DCLogic {
+  state = {
+    step: 1, panel: 'collapsed', widthPref: 'standard', welcomeSeen: false, showWelcome: false,
+    sources: [], draft: [], pickerOpen: false, messages: [], pending: null, gen: null, answerReady: false,
+    promptOpen: false, historyOpen: false, citePreview: null, moreOpen: {}, input: '', pageTab: 'overview',
+    mapTab: 'loc', mapHover: null, zoom: 1, tip: null, copied: null, scale: 0.6, playing: false, mapPaths: [],
+  };
+  stageRef = React.createRef();
+  threadRef = React.createRef();
+
+  componentDidMount() {
+    const fit = () => { const el = this.stageRef.current; if (!el) return; const r = el.getBoundingClientRect(); this.setState({ scale: Math.max(0.2, Math.min((r.width - 40) / 1440, (r.height - 40) / 900)) }); };
+    this.ro = new ResizeObserver(fit); if (this.stageRef.current) this.ro.observe(this.stageRef.current); fit();
+    this.loadMap();
+  }
+  componentWillUnmount() { this.ro && this.ro.disconnect(); clearInterval(this.timer); clearTimeout(this.playT); }
+  scrollToBottom() {
+    clearTimeout(this.scrT);
+    this.scrT = setTimeout(() => {
+      const el = this.threadRef.current || document.querySelector('[aria-label="Conversation"]');
+      if (el) el.scrollTop = el.scrollHeight;
+    }, 60);
+  }
+  componentDidUpdate(_, ps) {
+    const s = this.state;
+    if (!ps || ps.messages !== s.messages || !!ps.gen !== !!s.gen || ps.citePreview !== s.citePreview || ps.panel !== s.panel) this.scrollToBottom();
+  }
+  setState(u, cb) {
+    super.setState(u, () => { this.scrollCheck(); cb && cb(); });
+  }
+  scrollCheck() {
+    const s = this.state;
+    if (this._lm !== s.messages || this._lg !== !!s.gen || this._lp !== s.citePreview || this._lpan !== s.panel) {
+      this._lm = s.messages; this._lg = !!s.gen; this._lp = s.citePreview; this._lpan = s.panel;
+      this.scrollToBottom();
+    }
+  }
+  async loadMap() {
+    try {
+      const [d3, topo] = await Promise.all([import('https://cdn.jsdelivr.net/npm/d3-geo@3/+esm'), import('https://cdn.jsdelivr.net/npm/topojson-client@3/+esm')]);
+      const world = await (await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')).json();
+      const feats = topo.feature(world, world.objects.countries).features.filter(f => f.id !== '010');
+      const proj = d3.geoMercator().fitExtent([[0, 0], [800, 420]], { type: 'FeatureCollection', features: feats });
+      const path = d3.geoPath(proj);
+      const paths = feats.map(f => {
+        const c = d3.geoCentroid(f); const name = f.properties.name;
+        const inScope = c[0] < -25 || (c[0] < 45 && c[1] > 36) || name === 'Russia';
+        const id = +f.id; const pc = path.centroid(f);
+        return { d: path(f), inScope, id, name, cx: pc[0] + 50, cy: pc[1] + 6 };
+      }).filter(p => p.d);
+      this.setState({ mapPaths: paths });
+    } catch (e) { console.warn('map load failed', e); }
+  }
+
+  // ---------- scenario ----------
+  thread(n, noDiv) {
+    const t = [];
+    if (n >= 3) t.push(M.greet);
+    if (n >= 4) t.push(U(Q1), M.ask);
+    if (n >= 6) t.push(divPA('overview'), paConfirm('overview'));
+    if (n >= 9) t.push(M.a1);
+    if (n >= 12) t.push(U('Shorten', 'Prompt Menu'), M.short);
+    if (n >= 12 && !noDiv) t.push(divWeb);
+    if (n >= 13) t.push(U(Q2), M.nf);
+    if (n >= 14) t.push(U(Q3), M.err);
+    if (n >= 15) t.push(divRisks, U(Q4), M.risk);
+    return t;
+  }
+  applyStep(n, v) {
+    clearInterval(this.timer);
+    const s = {
+      step: n, panel: 'standard', widthPref: 'standard', showWelcome: false, welcomeSeen: n > 2, pickerOpen: false, draft: [],
+      promptOpen: false, historyOpen: false, citePreview: null, moreOpen: {}, input: '', pageTab: n >= 15 ? 'overview' : 'overview',
+      answerReady: false, pending: null, gen: null, copied: null, tip: null,
+      sources: n < 6 ? [] : n < 12 ? ['doc', 'page'] : ['doc', 'web', 'page'],
+      messages: this.thread(Math.min(n, 15), v === '12p'),
+    };
+    if (n >= 15) s.pageTab = 'risks';
+    if (n === 1) s.panel = 'collapsed';
+    if (n === 2) s.showWelcome = true;
+    if (n === 4) { s.pickerOpen = true; s.pending = Q1; }
+    if (n === 5) { s.pickerOpen = true; s.draft = ['doc', 'page']; s.pending = Q1; }
+    if (n === 8) s.panel = 'collapsed';
+    if (n === 10) s.citePreview = { msg: 'a1', key: 'alpha' };
+    if (n === 11) s.promptOpen = true;
+    if (v === '12p') { s.sources = ['doc', 'page']; s.pickerOpen = true; s.draft = ['doc', 'web', 'page']; }
+    if (n === 16) s.input = HUGE;
+    if (n === 17) s.panel = 'popped';
+    if (n === 18) s.historyOpen = true;
+    if (n === 19) s.panel = 'collapsed';
+    if (v === '9x') { s.panel = 'expanded'; s.widthPref = 'expanded'; }
+    this.setState(s, () => { if (n === 7) this.startGen(M.a1, 0); if (n === 8) this.startGen(M.a1, 2600); });
+  }
+  stopPlay() { this.playing = false; clearTimeout(this.playT); this.setState({ playing: false }); }
+  togglePlay() {
+    if (this.state.playing) return this.stopPlay();
+    let i = 0;
+    this.setState({ playing: true });
+    const next = () => {
+      const [k, d] = PLAY[i];
+      if (k === '9x') this.applyStep(9, '9x'); else if (k === '12p') this.applyStep(12, '12p'); else this.applyStep(k);
+      i++;
+      this.playT = setTimeout(i < PLAY.length ? next : () => this.setState({ playing: false }), d);
+    };
+    next();
+  }
+
+  // ---------- generation ----------
+  startGen(answer, offset) {
+    clearInterval(this.timer);
+    const src = this.state.sources; const stages = [];
+    if (src.includes('page')) stages.push({ k: 'page', label: 'Reading this page', done: 'Read this page', d: 1400 });
+    if (src.includes('doc')) stages.push({ k: 'doc', d: answer.failDoc ? 2400 : 2800, fail: !!answer.failDoc });
+    if (src.includes('help')) stages.push({ label: 'Searching Help Center', done: 'Searched Help Center', d: 1100 });
+    if (src.includes('web')) stages.push({ label: 'Searching Internet', done: 'Searched Internet', d: 1100 });
+    stages.push({ label: 'Writing answer', done: 'Written', d: 1400 });
+    const total = stages.reduce((a, b) => a + b.d, 0);
+    this.genStart = Date.now() - (offset || 0);
+    this.setState({ gen: { stages, total, t: offset || 0, answer } });
+    this.timer = setInterval(() => {
+      const t = Date.now() - this.genStart;
+      if (t >= total) this.finishGen(); else this.setState(s => s.gen ? { gen: { ...s.gen, t } } : null);
+    }, 100);
+  }
+  finishGen() {
+    clearInterval(this.timer);
+    this.setState(s => {
+      if (!s.gen) return null;
+      const a = { ...s.gen.answer };
+      if (!a.dataSource) a.dataSource = ORDER.filter(k => s.sources.includes(k)).map(k => SRC[k].name).join(', ');
+      if (!a.id) a.id = 'g' + Date.now();
+      return { gen: null, messages: [...s.messages, a], answerReady: s.panel === 'collapsed', step: a.step || s.step };
+    });
+  }
+  stopGen() {
+    clearInterval(this.timer);
+    this.setState(s => ({ gen: null, messages: [...s.messages, { kind: 'divider', text: 'Stopped at ' + (s.gen ? (s.gen.t / 1000).toFixed(1) : '0') + 's · nothing was generated' }] }));
+  }
+
+  // ---------- actions ----------
+  chooseAnswer() {
+    const s = this.state; const has = id => s.messages.some(m => m.id === id);
+    if (s.pageTab === 'risks' && !has('risk')) return M.risk;
+    if (!has('a1')) return M.a1;
+    if (!has('nf')) return M.nf;
+    if (!has('err')) return M.err;
+    return M.generic;
+  }
+  words(t) { const x = t.trim(); return x ? x.split(/\s+/).length : 0; }
+  send() {
+    const s = this.state; const text = s.input.trim();
+    if (!text || this.words(text) > 6000 || s.gen) return;
+    const msgs = [...s.messages, U(text)];
+    if (!s.sources.length) { this.setState({ messages: [...msgs, M.ask], input: '', pickerOpen: true, draft: [], pending: text, step: 4, promptOpen: false }); return; }
+    const a = this.chooseAnswer();
+    this.setState({ messages: msgs, input: '', promptOpen: false, step: a === M.a1 ? 7 : (a.step || s.step) }, () => this.startGen(a, 0));
+  }
+  applySources() {
+    const s = this.state; const next = ORDER.filter(k => s.draft.includes(k));
+    if (!next.length) return;
+    const prev = s.sources; const add = next.filter(k => !prev.includes(k)); const rem = prev.filter(k => !next.includes(k));
+    const msgs = [...s.messages];
+    if (prev.length && (add.length || rem.length)) msgs.push({ kind: 'divider', text: 'Sources changed: ' + [...add.map(k => '+ ' + SRC[k].name), ...rem.map(k => '− ' + SRC[k].name)].join(', '), note: add.includes('web') ? WEB_NOTE : null });
+    if (add.includes('page')) msgs.push(divPA(s.pageTab), paConfirm(s.pageTab));
+    const pending = s.pending;
+    this.setState({ sources: next, pickerOpen: false, messages: msgs, pending: null, step: prev.length ? 12 : 6 }, () => {
+      if (pending) setTimeout(() => { this.setState({ step: 7 }); this.startGen(this.chooseAnswer(), 0); }, 600);
+    });
+  }
+  act(kind) {
+    const s = this.state;
+    if (kind === 'pick') return this.setState({ pickerOpen: true, draft: [...s.sources] });
+    if (kind === 'rephrase') return this.setState({ input: Q2 });
+    if (kind === 'retry') return this.startGen(M.retry, 0);
+    if (kind === 'help') {
+      const sources = ORDER.filter(k => s.sources.includes(k) || k === 'help');
+      this.setState({ sources, messages: [...s.messages, { kind: 'divider', text: 'Sources changed: + Help Center' }] }, () => this.startGen(M.helpAns, 0));
+    }
+  }
+  setPageTab(t) {
+    const s = this.state; if (t === s.pageTab) return;
+    const msgs = [...s.messages];
+    if (s.sources.includes('page') && s.messages.length) msgs.push({ kind: 'divider', dot: true, text: 'Now reading: Southwest Financial › ' + (t === 'risks' ? 'Risks' : 'Overview') });
+    this.setState({ pageTab: t, messages: msgs, step: t === 'risks' && s.sources.includes('page') ? 15 : s.step });
+  }
+  openFromTab() {
+    const s = this.state;
+    if (!s.welcomeSeen) return this.setState({ panel: 'standard', showWelcome: true, step: 2 });
+    this.setState({ panel: s.widthPref, answerReady: false, step: s.answerReady ? 9 : s.step });
+  }
+
+  // ---------- view ----------
+  viewMsg(m) {
+    const s = this.state; const narrow = s.panel !== 'expanded';
+    const v = { ...m, isAi: m.kind === 'ai', isUser: m.kind === 'user', isDivider: m.kind === 'divider' };
+    v.paras = m.paras || []; v.hasTitle = !!m.title; v.hasList = !!(m.list && m.list.length); v.hasLabel = !!m.label;
+    v.hasTag = !!m.tag; v.hasNote = !!m.note; v.noteText = m.note || ''; v.answer = !!m.answer; v.table = !!m.table;
+    v.showFade = !!m.table && narrow; v.showExpandHint = !!m.table && s.panel === 'standard';
+    v.hasWarn = !!m.warn; v.warnText = m.warn ? m.warn.text : ''; v.warnBtn = m.warn ? m.warn.btn : '';
+    v.onWarn = () => m.warn && this.act(m.warn.act);
+    v.fixList = (m.fixes || []).map(f => ({ label: f.label, onClick: () => this.act(f.act) })); v.hasFixes = v.fixList.length > 0;
+    const all = m.cites || []; const open = s.moreOpen[m.id];
+    const shown = open || all.length <= 3 ? all : all.slice(0, 3);
+    const pv = s.citePreview && s.citePreview.msg === m.id ? s.citePreview.key : null;
+    v.hasCites = all.length > 0;
+    v.citeChips = shown.map(k => ({ label: CITES[k].file, active: pv === k, bg: pv === k ? '#2E2E38' : '#FFFFFF', fg: pv === k ? '#FFFFFF' : '#2E2E38',
+      onClick: () => this.setState({ citePreview: pv === k ? null : { msg: m.id, key: k }, step: m.id === 'a1' ? 10 : this.state.step }) }));
+    v.hasMore = !open && all.length > 3; v.moreLabel = '+' + (all.length - 3) + ' more';
+    v.onMore = () => this.setState(st => ({ moreOpen: { ...st.moreOpen, [m.id]: true } }));
+    v.hasPreview = !!pv;
+    if (pv) { const c = CITES[pv]; v.pvFile = c.file; v.pvPage = c.page ? 'Page ' + c.page : c.loc; v.pvQuote = c.quote; v.pvOpen = c.onPage ? 'Show on page' : 'Open document'; v.pvIcon = c.onPage ? 'web_asset' : 'description'; }
+    v.pvClose = () => this.setState({ citePreview: null });
+    v.hasCiteNote = !!m.citeNote;
+    v.onCopy = () => { this.setState({ copied: m.id }); setTimeout(() => this.setState({ copied: null }), 1500); };
+    v.copiedTxt = s.copied === m.id ? 'Copied' : '';
+    return v;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const P = s.panel;
+    const geo = P === 'popped' ? { top: 100, right: 181, w: 518, h: 767 } : { top: 44, right: 0, w: P === 'expanded' ? 835 : 376, h: 856 };
+    if (P === 'collapsed') geo.w = s.widthPref === 'expanded' ? 835 : 376;
+    const wc = this.words(s.input); const over = wc > 6000;
+    const counter = (wc < 100 ? String(wc).padStart(2, '0') : wc.toLocaleString('en-US')) + '/6000 words';
+    const gen = s.gen;
+    let genRows = [];
+    if (gen) {
+      let acc = 0;
+      genRows = gen.stages.map(st => {
+        const start = acc; acc += st.d;
+        const state = gen.t >= acc ? 'done' : gen.t >= start ? 'active' : 'pending';
+        let label = state === 'done' ? st.done : st.label;
+        if (st.k === 'doc') {
+          const k = Math.max(1, Math.min(14, Math.ceil(((gen.t - start) / st.d) * 14)));
+          label = st.fail ? (state === 'done' ? "Document store didn't respond" : 'Waiting for Document store…') : state === 'done' ? 'Searched Document store (14 files)' : state === 'active' ? 'Searching Document store (' + k + ' of 14 files)…' : 'Search Document store';
+        }
+        const failed = st.fail && state === 'done';
+        return { label, spin: state === 'active', hasIcon: state !== 'active', icon: failed ? 'error' : state === 'done' ? 'check_circle' : 'radio_button_unchecked', iconColor: failed ? '#B37400' : state === 'done' ? '#168736' : '#C4C4CD', fill: state === 'done' ? 1 : 0, color: state === 'pending' ? '#747480' : '#2E2E38' };
+      });
+    }
+    const n = s.sources.length;
+    const sourceLabel = n === 0 ? 'Select source' : n === 4 ? 'All Sources' : n === 1 ? SRC[s.sources[0]].name : n + ' sources';
+    const tagC = (t) => t === 'EXTERNAL' ? { tagBg: '#FFF6E0', tagFg: '#7A4E00' } : { tagBg: '#EAEAF2', tagFg: '#2E2E38' };
+    const allOn = s.draft.length === 4;
+    const donutData = [['#B9251C', 1.4], ['#F0645A', 7.9], ['#FFB46A', 44.4], ['#8CE8A3', 29.5], ['#1F7A55', 12.8], ['#C4C4CD', 2.3], ['#E7E7EA', 1.6]];
+    const C = 2 * Math.PI * 76; let acc = 0;
+    const donut = donutData.map(([color, p]) => { const len = (p / 100) * C; const d = { color, dash: Math.max(0.5, len - 2) + ' ' + C, off: -acc }; acc += len; return d; });
+    const hov = s.mapPaths.find(p => p.id === s.mapHover);
+    const z = s.zoom;
+    const steps = STEPS.map(([num, title, edge, happy]) => {
+      const cur = s.step === num;
+      return { n: num, title, edge: !!edge, current: cur ? 'step' : undefined, bg: cur ? '#F3F3F5' : 'transparent', numBg: cur ? '#2E2E38' : '#EAEAF2', numFg: cur ? '#FFFFFF' : '#2E2E38', fw: cur ? 700 : 400, dot: happy ? '#FF7A2A' : 'transparent',
+        go: () => { this.stopPlay(); this.applyStep(num); } };
+    });
+    const tip = (k) => () => this.setState({ tip: k });
+    const curPage = 'Southwest Financial › ' + (s.pageTab === 'risks' ? 'Risks' : 'Overview');
+    return {
+      steps, playLabel: s.playing ? 'Stop playback' : 'Play happy path', playIcon: s.playing ? 'stop' : 'play_arrow', togglePlay: () => this.togglePlay(),
+      stageRef: this.stageRef, threadRef: this.threadRef, scale: s.scale,
+      railIcons: ['space_dashboard', 'group', 'forum', 'verified_user', 'assignment', 'plagiarism', 'bolt', 'monitor_heart', 'pie_chart', 'layers', 'shield_person'].map((icon, i) => ({ icon, bg: i === 3 ? '#23232F' : 'transparent', bar: i === 3 ? '#FFE600' : 'transparent' })),
+      isOverview: s.pageTab === 'overview', isRisks: s.pageTab === 'risks',
+      goOverview: () => this.setPageTab('overview'), goRisks: () => this.setPageTab('risks'),
+      ovColor: s.pageTab === 'overview' ? '#2E2E38' : '#747480', ovWeight: s.pageTab === 'overview' ? 600 : 400, ovLine: s.pageTab === 'overview' ? '#2E2E38' : 'transparent',
+      rkColor: s.pageTab === 'risks' ? '#2E2E38' : '#747480', rkWeight: s.pageTab === 'risks' ? 600 : 400, rkLine: s.pageTab === 'risks' ? '#2E2E38' : 'transparent',
+      donut,
+      legend: [['Very high', '1.4% (12)', '#B9251C'], ['High', '7.9% (67)', '#F0645A'], ['Medium', '44.4% (378)', '#FFB46A'], ['Low', '29.5% (251)', '#8CE8A3'], ['Very low', '12.8% (109)', '#1F7A55'], ['Not rated', '2.3% (34)', '#C4C4CD'], ['No data', '1.6% (14)', '#FFFFFF']].map(([label, value, color]) => ({ label, value, color, ring: color === '#FFFFFF' ? 'inset 0 0 0 1.5px #747480' : 'none' })),
+      mapLoc: () => this.setState({ mapTab: 'loc' }), mapEnt: () => this.setState({ mapTab: 'ent' }),
+      locW: s.mapTab === 'loc' ? 700 : 400, entW: s.mapTab === 'ent' ? 700 : 400, locLine: s.mapTab === 'loc' ? '#2E2E38' : 'transparent', entLine: s.mapTab === 'ent' ? '#2E2E38' : 'transparent',
+      mapReset: () => this.setState({ zoom: 1, mapHover: null }),
+      zoomIn: () => this.setState({ zoom: Math.min(2.5, z + 0.5) }), zoomOut: () => this.setState({ zoom: Math.max(1, z - 0.5) }),
+      mapTransform: 'translate(' + (400 - 400 * z) + ',' + (210 - 210 * z) + ') scale(' + z + ')',
+      mapPaths: s.mapPaths.map(p => ({ d: p.d, fill: !p.inScope ? (s.mapHover === p.id ? '#B4B4BE' : '#C9C9D1') : (s.mapHover === p.id ? '#E2604F' : '#EF7B6C'), enter: () => this.setState({ mapHover: p.id }) })),
+      mapLeave: () => this.setState({ mapHover: null }),
+      hasMapTip: !!hov, mapTipX: hov ? 50 + (hov.cx - 50 - 400) * z + 400 : 0, mapTipY: hov ? 6 + (hov.cy - 6 - 210) * z + 210 : 0,
+      mapTipTitle: hov ? (LOCS[hov.id] ? LOCS[hov.id][0] : hov.name) : '',
+      mapTipText: hov ? (LOCS[hov.id] ? LOCS[hov.id][1] : hov.inScope ? 'In scope region · no legal entities' : 'Out of scope') : '',
+      riskRows: RISKS.map(([id, name, loc, ent, ind, owner, due, status]) => ({ id, name, loc, ent, ind, owner, due, status, pillBg: ind === 'Very high' ? '#B9251C' : '#F0645A', pillFg: '#FFFFFF', stW: status === 'Overdue' ? 700 : 400, stC: status === 'Overdue' ? '#C70117' : '#2E2E38' })),
+
+      openFromTab: () => this.openFromTab(),
+      tabAria: s.answerReady ? 'Open Genie, answer ready' : gen ? 'Open Genie, working on your answer' : 'Open Genie',
+      tabOpacity: P === 'collapsed' ? 1 : 0, tabVis: P === 'collapsed' ? 'visible' : 'hidden',
+      tabRing: !!gen, ringOffset: gen ? 69.1 * (1 - gen.t / gen.total) : 69.1,
+      answerReady: s.answerReady && P === 'collapsed',
+      tabLabel: P === 'collapsed' && (s.answerReady || !!gen), tabLabelText: s.answerReady ? 'Answer ready' : 'Working on your answer · ' + (gen ? (gen.t / 1000).toFixed(0) : 0) + 's', tabLabelDot: s.answerReady ? '#57E188' : '#FF9E1B',
+      isPopped: P === 'popped', bringBack: () => this.setState({ panel: s.widthPref, step: 17 }),
+
+      panelHidden: P === 'collapsed' ? 'true' : undefined,
+      pTop: geo.top, pRight: geo.right, pWidth: geo.w, pHeight: geo.h,
+      pTransform: P === 'collapsed' ? 'translateX(102%)' : 'none', pVis: P === 'collapsed' ? 'hidden' : 'visible',
+      popIcon: P === 'popped' ? 'dock_to_left' : 'open_in_new', popLabel: P === 'popped' ? 'Dock to page' : 'Open in new window',
+      onPop: () => P === 'popped' ? this.setState({ panel: s.widthPref, tip: null }) : this.setState({ panel: 'popped', step: 17, tip: null }),
+      onClose: () => { clearTimeout(this.playT); this.setState({ panel: 'collapsed', promptOpen: false, tip: null, step: s.gen ? 8 : s.step >= 17 ? 19 : s.step }); },
+      showExpandBtn: P !== 'popped', isExpanded: P === 'expanded',
+      toggleExpand: () => { const nx = this.state.panel === 'expanded' ? 'standard' : 'expanded'; this.setState({ panel: nx, widthPref: nx, step: this.state.step === 9 && nx === 'standard' ? 10 : this.state.step }); },
+      expandIcon: P === 'expanded' ? 'zoom_in_map' : 'zoom_out_map', expandLabel: P === 'expanded' ? 'Collapse' : 'Expand',
+      tipPop: s.tip === 'pop', tipClose: s.tip === 'close', tipExp: s.tip === 'exp',
+      tipPopOn: tip('pop'), tipCloseOn: tip('close'), tipExpOn: tip('exp'), tipOff: tip(null),
+
+      sourceLabel, pickerOpen: s.pickerOpen, chevRot: s.pickerOpen ? 180 : 0,
+      togglePicker: () => this.setState({ pickerOpen: !s.pickerOpen, draft: [...s.sources], historyOpen: false }),
+      openPicker: () => this.setState({ pickerOpen: true, draft: [...s.sources], historyOpen: false }),
+      pickerRows: ORDER.map(k => { const on = s.draft.includes(k); return { name: SRC[k].name, tag: SRC[k].tag, desc: SRC[k].desc, ...tagC(SRC[k].tag), on, boxBg: on ? '#2E2E38' : '#FFFFFF', checkOp: on ? 1 : 0, toggle: () => this.setState(st => ({ draft: st.draft.includes(k) ? st.draft.filter(x => x !== k) : [...st.draft, k] })) }; }),
+      allOn, allBg: allOn ? '#2E2E38' : '#FFFFFF', allOp: allOn ? 1 : 0,
+      toggleAll: () => this.setState({ draft: allOn ? [] : [...ORDER] }),
+      pickerMid: s.sources.length > 0, applyDisabled: s.draft.length === 0, applyOp: s.draft.length ? 1 : 0.4,
+      applySources: () => this.applySources(),
+      newChat: () => { clearInterval(this.timer); this.setState({ messages: [M.greet, ...(s.sources.length ? [{ kind: 'divider', text: 'New chat · Sources kept: ' + ORDER.filter(k => s.sources.includes(k)).map(k => SRC[k].name).join(', ') }] : [])], gen: null, historyOpen: false, promptOpen: false, citePreview: null, showWelcome: false, step: 18 }); },
+      historyOpen: s.historyOpen, toggleHistory: () => this.setState({ historyOpen: !s.historyOpen, pickerOpen: false }),
+      historyGroups: [
+        { label: 'Today', items: [{ q: Q1, page: 'Southwest Financial › Overview', time: '10:42', current: true, bg: '#F3F3F5' }, { q: 'Summarise the Q3 walkthrough findings for the US entities', page: 'Southwest Financial › Scope details', time: '09:15', bg: '#FFFFFF' }] },
+        { label: 'Yesterday', items: [{ q: 'List accepted risks without an expiry date', page: 'Northwind Holdings › Risks', time: '16:20', bg: '#FFFFFF' }, { q: 'Which actions are overdue for treasury?', page: 'Southwest Financial › Actions', time: '11:03', bg: '#FFFFFF' }] },
+        { label: 'Last 7 days', items: [{ q: 'Compare FY25 and FY26 risk ratings by location', page: 'Southwest Financial › Overview', time: '28 Oct', bg: '#FFFFFF' }, { q: 'Where do I upload walkthrough evidence?', page: 'Home', time: '27 Oct', bg: '#FFFFFF' }] },
+      ],
+
+      thread: s.messages.map(m => this.viewMsg(m)),
+      ansRows: [
+        { loc: 'United States', ent: '5', vh: '7', h: '31', top: 'Actual versus budget comparisons are not routinely prepared and analyzed.' },
+        { loc: 'United Kingdom', ent: '3', vh: '4', h: '24', top: 'Treasury payments can be created and released by the same user.' },
+        { loc: 'Brazil', ent: '2', vh: '1', h: '12', top: 'Vendor master data changes are not independently reviewed.' },
+      ],
+      tableMinW: P === 'expanded' ? '0px' : '620px',
+      hasGen: !!gen, genRows, genElapsed: gen ? (gen.t / 1000).toFixed(1) + 's' : '', stopGen: () => this.stopGen(),
+
+      showWelcome: s.showWelcome,
+      welcomeSources: ['doc', 'page', 'help', 'web'].map(k => ({ name: SRC[k].name, tag: SRC[k].tag, desc: SRC[k].desc, ...tagC(SRC[k].tag) })),
+      gotIt: () => this.setState(st => ({ showWelcome: false, welcomeSeen: true, messages: st.messages.some(m => m.id === 'greet') ? st.messages : [M.greet, ...st.messages], step: 3 })),
+
+      promptOpen: s.promptOpen, togglePrompt: () => this.setState({ promptOpen: !s.promptOpen, step: !s.promptOpen ? 11 : s.step }),
+      showChips: !s.promptOpen,
+      promptItems: [
+        { title: 'Shorten', desc: 'This will shorten the content of description to 500 words or less', onClick: () => { const has = this.state.messages.some(m => m.answer); this.setState(st => ({ promptOpen: false, messages: has ? [...st.messages, U('Shorten', 'Prompt Menu')] : st.messages, step: 11 }), () => has && this.startGen(M.short, 0)); } },
+        { title: 'Spell Check', desc: 'This will spell check the content of the description and provide suggestions', onClick: () => this.setState({ promptOpen: false }) },
+        { title: 'Find Similar', desc: 'This will suggest top 5 values preferred by other users in the similar task', onClick: () => this.setState({ promptOpen: false }) },
+      ],
+      chips: ['Tell me where to find..', 'Help me find specific information', 'Summarise this page', 'Compare locations'].map(label => ({ label, onClick: () => this.setState({ input: label === 'Tell me where to find..' ? 'Tell me where to find ' : label === 'Help me find specific information' ? Q1 : label }) })),
+      pmBg: s.promptOpen ? '#2E2E38' : '#FFFFFF', pmFg: s.promptOpen ? '#FFFFFF' : '#2E2E38',
+      input: s.input, onInput: (e) => this.setState({ input: e.target.value, step: this.words(e.target.value) > 6000 ? 16 : this.state.step }),
+      onKey: (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.send(); } },
+      taH: s.input.length > 60 ? 60 : 22, inputBorder: over ? '#C70117' : '#2E2E38',
+      send: () => this.send(), sendDisabled: over || !s.input.trim() ? 'true' : 'false', sendOp: over ? 0.35 : 1, sendCursor: over ? 'not-allowed' : 'pointer',
+      counter, overLimit: over, counterColor: over ? '#C70117' : '#747480', counterW: over ? 700 : 400,
+    };
+  }
+}
+</script>
+</body>
+</html>
